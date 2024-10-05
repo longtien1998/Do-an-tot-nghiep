@@ -5,7 +5,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">Thêm bài hát</h4>
+            <h4 class="page-title">Thêm nhà xuất bản</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
@@ -14,7 +14,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Thêm bài hát</li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm nhà xuất bản</li>
                     </ol>
                 </nav>
             </div>
@@ -27,64 +27,66 @@
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label class="col-md-12">Tên bài hát <span class="text-danger">(*)</span></label>
+                    <label class="col-md-12">Tên nhà xuất bản <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="song_name" value="" class="form-control form-control-line">
+                        <input type="text" name="publisher_name" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Tên gọi khác </label>
+                    <div class="col-md-12">
+                        <input type="text" name="alisas_name" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Quốc gia</label>
+                    <div class="col-md-12">
+                        <input type="text" name="country" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Thành phố </label>
+                    <div class="col-md-12">
+                        <input type="text" name="city" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Địa chỉ </label>
+                    <div class="col-md-12">
+                        <input type="text" name="address" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Trang web </label>
+                    <div class="col-md-12">
+                        <input type="text" name="website" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Email </label>
+                    <div class="col-md-12">
+                        <input type="email" name="email" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Số điện thoại</label>
+                    <div class="col-md-12">
+                        <input type="text" name="phone" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Logo</label>
+                    <div class="col-md-12">
+                        <input type="file" name="logo" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                        <input type="text" name="description" value="" class="form-control form-control-line">
+                        <textarea name="description" class="form-control form-control-line" id="editor1"></textarea>
                     </div>
                 </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Lời bài hát</label>
-                    <div class="col-md-12">
-                        <textarea name="lyrics" class="form-control form-control-line" id="editor1"></textarea>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Ca sĩ</label>
-                    <div class="col-md-12">
-                        <select class="form-select" name="singers_id" aria-label="Default select example">
-                            <option selected>Chọn ca sĩ</option>
-                            <option value="1">Vũ</option>
-                            <option value="2">Sơn Tùng</option>
-                            <option value="3">Vương Anh Tú</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Thể loại</label>
-                    <div class="col-md-12">
-                        <select class="form-select" name="categorie_id" aria-label="Default select example">
-                            <option selected>Chọn thể loại</option>
-                            <option value="1">Pop</option>
-                            <option value="2">Balad</option>
-                            <option value="3">Rap</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Hình ảnh</label>
-                    <div class="col-md-12">
-                        <input type="file" name="song_image">
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Ngày phát hành</label>
-                    <div class="col-md-12">
-                        <input type="date" name="release_date" value="" class="form-control form-control-line">
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Có chi viết nớ</label>
-                    <div class="col-md-12">
-                        <textarea name="content" class="form-control form-control-line" id="editor1"></textarea>
-                    </div>
-                </div>
-                <div class="form-group mt-3">
+                <div class="form-group mt-3" style="margin-bottom: 30px;">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Thêm mới</button>
                     </div>
