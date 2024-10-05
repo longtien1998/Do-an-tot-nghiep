@@ -1,7 +1,10 @@
 <!-- Sidebar -->
 <div id="sidebar">
     <div class="name-sidebar">
-        <h2>SoundWave</h2>
+        <a class="nav-link" href="{{route('dashboard')}}">
+            <i><img src="" alt=""></i>
+            <span style="font-size: 25px;">SoundWave</span>
+        </a>
     </div>
     <nav class="nav flex-column">
         <a class="nav-link" href="{{route('dashboard')}}">
@@ -11,6 +14,30 @@
         <a class="nav-link" href="{{route('list-music')}}">
             <i class="fa-solid fa-music"></i>
             <span>Bài hát</span>
+        </a>
+        <a class="nav-link" href="{{route('list-categories')}}">
+        <i class="fa-sharp-duotone fa-solid fa-layer-group"></i>
+            <span>Thể loại</span>
+        </a>
+        <a class="nav-link" href="{{route('list-singer')}}">
+        <i class="fa-solid fa-microphone"></i>
+            <span>Ca sĩ</span>
+        </a>
+        <a class="nav-link" href="{{route('list-album')}}">
+        <i class="fa-solid fa-compact-disc"></i>
+            <span>Album</span>
+        </a>
+        <a class="nav-link" href="{{route('list-copyright')}}">
+        <i class="fa-solid fa-copyright"></i>
+            <span>Bản quyền</span>
+        </a>
+        <a class="nav-link" href="{{route('list-publishers')}}">
+        <i class="fa-solid fa-industry"></i>
+            <span>Nhà xuất bản</span>
+        </a>
+        <a class="nav-link" href="{{route('list-advertisements')}}">
+        <i class="fa-solid fa-rectangle-ad"></i>
+            <span>Quảng cáo</span>
         </a>
         <a class="nav-link" href="#">
             <i class="fas fa-cogs"></i>
