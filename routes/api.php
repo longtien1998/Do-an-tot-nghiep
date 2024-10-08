@@ -11,7 +11,7 @@ Route::group([
 'namespace' => 'Api'
 ], function(){
     // member
-    Route::post('/login',[App\Http\Controllers\Api\MemberController::class, 'login']);
-    Route::post('/register',[App\Http\Controllers\Api\MemberController::class, 'register']);
-
+    Route::post('/login',[App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::post('/register',[App\Http\Controllers\Api\AuthController::class, 'register']);
+    Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
 });
