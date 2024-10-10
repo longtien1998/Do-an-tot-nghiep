@@ -26,18 +26,38 @@
         <div class="card-body">
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label class="col-md-12">Tên quảng cáo <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="ads_name" value="" class="form-control form-control-line">
+                        <input type="text" name="ads_name" value="{{old('ads_name', $ads->ads_name)}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                        <input type="text" name="description" value="" class="form-control form-control-line">
+                        <input type="text" name="ads_description" value="{{old('ads_description', $ads->ads_description)}}" class="form-control form-control-line">
                     </div>
                 </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Đường dẫn</label>
+                    <div class="col-md-12">
+                    @if($ads->file_path)
+                        <input type="file" name="file_path" value="{{asset('admin/upload/ads/'. $ads->file_path)}}" class="form-control form-control-line">
+                    @endif
+                    </div>
+                </div>
+                @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <h5>Thông báo !</h5>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Cập nhật</button>
