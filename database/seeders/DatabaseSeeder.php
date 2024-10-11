@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Quốc',
             'email' => 'quoc@gmail.com',
         ]);
+        $this->call(UsersTableSeeder::class);
     }
 }
