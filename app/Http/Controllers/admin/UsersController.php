@@ -5,7 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users;
-
+use App\Http\Requests\UsersRequest;
 class UsersController extends Controller
 {
     public function list_users(){
@@ -16,7 +16,7 @@ class UsersController extends Controller
         $users = Users::find($id);
         return view('admin.users.update-users', compact('users'));
     }
-    public function storeUpdate(Request $request, $id){
+    public function storeUpdate(UsersRequest $request, $id){
         $users = Users::find($id);
         $users->firstname = $request->firstname;
         $users->name = $request->name;
