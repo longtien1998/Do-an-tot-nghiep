@@ -35,15 +35,34 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                        <input type="text" name="description" value="" class="form-control form-control-line">
+                        <input type="text" name="ads_description" value="" class="form-control form-control-line">
                     </div>
                 </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Đường dẫn</label>
+                    <div class="col-md-12">
+                        <input type="file" name="file_path" value="" class="form-control form-control-line">
+                    </div>
+                </div>
+                @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <h5>Thông báo !</h5>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Thêm mới</button>
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 </div>

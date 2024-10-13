@@ -39,13 +39,13 @@
         <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo</span>
         </a>
-        <a class="nav-link" href="#">
-            <i class="fas fa-cogs"></i>
-            <span>Cài đặt</span>
+        <a class="nav-link" href="{{route('list-users')}}">
+        <i class="fa-solid fa-users"></i>
+            <span>Người dùng</span>
         </a>
-        <a class="nav-link" href="#">
-            <i class='bx bxs-user-voice'></i>
-            <span>Ca sĩ</span>
+        <a class="nav-link" href="{{route('list-comments')}}">
+        <i class="fa-solid fa-comment"></i>
+            <span>Bình luận</span>
         </a>
         <a class="nav-link" href="#">
             <i class="fas fa-sign-out-alt"></i>
