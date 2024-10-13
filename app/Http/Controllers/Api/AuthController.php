@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -17,12 +18,21 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8'
+
         ]);
         if ($validator->fails()) return response()->json($validator->errors());
         $user = User::create([
-            'name' => $request->name,
+            'fullname' => $request->fullname,
+            'username' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'phone' => $request->phone,
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->password),
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
+            'remember_token' => Str::random(10),
+
+
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);

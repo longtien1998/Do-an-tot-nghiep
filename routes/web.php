@@ -47,3 +47,6 @@ Route::get('/admin/update-publishers', [PublishersController::class, 'update_pub
 Route::get('/admin/list-advertisements', [AdvertisementsController::class, 'list_advertisements'])->name('list-advertisements');
 Route::get('/admin/add-advertisements', [AdvertisementsController::class, 'add_advertisements'])->name('add-advertisements');
 Route::get('/admin/update-advertisements', [AdvertisementsController::class, 'update_advertisements'])->name('update-advertisements');
+Route::prefix('admin')->group(function () {
+
+});
