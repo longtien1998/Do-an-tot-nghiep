@@ -24,7 +24,6 @@ return new class extends Migration
                 $table->string('song_image');
                 $table->timestamp('release_date')->nullable();
                 $table->integer('listen_count')->nullable();
-                $table->string('file_path')->nullable();
                 $table->string('provider')->nullable();
                 $table->string('composer')->nullable();
                 $table->integer('download_count')->nullable();

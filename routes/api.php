@@ -7,11 +7,12 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::group([
-'namespace' => 'Api'
-], function(){
+Route::group(['namespace' => 'Api'], function(){
     // member
-    Route::post('/login',[App\Http\Controllers\Api\AuthController::class, 'login']);
-    Route::post('/register',[App\Http\Controllers\Api\AuthController::class, 'register']);
+    // đăng nhập member
+    Route::post('users/login',[App\Http\Controllers\Api\AuthController::class, 'login']);
+    // đăng ký member
+    Route::post('users/register',[App\Http\Controllers\Api\AuthController::class, 'register']);
+    // show member
     Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
 });
