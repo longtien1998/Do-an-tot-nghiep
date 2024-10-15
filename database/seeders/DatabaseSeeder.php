@@ -15,17 +15,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // User::factory()->create([
+        //     'name' => 'admin',
+        //     'email' => 'admin@gmail.com',
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Tiến',
+        //     'email' => 'tien@gmail.com',
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Quốc',
+        //     'email' => 'quoc@gmail.com',
+        // ]);
         User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-        ]);
-        User::factory()->create([
-            'name' => 'Tiến',
-            'email' => 'tien@gmail.com',
-        ]);
-        User::factory()->create([
-            'name' => 'Quốc',
-            'email' => 'quoc@gmail.com',
+            'name' => 'Tôn Long Tiến',
+            'email' => 'tonlongtien1998@gmail.com',
         ]);
         $this->call(UsersTableSeeder::class);
     }
