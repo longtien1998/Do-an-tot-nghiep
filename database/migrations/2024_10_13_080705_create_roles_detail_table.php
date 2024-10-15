@@ -11,22 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles_detail', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->boolean('role_1');
-            $table->boolean('role_2');
-            $table->boolean('role_3');
-            $table->boolean('role_4');
-            $table->boolean('role_5');
-            $table->boolean('role_6');
-            $table->boolean('role_7');
-            $table->boolean('role_8');
-            $table->boolean('role_9');
-            $table->boolean('role_10');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('roles_detail')){
+            Schema::create('roles_detail', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('role_id');
+                $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+                $table->boolean('role_1');
+                $table->boolean('role_2');
+                $table->boolean('role_3');
+                $table->boolean('role_4');
+                $table->boolean('role_5');
+                $table->boolean('role_6');
+                $table->boolean('role_7');
+                $table->boolean('role_8');
+                $table->boolean('role_9');
+                $table->boolean('role_10');
+                $table->timestamps();
+            });
+
+        }
     }
 
     /**

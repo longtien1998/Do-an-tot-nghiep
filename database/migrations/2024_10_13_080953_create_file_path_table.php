@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('file_path', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('song_id');
-            $table->foreign('song_id')->references('id')->on('songs')->cascadeOnDelete();
-            $table->string('path_type');
-            $table->string('file_path');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('file_path')) {
+            Schema::create('file_path', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('song_id');
+                $table->foreign('song_id')->references('id')->on('songs')->cascadeOnDelete();
+                $table->string('path_type');
+                $table->string('file_path');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

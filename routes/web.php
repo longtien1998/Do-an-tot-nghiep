@@ -20,9 +20,10 @@ use App\Http\Controllers\admin\CommentController;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/list-music', [MusicController::class, 'list_music'])->name('list-music');
 Route::get('/add-music', [MusicController::class, 'add_music'])->name('add-music');
