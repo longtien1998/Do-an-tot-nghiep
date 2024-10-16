@@ -65,6 +65,8 @@ Route::put('/update-advertisements/{id}', [AdvertisementsController::class, 'sto
 Route::get('/delete-advertisements/{id}', [AdvertisementsController::class, 'delete_advertisements'])->name('delete-advertisements');
 
 Route::get('/list-users', [UsersController::class, 'list_users'])->name('list-users');
+Route::get('/add-users', [UsersController::class, 'add_users'])->name('add-users');
+Route::post('/add-users', [UsersController::class, 'storeAddUser'])->name('store-addUsers');
 Route::get('/delete-users/{id}', [UsersController::class, 'delete_users'])->name('delete-users');
 Route::get('/update-users/{id}', [UsersController::class, 'update_users'])->name('update-users');
 Route::put('/update-users/{id}', [UsersController::class, 'storeUpdate'])->name('store-updateUsers');

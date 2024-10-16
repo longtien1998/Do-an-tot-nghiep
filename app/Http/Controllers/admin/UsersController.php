@@ -6,11 +6,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use App\Http\Requests\UsersRequest;
+use App\Models\User;
+
 class UsersController extends Controller
 {
     public function list_users(){
         $users = Users::all();
         return view('admin.users.list-users', compact('users'));
+    }
+    public function add_users(){
+        return view('admin.users.add-users');
+    }
+    public function storeAddUser(UsersRequest $request){
+        $users = new User();
+        $users->firstname = $request->firstname;
+        $users->name = $request->name;
+        $users->email = $request->email;
+        $users->phone = $request->phone;
+        $users->password = bcrypt($request->password);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $users->image = $filename;
+            // $file->move(public_path('upload/image/users'), $filename);
+        }
+        $users->gerder = $request->gerder;
+        $users->birthday = $request->birthday;
+        if ($users->save()) {
+            $file->move(public_path('upload/image/users'), $filename);
+            return redirect('/list-users')->with('success', 'Thêm tài khoản thành công');
+        } else {
+            return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
+        }
     }
     public function update_users($id){
         $users = Users::find($id);

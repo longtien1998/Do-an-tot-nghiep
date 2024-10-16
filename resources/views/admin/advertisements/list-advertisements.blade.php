@@ -61,14 +61,4 @@
 </div>
 
 @endsection
-@section("js-listAds")
-<script>
-    function confirmDelete() {
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
-@endsection
+

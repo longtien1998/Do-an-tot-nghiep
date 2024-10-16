@@ -62,6 +62,11 @@
             @endforeach
         </tbody>
     </table>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <a href="{{route('add-users')}}" class="btn btn-success">Thêm tài khoản</a>
+        </div>
+    </div>
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -72,14 +77,4 @@
 </div>
 
 @endsection
-@section("js-listUsers")
-<script>
-    function confirmDelete() {
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
-@endsection
+
