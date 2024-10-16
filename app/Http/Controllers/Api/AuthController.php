@@ -28,37 +28,36 @@ class AuthController extends Controller
         // xác thực request
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8'
 
         ]);
         if ($validator->fails()) return response()->json($validator->errors());
-        // tách họ và tên
-        $parts = explode(' ', trim($request->Name));
-        $Name = array_pop($parts);
-        $lastName = implode(' ', $parts);
+
+        //check email
+        $user = User::where('email', $request->email)->first();
+        if ($user) return response()->json(['message' => 'Email đã tồn tại'], 400);
+
         // tạo tài khoản
         try {
             $user = User::create([
-                'lastname' => $lastName,
-                'name' => $Name,
+                'name' => $request->name,
                 'email' => $request->email,
-                'phone' => $request->phone,
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'gender' => $request->gender,
-                'birthdate' => $request->birthdate,
+                'birthday' => $request->birthday,
+                'image' => 'https://soundwave.io.vn/admin/public/upload/image/users/user.png',
                 'remember_token' => Str::random(10),
+
             ]);
+            // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Member',]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đăng ký thất bại'], 500);
+            return response()->json(['message' => 'Đăng ký thất bại' . $e], 500);
         }
     }
-
-
-
 
 
 
@@ -129,12 +128,13 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email không tồn tại'], 404);
         }
         // Tạo mã OTP ngẫu nhiên (9 ký tự)
-        $token = Str::random(9);
+        $token = rand(100000, 999999);
         // Lưu OTP vào bảng password_resets (ghi đè nếu đã tồn tại)
-        $resetpassword = PasswordReset::where('email',$request->email)->first();
-        if(!$resetpassword){
+        $resetpassword = PasswordReset::where('email', $request->email)->first();
+        if (!$resetpassword) {
             PasswordReset::Create(
-                ['email' => $user->email,
+                [
+                    'email' => $user->email,
                     'token' => Hash::make($token),
                     'created_at' => Carbon::now()
                 ]
@@ -155,21 +155,18 @@ class AuthController extends Controller
                 'email' => $request->email
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Gửi mã đặt lại mật khẩu thất bại'.$e], 500);
+            return response()->json(['message' => 'Gửi mã đặt lại mật khẩu thất bại' . $e], 500);
         }
     }
 
 
 
-
-
-    public function newPassword(Request $request)
+    public function checkOtp(Request $request)
     {
         // Validate dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
-            'email' =>'required|email',
             'otp' => 'required',
-            'password' => 'required|min:8',
+            'email' => 'required|email',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
@@ -179,22 +176,35 @@ class AuthController extends Controller
         $passwordReset = PasswordReset::where('email', $request->email)->first();
 
         if (!$passwordReset || !Hash::check($request->otp, $passwordReset->token)) {
-            return response()->json(['message' => 'Mã OTP không hợp lệ'], 400);
+            return response()->json(['message' => 'Mã OTP không hợp lệ'], +400);
         }
 
         // Kiểm tra thời hạn của OTP (10 phút)
         if (Carbon::parse($passwordReset->created_at)->addMinutes(10)->isPast()) {
             return response()->json(['message' => 'Mã OTP đã hết hạn'], 400);
         }
+        return response()->json(['message' => 'thành công'], 200);
+    }
+
+    public function newPassword(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
 
         // Đặt lại mật khẩu mới cho user
         try {
-            $user = User::where('email',$request->email)->update([
+            $user = User::where('email', $request->email)->update([
 
                 'password' => Hash::make($request->password),
                 'updated_at' => Carbon::now(),
             ]);
-            if(!$user){
+            if (!$user) {
                 return response()->json(['message' => 'Cập nhật mật khẩu thất bại'], 500);
             }
             // Xóa OTP sau khi sử dụng
@@ -202,7 +212,7 @@ class AuthController extends Controller
 
             return response()->json(['message' => 'Mật khẩu đã được đặt lại thành công!'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đặt lại mật khẩu thất bại'.$e], 500);
+            return response()->json(['message' => 'Đặt lại mật khẩu thất bại' . $e], 500);
         }
     }
 }

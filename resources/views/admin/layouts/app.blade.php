@@ -32,6 +32,20 @@
             document.getElementById('main-content').classList.toggle('closed');
             document.getElementById('footer').classList.toggle('closed');
         });
+        window.addEventListener('resize', function() {
+            if (window.innerWidth < 986) {
+                document.getElementById('sidebar').classList.add('closed');
+                document.getElementById('header').classList.add('closed');
+                document.getElementById('main-content').classList.add('closed');
+                document.getElementById('footer').classList.add('closed');
+            } else{
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('header').classList.remove('closed');
+                document.getElementById('main-content').classList.remove('closed');
+                document.getElementById('footer').classList.remove('closed');
+            }
+        });
+
     </script>
     @yield('js-listAds')
     @yield('js-listUsers')

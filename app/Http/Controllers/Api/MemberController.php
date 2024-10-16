@@ -28,12 +28,23 @@ class MemberController extends Controller
 
     }
     public function show($id){
-        
+        $user = User::find($id);
+        if ($user == null) {
+            return response()->json([
+               'message' => 'Không tìm thấy tài khoản người dùng',
+            ], 404);
+        }
+        return response()->json([
+            'message' => 'Tài khoản người dùng',
+            'token_type' => 'bearer',
+            'user' => $user]);
+
     }
     public function edit($id){
 
     }
     public function update(Request $request, $id){
+        
 
     }
     public function destroy($id){

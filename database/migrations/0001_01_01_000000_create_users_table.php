@@ -14,7 +14,6 @@ return new class extends Migration
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->id();
-                $table->string('lastname')->nullable();
                 $table->string('name');
                 $table->string('email')->unique();
                 $table->string('phone',10)->nullable();
@@ -22,7 +21,7 @@ return new class extends Migration
                 $table->string('password');
                 $table->string('image')->nullable();
                 $table->string('gender',10)->nullable();
-                $table->date('birthdate')->nullable();
+                $table->string('birthday',20)->nullable();
                 $table->string('users_type')->nullable();
                 $table->timestamp('expiry_date')->nullable();
                 $table->rememberToken();
