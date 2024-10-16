@@ -33,9 +33,11 @@ class UsersController extends Controller
         $users->birthday = $request->birthday;
         if ($users->save()) {
             $file->move(public_path('upload/image/users'), $filename);
-            return redirect('/list-users')->with('success', 'Thêm tài khoản thành công');
+            toastr()->success('Thêm tài khoản thành công');
+            return redirect('/list-users');
         } else {
-            return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
+            toastr()->error('Thêm tài khoản thất bại');
+            return redirect()->back();
         }
     }
     public function update_users($id){
@@ -56,14 +58,17 @@ class UsersController extends Controller
         $users->gerder = $request->gerder;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            return redirect('/list-users')->with('success', 'Cập nhật tài khoản thành công');
+            toastr()->success('Cập nhật tài khoản thành công');
+            return redirect('/list-users');
         } else {
-            return redirect()->back()->with('error', 'Cập nhật tài khoản thất bại');
+            toastr()->error('Cập nhật tài khoản thất bại');
+            return redirect()->back();
         }
     }
     public function delete_users($id){
         $users = User::find($id);
         $users->delete();
-        return redirect('/list-users')->with('success', 'Xoá tài khoản thành công');
+        toastr()->success('Xóa tài khoản thành công');
+        return redirect('/list-users');
     }
 }

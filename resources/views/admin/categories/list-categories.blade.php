@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-categories')}}" class="btn btn-success">Thêm thể loại</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -35,18 +40,14 @@
                 <th scope="row">1</th>
                 <td>Rap</td>
                 <td>mô tả</td>
-                <td >
-                    <a href="{{route('update-categories')}}" > <i class="fa-solid fa-pen-to-square"></i></a>
+                <td>
+                    <a href="{{route('update-categories')}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="" class="p-2"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-categories')}}" class="btn btn-success">Thêm thể loại</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

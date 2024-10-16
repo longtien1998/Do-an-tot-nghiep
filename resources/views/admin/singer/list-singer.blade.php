@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-singer')}}" class="btn btn-success">Thêm ca sĩ</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -43,18 +48,14 @@
                 <td>Đây là một ca sĩ</td>
                 <td>Nam</td>
                 <td>Gia Lai</td>
-                <td >
-                    <a href="{{route('update-singer')}}" > <i class="fa-solid fa-pen-to-square"></i></a>
+                <td>
+                    <a href="{{route('update-singer')}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="" class="p-2"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-singer')}}" class="btn btn-success">Thêm ca sĩ</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-users')}}" class="btn btn-success">Thêm tài khoản</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -48,7 +53,7 @@
                     Người dùng
                     @endif
                 </td>
-                <td >
+                <td>
                     <a href="{{route('update-users', $user->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="{{route('delete-users', $user->id)}}" onclick="return confirmDelete()" class="p-2"><i class="fa-solid fa-trash"></i></a>
                 </td>
@@ -56,14 +61,10 @@
             @endforeach
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-users')}}" class="btn btn-success">Thêm tài khoản</a>
-        </div>
-    </div>
+
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <h4><i class="icon fa fa-check"></i> Thông báo !</h4>
         {{session('success')}}
     </div>
@@ -71,4 +72,3 @@
 </div>
 
 @endsection
-

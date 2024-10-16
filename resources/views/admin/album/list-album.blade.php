@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-album')}}" class="btn btn-success">Thêm album</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -42,17 +47,13 @@
                 <td><img width="50px" height="50px" src="/admin/image/singer/unnamed.jpg" alt=""></td>
                 <td>12</td>
                 <td>
-                    <a href="{{route('update-album')}}" > <i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{route('update-album')}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="" class="p-2"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-album')}}" class="btn btn-success">Thêm album</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

@@ -20,14 +20,17 @@ class CommentController extends Controller
         $comments->comment = $request->comment;
         $comments->rating = $request->rating;
         if($comments->save()){
-            return redirect('/list-comments')->with('success','Cập nhật bình luận thành công');
+            toastr()->success('Cập nhật bình luận thành công');
+            return redirect('/list-comments');
         } else {
-            return redirect()->back()->with('error','Cập nhật bình luận thất bại');
+            toastr()->error('Cập nhật bình luận thất bại');
+            return redirect()->back();
         }
     }
     public function delete_comments($id){
         $comments = Comment::find($id);
         $comments->delete();
-        return redirect('/list-comments')->with('success', 'Xoá bình luận thành công');
+        toastr()->success('Cập nhật bình luận thành công');
+        return redirect('/list-comments');
     }
 }
