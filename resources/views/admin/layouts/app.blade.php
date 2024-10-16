@@ -33,9 +33,15 @@
             document.getElementById('footer').classList.toggle('closed');
         });
     </script>
-    @yield('js-listAds')
-    @yield('js-listUsers')
-    @yield('js-listCmt')
+    <script>
+        function confirmDelete() {
+            if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-WHh81Ennq3p8Tz6FGTjcgQoO07c9twKmzT9XjBDv8sqs3JlIsAWAsBfB29ODdCe7" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

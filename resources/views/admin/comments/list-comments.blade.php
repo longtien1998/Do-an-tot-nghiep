@@ -60,14 +60,4 @@
 </div>
 
 @endsection
-@section("js-listCmt")
-<script>
-    function confirmDelete() {
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
-@endsection
+
