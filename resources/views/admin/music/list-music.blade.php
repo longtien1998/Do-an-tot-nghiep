@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -37,18 +42,14 @@
                 <td>Những lời hứa bỏ quên</td>
                 <td>Vũ</td>
                 <td>30/03/2023</td>
-                <td >
-                    <a href="{{route('update-music')}}" > <i class="fa-solid fa-pen-to-square"></i></a>
+                <td>
+                    <a href="{{route('update-music')}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="" class="p-2"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

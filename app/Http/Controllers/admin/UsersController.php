@@ -11,7 +11,7 @@ use App\Models\User;
 class UsersController extends Controller
 {
     public function list_users(){
-        $users = Users::all();
+        $users = User::all();
         return view('admin.users.list-users', compact('users'));
     }
     public function add_users(){
@@ -19,7 +19,6 @@ class UsersController extends Controller
     }
     public function storeAddUser(UsersRequest $request){
         $users = new User();
-        $users->firstname = $request->firstname;
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
@@ -34,18 +33,19 @@ class UsersController extends Controller
         $users->birthday = $request->birthday;
         if ($users->save()) {
             $file->move(public_path('upload/image/users'), $filename);
-            return redirect('/list-users')->with('success', 'Thêm tài khoản thành công');
+            toastr()->success('Thêm tài khoản thành công');
+            return redirect('/list-users');
         } else {
-            return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
+            toastr()->error('Thêm tài khoản thất bại');
+            return redirect()->back();
         }
     }
     public function update_users($id){
-        $users = Users::find($id);
+        $users = User::find($id);
         return view('admin.users.update-users', compact('users'));
     }
     public function storeUpdate(UsersRequest $request, $id){
-        $users = Users::find($id);
-        $users->firstname = $request->firstname;
+        $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
@@ -58,14 +58,17 @@ class UsersController extends Controller
         $users->gerder = $request->gerder;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            return redirect('/list-users')->with('success', 'Cập nhật tài khoản thành công');
+            toastr()->success('Cập nhật tài khoản thành công');
+            return redirect('/list-users');
         } else {
-            return redirect()->back()->with('error', 'Cập nhật tài khoản thất bại');
+            toastr()->error('Cập nhật tài khoản thất bại');
+            return redirect()->back();
         }
     }
     public function delete_users($id){
-        $users = Users::find($id);
+        $users = User::find($id);
         $users->delete();
-        return redirect('/list-users')->with('success', 'Xoá tài khoản thành công');
+        toastr()->success('Xóa tài khoản thành công');
+        return redirect('/list-users');
     }
 }
