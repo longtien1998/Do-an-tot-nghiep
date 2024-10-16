@@ -20,13 +20,22 @@ use App\Http\Controllers\admin\CommentController;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
+
+// songs
 Route::get('/list-music', [MusicController::class, 'list_music'])->name('list-music');
 Route::get('/add-music', [MusicController::class, 'add_music'])->name('add-music');
-Route::get('/update-music', [MusicController::class, 'update_music'])->name('update-music');
+Route::post('/store-music', [MusicController::class, 'store_music'])->name('store-music');
+Route::put('/update-music', [MusicController::class, 'update_music'])->name('update-music');
+Route::delete('/delete-music', [MusicController::class, 'delete_music'])->name('delete-music');
+
+
+Route::get('/create-music', [MusicController::class, 'create'])->name('create-music');
+
 
 Route::get('/list-categories', [CategoriesController::class, 'list_categories'])->name('list-categories');
 Route::get('/add-categories', [CategoriesController::class, 'add_categories'])->name('add-categories');

@@ -51,10 +51,18 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
         ],
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => env('R2_REGION'),  // R2 không cần region cố định
+            'bucket' => env('R2_BUCKET_NAME'),
+            'url' => env('R2_URL'),
+            'endpoint' => 'https://1910ad2832fd3a1cc3fbe206b309dc51.r2.cloudflarestorage.com',
+        ],
+
 
     ],
 
