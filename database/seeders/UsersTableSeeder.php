@@ -17,7 +17,6 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'firstname' => 'John',
                 'name' => 'Doe',
                 'email' => 'john.doe@example.com',
                 'phone' => '1234567890',
@@ -26,7 +25,6 @@ class UsersTableSeeder extends Seeder
                 'image' => 'john.png',
                 'gender' => 'male',
                 'birthday' => '1990-01-01',
-                'roles' => 'admin',
                 'users_type' => 'premium',
                 'expiry_date' => date('Y-m-d H:i:s', strtotime('+1 year')),
                 'remember_token' => Str::random(10),
@@ -35,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'firstname' => 'Jane',
+
                 'name' => 'Smith',
                 'email' => 'jane.smith@example.com',
                 'phone' => '0987654321',
@@ -44,7 +42,6 @@ class UsersTableSeeder extends Seeder
                 'image' => 'jane.png',
                 'gender' => 'female',
                 'birthday' => '1995-05-10',
-                'roles' => 'user',
                 'users_type' => 'regular',
                 'expiry_date' => date('Y-m-d H:i:s', strtotime('+1 year')),
                 'remember_token' => Str::random(10),

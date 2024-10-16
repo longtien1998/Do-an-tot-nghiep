@@ -13,11 +13,16 @@ Route::group(['namespace' => 'Api'], function(){
     Route::post('users/login',[App\Http\Controllers\Api\AuthController::class, 'login']);
     // đăng ký member
     Route::post('users/register',[App\Http\Controllers\Api\AuthController::class, 'register']);
-    // show member
-    Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
+    // đăng xuất
+    Route::get('users/logout',[App\Http\Controllers\Api\AuthController::class, 'logout']);
     // reset password
     Route::post('/resetpassword',[App\Http\Controllers\Api\AuthController::class, 'resetPassword']);
+    //check otp
+    Route::post('/check-otp',[App\Http\Controllers\Api\AuthController::class, 'checkOtp']);
     // new password
     Route::post('/newpassword',[App\Http\Controllers\Api\AuthController::class, 'newPassword']);
+
+    // show member
+    Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
 
 });
