@@ -22,7 +22,6 @@ class UsersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'nullable|max:255',
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email,'. $this->id,
             'phone' => 'nullable|digits:10',
@@ -33,7 +32,6 @@ class UsersRequest extends FormRequest
     }
     public function messages() {
         return [
-            'firstname.max' => 'Tên không được dài quá 255 ký tự',
             'name.required' => 'Tên không được để trống',
             'name.max' => 'Tên không được dài quá 255 ký tự',
             'email.required' => 'Email không được để trống',

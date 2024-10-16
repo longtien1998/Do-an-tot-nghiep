@@ -26,12 +26,9 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Tên</th>
-                <th scope="col">Họ</th>
                 <th scope="col">Email</th>
-                <th scope="col">Điện thoại</th>
                 <th scope="col">Hình ảnh</th>
-                <th scope="col">Giới tính</th>
-                <th scope="col">Ngày sinh</th>
+                <th scope="col">Ngày tạo</th>
                 <th scope="col">Quyền</th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -40,13 +37,10 @@
             @foreach($users as $user)
             <tr>
                 <th scope="row">{{$user->id}}</th>
-                <td>{{$user->firstname}}</td>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
-                <td>{{$user->phone}}</td>
                 <td><img width="50px" height="50px" src="{{asset('upload/image/users/'. $user->image)}}" alt=""></td>
-                <td>{{$user->gerder}}</td>
-                <td>{{$user->birthday}}</td>
+                <td>1</td>
                 <td>
                     @if ($user->roles == 1)
                     Admin

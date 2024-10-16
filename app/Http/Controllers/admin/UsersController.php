@@ -11,7 +11,7 @@ use App\Models\User;
 class UsersController extends Controller
 {
     public function list_users(){
-        $users = Users::all();
+        $users = User::all();
         return view('admin.users.list-users', compact('users'));
     }
     public function add_users(){
@@ -19,7 +19,6 @@ class UsersController extends Controller
     }
     public function storeAddUser(UsersRequest $request){
         $users = new User();
-        $users->firstname = $request->firstname;
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
@@ -40,12 +39,11 @@ class UsersController extends Controller
         }
     }
     public function update_users($id){
-        $users = Users::find($id);
+        $users = User::find($id);
         return view('admin.users.update-users', compact('users'));
     }
     public function storeUpdate(UsersRequest $request, $id){
-        $users = Users::find($id);
-        $users->firstname = $request->firstname;
+        $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
@@ -64,7 +62,7 @@ class UsersController extends Controller
         }
     }
     public function delete_users($id){
-        $users = Users::find($id);
+        $users = User::find($id);
         $users->delete();
         return redirect('/list-users')->with('success', 'Xoá tài khoản thành công');
     }

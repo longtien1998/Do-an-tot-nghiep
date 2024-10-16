@@ -26,14 +26,8 @@
         <div class="card-body">
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label class="col-md-12">Tên <span class="text-danger">(*)</span></label>
-                    <div class="col-md-12">
-                        <input type="text" name="firstname" value="" class="form-control form-control-line">
-                    </div>
-                </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Họ</label>
+                    <label class="col-md-12">Tên</label>
                     <div class="col-md-12">
                         <input type="text" name="name" value="" class="form-control form-control-line">
                     </div>
