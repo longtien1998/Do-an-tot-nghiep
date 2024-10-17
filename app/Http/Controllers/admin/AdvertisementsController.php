@@ -32,9 +32,10 @@ class AdvertisementsController extends Controller
         }
         if ($ads->save()) {
             $file->move(public_path('admin/upload/ads'), $filename);
-            return redirect('/list-advertisements')->with('success', 'Thêm quảng cáo thành công');
+            toastr()->success('Thêm quảng cáo thành công');
+            return redirect('/list-advertisements');
         } else {
-            return redirect()->back()->with('error', 'Thêm quảng cáo thất bại');
+            return redirect()->back();
         }
     }
     public function update_advertisements($id)
@@ -54,14 +55,17 @@ class AdvertisementsController extends Controller
             $file->move(public_path('admin/upload/ads'), $filename);
         }
         if ($ads->save()) {
-            return redirect('/list-advertisements')->with('success', 'Cập nhật quảng cáo thành công');
+            toastr()->success('Cập nhật quảng cáo thành công');
+            return redirect('/list-advertisements');
         } else {
-            return redirect()->back()->with('error', 'Cập nhật quảng cáo thất bại');
+            toastr()->error('Cập nhật quảng cáo thất bại');
+            return redirect()->back();
         }
     }
     public function delete_advertisements($id){
         $ads = Advertisements::find($id);
         $ads->delete();
-        return redirect('/list-advertisements')->with('success', 'Xoá quảng cáo thành công');
+        toastr()->success('Xóa quảng cáo thành công');
+        return redirect('/list-advertisements');
     }
 }

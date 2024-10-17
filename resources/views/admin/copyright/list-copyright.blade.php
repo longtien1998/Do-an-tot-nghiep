@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+<div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-copyright')}}" class="btn btn-success">Thêm bản quyền</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -54,11 +59,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-copyright')}}" class="btn btn-success">Thêm bản quyền</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

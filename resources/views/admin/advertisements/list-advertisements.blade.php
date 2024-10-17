@@ -21,6 +21,11 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-advertisements')}}" class="btn btn-success">Thêm quảng cáo</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
@@ -48,17 +53,12 @@
     </table>
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <h4><i class="icon fa fa-check"></i> Thông báo!</h4>
         {{session('success')}}
     </div>
     @endif
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-advertisements')}}" class="btn btn-success">Thêm quảng cáo</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection
-
