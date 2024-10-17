@@ -11,7 +11,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{route('dashboard')}}">Trang chủ</a>
+                            <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách thể loại</li>
                     </ol>

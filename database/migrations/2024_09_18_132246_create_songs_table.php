@@ -21,12 +21,13 @@ return new class extends Migration
                 $table->unsignedBigInteger('categories_id')->nullable();
                 $table->foreign('singers_id')->references('id')->on('singers')->nullOnDelete();
                 $table->foreign('categories_id')->references('id')->on('categories')->nullOnDelete();
-                $table->string('song_image');
+                $table->string('song_image')->nullable();
+                $table->string('country')->nullable();
                 $table->timestamp('release_day')->nullable();
-                $table->integer('listen_count')->nullable();
+                $table->integer('listen_count')->default(0);
                 $table->string('provider')->nullable();
                 $table->string('composer')->nullable();
-                $table->integer('download_count')->nullable();
+                $table->integer('download_count')->default(0);
                 $table->timestamps();
                 $table->softDeletes();
             });

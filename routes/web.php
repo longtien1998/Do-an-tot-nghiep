@@ -11,8 +11,8 @@ use App\Http\Controllers\admin\PublishersController;
 use App\Http\Controllers\admin\AdvertisementsController;
 use App\Http\Controllers\admin\UsersController;
 use App\Http\Controllers\admin\CommentController;
-
-
+use App\Http\Controllers\admin\S3ImageController;
+use App\Http\Controllers\admin\S3SongController;
 
 
 
@@ -81,3 +81,10 @@ Route::put('/update_comments/{id}', [CommentController::class, 'storeComment'])-
 
 
 
+// hình ảnh trên AWS S3
+
+Route::get('/s3-images', [S3ImageController::class, 'index'])->name('s3images.index');
+Route::post('/s3-images', [S3ImageController::class, 'destroy'])->name('s3images.destroy');
+// File nhạc trên AWS S3
+Route::get('/s3songs', [S3SongController::class, 'index'])->name('s3songs.index');
+Route::post('/s3songs', [S3SongController::class, 'destroy'])->name('s3songs.destroy');

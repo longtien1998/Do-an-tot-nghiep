@@ -11,7 +11,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{route('dashboard')}}">Trang chủ</a>
+                            <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách bài hát</li>
                     </ol>
@@ -20,6 +20,11 @@
         </div>
     </div>
 </div>
+<style>
+    th, td {
+        vertical-align: middle;
+    }
+</style>
 <div class="container-fluid">
     <div class="form-group">
         <div class="col-sm-12 my-3">
@@ -46,11 +51,11 @@
             @php $stt = 1; @endphp
             @foreach($songs as $song)
             <tr>
-                <th scope="row">{{$stt++}}</th>
+                <th scope="row">{{$stt}}</th>
                 <td>{{$song->id}}</td>
                 <td>{{$song->song_name}}</td>
                 <td>{{$song->description}}</td>
-                <td>{{$song->song_image}}</td>
+                <td><img src="{{$song->song_image}}" alt="image {{$song->song_name}}" width="50"></td>
                 <td>{{$song->category_name}}</td>
                 <td>{{$song->release_date}}</td>
                 <td>{{$song->listen_count}}</td>

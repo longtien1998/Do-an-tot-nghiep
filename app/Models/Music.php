@@ -17,7 +17,7 @@ class Music extends Model
         'description',
         'lyrics',
         'singers_id',
-        'categorie_id',
+        'categories_id',
         'song_image',
         'release_date',
         'listen_count',

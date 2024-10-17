@@ -16,36 +16,44 @@
             <span>Bài hát</span>
         </a>
         <a class="nav-link" href="{{route('list-categories')}}">
-        <i class="fa-sharp-duotone fa-solid fa-layer-group"></i>
+            <i class="fa-sharp-duotone fa-solid fa-layer-group"></i>
             <span>Thể loại</span>
         </a>
         <a class="nav-link" href="{{route('list-singer')}}">
-        <i class="fa-solid fa-microphone"></i>
+            <i class="fa-solid fa-microphone"></i>
             <span>Ca sĩ</span>
         </a>
         <a class="nav-link" href="{{route('list-album')}}">
-        <i class="fa-solid fa-compact-disc"></i>
+            <i class="fa-solid fa-compact-disc"></i>
             <span>Album</span>
         </a>
         <a class="nav-link" href="{{route('list-copyright')}}">
-        <i class="fa-solid fa-copyright"></i>
+            <i class="fa-solid fa-copyright"></i>
             <span>Bản quyền</span>
         </a>
         <a class="nav-link" href="{{route('list-publishers')}}">
-        <i class="fa-solid fa-industry"></i>
+            <i class="fa-solid fa-industry"></i>
             <span>Nhà xuất bản</span>
         </a>
         <a class="nav-link" href="{{route('list-advertisements')}}">
-        <i class="fa-solid fa-rectangle-ad"></i>
+            <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo</span>
         </a>
         <a class="nav-link" href="{{route('list-users')}}">
-        <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-users"></i>
             <span>Người dùng</span>
         </a>
         <a class="nav-link" href="{{route('list-comments')}}">
-        <i class="fa-solid fa-comment"></i>
+            <i class="fa-solid fa-comment"></i>
             <span>Bình luận</span>
+        </a>
+        <a class="nav-link" href="{{route('s3images.index')}}">
+            <i class="fa-solid fa-image"></i>
+            <span>Hình ảnh</span>
+        </a>
+        <a class="nav-link" href="{{route('s3songs.index')}}">
+            <i class="fa-solid fa-file"></i>
+            <span>File nhạc</span>
         </a>
         <a class="nav-link" href="#">
             <i class="fas fa-sign-out-alt"></i>
