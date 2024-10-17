@@ -18,7 +18,7 @@
     -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
-    width: 24em;
+    width: 30em;
     z-index: 10
 }
 
@@ -31,7 +31,7 @@
 }
 
 .fl-wrapper[data-position^=top-] {
-    top: .5em
+    top: 4.5em
 }
 
 .fl-wrapper[data-position^=bottom-] {

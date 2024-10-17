@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->foreign('singers_id')->references('id')->on('singers')->nullOnDelete();
                 $table->foreign('categories_id')->references('id')->on('categories')->nullOnDelete();
                 $table->string('song_image');
-                $table->timestamp('release_date')->nullable();
+                $table->timestamp('release_day')->nullable();
                 $table->integer('listen_count')->nullable();
                 $table->string('provider')->nullable();
                 $table->string('composer')->nullable();
