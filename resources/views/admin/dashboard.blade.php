@@ -29,7 +29,7 @@
                 <div class="dashboard-card">
                     <i class="fas fa-users"></i>
                     <h5>Total Users</h5>
-                    <p class="card-value">1,245</p>
+                    <p class="card-value">{{$total_user}}</p>
                 </div>
             </div>
             <div class="col-md-4">

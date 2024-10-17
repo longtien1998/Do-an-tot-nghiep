@@ -7,21 +7,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Response;
+use App\Models\Music;
 
 class MusicController extends Controller
 {
     public function list_music()
     {
-        return view('admin.music.list-music');
+        $songs = Music::selectAll();
+        return view('admin.music.list-music',compact('songs'));
     }
     public function add_music()
     {
         return view('admin.music.add-music');
     }
 
-    public function create()
+    public function edit_music(){
+        return view('admin.music.edit-music');
+    }
+    public function show_music($id)
     {
-        return view('admin.music.create-music');
+        $song = Music::show($id);
+        dd($song);
+        return view('admin.music.show-music');
     }
     public function store_music(Request $request)
     {

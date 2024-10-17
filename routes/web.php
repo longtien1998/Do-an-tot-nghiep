@@ -30,16 +30,19 @@ Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/list-music', [MusicController::class, 'list_music'])->name('list-music');
 Route::get('/add-music', [MusicController::class, 'add_music'])->name('add-music');
 Route::post('/store-music', [MusicController::class, 'store_music'])->name('store-music');
+Route::get('/show-music/{id}', [MusicController::class, 'show_music'])->name('show-music');
 Route::put('/update-music', [MusicController::class, 'update_music'])->name('update-music');
 Route::delete('/delete-music', [MusicController::class, 'delete_music'])->name('delete-music');
 
-
 Route::get('/create-music', [MusicController::class, 'create'])->name('create-music');
 
-
+// danh mục
 Route::get('/list-categories', [CategoriesController::class, 'list_categories'])->name('list-categories');
 Route::get('/add-categories', [CategoriesController::class, 'add_categories'])->name('add-categories');
-Route::get('/update-categories', [CategoriesController::class, 'update_categories'])->name('update-categories');
+Route::post('/store-categories', [CategoriesController::class,'store_categories'])->name('store-categories');
+Route::get('/edit-categories/{id}', [CategoriesController::class,'edit_categories'])->name('edit-categories');
+Route::put('/update-categories/{id}', [CategoriesController::class, 'update_categories'])->name('update-categories');
+Route::delete('/delete-categories/{id}', [CategoriesController::class, 'delete_categories'])->name('delete-categories');
 
 Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
 Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');

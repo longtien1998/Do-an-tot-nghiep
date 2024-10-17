@@ -12,7 +12,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{route('dashboard')}}">Trang chủ</a>
+                            <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{route('list-categories')}}" class="text-decoration-none">Thể loại</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm thể loại</li>
                     </ol>
@@ -24,7 +27,18 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-            <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <h5>Thông báo !</h5>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <form class="form-horizontal form-material" method="post" action="{{route('store-categories')}}">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên thể loại <span class="text-danger">(*)</span></label>

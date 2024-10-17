@@ -21,34 +21,58 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="form-group">
+        <div class="col-sm-12 my-3">
+            <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
+                <th scope="col">STT</th>
                 <th scope="col">ID</th>
                 <th scope="col">Tên bài hát</th>
-                <th scope="col">Ca sĩ</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Thể loại</th>
+                <th scope="col">Ngày phát hành</th>
+                <th scope="col">Lượt nghe</th>
+                <th scope="col">Lượt tải</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
+            @php $stt = 1; @endphp
+            @foreach($songs as $song)
             <tr>
-                <th scope="row">1</th>
-                <td>Những lời hứa bỏ quên</td>
-                <td>Vũ</td>
-                <td>30/03/2023</td>
+                <th scope="row">{{$stt++}}</th>
+                <td>{{$song->id}}</td>
+                <td>{{$song->song_name}}</td>
+                <td>{{$song->description}}</td>
+                <td>{{$song->song_image}}</td>
+                <td>{{$song->category_name}}</td>
+                <td>{{$song->release_date}}</td>
+                <td>{{$song->listen_count}}</td>
+                <td>{{$song->download_count}}</td>
+                <td>{{$song->created_at}}</td>
+
                 <td >
-                    <a href="{{route('update-music')}}" > <i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="" class="p-2"><i class="fa-solid fa-trash"></i></a>
+                    <a href="{{route('show-music',$song->id)}}" > <i class="fa-solid fa-eye"></i></a>
+                    <form action="{{route('delete-music',$song->id)}}" method="post" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa thể loại?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
+            @php $stt++; @endphp
+            @endforeach
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-12">
-            <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
-        </div>
-    </div>
+
 </div>
 
 @endsection

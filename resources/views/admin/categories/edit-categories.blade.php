@@ -24,18 +24,30 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-            <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
+        @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <h5>Thông báo !</h5>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <form class="form-horizontal form-material" method="post" enctype="multipart/form-data" action="{{route('update-categories',$category->id)}}">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label class="col-md-12">Tên thể loại <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="categorie_name" value="" class="form-control form-control-line">
+                        <input type="text" name="categorie_name" value="{{$category->categorie_name}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                    <input type="text" name="description" value="" class="form-control form-control-line">
+                    <input type="text" name="description" value="{{$category->description}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
