@@ -22,7 +22,7 @@
 </div>
 
 <div class="container mt-5">
-        <h1 class="text-center mb-4">Quản lý File Nhạc</h1>
+        <h1 class="text-center mb-4">Quản lý File Bài Hát</h1>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>

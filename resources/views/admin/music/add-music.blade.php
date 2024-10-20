@@ -14,6 +14,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Bài hát</li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm bài hát</li>
                     </ol>
                 </nav>

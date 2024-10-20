@@ -13,6 +13,6 @@ class Filepaths extends Model
     protected $fillable = [
         'song_id',
         'file_path',
-        'file_type',
+        'path_type',
     ];
 }
