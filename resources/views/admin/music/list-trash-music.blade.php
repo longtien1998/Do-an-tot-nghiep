@@ -132,9 +132,10 @@
     // check list
     document.getElementById('check_all_songs').addEventListener('click', function() {
         var checkboxes = document.getElementsByClassName('check_song');
-        let 
+        let total = 0;
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
+            total += checkboxes[i].checked? 1 : 0; // Tính t��ng số checkbox đã được chọn
         }
 
         getCheckedValues()
@@ -145,16 +146,17 @@
     function getCheckedValues() {
         var checkboxes = document.getElementsByClassName('check_song');
         var checkedValues = [];
-
+        let total = 0;
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 checkedValues.push(checkboxes[i].value); // Thêm value của checkbox đã được chọn
+                total += checkboxes[i].checked? 1 : 0; // Tính t��ng số checkbox đã được chọn
             }
         }
 
         document.getElementById('valuearray').value = JSON.stringify(checkedValues);
         document.getElementById('valuearray1').value = JSON.stringify(checkedValues);
-        document.querySelector('.total').innerText = checkboxes.length;
+        document.querySelector('.total').innerText = total;
 
         return checkedValues; // Trả về mảng nếu cần sử dụng sau này
     }
