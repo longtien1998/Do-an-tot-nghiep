@@ -85,7 +85,7 @@ class MusicController extends Controller
                 ]);
             }
             // thêm đường dẫn plus
-            if ($request->hasFile('file_basic')) {
+            if ($request->hasFile('file_plus')) {
                 $path_plus = $request->file('file_plus')->store('music', 's3');
                 Storage::disk('s3')->setVisibility($path_plus, 'public');
                 $url_plus = Storage::disk('s3')->url($path_plus);
@@ -97,7 +97,7 @@ class MusicController extends Controller
                 ]);
             }
             // thên đường dẫn premium
-            if ($request->hasFile('file_basic')) {
+            if ($request->hasFile('file_premium')) {
                 $path_premium = $request->file('file_premium')->store('music', 's3');
                 Storage::disk('s3')->setVisibility($path_premium, 'public');
                 $url_premium = Storage::disk('s3')->url($path_premium);
