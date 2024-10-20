@@ -27,20 +27,43 @@ Route::get('/', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
 
 // songs
-Route::get('/list-music', [MusicController::class, 'list_music'])->name('list-music');
-Route::get('/add-music', [MusicController::class, 'add_music'])->name('add-music');
-Route::post('/store-music', [MusicController::class, 'store_music'])->name('store-music');
-Route::get('/show-music/{id}', [MusicController::class, 'show_music'])->name('show-music');
-Route::put('/update-music', [MusicController::class, 'update_music'])->name('update-music');
-Route::delete('/delete-music', [MusicController::class, 'delete_music'])->name('delete-music');
+Route::prefix('songs')->group(function () {
+    Route::get('/list', [MusicController::class, 'list_music'])->name('list-music');
+
+    Route::get('/add', [MusicController::class, 'add_music'])->name('add-music');
+    Route::post('/store', [MusicController::class, 'store_music'])->name('store-music');
+
+    Route::get('/{id}/show', [MusicController::class, 'show_music'])->name('show-music');
+    Route::put('/{id}/update', [MusicController::class, 'update_music'])->name('update-music');
+
+    Route::delete('/{id}/delete', [MusicController::class, 'delete_music'])->name('delete-music');
+
+
+    route::prefix('trash')->group(function(){
+        Route::get('/', [MusicController::class, 'list_trash_music'])->name('list-trash-music');
+
+        Route::post('/search', [MusicController::class,'search_song_trash'])->name('search-song-trash');
+
+        Route::post('/restore', [MusicController::class, 'restore_list_music'])->name('list-restore-songs');
+        Route::get('/restore-all', [MusicController::class, 'restore_all_music'])->name('restore-all-songs');
+
+        Route::post('/delete', [MusicController::class, 'delete_list_music'])->name('list-delete-songs');
+        Route::get('/delete-all', [MusicController::class, 'delete_all_music'])->name('delete-all-songs');
+
+        Route::get('/{id}/destroy', [MusicController::class,'destroy_trash_music'])->name('destroy-trash-songs');
+    });
+
+
+});
+
 
 Route::get('/create-music', [MusicController::class, 'create'])->name('create-music');
 
 // danh mục
 Route::get('/list-categories', [CategoriesController::class, 'list_categories'])->name('list-categories');
 Route::get('/add-categories', [CategoriesController::class, 'add_categories'])->name('add-categories');
-Route::post('/store-categories', [CategoriesController::class,'store_categories'])->name('store-categories');
-Route::get('/edit-categories/{id}', [CategoriesController::class,'edit_categories'])->name('edit-categories');
+Route::post('/store-categories', [CategoriesController::class, 'store_categories'])->name('store-categories');
+Route::get('/edit-categories/{id}', [CategoriesController::class, 'edit_categories'])->name('edit-categories');
 Route::put('/update-categories/{id}', [CategoriesController::class, 'update_categories'])->name('update-categories');
 Route::delete('/delete-categories/{id}', [CategoriesController::class, 'delete_categories'])->name('delete-categories');
 

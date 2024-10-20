@@ -21,7 +21,7 @@ body {
 }
 #sidebar .nav-link {
     color: #b8b8d1;
-    margin: 10px 0;
+    margin: 5px 0;
     padding: 15px 20px;
     display: flex;
     align-items: center;
@@ -32,9 +32,7 @@ body {
     justify-content: center;
     padding: 15px 10px;
 }
-#sidebar .nav-link span {
-    margin-left: 12px;
-}
+
 
 #sidebar.closed .nav-link span {
     display: none; /* Ẩn văn bản khi sidebar thu nhỏ */

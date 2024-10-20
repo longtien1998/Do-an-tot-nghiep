@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use \Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,7 @@ class MusicController extends Controller
 
     public function list_music()
     {
+        // Music::onlyTrashed()->restore();
         $songs = Music::selectAll();
         return view('admin.music.list-music', compact('songs'));
     }
@@ -71,7 +73,7 @@ class MusicController extends Controller
             $song_id = $music->id;
 
             // thêm đường dẫn nhạc basic
-            if ($request->hasFile('file_basic')){
+            if ($request->hasFile('file_basic')) {
                 $path_basic = $request->file('file_basic')->store('music', 's3');
                 Storage::disk('s3')->setVisibility($path_basic, 'public');
                 $url_basic = Storage::disk('s3')->url($path_basic);
@@ -83,7 +85,7 @@ class MusicController extends Controller
                 ]);
             }
             // thêm đường dẫn plus
-            if ($request->hasFile('file_basic')){
+            if ($request->hasFile('file_basic')) {
                 $path_plus = $request->file('file_plus')->store('music', 's3');
                 Storage::disk('s3')->setVisibility($path_plus, 'public');
                 $url_plus = Storage::disk('s3')->url($path_plus);
@@ -95,7 +97,7 @@ class MusicController extends Controller
                 ]);
             }
             // thên đường dẫn premium
-            if ($request->hasFile('file_basic')){
+            if ($request->hasFile('file_basic')) {
                 $path_premium = $request->file('file_premium')->store('music', 's3');
                 Storage::disk('s3')->setVisibility($path_premium, 'public');
                 $url_premium = Storage::disk('s3')->url($path_premium);
@@ -107,7 +109,7 @@ class MusicController extends Controller
                 ]);
             }
 
-                return redirect()->route('list-music')->with('success', 'Thêm bài hát thành công');
+            return redirect()->route('list-music')->with('success', 'Thêm bài hát thành công');
         } catch (\Exception $e) {
 
             // Kiểm tra và xóa file dựa trên đường dẫn nội bộ (path_image)
@@ -151,7 +153,7 @@ class MusicController extends Controller
     public function show_music($id)
     {
         $song = Music::show($id);
-
+        dd($song);
         return view('admin.music.show-music');
     }
 
@@ -164,12 +166,131 @@ class MusicController extends Controller
     {
         return view('admin.music.update-music');
     }
-    public function delete_music()
+
+
+
+
+    public function delete_music($id)
     {
-        return view('admin.music.delete-music');
+        try {
+            Music::find($id)->delete();
+            return redirect()->route('list-music')->with('success', 'Xoá bài hát thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát thất bại.');
+        }
     }
+
+
+
+
+    public function list_trash_music()
+
+    {
+        $songs = Music::onlyTrashed()->get();
+        // dd($songs);
+        return view('admin.music.list-trash-music', compact('songs'));
+    }
+
+
+
+    public function restore_list_music(Request $request)
+    {
+        // dd($request->restore_list);
+        // Giải mã chuỗi JSON thành mảng
+        $restoreList = json_decode($request->restore_list, true);
+        if (is_array($restoreList)) {
+            try {
+                foreach ($restoreList as $restore) {
+                    Music::withTrashed()->where('id', $restore)->restore();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Khôi phục bài hát khỏi thùng rác thất bại.');
+            }
+            return redirect()->back()->with('success', 'Khôi phục bài hát khỏi thùng rác thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Khôi phục bài hát khỏi thùng rác thất bại!');
+        }
+    }
+
+
+    public function restore_all_music()
+    {
+        try {
+            Music::withTrashed()->restore();
+            return redirect()->back()->with('success', 'Khôi phục tất cả bài hát khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Khôi phục bài hát khỏi thùng rác thất bại.');
+        }
+    }
+
+    public function delete_list_music(Request $request)
+    {
+        // dd($request->delete_list);
+        // Giải mã chuỗi JSON thành mảng
+        $deleteList = json_decode($request->delete_list, true);
+        if (is_array($deleteList)) {
+            try {
+                foreach ($deleteList as $delete) {
+                    Music::withTrashed()->where('id', $delete)->forceDelete();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát khỏi thùng rác thất bại.');
+            }
+            return redirect()->back()->with('success', 'Xóa bài hát khỏi thùng rác thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Xóa bài hát khỏi thùng rác thất bại!');
+        }
+    }
+
+    public function delete_all_music()
+    {
+        try {
+            Music::withTrashed()->forceDelete();
+            return redirect()->back()->with('success', 'Xóa tất cả bài hát khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát khỏi thùng rác thất bại.');
+        }
+    }
+
+
+    public function destroy_trash_music($id)
+    {
+        try {
+            Music::withTrashed()->where('id', $id)->forceDelete();
+            return redirect()->route('list-trash-music')->with('success', 'Xóa bài hát khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát khỏi thùng rác thất bại.');
+        }
+    }
+
     public function search_music()
     {
         return view('admin.music.search-music');
+    }
+
+    public function search_song_trash(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $songs = Music::onlyTrashed()->where('song_name', 'LIKE', '%'.$query.'%')->get();
+            if ($songs) {
+                toastr()->success('Tìm bài hát thành công');
+                return view('admin.music.list-trash-music', compact('songs'));
+            } else {
+                return redirect()->route('list-trash-music')->with('error','Không tìm thấy bài hát nào phù hợp với từ khóa');
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
+        }
     }
 }
