@@ -30,6 +30,8 @@ Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
 Route::prefix('songs')->group(function () {
     Route::get('/list', [MusicController::class, 'list_music'])->name('list-music');
 
+    Route::post('/search', [MusicController::class, 'search_song'])->name('search-song');
+
     Route::get('/add', [MusicController::class, 'add_music'])->name('add-music');
     Route::post('/store', [MusicController::class, 'store_music'])->name('store-music');
 
@@ -40,10 +42,10 @@ Route::prefix('songs')->group(function () {
     Route::post('/list/delete', [MusicController::class, 'delete_list_music'])->name('delete-list-music');
 
 
-    route::prefix('trash')->group(function(){
+    route::prefix('trash')->group(function () {
         Route::get('/', [MusicController::class, 'list_trash_music'])->name('list-trash-music');
 
-        Route::post('/search', [MusicController::class,'search_song_trash'])->name('search-song-trash');
+        Route::post('/search', [MusicController::class, 'search_song_trash'])->name('search-song-trash');
 
         Route::post('/restore', [MusicController::class, 'restore_trash_music'])->name('list-restore-songs');
         Route::get('/restore-all', [MusicController::class, 'restore_all_music'])->name('restore-all-songs');
@@ -51,10 +53,15 @@ Route::prefix('songs')->group(function () {
         Route::post('/delete', [MusicController::class, 'delete_trash_music'])->name('list-delete-songs');
         Route::get('/delete-all', [MusicController::class, 'delete_all_music'])->name('delete-all-songs');
 
-        Route::get('/{id}/destroy', [MusicController::class,'destroy_trash_music'])->name('destroy-trash-songs');
+        Route::get('/{id}/destroy', [MusicController::class, 'destroy_trash_music'])->name('destroy-trash-songs');
     });
 
-
+    // hình ảnh trên AWS S3
+    Route::get('/s3-images', [S3ImageController::class, 'image_songs'])->name('s3images.index');
+    Route::post('/s3-images', [S3ImageController::class, 'destroy_image_songs'])->name('s3images.destroy');
+    // File nhạc trên AWS S3
+    Route::get('/s3songs', [S3SongController::class, 'file_songs'])->name('s3songs.index');
+    Route::post('/s3songs', [S3SongController::class, 'destroy_file_songs'])->name('s3songs.destroy');
 });
 
 
@@ -102,13 +109,3 @@ Route::get('/list-comments', [CommentController::class, 'list_comments'])->name(
 Route::get('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
 Route::get('/update_comments/{id}', [CommentController::class, 'update_comments'])->name('update_comments');
 Route::put('/update_comments/{id}', [CommentController::class, 'storeComment'])->name('store_comments');
-
-
-
-// hình ảnh trên AWS S3
-
-Route::get('/s3-images', [S3ImageController::class, 'index'])->name('s3images.index');
-Route::post('/s3-images', [S3ImageController::class, 'destroy'])->name('s3images.destroy');
-// File nhạc trên AWS S3
-Route::get('/s3songs', [S3SongController::class, 'index'])->name('s3songs.index');
-Route::post('/s3songs', [S3SongController::class, 'destroy'])->name('s3songs.destroy');
