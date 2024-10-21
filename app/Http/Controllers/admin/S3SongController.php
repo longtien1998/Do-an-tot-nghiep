@@ -10,11 +10,12 @@ use App\Models\Filepaths;
 class S3SongController extends Controller
 {
     // Hiển thị danh sách tất cả file nhạc và kiểm tra file nào đang được sử dụng
-    public function index()
+    public function file_songs()
     {
         try {
             // Lấy tất cả các file trong folder 'songs'
-            $files = Storage::disk('s3')->files('music');
+            $files = Storage::disk('s3')->allFiles('music');
+            // dd($files);
 
             // Lấy danh sách file nhạc từ bảng file_paths
             $usedFiles = Filepaths::pluck('file_path')->toArray();
@@ -28,14 +29,14 @@ class S3SongController extends Controller
                 ];
             }, $files);
 
-            return view('admin.AllS3Songs', compact('songs'));
+            return view('admin.music.AllS3Songs', compact('songs'));
         } catch (\Exception $e) {
             return back()->with('error', 'Không thể lấy danh sách file: ' . $e->getMessage());
         }
     }
 
     // Xóa file nhạc trên S3
-    public function destroy(Request $request)
+    public function destroy_file_songs(Request $request)
     {
         try {
             if (Storage::disk('s3')->exists($request->path)) {

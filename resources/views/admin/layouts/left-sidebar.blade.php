@@ -28,8 +28,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="nav-link">
+                    <a href="{{route('s3songs.index')}}" class="nav-link">
                         <span class="">File bài hát</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('s3images.index')}}" class="nav-link">
+                        <span class="">Hình bài hát</span>
                     </a>
                 </li>
             </ol>
@@ -72,11 +77,7 @@
         </a>
         <div class="collapse" id="ql-image">
             <ol class="nav-collapse">
-                <li>
-                    <a href="{{route('s3images.index')}}" class="nav-link">
-                        <span class="">Hình bài hát</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="" class="nav-link">
                         <span class="">Hình Tài khoản</span>
@@ -95,11 +96,7 @@
         </a>
         <div class="collapse" id="ql-file-songs">
             <ol class="nav-collapse">
-                <li>
-                    <a href="{{route('s3songs.index')}}" class="nav-link">
-                        <span class="">File bài hát</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="" class="nav-link">
                         <span class="">File quảng cáo</span>

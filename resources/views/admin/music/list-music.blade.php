@@ -30,7 +30,7 @@
             <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('search-song-trash')}}" method="post">
+            <form class="search-form" action="{{route('search-song')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bài hát..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

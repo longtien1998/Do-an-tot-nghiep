@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,7 @@ use App\Models\Music;
 use App\Models\Categories;
 use App\Http\Requests\MusicPostRequest;
 use App\Models\Filepaths;
+
 
 
 
@@ -27,7 +29,30 @@ class MusicController extends Controller
         return view('admin.music.list-music', compact('songs'));
     }
 
-
+    public function search_song(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $songs = Music::search_songs($query);
+            if ($songs) {
+                toastr()->success('Tìm bài hát thành công');
+                return view('admin.music.list-music', compact('songs'));
+            } else {
+                return redirect()->route('list-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
+        }
+    }
 
 
     public function add_music()
@@ -44,15 +69,9 @@ class MusicController extends Controller
 
         try {
             if ($request->hasFile('song_image')) {
-
-                // Lưu file vào S3
-                $path_image = $request->file('song_image')->store('song_image', 's3');
-
-                // Thiết lập quyền công khai cho file đã upload
-                Storage::disk('s3')->setVisibility($path_image, 'public');
-
-                // Lấy URL công khai của file
-                $url_image = Storage::disk('s3')->url($path_image);
+                $file_image = $request->file('song_image');
+                $songName = $request->song_name;
+                 $url_image = Music::up_image_song($file_image, $songName);
             } else {
                 $url_image = null;
             }
@@ -74,10 +93,13 @@ class MusicController extends Controller
 
             // thêm đường dẫn nhạc basic
             if ($request->hasFile('file_basic')) {
-                $path_basic = $request->file('file_basic')->store('music', 's3');
-                Storage::disk('s3')->setVisibility($path_basic, 'public');
-                $url_basic = Storage::disk('s3')->url($path_basic);
 
+
+
+                $file = $request->file('file_basic');
+                $songName = $request->song_name;
+                $quality = '128kbps';
+                $url_basic = Music::up_file_song($file,$songName,$quality);
                 Filepaths::create([
                     'file_path' => $url_basic,
                     'path_type' => 'Basic',
@@ -86,9 +108,10 @@ class MusicController extends Controller
             }
             // thêm đường dẫn plus
             if ($request->hasFile('file_plus')) {
-                $path_plus = $request->file('file_plus')->store('music', 's3');
-                Storage::disk('s3')->setVisibility($path_plus, 'public');
-                $url_plus = Storage::disk('s3')->url($path_plus);
+                $file = $request->file('file_plus');
+                $songName = $request->song_name;
+                $quality = '320kbps';
+                $url_plus = Music::up_file_song($file,$songName,$quality);
 
                 Filepaths::create([
                     'file_path' => $url_plus,
@@ -98,9 +121,11 @@ class MusicController extends Controller
             }
             // thên đường dẫn premium
             if ($request->hasFile('file_premium')) {
-                $path_premium = $request->file('file_premium')->store('music', 's3');
-                Storage::disk('s3')->setVisibility($path_premium, 'public');
-                $url_premium = Storage::disk('s3')->url($path_premium);
+                $file = $request->file('file_premium');
+                $songName = $request->song_name;
+                $quality = 'lossless';
+                $url_premium = Music::up_file_song($file,$songName,$quality);
+
 
                 Filepaths::create([
                     'file_path' => $url_premium,

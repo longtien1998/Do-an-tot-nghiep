@@ -63,14 +63,8 @@
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên bài hát <span class="sort-icon">⬍</span></th>
-                <th scope="col">Mô tả</th>
                 <th scope="col">Hình ảnh</th>
-                <th scope="col" onclick="sortTable(6)">Thể loại <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(7)">Ca sỹ <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(8)">Ngày phát hành <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(9)">Lượt nghe <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(10)">Lượt tải <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(11)">Ngày tạo <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(11)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -82,14 +76,8 @@
                 <th scope="row">{{$stt}}</th>
                 <td>{{$song->id}}</td>
                 <td>{{$song->song_name}}</td>
-                <td>{{$song->description}}</td>
                 <td><img src="{{$song->song_image}}" alt="image {{$song->song_name}}" width="50"></td>
-                <td>{{$song->category_name}}</td>
-                <td></td>
-                <td>{{$song->release_date}}</td>
-                <td>{{$song->listen_count}}</td>
-                <td>{{$song->download_count}}</td>
-                <td>{{$song->created_at}}</td>
+                <td>{{$song->deleted_at}}</td>
 
                 <td>
                     <a href="{{route('show-music',$song->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>

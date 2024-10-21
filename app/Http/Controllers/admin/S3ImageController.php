@@ -10,7 +10,7 @@ use App\Models\Music;
 class S3ImageController extends Controller
 {
     // Hiển thị danh sách tất cả ảnh và kiểm tra ảnh nào đang được sử dụng
-    public function index()
+    public function image_songs()
     {
         try {
             // Lấy tất cả các file trong folder 'song_image'
@@ -26,14 +26,14 @@ class S3ImageController extends Controller
                 ];
             }, $files);
 
-            return view('admin.All-image', compact('images'));
+            return view('admin.music.All-image', compact('images'));
         } catch (\Exception $e) {
             return back()->with('error', 'Không thể lấy danh sách file: ' . $e->getMessage());
         }
     }
 
     // Xóa file ảnh trên S3
-    public function destroy(Request $request)
+    public function destroy_image_songs(Request $request)
     {
         try {
             if (Storage::disk('s3')->exists($request->path)) {
