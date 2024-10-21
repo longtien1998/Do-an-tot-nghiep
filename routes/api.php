@@ -25,4 +25,12 @@ Route::group(['namespace' => 'Api'], function(){
     // show member
     Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
 
+    // lượt nghe
+    Route::get('/luot-nghe/{id}',[App\Http\Controllers\Api\SongsController::class, 'luot_nghe']);
+    // lượt tải
+    Route::get('/luot-tai/{id}',[App\Http\Controllers\Api\SongsController::class, 'luot_tai']);
+    // Bxh 100
+    Route::get('/bxh-100',[App\Http\Controllers\Api\SongsController::class, 'bxh_100']);
+    // 10 bài hát ngẫu nhiên
+    Route::get('/rand-10',[App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
 });

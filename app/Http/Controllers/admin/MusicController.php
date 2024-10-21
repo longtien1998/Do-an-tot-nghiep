@@ -43,11 +43,12 @@ class MusicController extends Controller
         try {
             $query = $request->search;
             $songs = Music::search_songs($query);
-            if ($songs) {
+            if ($songs->isEmpty()) {
+                return redirect()->route('list-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
+
+            } else {
                 toastr()->success('Tìm bài hát thành công');
                 return view('admin.music.list-music', compact('songs'));
-            } else {
-                return redirect()->route('list-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
@@ -327,11 +328,12 @@ class MusicController extends Controller
         try {
             $query = $request->search;
             $songs = Music::onlyTrashed()->where('song_name', 'LIKE', '%' . $query . '%')->get();
-            if ($songs) {
+            if ($songs->isEmpty()) {
+                return redirect()->route('list-trash-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
+
+            } else {
                 toastr()->success('Tìm bài hát thành công');
                 return view('admin.music.list-trash-music', compact('songs'));
-            } else {
-                return redirect()->route('list-trash-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
