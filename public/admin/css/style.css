@@ -4,6 +4,25 @@ body {
     color: #333;
 }
 
+th,
+td {
+    vertical-align: middle;
+}
+
+.sort-icon {
+    font-size: 12px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.sorted-asc::after {
+    content: ' ▲';
+}
+
+.sorted-desc::after {
+    content: ' ▼';
+}
+
 /* Sidebar Styles */
 #sidebar {
     height: 100vh;
@@ -16,9 +35,11 @@ body {
     padding-top: 20px;
     transition: width 0.3s ease;
 }
+
 #sidebar.closed {
     width: 60px;
 }
+
 #sidebar .nav-link {
     color: #b8b8d1;
     margin: 5px 0;
@@ -28,6 +49,7 @@ body {
     font-size: 16px;
     transition: background 0.3s, color 0.3s;
 }
+
 #sidebar.closed .nav-link {
     justify-content: center;
     padding: 15px 10px;
@@ -35,20 +57,24 @@ body {
 
 
 #sidebar.closed .nav-link span {
-    display: none; /* Ẩn văn bản khi sidebar thu nhỏ */
+    display: none;
+    /* Ẩn văn bản khi sidebar thu nhỏ */
 }
 
 #sidebar .nav-link i {
     margin-right: 12px;
 }
+
 #sidebar.closed .nav-link i {
     margin-right: 0;
 }
+
 #sidebar .nav-link:hover {
     background-color: #1E2B39;
     color: #fff;
     text-decoration: none;
 }
+
 #sidebar .name-sidebar h2 {
     color: #f1f1f1;
     margin-left: 50px;
@@ -79,13 +105,16 @@ body {
     transition: left 0.3s ease, width 0.3s ease;
     z-index: 99;
 }
+
 #header.closed {
     left: 60px;
     width: calc(100% - 60px);
 }
+
 #header h4 {
     margin: 0;
 }
+
 .search-form {
     width: 300px;
     display: flex;
@@ -117,9 +146,11 @@ body {
     margin-top: 60px;
     transition: margin-left 0.3s ease;
 }
+
 #main-content.closed {
     margin-left: 60px;
 }
+
 /* Dashboard Cards */
 .dashboard-card {
     background-color: #fff;
@@ -130,11 +161,13 @@ body {
     transition: all 0.3s ease;
     cursor: pointer;
 }
+
 .name-sidebar h2 {
     color: #f1f1f1;
     margin-left: 50px;
     font-size: 25px;
 }
+
 .dashboard-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 20px #1E2B39;
@@ -174,6 +207,7 @@ body {
     width: calc(100% - 250px);
     transition: left 0.3s ease, width 0.3s ease;
 }
+
 #footer.closed {
     left: 60px;
     width: calc(100% - 60px);

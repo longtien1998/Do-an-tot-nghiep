@@ -22,26 +22,7 @@
         </div>
     </div>
 </div>
-<style>
-    th,
-    td {
-        vertical-align: middle;
-    }
 
-    .sort-icon {
-        font-size: 12px;
-        margin-left: 5px;
-        cursor: pointer;
-    }
-
-    .sorted-asc::after {
-        content: ' ▲';
-    }
-
-    .sorted-desc::after {
-        content: ' ▼';
-    }
-</style>
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
@@ -58,17 +39,17 @@
     <table class="table text-center" id="myTable">
         <div class="form-group row justify-content-between m-0 p-0">
             <div class="col-sm-3 my-3">
-                <div>Đã chọn <strong class="total">0</strong> bài hát</div>
+                <div>Đã chọn <strong id="total-songs">0</strong> bài hát</div>
             </div>
             <div class="col-sm-6 text-center my-3">
                 <form action="{{route('list-restore-songs')}}" class="d-inline" method="post" id="form-restore">
                     @csrf
-                    <input type="text" value="" name="restore_list" id="valuearray" hidden>
+                    <input type="text" value="" name="restore_list" id="songs-restore" hidden>
                     <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục bài hát đã chọn?')">Khôi phục bài hát</button>
                 </form>
                 <form action="{{route('list-delete-songs')}}" class="d-inline" method="post" id="form-delete">
                     @csrf
-                    <input type="text" value="" name="delete_list" id="valuearray1" class="delete_list" hidden>
+                    <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                     <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa bài hát đã chọn?')">Xóa bài hát</button>
                 </form>
                 <a href="{{route('restore-all-songs')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bài hát</a>
@@ -78,7 +59,7 @@
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_songs" class=""></th>
+                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs" ></th>
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên bài hát <span class="sort-icon">⬍</span></th>
@@ -128,128 +109,21 @@
 
 @endsection
 @section('js')
+
 <script>
-    // check list
-    document.getElementById('check_all_songs').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
-        let total = 0;
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = this.checked;
-            total += checkboxes[i].checked? 1 : 0; // Tính t��ng số checkbox đã được chọn
-        }
-
-        getCheckedValues()
-
+    // Gán sự kiện 'submit' cho form
+    document.getElementById('form-restore').addEventListener('submit', function(e) {
+       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
-
-    // Hàm lấy giá trị của tất cả các checkbox đã được chọn
-    function getCheckedValues() {
-        var checkboxes = document.getElementsByClassName('check_song');
-        var checkedValues = [];
-        let total = 0;
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                checkedValues.push(checkboxes[i].value); // Thêm value của checkbox đã được chọn
-                total += checkboxes[i].checked? 1 : 0; // Tính t��ng số checkbox đã được chọn
-            }
-        }
-
-        document.getElementById('valuearray').value = JSON.stringify(checkedValues);
-        document.getElementById('valuearray1').value = JSON.stringify(checkedValues);
-        document.querySelector('.total').innerText = total;
-
-        return checkedValues; // Trả về mảng nếu cần sử dụng sau này
-    }
-
-    // Gán sự kiện 'click' cho từng checkbox
-    var checkboxes = document.getElementsByClassName('check_song');
-    for (var i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].addEventListener('click', getCheckedValues);
-    }
-
-    // sắp xếp tăng giảm từng column
-    let sortOrder = {}; // Lưu trạng thái sắp xếp cho từng cột
-
-    function sortTable(columnIndex) {
-        const table = document.getElementById("myTable");
-        const tbody = table.querySelector("tbody");
-        const rows = Array.from(tbody.rows);
-
-        // Kiểm tra trạng thái sắp xếp và đảo ngược nếu cần
-        const isAscending = !sortOrder[columnIndex];
-        sortOrder[columnIndex] = isAscending;
-
-        // Sắp xếp các hàng dựa trên giá trị của cột được chọn (bỏ qua STT)
-        rows.sort((a, b) => {
-            const cellA = a.cells[columnIndex].innerText.toLowerCase();
-            const cellB = b.cells[columnIndex].innerText.toLowerCase();
-
-            if (!isNaN(cellA) && !isNaN(cellB)) {
-                return isAscending ? cellA - cellB : cellB - cellA; // Sắp xếp số
-            } else {
-                return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA); // Sắp xếp chuỗi
-            }
-        });
-
-        // Xóa các hàng hiện tại và thêm lại theo thứ tự đã sắp xếp
-        tbody.innerHTML = "";
-        rows.forEach(row => tbody.appendChild(row));
-
-        // Cập nhật lại STT sau khi sắp xếp
-        updateSTT();
-        updateIcons(columnIndex, isAscending);
-    }
-
-    function updateSTT() {
-        const tbody = document.querySelector("#myTable tbody");
-        const rows = tbody.rows;
-
-        // Cập nhật STT cho từng hàng
-        for (let i = 0; i < rows.length; i++) {
-            rows[i].cells[1].innerText = i + 1; // Cột STT (index 1)
-        }
-    }
-
-    function updateIcons(columnIndex, isAscending) {
-        const headers = document.querySelectorAll("th");
-        headers.forEach((header, index) => {
-            header.classList.remove("sorted-asc", "sorted-desc");
-            if (index === columnIndex) {
-                header.classList.add(isAscending ? "sorted-asc" : "sorted-desc");
-            }
-        });
-    }
-
-
-    function checkcheckbox() {
-        const checkboxes = document.getElementsByClassName('check_song');
-        let hasChecked = false;
-
-        // Kiểm tra xem ít nhất 1 checkbox đã được chọn chưa
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                hasChecked = true;
-                break;
-            }
-        }
-        return hasChecked;
-    }
-
 
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-        // Nếu không có checkbox nào được chọn, ngăn submit và hiển thị cảnh báo
-        if (!checkcheckbox()) {
-            e.preventDefault(); // Ngăn submit
-            alert('Vui lòng chọn ít nhất 1 bài hát!');
-        }
+       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
-    document.getElementById('form-restore').addEventListener('submit', function(e) {
 
-        // Nếu không có checkbox nào được chọn, ngăn submit và hiển thị cảnh báo
-        if (!checkcheckbox()) {
-            e.preventDefault(); // Ngăn submit
-            alert('Vui lòng chọn ít nhất 1 bài hát!');
-        }
-    });
+    const checkboxes = document.getElementsByClassName('check_song');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', getCheckedValues);
+
+    }
 </script>
 @endsection

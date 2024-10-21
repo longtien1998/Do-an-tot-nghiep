@@ -180,6 +180,26 @@ class MusicController extends Controller
         }
     }
 
+    public function delete_list_music(Request $request)
+    {
+        // dd($request->delete_list);
+        $deletelist = json_decode($request->delete_list, true);
+        if (is_array($deletelist)) {
+            try {
+                foreach ($deletelist as $list) {
+                    $song = Music::find($list);
+                    $song->deleted_at = now();
+                    $song->save();
+                }
+                return redirect()->route('list-music')->with('success', 'Xoá bài hát thành công!');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát thất bại.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Xoá bài hát thất bại!');
+        }
+    }
+
 
 
 
@@ -193,7 +213,7 @@ class MusicController extends Controller
 
 
 
-    public function restore_list_music(Request $request)
+    public function restore_trash_music(Request $request)
     {
         // dd($request->restore_list);
         // Giải mã chuỗi JSON thành mảng
@@ -223,7 +243,7 @@ class MusicController extends Controller
         }
     }
 
-    public function delete_list_music(Request $request)
+    public function delete_trash_music(Request $request)
     {
         // dd($request->delete_list);
         // Giải mã chuỗi JSON thành mảng
@@ -281,14 +301,13 @@ class MusicController extends Controller
         }
         try {
             $query = $request->search;
-            $songs = Music::onlyTrashed()->where('song_name', 'LIKE', '%'.$query.'%')->get();
+            $songs = Music::onlyTrashed()->where('song_name', 'LIKE', '%' . $query . '%')->get();
             if ($songs) {
                 toastr()->success('Tìm bài hát thành công');
                 return view('admin.music.list-trash-music', compact('songs'));
             } else {
-                return redirect()->route('list-trash-music')->with('error','Không tìm thấy bài hát nào phù hợp với từ khóa');
+                return redirect()->route('list-trash-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
             }
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
         }
