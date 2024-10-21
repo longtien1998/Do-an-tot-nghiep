@@ -37,6 +37,7 @@ Route::prefix('songs')->group(function () {
     Route::put('/{id}/update', [MusicController::class, 'update_music'])->name('update-music');
 
     Route::delete('/{id}/delete', [MusicController::class, 'delete_music'])->name('delete-music');
+    Route::post('/list/delete', [MusicController::class, 'delete_list_music'])->name('delete-list-music');
 
 
     route::prefix('trash')->group(function(){
@@ -44,10 +45,10 @@ Route::prefix('songs')->group(function () {
 
         Route::post('/search', [MusicController::class,'search_song_trash'])->name('search-song-trash');
 
-        Route::post('/restore', [MusicController::class, 'restore_list_music'])->name('list-restore-songs');
+        Route::post('/restore', [MusicController::class, 'restore_trash_music'])->name('list-restore-songs');
         Route::get('/restore-all', [MusicController::class, 'restore_all_music'])->name('restore-all-songs');
 
-        Route::post('/delete', [MusicController::class, 'delete_list_music'])->name('list-delete-songs');
+        Route::post('/delete', [MusicController::class, 'delete_trash_music'])->name('list-delete-songs');
         Route::get('/delete-all', [MusicController::class, 'delete_all_music'])->name('delete-all-songs');
 
         Route::get('/{id}/destroy', [MusicController::class,'destroy_trash_music'])->name('destroy-trash-songs');
