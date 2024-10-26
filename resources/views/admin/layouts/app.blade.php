@@ -32,9 +32,6 @@
         &copy; 2024 SoundWave Admin Dashboard
     </div>
     <script>
-
-    </script>
-    <script>
         function confirmDelete() {
             if (confirm('Bạn có chắc chắn muốn xóa?')) {
                 return true;
