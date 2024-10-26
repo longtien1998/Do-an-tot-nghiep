@@ -48,7 +48,7 @@ class SongsController extends Controller
 
     public function songs_rand_10(){
 
-        $songs = Songs::inRandomOrder()->take(10)->get(); // Lấy ngẫu nhiên 10 bài
+        $songs = Songs::getRandomSongs10(); // Lấy ngẫu nhiên 10 bài
 
         if($songs->isEmpty()){
             return response()->json([

@@ -14,7 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('file_paths')) {
             Schema::create('file_paths', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('song_id');
+                $table->unsignedBigInteger('song_id')->nullable();
                 $table->foreign('song_id')->references('id')->on('songs')->cascadeOnDelete();
                 $table->string('path_type')->nullable();
                 $table->string('file_path')->nullable();

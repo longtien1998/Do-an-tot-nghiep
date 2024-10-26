@@ -53,13 +53,13 @@
                     <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa bài hát đã chọn?')">Xóa bài hát</button>
                 </form>
                 <a href="{{route('restore-all-songs')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bài hát</a>
-                <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả bài hát</a>
+                <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả bài hát</a> -->
             </div>
 
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs" ></th>
+                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs"></th>
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên bài hát <span class="sort-icon">⬍</span></th>
@@ -99,13 +99,23 @@
 @section('js')
 
 <script>
+    document.querySelector('#check_all_songs').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_song');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+
+        getCheckedValues()
+
+    });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-restore').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
     const checkboxes = document.getElementsByClassName('check_song');

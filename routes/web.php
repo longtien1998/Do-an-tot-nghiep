@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\MusicController;
+use App\Http\Controllers\admin\CountriesController;
 use App\Http\Controllers\admin\CategoriesController;
 use App\Http\Controllers\admin\SingerController;
 use App\Http\Controllers\admin\AlbumController;
@@ -20,15 +21,15 @@ use App\Http\Controllers\admin\S3SongController;
 
 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/test', function () {
+    return view('admin.music.url-music');
+});
 Route::get('/', [HomeController::class, 'home'])->name('dashboard');
 Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
 
 // songs
 Route::prefix('songs')->group(function () {
-    Route::get('/list', [MusicController::class, 'list_music'])->name('list-music');
+    Route::match(['get', 'post'],'/list', [MusicController::class, 'list_music'])->name('list-music');
 
     Route::post('/search', [MusicController::class, 'search_song'])->name('search-song');
 
@@ -40,6 +41,21 @@ Route::prefix('songs')->group(function () {
 
     Route::delete('/{id}/delete', [MusicController::class, 'delete_music'])->name('delete-music');
     Route::post('/list/delete', [MusicController::class, 'delete_list_music'])->name('delete-list-music');
+
+
+    // quốc gia trong bài hát
+    route::prefix('countries')->group(function () {
+        Route::get('/list', [CountriesController::class, 'index'])->name('list-country');
+
+        Route::post('/search', [CountriesController::class, 'search_country'])->name('search-country');
+
+        Route::post('/store', [CountriesController::class, 'store_country'])->name('store-country');
+
+        Route::put('/{id}/update', [CountriesController::class, 'update_country'])->name('update-country');
+
+        Route::delete('/{id}/delete', [CountriesController::class, 'delete_country'])->name('delete-country');
+        Route::post('/list/delete', [CountriesController::class, 'delete_list_country'])->name('delete-list');
+    });
 
 
     route::prefix('trash')->group(function () {

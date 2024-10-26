@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Response;
 use App\Models\Music;
 use App\Models\Categories;
+use App\Models\Country;
 use App\Http\Requests\MusicPostRequest;
 use App\Models\Filepaths;
 
@@ -22,11 +23,25 @@ class MusicController extends Controller
 
 
 
-    public function list_music()
+    public function list_music(Request $request)
     {
+        $perPage = 10;
+        $filterTheloai =false;
+        $filterSinger =false;
+        $filterRelease =false;
+        $filterCreate =false;
+        if ($request->isMethod('post')) {
+            $perPage = $request->indexPage;
+            $filterTheloai = $request->input('filterTheloai');
+            $filterSinger = $request->input('filterSinger');
+            $filterRelease = $request->input('filterRelease');
+            $filterCreate = $request->input('filterCreate');
+        }
+
         // Music::onlyTrashed()->restore();
-        $songs = Music::selectAll();
-        return view('admin.music.list-music', compact('songs'));
+        // Số lượng bản ghi mỗi trang
+        $songs = Music::selectAll($perPage, $filterTheloai, $filterSinger, $filterRelease, $filterCreate);
+        return view('admin.music.song.list-music', compact('songs'));
     }
 
     public function search_song(Request $request)
@@ -45,10 +60,9 @@ class MusicController extends Controller
             $songs = Music::search_songs($query);
             if ($songs->isEmpty()) {
                 return redirect()->route('list-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
-
             } else {
                 toastr()->success('Tìm bài hát thành công');
-                return view('admin.music.list-music', compact('songs'));
+                return view('admin.music.song.list-music', compact('songs'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
@@ -59,7 +73,8 @@ class MusicController extends Controller
     public function add_music()
     {
         $Categories = Categories::all();
-        return view('admin.music.add-music', compact('Categories'));
+        $Countries = Country::all();
+        return view('admin.music.song.add-music', compact('Categories', 'Countries'));
     }
 
 
@@ -72,7 +87,7 @@ class MusicController extends Controller
             if ($request->hasFile('song_image')) {
                 $file_image = $request->file('song_image');
                 $songName = $request->song_name;
-                 $url_image = Music::up_image_song($file_image, $songName);
+                $url_image = Music::up_image_song($file_image, $songName);
             } else {
                 $url_image = null;
             }
@@ -83,7 +98,7 @@ class MusicController extends Controller
                 'lyrics' => $request->lyrics,
                 'singers_id' => $request->singers_id,
                 'categories_id' => $request->categories_id,
-                'release_date' => $request->release_date,
+                'release_day' => $request->release_day,
                 'country' => $request->country,
                 'provider' => $request->provider,
                 'composer' => $request->composer,
@@ -91,16 +106,15 @@ class MusicController extends Controller
             ]);
 
             $song_id = $music->id;
+            // dd($song_id);
 
             // thêm đường dẫn nhạc basic
             if ($request->hasFile('file_basic')) {
 
-
-
                 $file = $request->file('file_basic');
                 $songName = $request->song_name;
                 $quality = '128kbps';
-                $url_basic = Music::up_file_song($file,$songName,$quality);
+                $url_basic = Music::up_file_song($file, $songName, $quality);
                 Filepaths::create([
                     'file_path' => $url_basic,
                     'path_type' => 'Basic',
@@ -112,7 +126,7 @@ class MusicController extends Controller
                 $file = $request->file('file_plus');
                 $songName = $request->song_name;
                 $quality = '320kbps';
-                $url_plus = Music::up_file_song($file,$songName,$quality);
+                $url_plus = Music::up_file_song($file, $songName, $quality);
 
                 Filepaths::create([
                     'file_path' => $url_plus,
@@ -125,7 +139,7 @@ class MusicController extends Controller
                 $file = $request->file('file_premium');
                 $songName = $request->song_name;
                 $quality = 'lossless';
-                $url_premium = Music::up_file_song($file,$songName,$quality);
+                $url_premium = Music::up_file_song($file, $songName, $quality);
 
 
                 Filepaths::create([
@@ -166,22 +180,22 @@ class MusicController extends Controller
 
 
 
-
-
-    public function edit_music()
-    {
-        return view('admin.music.edit-music');
-    }
-
-
-
-
     public function show_music($id)
     {
         $song = Music::show($id);
         dd($song);
-        return view('admin.music.show-music');
+        return view('admin.music.song.show-music');
     }
+
+
+    public function edit_music()
+    {
+        return view('admin.music.song.edit-music');
+    }
+
+
+
+
 
 
 
@@ -190,7 +204,7 @@ class MusicController extends Controller
 
     public function update_music()
     {
-        return view('admin.music.update-music');
+        return view('admin.music.song.update-music');
     }
 
 
@@ -234,7 +248,7 @@ class MusicController extends Controller
     {
         $songs = Music::onlyTrashed()->get();
         // dd($songs);
-        return view('admin.music.list-trash-music', compact('songs'));
+        return view('admin.music.trash.list-trash-music', compact('songs'));
     }
 
 
@@ -288,15 +302,16 @@ class MusicController extends Controller
         }
     }
 
-    public function delete_all_music()
-    {
-        try {
-            Music::withTrashed()->forceDelete();
-            return redirect()->back()->with('success', 'Xóa tất cả bài hát khỏi thùng rác thành công!');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát khỏi thùng rác thất bại.');
-        }
-    }
+    // public function delete_all_music()
+    // {
+    //     try {
+    //         Music::withTrashed();
+    //         dd(Music::withTrashed());
+    //         return redirect()->back()->with('success', 'Xóa tất cả bài hát khỏi thùng rác thành công!');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát khỏi thùng rác thất bại.');
+    //     }
+    // }
 
 
     public function destroy_trash_music($id)
@@ -330,10 +345,9 @@ class MusicController extends Controller
             $songs = Music::onlyTrashed()->where('song_name', 'LIKE', '%' . $query . '%')->get();
             if ($songs->isEmpty()) {
                 return redirect()->route('list-trash-music')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
-
             } else {
                 toastr()->success('Tìm bài hát thành công');
-                return view('admin.music.list-trash-music', compact('songs'));
+                return view('admin.music.trash.list-trash-music', compact('songs'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
