@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use App\Http\Requests\UsersRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class UsersController extends Controller
@@ -23,16 +26,29 @@ class UsersController extends Controller
         $users->email = $request->email;
         $users->phone = $request->phone;
         $users->password = bcrypt($request->password);
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $filename = $file->getClientOriginalName();
+        //     $users->image = $filename;
+        //     // $file->move(public_path('upload/image/users'), $filename);
+        // }
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-            $users->image = $filename;
-            // $file->move(public_path('upload/image/users'), $filename);
+
+            // Lưu file vào S3
+            $path_image = $request->file('image')->store('user-image', 's3');
+
+            // Thiết lập quyền công khai cho file đã upload
+            Storage::disk('s3')->setVisibility($path_image, 'public');
+
+            // Lấy URL công khai của file
+            $url_image = Storage::disk('s3')->url($path_image);
+        } else {
+            $url_image = null;
         }
-        $users->gerder = $request->gerder;
+        $users->image = $url_image;
+        $users->gender = $request->gender;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            $file->move(public_path('upload/image/users'), $filename);
             toastr()->success('Thêm tài khoản thành công');
             return redirect('/list-users');
         } else {
@@ -55,7 +71,7 @@ class UsersController extends Controller
             $users->image = $filename;
             $file->move(public_path('upload/image/users'), $filename);
         }
-        $users->gerder = $request->gerder;
+        $users->gender = $request->gender;
         $users->birthday = $request->birthday;
         if ($users->save()) {
             toastr()->success('Cập nhật tài khoản thành công');

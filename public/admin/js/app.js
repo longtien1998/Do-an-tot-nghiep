@@ -1,17 +1,5 @@
 /// check list
 
-window.onload = function () {
-    document.querySelector('#check_all_songs').addEventListener('click', function () {
-        var checkboxes = document.getElementsByClassName('check_song');
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = this.checked;
-        }
-
-        getCheckedValues()
-
-    });
-};
 // Hàm lấy giá trị của tất cả các checkbox đã được chọn
 function getCheckedValues() {
     var checkboxes = document.getElementsByClassName('check_song');

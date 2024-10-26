@@ -84,7 +84,7 @@ class Music extends Model
             ->select('songs.*', 'categories.categorie_name as category_name')
             ->whereNull('songs.deleted_at') // Chỉ lấy những bản ghi chưa bị soft delete
             // ->get();
-            ->paginate(10);
+            ->paginate(3);
 
         // return DB::table('songs')
         //     ->join('categories', 'songs.categories_id', '=', 'categories.id')
@@ -115,7 +115,7 @@ class Music extends Model
             ->select('songs.*', 'categories.categorie_name as category_name')
             ->whereNull('songs.deleted_at') // Chỉ lấy những bản ghi chưa bị soft delete
             // ->get();
-            ->paginate(10);
+            ->paginate(3);
         return $songs;
     }
 }

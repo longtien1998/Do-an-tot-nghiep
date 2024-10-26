@@ -59,10 +59,24 @@
             <i class="fa-solid fa-industry"></i>
             <span>Nhà xuất bản</span>
         </a>
-        <a class="nav-link" href="{{route('list-advertisements')}}">
+        <a class="nav-link dropdown-toggle" href="#ql-ads" data-bs-toggle="collapse">
             <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo</span>
         </a>
+        <div class="collapse" id="ql-ads">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('list-advertisements')}}" class="nav-link">
+                        <span class="">Danh sách quảng cáo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('list_trash_ads')}}" class="nav-link">
+                        <span class="">Quảng cáo đã xóa</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-link" href="{{route('list-users')}}">
             <i class="fa-solid fa-users"></i>
             <span>Người dùng</span>

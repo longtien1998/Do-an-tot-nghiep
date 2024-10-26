@@ -44,8 +44,8 @@
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
-                <td><img width="50px" height="50px" src="{{asset('upload/image/users/'. $user->image)}}" alt=""></td>
-                <td>1</td>
+                <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
+                <td>{{$user->created_at}}</td>
                 <td>
                     @if ($user->roles == 1)
                     Admin
