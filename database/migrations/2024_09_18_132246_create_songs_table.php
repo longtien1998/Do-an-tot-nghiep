@@ -22,8 +22,8 @@ return new class extends Migration
                 $table->foreign('singers_id')->references('id')->on('singers')->nullOnDelete();
                 $table->foreign('categories_id')->references('id')->on('categories')->nullOnDelete();
                 $table->string('song_image')->nullable();
-                $table->unsignedBigInteger('country')->nullable();
-                $table->foreign('country')->references('id')->on('country')->nullOnDelete();
+                $table->unsignedBigInteger('country_id')->nullable();
+                $table->foreign('country_id')->references('id')->on('country')->nullOnDelete();
                 $table->timestamp('release_day')->nullable();
                 $table->integer('listen_count')->default(0);
                 $table->string('provider')->nullable();

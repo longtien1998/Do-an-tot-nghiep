@@ -29,7 +29,7 @@ class S3SongController extends Controller
                 ];
             }, $files);
 
-            return view('admin.music.AllS3Songs', compact('songs'));
+            return view('admin.music.file.AllS3Songs', compact('songs'));
         } catch (\Exception $e) {
             return back()->with('error', 'Không thể lấy danh sách file: ' . $e->getMessage());
         }

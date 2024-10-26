@@ -11,15 +11,21 @@
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
-        <a class="nav-link dropdown-toggle" href="#ql-songs" data-bs-toggle="collapse">
+        <a class="nav-link " href="#ql-songs" data-bs-toggle="collapse" data-bs-target="#ql-songs">
             <i class="fa-solid fa-music"></i>
-            <span>Bài hát</span>
+            <span>Bài hát <i class="fa fa-caret-down float-end "></i></span>
+
         </a>
         <div class="collapse" id="ql-songs">
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('list-music')}}" class="nav-link">
                         <span class="">Danh sách bài hát</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('list-country')}}" class="nav-link">
+                        <span class="">Danh sách quốc gia</span>
                     </a>
                 </li>
                 <li>
@@ -85,7 +91,7 @@
             <i class="fa-solid fa-comment"></i>
             <span>Bình luận</span>
         </a>
-        <a class="nav-link dropdown-toggle" href="#ql-image" data-bs-toggle="collapse">
+        <a class="nav-link dropdown-toggle" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
             <i class="fa-solid fa-image"></i>
             <span>Hình ảnh</span>
         </a>

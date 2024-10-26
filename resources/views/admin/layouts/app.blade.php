@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -32,25 +32,6 @@
         &copy; 2024 SoundWave Admin Dashboard
     </div>
     <script>
-        document.getElementById('toggle-btn').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('closed');
-            document.getElementById('header').classList.toggle('closed');
-            document.getElementById('main-content').classList.toggle('closed');
-            document.getElementById('footer').classList.toggle('closed');
-        });
-        window.addEventListener('resize', function() {
-            if (window.innerWidth < 986) {
-                document.getElementById('sidebar').classList.add('closed');
-                document.getElementById('header').classList.add('closed');
-                document.getElementById('main-content').classList.add('closed');
-                document.getElementById('footer').classList.add('closed');
-            } else{
-                document.getElementById('sidebar').classList.remove('closed');
-                document.getElementById('header').classList.remove('closed');
-                document.getElementById('main-content').classList.remove('closed');
-                document.getElementById('footer').classList.remove('closed');
-            }
-        });
 
     </script>
     <script>
@@ -68,6 +49,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<<<<<<< HEAD
 </body>
 
+=======
+>>>>>>> 841036b09647742558ca79b54a185a658fc8a38f
 </html>

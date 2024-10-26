@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee8293f5c103c5f1894f4283ebf55dfe",
+    "content-hash": "8f93443618f9ac142def647549646782",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2657,16 +2657,16 @@
         },
         {
             "name": "php-flasher/flasher",
-            "version": "v2.0.4",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher.git",
-                "reference": "fdf7e8d09b96c2c2e136d30257c433748468dd7c"
+                "reference": "edf57294f0511a4f2e185a70b369b7d3bdb0f806"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/fdf7e8d09b96c2c2e136d30257c433748468dd7c",
-                "reference": "fdf7e8d09b96c2c2e136d30257c433748468dd7c",
+                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/edf57294f0511a4f2e185a70b369b7d3bdb0f806",
+                "reference": "edf57294f0511a4f2e185a70b369b7d3bdb0f806",
                 "shasum": ""
             },
             "require": {
@@ -2737,7 +2737,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-21T22:26:23+00:00"
+            "time": "2024-10-20T14:11:19+00:00"
         },
         {
             "name": "php-flasher/flasher-laravel",

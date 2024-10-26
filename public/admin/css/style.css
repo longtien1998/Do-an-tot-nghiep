@@ -36,6 +36,14 @@ td {
     transition: width 0.3s ease;
 }
 
+
+#sidebar.nav {
+    overflow: hidden;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin-bottom: 60px;
+}
+
 #sidebar.closed {
     width: 60px;
 }
@@ -58,6 +66,10 @@ td {
 
 #sidebar.closed .nav-link span {
     display: none;
+    /* Ẩn văn bản khi sidebar thu nhỏ */
+}
+#sidebar .nav-link span {
+    width: 100%;
     /* Ẩn văn bản khi sidebar thu nhỏ */
 }
 
@@ -219,4 +231,18 @@ td {
     cursor: pointer;
     color: #666;
     margin-left: 10px;
+}
+.nav-link.dropdown-toggle span i.fa-caret-down {
+    transition: transform 0.3s ease;
+}
+
+.nav-link.collapsed span i.fa-caret-down {
+    transform: rotate(-90deg);
+}
+.collapse {
+    display: none;
+}
+
+.collapse.show {
+    display: block;
 }
