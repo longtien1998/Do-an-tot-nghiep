@@ -43,7 +43,7 @@
                     <label class="col-md-12">Đường dẫn</label>
                     <div class="col-md-12">
                     @if($ads->file_path)
-                        <input type="file" name="file_path" value="{{asset('admin/upload/ads/'. $ads->file_path)}}" class="form-control form-control-line">
+                        <input type="text" name="file_path" id="file" value="{{asset('admin/upload/ads/'. $ads->file_path)}}" class="form-control form-control-line" >
                     @endif
                     </div>
                 </div>
@@ -56,16 +56,31 @@
                         @endforeach
                     </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
                 </div>
                 @endif
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Cập nhật</button>
+                        <button type="button" id="uploadFile" class="btn btn-primary"> Upload file</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@endsection
+@section('js')
+<script>
+    document.getElementById('uploadFile').addEventListener('click',function(){
+        if(document.getElementById('file').getAttribute('type') == 'text'){
+            document.getElementById('file').setAttribute('type','file');
+        }else {
+            document.getElementById('file').setAttribute('type','text');
+        }
+
+    });
+</script>
 
 @endsection
