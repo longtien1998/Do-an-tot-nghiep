@@ -126,8 +126,8 @@
             @endforeach
         </tbody>
     </table>
-    <div class="d-flex justify-content-center">
-        {{ $songs->links('pagination::bootstrap-5') }}
+    <div class>
+        {{ $countries->links('pagination::bootstrap-5') }}
     </div>
 </div>
 
