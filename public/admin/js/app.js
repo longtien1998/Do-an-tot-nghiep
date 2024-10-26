@@ -2,6 +2,8 @@ document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(functi
     toggle.addEventListener('click', function (e) {
         e.preventDefault();
 
+<<<<<<< HEAD
+=======
         const target = document.querySelector(toggle.getAttribute('data-bs-target'));
         const bsCollapse = new bootstrap.Collapse(target, { toggle: false });
 
@@ -59,6 +61,7 @@ document.querySelector('#check_all_songs').addEventListener('click', function() 
     getCheckedValues()
 
 });
+>>>>>>> 841036b09647742558ca79b54a185a658fc8a38f
 // Hàm lấy giá trị của tất cả các checkbox đã được chọn
 function getCheckedValues() {
     var checkboxes = document.getElementsByClassName('check_song');

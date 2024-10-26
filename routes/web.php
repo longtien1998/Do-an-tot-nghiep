@@ -107,12 +107,36 @@ Route::get('/list-publishers', [PublishersController::class, 'list_publishers'])
 Route::get('/add-publishers', [PublishersController::class, 'add_publishers'])->name('add-publishers');
 Route::get('/update-publishers', [PublishersController::class, 'update_publishers'])->name('update-publishers');
 
+//advertisements
+
 Route::get('/list-advertisements', [AdvertisementsController::class, 'list_advertisements'])->name('list-advertisements');
+
 Route::get('/add-advertisements', [AdvertisementsController::class, 'add_advertisements'])->name('add-advertisements');
 Route::post('/add-advertisements', [AdvertisementsController::class, 'storeAdvertisements'])->name('store-advertisements');
+
 Route::get('/update-advertisements/{id}', [AdvertisementsController::class, 'update_advertisements'])->name('update-advertisements');
 Route::put('/update-advertisements/{id}', [AdvertisementsController::class, 'storeUpdate'])->name('store-advertisements');
-Route::get('/delete-advertisements/{id}', [AdvertisementsController::class, 'delete_advertisements'])->name('delete-advertisements');
+
+Route::post('/search-advertisements', [AdvertisementsController::class, 'searchAds'])->name('searchAds');
+
+
+
+Route::delete('/delete-advertisements/{id}', [AdvertisementsController::class, 'delete_advertisements'])->name('delete-advertisements');
+Route::post('/list/delete-advertisements', [AdvertisementsController::class, 'delete_list_ads'])->name('delete_list_ads');
+
+Route::get('/list-trash-advertisements', [AdvertisementsController::class, 'list_trash_ads'])->name('list_trash_ads');
+
+
+Route::post('/restore-advertisements', [AdvertisementsController::class, 'restore_trash_ads'])->name('restore_trash_ads');
+Route::get('/restore-all-advertisements', [AdvertisementsController::class, 'restore_all_ads'])->name('restore_all_ads');
+
+Route::post('/delete-advertisements', [AdvertisementsController::class, 'delete_trash_ads'])->name('delete_trash_ads');
+Route::get('/delete-all-advertisements', [AdvertisementsController::class, 'delete_all_ads'])->name('delete_all_ads');
+
+Route::get('/destroy-trash-advertisements/{id}', [AdvertisementsController::class, 'destroy_trash_ads'])->name('destroy_trash_ads');
+
+
+
 
 Route::get('/list-users', [UsersController::class, 'list_users'])->name('list-users');
 Route::get('/add-users', [UsersController::class, 'add_users'])->name('add-users');
