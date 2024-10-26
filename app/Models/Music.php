@@ -36,7 +36,7 @@ class Music extends Model
         try {
             $songNameSlug = Str::slug($songName, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = $songNameSlug . '.' . strtolower($extension); // Đặt tên file
+            $fileName =time().'_'. $songNameSlug . '.' . strtolower($extension); // Đặt tên file
 
             // Đường dẫn lưu trữ trên S3
             $path = 'song_image/';
@@ -59,7 +59,7 @@ class Music extends Model
         try {
             $songNameSlug = Str::slug($songName, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = $songNameSlug . '_' . $quality . '.' . strtolower($extension); // Đặt tên file
+            $fileName =time().'_'. $songNameSlug . '_' . $quality . '.' . strtolower($extension); // Đặt tên file
 
             // Đường dẫn lưu trữ trên S3
             $path = 'music/' . $songNameSlug;

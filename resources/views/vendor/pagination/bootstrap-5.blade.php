@@ -27,7 +27,6 @@
         </div>
 
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
-<<<<<<< HEAD
             <div class="mx-2">
                 <p class="small text-muted">
                     {!! __('Hiển thị') !!}
@@ -37,17 +36,6 @@
                     {!! __('trong') !!}
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
                     {!! __('kết quả') !!}
-=======
-            <div>
-                <p class="small text-muted">
-                    {!! __('Showing') !!}
-                    <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
-                    <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
-                    <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
->>>>>>> 841036b09647742558ca79b54a185a658fc8a38f
                 </p>
             </div>
 
