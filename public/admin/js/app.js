@@ -59,6 +59,7 @@ document.querySelector('#check_all_songs').addEventListener('click', function() 
     getCheckedValues()
 
 });
+
 // Hàm lấy giá trị của tất cả các checkbox đã được chọn
 function getCheckedValues() {
     var checkboxes = document.getElementsByClassName('check_song');

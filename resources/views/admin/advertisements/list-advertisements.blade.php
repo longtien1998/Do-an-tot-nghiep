@@ -13,6 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Quảng cáo</li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách quảng cáo</li>
                     </ol>
                 </nav>
@@ -21,14 +22,36 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="form-group">
-        <div class="col-sm-12 my-3">
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <a href="{{route('list-advertisements')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
             <a href="{{route('add-advertisements')}}" class="btn btn-success">Thêm quảng cáo</a>
         </div>
+        <div class="col-sm-3 my-3">
+            <form class="search-form" action="{{route('searchAds')}}" method="post">
+                @csrf
+                <input type="text" name="search" placeholder="Tên quảng cáo..." required />
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
     </div>
-    <table class="table text-center">
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <div>Đã chọn <strong id="total-songs">0</strong> quảng cáo</div>
+        </div>
+        <div class="col-sm-6 my-3">
+            <form action="{{route('delete_list_ads')}}" class="d-inline float-end" method="post" id="form-delete">
+                @csrf
+                <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa quảng cáo đã chọn?')">Xóa quảng cáo</button>
+            </form>
+        </div>
+
+    </div>
+    <table class="table text-center" id="myTable">
         <thead>
             <tr>
+                <th><input type="checkbox" name="" id="check_all_ads" class=""></th>
                 <th scope="col">ID</th>
                 <th scope="col">Tên quảng cáo</th>
                 <th scope="col">Mô tả</th>
@@ -39,18 +62,26 @@
         <tbody>
             @foreach($advertisements as $ads)
             <tr>
+                <td><input type="checkbox" class="check_song" value="{{$ads->id}}"></td>
                 <th scope="row">{{$ads->id}}</th>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
                 <td><a href="{{asset('admin/upload/ads/'. $ads->file_path)}}">{{$ads->file_path}}</a></td>
                 <td>
                     <a href="{{route('update-advertisements',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="{{route('delete-advertisements', $ads->id)}}" onclick=" return confirmDelete()" class="p-2"><i class="fa-solid fa-trash"></i></a>
+                    <form action="{{ route('delete-advertisements', $ads->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-link btn-outline-danger" onclick="return confirm('Xác nhận xóa quảng cáo?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -60,5 +91,30 @@
     @endif
 
 </div>
+
+@endsection
+@section('js')
+<script>
+     document.querySelector('#check_all_ads').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_song');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+
+        getCheckedValues()
+
+    });
+    // Gán sự kiện 'submit' cho form
+    document.getElementById('form-delete').addEventListener('submit', function(e) {
+        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+    });
+
+    const checkboxes = document.getElementsByClassName('check_song');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', getCheckedValues);
+
+    }
+</script>
 
 @endsection

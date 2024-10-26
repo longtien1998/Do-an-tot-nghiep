@@ -183,8 +183,10 @@ class MusicController extends Controller
     public function show_music($id)
     {
         $song = Music::show($id);
+
         dd($song);
         return view('admin.music.song.show-music');
+
     }
 
 
