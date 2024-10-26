@@ -91,8 +91,7 @@ class Music extends Model
             )
             ->whereNull('songs.deleted_at'); // Chỉ lấy những bản ghi chưa bị soft delete
             // ->get();
-
-
+        
         // Áp dụng bộ lọc theo thể loại
         if ($filterTheloai) {
             $query->where('songs.categories_id', $filterTheloai);
@@ -182,7 +181,7 @@ class Music extends Model
             ->select('songs.*', 'categories.categorie_name as category_name')
             ->whereNull('songs.deleted_at') // Chỉ lấy những bản ghi chưa bị soft delete
             // ->get();
-            ->paginate(10);
+            ->paginate(3);
         return $songs;
     }
 }
