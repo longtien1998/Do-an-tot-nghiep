@@ -26,7 +26,7 @@ class S3ImageController extends Controller
                 ];
             }, $files);
 
-            return view('admin.music.All-image', compact('images'));
+            return view('admin.music.file.All-image', compact('images'));
         } catch (\Exception $e) {
             return back()->with('error', 'Không thể lấy danh sách file: ' . $e->getMessage());
         }

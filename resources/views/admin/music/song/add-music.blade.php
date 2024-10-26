@@ -79,13 +79,22 @@
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Ngày phát hành</label>
-                        <input type="date" name="release_date" value="{{old('release_date')}}" class="form-control form-control-line">
+                        <input type="date" name="release_day" value="{{old('release_day')}}" class="form-control form-control-line">
+
                     </div>
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Quốc gia</label>
                         <input type="text" name="country" class="form-control form-control-line" value="{{old('country')}}">
+                        <select class="form-select" name="country" aria-label="Default select example" value="{{old('country')}}">
+                            <option selected value="">Chọn quốc gia</option>
+
+                            @foreach ( $Countries as $country)
+                            <option value="{{$country->id}}">{{$country->name_country}}</option>
+                            @endforeach
+
+                        </select>
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Nhà cung cấp</label>

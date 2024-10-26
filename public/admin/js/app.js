@@ -1,17 +1,64 @@
-/// check list
+document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(function (toggle) {
+    toggle.addEventListener('click', function (e) {
+        e.preventDefault();
 
-window.onload = function () {
-    document.querySelector('#check_all_songs').addEventListener('click', function () {
-        var checkboxes = document.getElementsByClassName('check_song');
+        const target = document.querySelector(toggle.getAttribute('data-bs-target'));
+        const bsCollapse = new bootstrap.Collapse(target, { toggle: false });
 
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = this.checked;
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', !isExpanded);
+
+        if (isExpanded) {
+            bsCollapse.hide(); // Đóng menu
+        } else {
+            bsCollapse.show(); // Mở menu
         }
-
-        getCheckedValues()
-
     });
-};
+});
+
+document.getElementById('toggle-btn').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('closed');
+    document.getElementById('header').classList.toggle('closed');
+    document.getElementById('main-content').classList.toggle('closed');
+    document.getElementById('footer').classList.toggle('closed');
+    document.querySelectorAll('.collapse').forEach(function(el) {
+        el.classList.remove('show');
+    });
+});
+window.addEventListener('resize', function() {
+    if (window.innerWidth < 986) {
+        document.getElementById('sidebar').classList.add('closed');
+        document.getElementById('header').classList.add('closed');
+        document.getElementById('main-content').classList.add('closed');
+        document.getElementById('footer').classList.add('closed');
+    } else {
+        document.getElementById('sidebar').classList.remove('closed');
+        document.getElementById('header').classList.remove('closed');
+        document.getElementById('main-content').classList.remove('closed');
+        document.getElementById('footer').classList.remove('closed');
+    }
+});
+
+function closed(id){
+    var el = document.getElementById(id);
+    console.log(el);
+    if (el.classList === 'collapsing' ) {
+        el.classList.remove('show');
+    }
+}
+
+
+// check all songs
+document.querySelector('#check_all_songs').addEventListener('click', function() {
+    var checkboxes = document.getElementsByClassName('check_song');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = this.checked;
+    }
+
+    getCheckedValues()
+
+});
 // Hàm lấy giá trị của tất cả các checkbox đã được chọn
 function getCheckedValues() {
     var checkboxes = document.getElementsByClassName('check_song');
@@ -27,7 +74,7 @@ function getCheckedValues() {
     document.getElementById('songs-restore') ? document.getElementById('songs-restore').value = JSON.stringify(checkedValues) : undefined;
     document.getElementById('songs-delete') ? document.getElementById('songs-delete').value = JSON.stringify(checkedValues) : undefined;
     document.getElementById('total-songs').innerText = total;
-    // console.log(document.getElementById('songs-delete').value);
+    console.log(document.getElementById('songs-delete').value);
     return checkedValues; // Trả về mảng nếu cần sử dụng sau này
 }
 
@@ -54,7 +101,7 @@ function checkcheckbox(className) {
 
 
 function submitForm(e, className) {
-    console.log(document.getElementById('delete_list').value);
+    console.log(document.getElementById('.delete_list').value);
     // Kiểm tra xem có ít nhất 1 checkbox đã được chọn chưa
     if (!checkcheckbox(className)) {
         e.preventDefault();
