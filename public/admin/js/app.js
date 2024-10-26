@@ -2,8 +2,6 @@ document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(functi
     toggle.addEventListener('click', function (e) {
         e.preventDefault();
 
-<<<<<<< HEAD
-=======
         const target = document.querySelector(toggle.getAttribute('data-bs-target'));
         const bsCollapse = new bootstrap.Collapse(target, { toggle: false });
 
