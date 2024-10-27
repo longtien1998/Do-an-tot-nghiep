@@ -47,7 +47,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'gender' => $request->gender,
                 'birthday' => $request->birthday,
-                'image' => 'https://soundwave.io.vn/admin/public/upload/image/users/user.png',
+                'image' => 'https://admin.soundwave.io.vn/upload/image/users/user.png',
                 'remember_token' => Str::random(10),
 
             ]);

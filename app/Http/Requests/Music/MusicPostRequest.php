@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Music;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -25,10 +25,10 @@ class MusicPostRequest extends FormRequest
         return [
             'song_name' => 'required|max:255|unique:songs,song_name|string',
             'description' => 'required|max:255|string',
-            'single_id' => '',
-            'categories_id' => 'required',
-            'release_date' => 'required',
-            'country' => 'required|string',
+            'singer_id' => 'required',
+            'category_id' => 'required',
+            'release_day' => 'required',
+            'country_id' => 'required|string',
             'provider' => 'required|string',
             'composer' => 'required|string',
             'file_basic' => 'required',
@@ -44,7 +44,8 @@ class MusicPostRequest extends FormRequest
             'song_name.unique' => 'Tên bài hát đã tồn tại',
             'description.required' => 'Mô tả bài hát không được để trống',
             'description.max_length' => 'Mô tả bài hát không quá 255 ký tự',
-            'categories_id.required' => 'Chưa chọn thể loại bài hát',
+            'singer_id.required' => 'Chưa chọn ca sĩ',
+            'category_id.required' => 'Chưa chọn thể loại bài hát',
             'release_date.required' => 'Chưa chọn ngày phát hành',
             'country.required' => 'Chưa chọn quốc gia',
             'provider.required' => 'Chưa chọn nhà cung cấp',

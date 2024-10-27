@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Categories;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Filepaths;
+use App\Models\Singer;
 
 class Music extends Model
 {
@@ -21,14 +23,17 @@ class Music extends Model
         'song_name',
         'description',
         'lyrics',
-        'singers_id',
-        'categories_id',
+        'singer_id',
+        'category_id',
+        'country_id',
         'song_image',
         'release_day',
         'listen_count',
         'provider',
         'composer',
         'download_count',
+        'updated_at',
+        'created_at',
     ];
 
     public static function up_image_song($file, $songName)
@@ -36,7 +41,7 @@ class Music extends Model
         try {
             $songNameSlug = Str::slug($songName, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = time().'_'. $songNameSlug . '.' . strtolower($extension); // Đặt tên file
+            $fileName = time() . '_' . $songNameSlug . '.' . strtolower($extension); // Đặt tên file
 
             // Đường dẫn lưu trữ trên S3
             $path = 'song_image/';
@@ -59,7 +64,7 @@ class Music extends Model
         try {
             $songNameSlug = Str::slug($songName, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = time().'_'. $songNameSlug . '_' . $quality . '.' . strtolower($extension); // Đặt tên file
+            $fileName = time() . '_' . $songNameSlug . '_' . $quality . '.' . strtolower($extension); // Đặt tên file
 
 
             // Đường dẫn lưu trữ trên S3
@@ -81,9 +86,9 @@ class Music extends Model
     public static function selectAll($perPage, $filterTheloai, $filterSinger, $filterRelease, $filterCreate)
     {
         $query = DB::table('songs')
-            ->join('categories', 'songs.categories_id', '=', 'categories.id')
+            ->join('categories', 'songs.category_id', '=', 'categories.id')
             ->join('country', 'songs.country_id', '=', 'country.id')
-            ->join('singers', 'songs.singers_id', '=', 'singers.id')
+            ->join('singers', 'songs.singer_id', '=', 'singers.id')
             ->select(
                 'songs.*',
                 'categories.categorie_name as category_name',
@@ -91,16 +96,16 @@ class Music extends Model
                 'singers.singer_name as singer_name'
             )
             ->whereNull('songs.deleted_at'); // Chỉ lấy những bản ghi chưa bị soft delete
-            // ->get();
+        // ->get();
 
         // Áp dụng bộ lọc theo thể loại
         if ($filterTheloai) {
-            $query->where('songs.categories_id', $filterTheloai);
+            $query->where('songs.category_id', $filterTheloai);
         }
 
         // Áp dụng bộ lọc theo ca sĩ
         if ($filterSinger) {
-            $query->where('songs.singers_id', $filterSinger); // Giả định rằng bạn có một trường `singer_id` trong bảng `songs`
+            $query->where('songs.singer_id', $filterSinger); // Giả định rằng bạn có một trường `singer_id` trong bảng `songs`
         }
 
         // Áp dụng bộ lọc theo ngày phát hành
@@ -112,63 +117,42 @@ class Music extends Model
         if ($filterCreate) {
             $query->whereDate('songs.created_at', $filterCreate); // Giả định rằng bạn có trường `created_at`
         }
-
+        $query->orderBy('id','asc');
         $songsList = $query->paginate($perPage);
+        // dd($songsList);
         return $songsList;
     }
 
     public static function show($id)
     {
-        // Lấy thông tin bài hát cùng các file_paths
-        $music = DB::table('songs')
-            ->join('categories', 'songs.categories_id', '=', 'categories.id')
-            ->join('country', 'songs.country_id', '=', 'country.id')
-            ->join('singers', 'songs.singers_id', '=', 'singers.id')
-            ->leftJoin('file_paths', 'songs.id', '=', 'file_paths.song_id')
-            ->where('songs.id', $id)
-            ->whereNull('songs.deleted_at')
-            ->select(
-                'songs.*',
-                'categories.categorie_name as category_name',
-                'country.name_country as country_name',
-                'singers.singer_name as singer_name',
-                'file_paths.file_path',
-                'file_paths.path_type',  // Lấy path_type
-            )
-            ->get(); // Lấy tất cả các file_path cho bài hát
+        $song = Music::find($id);
+        $file_paths_basic = Filepaths::where('song_id', '=', $song->id)->where('path_type', '=', 'basic')->first();
+        $file_paths_plus = Filepaths::where('song_id', '=', $song->id)->where('path_type', '=', 'plus')->first();
+        $file_paths_premium = Filepaths::where('song_id', '=', $song->id)->where('path_type', '=', 'premium')->first();
 
-        // Xử lý: Chuyển thành object chứa các file_paths
-        $musicData = $music->groupBy('id')->map(function ($items) {
-            $first = $items->first(); // Lấy thông tin bài hát từ bản ghi đầu tiên
-
-            // Chuyển tất cả file_paths thành một mảng object
-            $filePaths = $items->reduce(function ($carry, $item) {
-                $carry[$item->path_type] = $item->file_path;
-                return $carry;
-            }, []);
-
-            // Trả về object bài hát với thông tin đầy đủ
-            return (object)[
-                'id'            => $first->id,
-                'song_name'         => $first->song_name,
-                'description'    => $first->description,
-                'lyrics'         => $first->lyrics,
-                'song_image' => $first->song_image,
-                'release_day' => $first->release_day,
-                'listen_count' => $first->listen_count,
-                'provider' => $first->provider,
-                'composer' => $first->composer,
-                'download_count' => $first->download_count,
-                'category_name' => $first->category_name,
-                'country_name'  => $first->country_name,
-                'singer_name'   => $first->singer_name,
-                'file_paths'    => (object)$filePaths,
-
-                // Mảng các object file_path
-            ];
-        })->first(); // Lấy bài hát duy nhất (vì chỉ tìm theo ID)
-
-        return $musicData;
+        return (object)[
+            'id'                 => $song->id,
+            'song_name'          => $song->song_name,
+            'description'        => $song->description,
+            'lyrics'             => $song->lyrics,
+            'country_id'         => $song->country_id,
+            'country_name'       => Country::find($song->country_id)->name_country,
+            'category_id'      => $song->category_id,
+            'category_name'      => Categories::find($song->category_id)->categorie_name,
+            'singer_id'         => $song->singer_id,
+            'singer_name'        => Singer::find($song->singer_id)->singer_name,
+            'song_image'         => $song->song_image,
+            'release_day'        => $song->release_day,
+            'listen_count'       => $song->listen_count,
+            'provider'           => $song->provider,
+            'composer'           => $song->composer,
+            'download_count'     => $song->download_count,
+            'created_at'         => $song->created_at,
+            'updated_at'         => $song->updated_at,
+            'file_path_basic'    => $file_paths_basic ? $file_paths_basic->file_path : null,
+            'file_path_plus'     => $file_paths_plus ? $file_paths_plus->file_path : null,
+            'file_path_premium'  => $file_paths_premium ? $file_paths_premium->file_path : null,
+        ];
     }
 
 
@@ -177,12 +161,19 @@ class Music extends Model
     public static function search_songs($search)
     {
         $songs = DB::table('songs')
-            ->where('song_name', 'LIKE', '%' . $search . '%')
-            ->join('categories', 'songs.categories_id', '=', 'categories.id')
-            ->select('songs.*', 'categories.categorie_name as category_name')
+            ->join('categories', 'songs.category_id', '=', 'categories.id')
+            ->join('country', 'songs.country_id', '=', 'country.id')
+            ->join('singers', 'songs.singer_id', '=', 'singers.id')
+            ->where('songs.song_name', 'LIKE', '%'. $search. '%')
+            ->select(
+                'songs.*',
+                'categories.categorie_name as category_name',
+                'country.name_country as country_name',
+                'singers.singer_name as singer_name'
+            )
             ->whereNull('songs.deleted_at') // Chỉ lấy những bản ghi chưa bị soft delete
             // ->get();
-            ->paginate(3);
+            ->paginate(10);
         return $songs;
     }
 }
