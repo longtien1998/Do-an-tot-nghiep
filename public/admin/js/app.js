@@ -1,3 +1,7 @@
+const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+
+
 document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(function (toggle) {
     toggle.addEventListener('click', function (e) {
         e.preventDefault();

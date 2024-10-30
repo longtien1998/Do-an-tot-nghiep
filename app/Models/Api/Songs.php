@@ -17,8 +17,9 @@ class Songs extends Model
         'song_name',
         'description',
         'lyrics',
-        'singers_id',
-        'categories_id',
+        'singer_id',
+        'category_id',
+        'country_id',
         'song_image',
         'release_date',
         'listen_count',
@@ -31,9 +32,9 @@ class Songs extends Model
     {
         // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
         $songsArray = DB::table('songs')
-            ->join('categories', 'songs.categories_id', '=', 'categories.id')
+            ->join('categories', 'songs.category_id', '=', 'categories.id')
             ->join('country', 'songs.country_id', '=', 'country.id')
-            ->join('singers', 'songs.singers_id', '=', 'singers.id')
+            ->join('singers', 'songs.singer_id', '=', 'singers.id')
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.listen_count', 'desc')
             ->select(
@@ -84,9 +85,9 @@ class Songs extends Model
     {
         // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
         $songsArray = DB::table('songs')
-            ->join('categories', 'songs.categories_id', '=', 'categories.id')
+            ->join('categories', 'songs.category_id', '=', 'categories.id')
             ->join('country', 'songs.country_id', '=', 'country.id')
-            ->join('singers', 'songs.singers_id', '=', 'singers.id')
+            ->join('singers', 'songs.singer_id', '=', 'singers.id')
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.listen_count', 'desc')
             ->select(

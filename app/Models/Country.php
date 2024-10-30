@@ -14,6 +14,11 @@ class Country extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'id',
         'name_country',
+
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 }

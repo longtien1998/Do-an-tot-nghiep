@@ -13,15 +13,10 @@ use App\Models\PasswordReset;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
+use App\Models\User\RolesModel;
 
 class AuthController extends Controller
 {
-
-
-
-
-
-
 
     public function register(Request $request)
     {
@@ -49,7 +44,13 @@ class AuthController extends Controller
                 'birthday' => $request->birthday,
                 'image' => 'https://admin.soundwave.io.vn/upload/image/users/user.png',
                 'remember_token' => Str::random(10),
+            ]);
 
+            $user_id = $user->id;
+
+            RolesModel::created([
+                'user_id' => $user_id,
+                'role_id' => 2, // khách hàng
             ]);
             // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -98,10 +99,12 @@ class AuthController extends Controller
             return response()->json(['message' => 'Đăng nhập thất bại'], 401);
         }
     }
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::user()->tokens->delete();
-        return ['message' => 'Bạn đã thoát ứng dụng và token đã xóa'];
+        // Auth::user()->tokens->delete();
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Đăng xuất thành công!'], 200);
     }
     public function refresh()
     {

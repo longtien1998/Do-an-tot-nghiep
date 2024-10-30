@@ -49,4 +49,19 @@ class S3SongController extends Controller
             return back()->with('error', 'Lỗi khi xóa file: ' . $e->getMessage());
         }
     }
+
+
+    public function list_destroy_songs(request $request){
+        dd($request->all());
+        $list_destroy_songs = json_decode($request->delete_list, true);
+        try{
+            foreach ($list_destroy_songs as $file_path) {
+                Storage::disk('s3')->delete($file_path);
+            }
+            return response()->json(['message' => 'Xóa file thành công']);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Lỗi khi xóa file: '. $e->getMessage()]);
+        }
+    }
 }

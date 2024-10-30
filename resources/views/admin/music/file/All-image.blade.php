@@ -46,9 +46,23 @@
 </style>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Quản lý File hình ảnh</h1>
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-3 my-3">
+            <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
+        </div>
+        <div class="col-sm-6 text-center my-3">
+            <form action="{{route('s3list-destroy-image-songs')}}" class="d-inline float-end" method="post" id="form-delete">
+                @csrf
+                <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa Quốc gia đã chọn?')">Xóa hình ảnh bài hát</button>
+            </form>
+        </div>
+
+    </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs"></th>
                 <th scope="col">STT</th>
                 <th scope="col">Image</th>
                 <th scope="col">URL</th>
@@ -60,6 +74,7 @@
             @php $stt = 1; @endphp
             @foreach($images as $image)
             <tr>
+                <td><input type="checkbox" class="check_song" value="{{$image['path']}}"></td>
                 <td>{{ $stt++ }}</td>
                 <td><img src="{{ $image['url'] }}" alt="Image" width="100"></td>
                 <td>{{ $image['url'] }}</td>

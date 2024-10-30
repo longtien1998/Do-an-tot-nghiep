@@ -64,16 +64,16 @@
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên bài hát <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hình ảnh</th>
-                <th scope="col" onclick="sortTable(11)">Ngày xóa <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @php $stt = 1; @endphp
-            @foreach($songs as $song)
+
+            @foreach($songs as $index => $song)
             <tr>
                 <td><input type="checkbox" class="check_song" value="{{$song->id}}"></td>
-                <th scope="row">{{$stt}}</th>
+                <th scope="row">{{$songs->firstItem() + $index}}</th>
                 <td>{{$song->id}}</td>
                 <td>{{$song->song_name}}</td>
                 <td><img src="{{$song->song_image}}" alt="image {{$song->song_name}}" width="50"></td>
@@ -88,7 +88,6 @@
 
                 </td>
             </tr>
-            @php $stt++; @endphp
             @endforeach
         </tbody>
     </table>

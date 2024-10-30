@@ -42,7 +42,7 @@ class SongsController extends Controller
 
             ],404);
         } else {
-            return response()->json(SongsResource::collection($songs), 200);
+            return response()->json($songs, 200);
         }
     }
 
