@@ -70,7 +70,6 @@
                         <label class="col-md-12 mb-2">Thể loại <span class="text-danger">(*)</span></label>
                         <select class="form-select" name="category_id" aria-label="Default select example" value="{{old('category_id')}}">
                             <option selected value="">Chọn thể loại</option>
-
                             @foreach ( $Categories as $category)
                             <option value="{{$category->id}}">{{$category->categorie_name}}</option>
                             @endforeach

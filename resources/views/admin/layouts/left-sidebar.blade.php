@@ -129,17 +129,52 @@
                         <span class="">Quảng cáo đã xóa</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('s3ads.index')}}" class="nav-link">
+                        <span class="">File quảng cáo</span>
+                    </a>
+                </li>
             </ol>
         </div>
-        <a class="nav-item" href="{{route('list-users')}}">
+        <a class="nav-link dropdown-toggle" href="#ql-user" data-bs-toggle="collapse">
             <i class="fa-solid fa-users"></i>
             <span>Người dùng</span>
         </a>
-        <a class="nav-item" href="{{route('list-comments')}}">
+        <div class="collapse" id="ql-user">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('list-users')}}" class="nav-link">
+                        <span class="">Danh sách người dùng</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('list_trash_users')}}" class="nav-link">
+                        <span class="">Người dùng đã xóa</span>
+                    </a>
+                </li>
+
+            </ol>
+        </div>
+        <a class="nav-link dropdown-toggle" href="#ql-cmt" data-bs-toggle="collapse">
             <i class="fa-solid fa-comment"></i>
             <span>Bình luận</span>
         </a>
-        <a class="nav-item dropdown-toggle" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
+        <div class="collapse" id="ql-cmt">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('list-comments')}}" class="nav-link">
+                        <span class="">Danh sách bình luận</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('list_trash_comments')}}" class="nav-link">
+                        <span class="">Bình luận đã xóa</span>
+                    </a>
+                </li>
+
+            </ol>
+        </div>
+        <a class="nav-link dropdown-toggle" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
             <i class="fa-solid fa-image"></i>
             <span>Hình ảnh</span>
         </a>

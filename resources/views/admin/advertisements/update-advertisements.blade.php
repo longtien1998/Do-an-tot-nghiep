@@ -76,7 +76,7 @@
     document.getElementById('uploadFile').addEventListener('click',function(){
         if(document.getElementById('file').getAttribute('type') == 'text'){
             document.getElementById('file').setAttribute('type','file');
-        }else {
+        } else {
             document.getElementById('file').setAttribute('type','text');
         }
 

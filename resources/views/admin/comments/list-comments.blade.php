@@ -13,6 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Bình luận</li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách bình luận</li>
                     </ol>
                 </nav>
@@ -21,9 +22,35 @@
     </div>
 </div>
 <div class="container-fluid">
+<div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <a href="{{route('list-comments')}}" class="btn btn-outline-success"> Tất cả bình luận</a>
+            <a href="#" class="btn btn-success">Thêm bình luận</a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <form class="search-form" action="{{route('searchComments')}}" method="post">
+                @csrf
+                <input type="text" name="search" placeholder="Tên bình luận..." required />
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <div>Đã chọn <strong id="total-songs">0</strong> bình luận</div>
+        </div>
+        <div class="col-sm-6 my-3">
+            <form action="{{route('delete_list_comments')}}" class="d-inline float-end" method="post" id="form-delete">
+                @csrf
+                <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa bình luận đã chọn?')">Xóa bình luận</button>
+            </form>
+        </div>
+    </div>
     <table class="table text-center">
         <thead>
             <tr>
+                <th><input type="checkbox" name="" id="check_all_ads" class=""></th>
                 <th scope="col">ID</th>
                 <th scope="col">Bình luận</th>
                 <th scope="col">Đánh giá</th>
@@ -34,8 +61,10 @@
             </tr>
         </thead>
         <tbody>
+            @php $stt = 1; @endphp
             @foreach($comments as $comment)
             <tr>
+                <td><input type="checkbox" class="check_song" value="{{$comment->id}}"></td>
                 <th scope="row">{{$comment->id}}</th>
                 <td>{{$comment->comment}}</td>
                 <td>{{$comment->rating}}</td>
@@ -44,9 +73,16 @@
                 <td>{{$comment->rating_date}}</td>
                 <td>
                     <a href="{{route('update_comments', $comment->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="{{route('delete-comments', $comment->id)}}" onclick="return confirmDelete()" class="p-2"><i class="fa-solid fa-trash"></i></a>
+                    <form action="{{ route('delete-comments', $comment->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-link btn-outline-danger" onclick="return confirm('Xác nhận xóa bình luận?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
+            @php $stt++; @endphp
             @endforeach
         </tbody>
     </table>
@@ -61,3 +97,28 @@
 
 @endsection
 
+@section('js')
+<script>
+     document.querySelector('#check_all_ads').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_song');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+
+        getCheckedValues()
+
+    });
+    // Gán sự kiện 'submit' cho form
+    document.getElementById('form-delete').addEventListener('submit', function(e) {
+        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+    });
+
+    const checkboxes = document.getElementsByClassName('check_song');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', getCheckedValues);
+
+    }
+</script>
+
+@endsection

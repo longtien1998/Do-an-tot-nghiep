@@ -46,7 +46,6 @@
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa quảng cáo đã chọn?')">Xóa quảng cáo</button>
             </form>
         </div>
-
     </div>
     <table class="table text-center" id="myTable">
         <thead>
@@ -60,13 +59,14 @@
             </tr>
         </thead>
         <tbody>
+            @php $stt = 1; @endphp
             @foreach($advertisements as $ads)
             <tr>
                 <td><input type="checkbox" class="check_song" value="{{$ads->id}}"></td>
                 <th scope="row">{{$ads->id}}</th>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
-                <td><a href="{{asset('admin/upload/ads/'. $ads->file_path)}}">{{$ads->file_path}}</a></td>
+                <td><a href="{{$ads->file_path}}" target="_blank">{{$ads->file_path}}</a></td>
                 <td>
                     <a href="{{route('update-advertisements',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <form action="{{ route('delete-advertisements', $ads->id) }}" method="POST" class="d-inline">
@@ -78,6 +78,7 @@
                     </form>
                 </td>
             </tr>
+            @php $stt++; @endphp
             @endforeach
         </tbody>
     </table>
