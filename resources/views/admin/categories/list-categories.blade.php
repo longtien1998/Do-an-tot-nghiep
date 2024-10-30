@@ -21,49 +21,81 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="form-group">
-        <div class="col-sm-12 my-3">
-            <a href="{{route('add-categories')}}" class="btn btn-success">Thêm thể loại</a>
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <a href="{{route('categories.add')}}" class="btn btn-success">Thêm thể loại</a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <form class="search-form" action="{{route('categories.search')}}" method="post">
+                @csrf
+                <input type="text" name="search" placeholder="Tên thể loại..." required />
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
         </div>
     </div>
-    <table class="table text-center">
+    <div class="form-group row justify-content-between m-0 p-0">
+        <div class="col-sm-6 my-3">
+            <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
+        </div>
+        <div class="col-sm-6 my-3">
+            <form action="{{route('categories.delete-list')}}" class="d-inline float-end" method="post" id="form-delete">
+                @csrf
+                <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa thể loại đã chọn?')">Xóa thể loại</button>
+            </form>
+        </div>
+
+    </div>
+    <table class="table text-center" id="myTable">
         <thead>
             <tr>
+                <th><input type="checkbox" name="" id="check_all_songs" class=""></th>
                 <th scope="1">STT</th>
-                <th scope="col">ID</th>
-                <th scope="col">Tên thể loại</th>
+                <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(3)"> Tên thể loại <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Mô tả</th>
-                <th scope="col">Ngày tạo</th>
+                <th scope="col" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @php $stt = 1; @endphp
-            @foreach ($categories as $category)
+            @foreach ($categories as $index => $category)
             <tr>
-                <td>{{$stt}}</td>
+                <td><input type="checkbox" class="check_song" value="{{$category->id}}"></td>
+                <td>{{$categories->firstItem() + $index}}</td>
                 <th scope="row">{{$category->id}}</th>
                 <td>{{$category->categorie_name}}</td>
                 <td>{{$category->description}}</td>
                 <td>{{$category->created_at}}</td>
                 <td>
-                    <a href="{{route('edit-categories',$category->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
-                    <form action="{{route('delete-categories',$category->id)}}" method="post" class="d-inline">
+                    <a href="{{route('categories.edit',$category->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-pen-to-square"></i></a>
+                    <form action="{{route('categories.delete',$category->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa thể loại?')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
-
-
                 </td>
             </tr>
-            @php $stt++; @endphp
             @endforeach
         </tbody>
     </table>
 
 </div>
 
+@endsection
+@section('js')
+<script>
+    // Gán sự kiện 'submit' cho form
+    document.getElementById('form-delete').addEventListener('submit', function(e) {
+        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+    });
+
+    const checkboxes = document.getElementsByClassName('check_song');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', getCheckedValues);
+
+    }
+</script>
 @endsection

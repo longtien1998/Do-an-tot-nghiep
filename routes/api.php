@@ -7,30 +7,38 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::group(['namespace' => 'Api'], function(){
-    // member
-    // đăng nhập member
-    Route::post('users/login',[App\Http\Controllers\Api\AuthController::class, 'login']);
+Route::group([
+    'controller' => App\Http\Controllers\Api\AuthController::class,
+], function () {
+    Route::post('users/login', 'login');
     // đăng ký member
-    Route::post('users/register',[App\Http\Controllers\Api\AuthController::class, 'register']);
-    // đăng xuất
-    Route::get('users/logout',[App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::post('users/register', 'register');
+
     // reset password
-    Route::post('/resetpassword',[App\Http\Controllers\Api\AuthController::class, 'resetPassword']);
+    Route::post('/resetpassword', 'resetPassword');
     //check otp
-    Route::post('/check-otp',[App\Http\Controllers\Api\AuthController::class, 'checkOtp']);
+    Route::post('/check-otp', 'checkOtp');
     // new password
-    Route::post('/newpassword',[App\Http\Controllers\Api\AuthController::class, 'newPassword']);
-
-    // show member
-    Route::get('/member',[App\Http\Controllers\Api\MemberController::class, 'index']);
-
-    // lượt nghe
-    Route::get('/luot-nghe/{id}',[App\Http\Controllers\Api\SongsController::class, 'luot_nghe']);
-    // lượt tải
-    Route::get('/luot-tai/{id}',[App\Http\Controllers\Api\SongsController::class, 'luot_tai']);
-    // Bxh 100
-    Route::get('/bxh-100',[App\Http\Controllers\Api\SongsController::class, 'bxh_100']);
-    // 10 bài hát ngẫu nhiên
-    Route::get('/rand-10',[App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
+    Route::post('/newpassword', 'newPassword');
 });
+// đăng nhập member
+
+Route::group([
+    'middleware' => ['auth:sanctum'],
+], function () {
+    // đăng xuất
+    Route::post('users/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::get('/member', [App\Http\Controllers\Api\MemberController::class, 'index']);
+});
+// show member
+
+
+// lượt nghe
+Route::get('/luot-nghe/{id}', [App\Http\Controllers\Api\SongsController::class, 'luot_nghe']);
+// lượt tải
+Route::get('/luot-tai/{id}', [App\Http\Controllers\Api\SongsController::class, 'luot_tai']);
+// Bxh 100
+Route::get('/bxh-100', [App\Http\Controllers\Api\SongsController::class, 'bxh_100']);
+// 10 bài hát ngẫu nhiên
+Route::get('/rand-10', [App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
+//

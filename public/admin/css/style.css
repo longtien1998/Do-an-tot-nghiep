@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #F2F4F5;
@@ -34,8 +38,25 @@ td {
     background-color: #233242;
     padding-top: 20px;
     transition: width 0.3s ease;
+
 }
 
+#sidebar::-webkit-scrollbar, ::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar{
+    width: 13px;
+}
+#sidebar::-webkit-scrollbar-track, ::-webkit-scrollbar-track{
+    background: #e0e0e0;
+    border-radius: 8px;
+}
+
+#sidebar::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+    background-color: #cd34db;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
 
 #sidebar.nav {
     overflow: hidden;
@@ -48,40 +69,42 @@ td {
     width: 60px;
 }
 
-#sidebar .nav-link {
+#sidebar .nav-item {
+    width: 100%;
     color: #b8b8d1;
     margin: 5px 0;
     padding: 15px 20px;
+    text-decoration: none;
     display: flex;
     align-items: center;
     font-size: 16px;
     transition: background 0.3s, color 0.3s;
 }
 
-#sidebar.closed .nav-link {
+#sidebar.closed .nav-item {
     justify-content: center;
     padding: 15px 10px;
 }
 
 
-#sidebar.closed .nav-link span {
+#sidebar.closed .nav-item span {
     display: none;
     /* Ẩn văn bản khi sidebar thu nhỏ */
 }
-#sidebar .nav-link span {
+#sidebar .nav-item span {
     width: 100%;
     /* Ẩn văn bản khi sidebar thu nhỏ */
 }
 
-#sidebar .nav-link i {
+#sidebar .nav-item i {
     margin-right: 12px;
 }
 
-#sidebar.closed .nav-link i {
+#sidebar.closed .nav-item i {
     margin-right: 0;
 }
 
-#sidebar .nav-link:hover {
+#sidebar .nav-item:hover {
     background-color: #1E2B39;
     color: #fff;
     text-decoration: none;
@@ -116,6 +139,9 @@ td {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     transition: left 0.3s ease, width 0.3s ease;
     z-index: 99;
+    border-bottom: 1px solid rgb(185, 44, 44);
+    border-top: 1px solid rgb(185, 44, 44);
+
 }
 
 #header.closed {
@@ -218,6 +244,7 @@ td {
     left: 250px;
     width: calc(100% - 250px);
     transition: left 0.3s ease, width 0.3s ease;
+    z-index: 99;
 }
 
 #footer.closed {
@@ -232,11 +259,11 @@ td {
     color: #666;
     margin-left: 10px;
 }
-.nav-link.dropdown-toggle span i.fa-caret-down {
+.nav-item.dropdown-toggle span i.fa-caret-down {
     transition: transform 0.3s ease;
 }
 
-.nav-link.collapsed span i.fa-caret-down {
+.nav-item.collapsed span i.fa-caret-down {
     transform: rotate(-90deg);
 }
 .collapse {

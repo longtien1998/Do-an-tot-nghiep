@@ -14,6 +14,9 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{route('categories.list')}}" class="text-decoration-none">Thể loại</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Cập nhật thể loại</li>
                     </ol>
                 </nav>
@@ -35,7 +38,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <form class="form-horizontal form-material" method="post" enctype="multipart/form-data" action="{{route('update-categories',$category->id)}}">
+            <form class="form-horizontal form-material" method="post" enctype="multipart/form-data" action="{{route('categories.update',$category->id)}}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">

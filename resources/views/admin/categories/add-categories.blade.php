@@ -15,7 +15,7 @@
                             <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{route('list-categories')}}" class="text-decoration-none">Thể loại</a>
+                            <a href="{{route('categories.list')}}" class="text-decoration-none">Thể loại</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm thể loại</li>
                     </ol>
@@ -38,7 +38,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <form class="form-horizontal form-material" method="post" action="{{route('store-categories')}}">
+            <form class="form-horizontal form-material" method="post" action="{{route('categories.store')}}">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên thể loại <span class="text-danger">(*)</span></label>

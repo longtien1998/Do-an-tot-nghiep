@@ -242,8 +242,9 @@ class MusicController extends Controller
 
         try {
 
-            // dd($song_id);
-            $song = Music::find($id)->first();
+
+            $song = Music::find($id);
+
             // thêm đường dẫn nhạc basic
             if ($request->hasFile('file_basic_up')) {
 
@@ -267,10 +268,12 @@ class MusicController extends Controller
             if ($request->hasFile('file_plus_up')) {
                 $file = $request->file('file_plus_up');
                 $songName = $song->song_name;
+
                 $quality = '320kbps';
                 $url_plus = Music::up_file_song($file, $songName, $quality);
-
+                // dd($url_plus);
                 $path = Filepaths::where('song_id', '=', $id)->where('path_type', '=', 'plus')->first();
+                // dd($path);
                 if ($path != null) {
                     $path->update(['file_path' =>  $url_plus]);
                 } else {
@@ -340,8 +343,7 @@ class MusicController extends Controller
             try {
                 foreach ($deletelist as $list) {
                     $song = Music::find($list);
-                    $song->deleted_at = now();
-                    $song->save();
+                    $song->deleted();
                 }
                 return redirect()->route('list-music')->with('success', 'Xoá bài hát thành công!');
             } catch (\Exception $e) {
