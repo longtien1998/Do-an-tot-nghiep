@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Users;
 use App\Http\Requests\UsersRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -14,34 +13,25 @@ use App\Models\User;
 class UsersController extends Controller
 {
     public function list_users(){
-        $users = User::all();
+        $users = User::selectUsers();
         return view('admin.users.list-users', compact('users'));
     }
+
     public function add_users(){
         return view('admin.users.add-users');
     }
+
+
     public function storeAddUser(UsersRequest $request){
         $users = new User();
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
         $users->password = bcrypt($request->password);
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $filename = $file->getClientOriginalName();
-        //     $users->image = $filename;
-        //     // $file->move(public_path('upload/image/users'), $filename);
-        // }
         if ($request->hasFile('image')) {
-
-            // Lưu file vào S3
-            $path_image = $request->file('image')->store('user-image', 's3');
-
-            // Thiết lập quyền công khai cho file đã upload
-            Storage::disk('s3')->setVisibility($path_image, 'public');
-
-            // Lấy URL công khai của file
-            $url_image = Storage::disk('s3')->url($path_image);
+            $file = $request->file('image');
+            $userName = $request->name;
+            $url_image = User::up_file_users($file, $userName);
         } else {
             $url_image = null;
         }
@@ -49,11 +39,11 @@ class UsersController extends Controller
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            toastr()->success('Thêm tài khoản thành công');
-            return redirect('/list-users');
+            return redirect()->route('list-users')->with('success', 'Thêm tài khoản thành công');
+
         } else {
-            toastr()->error('Thêm tài khoản thất bại');
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
+
         }
     }
     public function update_users($id){
@@ -67,24 +57,158 @@ class UsersController extends Controller
         $users->phone = $request->phone;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-            $users->image = $filename;
-            $file->move(public_path('upload/image/users'), $filename);
+            $userName = $request->name;
+            $url_image = User::up_file_users($file, $userName);
+        } else {
+            $url_image = $users->image;
         }
+        $users->image = $url_image;
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            toastr()->success('Cập nhật tài khoản thành công');
-            return redirect('/list-users');
+            return redirect()->route('list-users')->with('success', 'Cập nhật tài khoản thành công');
+
         } else {
-            toastr()->error('Cập nhật tài khoản thất bại');
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Cập nhật tài khoản thất bại');
         }
     }
-    public function delete_users($id){
-        $users = User::find($id);
-        $users->delete();
-        toastr()->success('Xóa tài khoản thành công');
-        return redirect('/list-users');
+
+
+    public function list_trash_users()
+
+    {
+        $users = User::onlyTrashed()->get();
+        return view('admin.users.list-trash-users', compact('users'));
+    }
+
+    public function delete_users($id)
+    {
+        try {
+            User::find($id)->delete();
+            return redirect()->route('list-users')->with('success', 'Xoá tài khoản thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản thất bại.');
+        }
+    }
+
+    public function delete_trash_users(Request $request)
+    {
+        // dd($request->delete_list);
+        // Giải mã chuỗi JSON thành mảng
+        $deleteList = json_decode($request->delete_list, true);
+        if (is_array($deleteList)) {
+            try {
+                foreach ($deleteList as $delete) {
+                    User::withTrashed()->where('id', $delete)->forceDelete();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản khỏi thùng rác thất bại.');
+            }
+            return redirect()->back()->with('success', 'Xóa tài khoản khỏi thùng rác thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Xóa tài khoản khỏi thùng rác thất bại!');
+        }
+    }
+
+    public function delete_list_users(Request $request)
+    {
+        // dd($request->delete_list);
+        $deletelist = json_decode($request->delete_list, true);
+        if (is_array($deletelist)) {
+            try {
+                foreach ($deletelist as $list) {
+                    $users = User::find($list);
+                    $users->deleted_at = now();
+                    $users->save();
+                }
+                return redirect()->route('list-users')->with('success', 'Xoá tài khoản thành công!');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản thất bại.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Xoá tài khoản thất bại!');
+        }
+    }
+
+
+
+    public function restore_trash_users(Request $request)
+    {
+        // dd($request->restore_list);
+        // Giải mã chuỗi JSON thành mảng
+        $restoreList = json_decode($request->restore_list, true);
+        if (is_array($restoreList)) {
+            try {
+                foreach ($restoreList as $restore) {
+                    User::withTrashed()->where('id', $restore)->restore();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Khôi phục tài khoản khỏi thùng rác thất bại.');
+            }
+            return redirect()->back()->with('success', 'Khôi phục tài khoản khỏi thùng rác thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Khôi phục tài khoản khỏi thùng rác thất bại!');
+        }
+    }
+
+
+    public function restore_all_users()
+    {
+        try {
+            User::withTrashed()->restore();
+            return redirect()->back()->with('success', 'Khôi phục tất cả tài khoản khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Khôi phục tài khoản khỏi thùng rác thất bại.');
+        }
+    }
+
+
+    public function delete_all_users()
+    {
+        try {
+            User::withTrashed()->forceDelete();
+            return redirect()->back()->with('success', 'Xóa tất cả tài khoản khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản khỏi thùng rác thất bại.');
+        }
+    }
+
+
+    public function destroy_trash_users($id)
+    {
+        try {
+            User::withTrashed()->where('id', $id)->forceDelete();
+            return redirect()->route('list_trash_users')->with('success', 'Xóa tài khoản khỏi thùng rác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản khỏi thùng rác thất bại.');
+        }
+    }
+
+
+    public function searchUser(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $users = User::search_users($query);
+            if ($users->isEmpty()) {
+                return redirect()->route('list-users')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
+
+            } else {
+                toastr()->success('Tìm tài khoản thành công');
+                return view('admin.users.list-users', compact('users'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy tài khoản nào phù hợp với từ khóa.');
+        }
     }
 }
+

@@ -21,6 +21,31 @@ class Advertisements extends Model
         'ads_description',
         'file_path',
     ];
+
+    public static function up_file_ads($file, $adsName)
+    {
+        try {
+            $adsNameSlug = Str::slug($adsName, '_'); // Tạo slug cho tên bài hát
+            $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
+            $fileName = time().'_'. $adsNameSlug . '.' . strtolower($extension); // Đặt tên file
+
+
+            // Đường dẫn lưu trữ trên S3
+            $path = 'ads/' . $adsNameSlug;
+
+            // Upload file lên S3 với tên tùy chỉnh
+            Storage::disk('s3')->putFileAs($path, $file, $fileName);
+            Storage::disk('s3')->setVisibility($path . $fileName, 'public');
+
+            // Lấy URL công khai của file đã upload
+            $url_ads = Storage::disk('s3')->url($path . '/' . $fileName); // Chú ý: cần thêm $fileName vào đây
+
+            return $url_ads;
+        } catch (\Exception $e) {
+            // Hiển thị lỗi nếu có
+            dd($e->getMessage());
+        }
+    }
     public static function createAds($data)
     {
         return DB::table('ads')->insert([

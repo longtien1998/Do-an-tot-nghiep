@@ -24,6 +24,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -41,20 +52,9 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Đường dẫn</label>
                     <div class="col-md-12">
-                        <input type="file" name="file_path" value="" class="form-control form-control-line">
+                        <input type="file" name="file_path" value="" class="form-control form-control-line" accept="audio/mp3/mp4">
                     </div>
                 </div>
-                @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <h5>Thông báo !</h5>
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif
 
                 <div class="form-group mt-3">
                     <div class="col-sm-12">

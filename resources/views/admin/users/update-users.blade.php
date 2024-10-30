@@ -48,7 +48,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh</label>
                     <div class="col-md-12">
-                        <input type="file" name="image" value="" class="form-control form-control-line">
+                        <input type="file" name="image" value="{{old('image', $users->image)}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">

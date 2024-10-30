@@ -59,7 +59,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Giới tính</label>
                     <div class="col-md-12">
-                        <input type="text" name="gerder" value="" class="form-control form-control-line">
+                        <input type="text" name="gender" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
