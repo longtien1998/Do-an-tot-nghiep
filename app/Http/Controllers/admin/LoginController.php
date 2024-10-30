@@ -14,10 +14,13 @@ class LoginController extends Controller
     }
 
     public function authenticate(LoginRequest $request){
+
+        // dd($request->all());
         $request->validated();
 
-        $request->authenticate();
 
+        $request->authenticate();
+        dd($request->authenticate());
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false))->with('success','Đăng nhập thành công');

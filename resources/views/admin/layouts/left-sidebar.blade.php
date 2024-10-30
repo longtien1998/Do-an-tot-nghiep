@@ -130,53 +130,53 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('s3ads.index')}}" class="nav-link">
+                    <a href="{{route('s3ads.index')}}" class="nav-item">
                         <span class="">File quảng cáo</span>
                     </a>
                 </li>
             </ol>
         </div>
-        <a class="nav-link dropdown-toggle" href="#ql-user" data-bs-toggle="collapse">
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-user" aria-controls="ql-user">
             <i class="fa-solid fa-users"></i>
-            <span>Người dùng</span>
+            <span>Người dùng <i class="fa fa-caret-down float-end "></i></span>
         </a>
-        <div class="collapse" id="ql-user">
+        <div class="accordion-collapse collapse" id="ql-user" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
-                    <a href="{{route('list-users')}}" class="nav-link">
+                    <a href="{{route('list-users')}}" class="nav-item">
                         <span class="">Danh sách người dùng</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list_trash_users')}}" class="nav-link">
+                    <a href="{{route('list_trash_users')}}" class="nav-item">
                         <span class="">Người dùng đã xóa</span>
                     </a>
                 </li>
 
             </ol>
         </div>
-        <a class="nav-link dropdown-toggle" href="#ql-cmt" data-bs-toggle="collapse">
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-cmt" aria-controls="ql-cmt">
             <i class="fa-solid fa-comment"></i>
-            <span>Bình luận</span>
+            <span>Bình luận <i class="fa fa-caret-down float-end "></i></span>
         </a>
-        <div class="collapse" id="ql-cmt">
+        <div class="accordion-collapse collapse" id="ql-cmt" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
-                    <a href="{{route('list-comments')}}" class="nav-link">
+                    <a href="{{route('list-comments')}}" class="nav-item">
                         <span class="">Danh sách bình luận</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list_trash_comments')}}" class="nav-link">
+                    <a href="{{route('list_trash_comments')}}" class="nav-item">
                         <span class="">Bình luận đã xóa</span>
                     </a>
                 </li>
 
             </ol>
         </div>
-        <a class="nav-link dropdown-toggle" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
+        <a class="nav-item collapsed" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
             <i class="fa-solid fa-image"></i>
-            <span>Hình ảnh</span>
+            <span>Hình ảnh </span>
         </a>
         <div class="collapse" id="ql-image">
             <ol class="nav-collapse">
@@ -193,7 +193,7 @@
                 </li>
             </ol>
         </div>
-        <a class="nav-item dropdown-toggle" href="#ql-file-songs" data-bs-toggle="collapse">
+        <a class="nav-item collapsed" href="#ql-file-songs" data-bs-toggle="collapse">
             <i class="fa-solid fa-file"></i>
             <span>File nhạc</span>
         </a>
