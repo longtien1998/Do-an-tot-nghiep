@@ -17,10 +17,10 @@ return new class extends Migration
                 $table->string('song_name');
                 $table->string('description')->nullable();
                 $table->text('lyrics')->nullable();
-                $table->unsignedBigInteger('singers_id')->nullable();
-                $table->unsignedBigInteger('categories_id')->nullable();
-                $table->foreign('singers_id')->references('id')->on('singers')->nullOnDelete();
-                $table->foreign('categories_id')->references('id')->on('categories')->nullOnDelete();
+                $table->unsignedBigInteger('singer_id')->nullable();
+                $table->unsignedBigInteger('category_id')->nullable();
+                $table->foreign('singer_id')->references('id')->on('singers')->nullOnDelete();
+                $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
                 $table->string('song_image')->nullable();
                 $table->unsignedBigInteger('country_id')->nullable();
                 $table->foreign('country_id')->references('id')->on('country')->nullOnDelete();

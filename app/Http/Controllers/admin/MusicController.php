@@ -12,11 +12,11 @@ use Response;
 use App\Models\Music;
 use App\Models\Categories;
 use App\Models\Country;
-use App\Http\Requests\MusicPostRequest;
+use App\Http\Requests\Music\MusicPostRequest;
+use App\Http\Requests\Music\MusicUpdateRequest;
 use App\Models\Filepaths;
-
-
-
+use App\Models\Singer;
+use Faker\Core\File;
 
 class MusicController extends Controller
 {
@@ -25,11 +25,13 @@ class MusicController extends Controller
 
     public function list_music(Request $request)
     {
+
+
         $perPage = 10;
-        $filterTheloai =false;
-        $filterSinger =false;
-        $filterRelease =false;
-        $filterCreate =false;
+        $filterTheloai = false;
+        $filterSinger = false;
+        $filterRelease = false;
+        $filterCreate = false;
         if ($request->isMethod('post')) {
             $perPage = $request->indexPage;
             $filterTheloai = $request->input('filterTheloai');
@@ -74,12 +76,13 @@ class MusicController extends Controller
     {
         $Categories = Categories::all();
         $Countries = Country::all();
-        return view('admin.music.song.add-music', compact('Categories', 'Countries'));
+        $Singers = Singer::all();
+        return view('admin.music.song.add-music', compact('Categories', 'Countries', 'Singers'));
     }
 
 
 
-    public function store_music(Request $request) //MusicPostRequest
+    public function store_music(MusicPostRequest $request) //MusicPostRequest
     {
         // dd($request->all());
 
@@ -96,10 +99,10 @@ class MusicController extends Controller
                 'song_name' => $request->song_name,
                 'description' => $request->description,
                 'lyrics' => $request->lyrics,
-                'singers_id' => $request->singers_id,
-                'categories_id' => $request->categories_id,
+                'singer_id' => $request->singer_id,
+                'category_id' => $request->category_id,
                 'release_day' => $request->release_day,
-                'country' => $request->country,
+                'country_id' => $request->country_id,
                 'provider' => $request->provider,
                 'composer' => $request->composer,
                 'song_image' => $url_image
@@ -183,31 +186,138 @@ class MusicController extends Controller
     public function show_music($id)
     {
         $song = Music::show($id);
-
-        dd($song);
-        return view('admin.music.song.show-music');
-
+        $Categories = Categories::all();
+        $Countries = Country::all();
+        $Singers = Singer::all();
+        // dd($song);
+        return view('admin.music.song.show-music', compact('song', 'Categories', 'Countries', 'Singers'));
     }
 
 
-    public function edit_music()
+
+    public function update_music(MusicUpdateRequest $request, $id)
     {
-        return view('admin.music.song.edit-music');
+        $song = Music::find($id);
+        if(!$song){
+            return redirect()->back()->with('error', 'Không tìm thấy bài hát để cập nhật.');
+        }
+        $count = Music::where('song_name', '=', $request->song_name)->count();
+        if ($count > 1 ) {
+            return redirect()->back()->with('error', 'Tên bài hát đã tồn tại. Vui lòng chọn tên khác.');
+        }
+        try {
+            $song->song_name = $request->song_name;
+            $song->description = $request->description;
+            $song->lyrics = $request->lyrics;
+            $song->singer_id = $request->singer_id;
+            $song->category_id = $request->category_id;
+            $song->release_day = $request->release_day;
+            $song->country_id = $request->country_id;
+            $song->provider = $request->provider;
+            $song->composer = $request->composer;
+            if ($request->hasFile('song_image')) {
+                $file_image = $request->file('song_image');
+                $songName = $request->song_name;
+                $url_image = Music::up_image_song($file_image, $songName);
+                $song->song_image = $url_image;
+            }
+            $song->save();
+            return redirect()->back()->with('success','Cập nhật bài hát thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e);
+        }
+
+        // dd($request->all(), $song);
+
+
     }
 
 
 
-
-
-
-
-
-
-
-    public function update_music()
+    public function up_loadFile_music(Request $request, $id)
     {
-        return view('admin.music.song.update-music');
+        if ($request->file_basic_up == null && $request->file_plus_up == null && $request->file_premium_up == null) {
+            return redirect()->back()->with('error', 'Vui lòng chọn ít nhất 1 file nhạc để upload.');
+        }
+
+        try {
+
+            // dd($song_id);
+            $song = Music::find($id)->first();
+            // thêm đường dẫn nhạc basic
+            if ($request->hasFile('file_basic_up')) {
+
+                $file = $request->file('file_basic_up');
+                $songName = $song->song_name;
+                $quality = '128kbps';
+                $url_basic = Music::up_file_song($file, $songName, $quality);
+
+                $path = Filepaths::where('song_id', '=', $id)->where('path_type', '=', 'basic')->first();
+                if ($path != null) {
+                    $path->update(['file_path' =>  $url_basic]);
+                } else {
+                    Filepaths::Create([
+                        'file_path' => $url_basic,
+                        'path_type' => 'basic',
+                        'song_id' => $id
+                    ]);
+                }
+            }
+            // thêm đường dẫn plus
+            if ($request->hasFile('file_plus_up')) {
+                $file = $request->file('file_plus_up');
+                $songName = $song->song_name;
+                $quality = '320kbps';
+                $url_plus = Music::up_file_song($file, $songName, $quality);
+
+                $path = Filepaths::where('song_id', '=', $id)->where('path_type', '=', 'plus')->first();
+                if ($path != null) {
+                    $path->update(['file_path' =>  $url_plus]);
+                } else {
+                    Filepaths::Create([
+                        'file_path' => $url_plus,
+                        'path_type' => 'plus',
+                        'song_id' => $id
+                    ]);
+                }
+            }
+            // thên đường dẫn premium
+            if ($request->hasFile('file_premium_up')) {
+                $file = $request->file('file_premium_up');
+                $songName = $song->song_name;
+                $quality = 'lossless';
+                $url_premium = Music::up_file_song($file, $songName, $quality);
+
+                $path = Filepaths::where('song_id', '=', $id)->where('path_type', '=', 'premium')->first();
+                if ($path != null) {
+                    $path->update(['file_path' =>  $url_premium]);
+                } else {
+                    Filepaths::Create([
+                        'file_path' => $url_premium,
+                        'path_type' => 'premium',
+                        'song_id' => $id
+                    ]);
+                }
+            }
+            return redirect()->back()->with('success', 'Up load file bài hát thành công');
+        } catch (\Exception $e) {
+            // Kiểm tra và xóa file dựa trên đường dẫn nội bộ (path_image)
+
+            if (isset($path_basic) && Storage::disk('s3')->exists($path_basic)) {
+                Storage::disk('')->delete($path_basic);
+            }
+            if (isset($path_plus) && Storage::disk('s3')->exists($path_plus)) {
+                Storage::disk('')->delete($path_plus);
+            }
+            if (isset($path_premium) && Storage::disk('s3')->exists($path_premium)) {
+                Storage::disk('')->delete($path_premium);
+            }
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e);
+        }
     }
+
+
+
 
 
 

@@ -38,37 +38,37 @@
             @endif
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data" action="{{route('store-music')}}">
                 @csrf
-                <div class="form-group">
-                    <label class="col-md-12">Tên bài hát <span class="text-danger">(*)</span></label>
+                <div class="form-group mt-3">
+                    <label class="col-md-12 mb-2">Tên bài hát <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="song_name" value="{{old('song_name')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Mô tả</label>
+                    <label class="col-md-12 mb-2">Mô tả <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="description" value="{{old('description')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Lời bài hát</label>
+                    <label class="col-md-12 mb-2">Lời bài hát</label>
                     <div class="col-md-12">
-                        <textarea name="lyrics" class="form-control form-control-line" id="editor1">{{old('lyrics')}}</textarea>
+                        <textarea name="lyrics" class="form-control form-control-line" id="editor">{{old('lyrics')}}</textarea>
                     </div>
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Ca sĩ</label>
-                        <select class="form-select" name="singers_id" aria-label="Default select example" value="{{old('singers_id')}}">
-                            <option selected value="">Chọn ca sĩ</option>
-                            <option value="1">Vũ</option>
-                            <option value="2">Sơn Tùng</option>
-                            <option value="hi">Vương Anh Tú</option>
+                        <label class="col-md-12 mb-2">Ca sĩ <span class="text-danger">(*)</span></label>
+                        <select class="form-select " name="singer_id" aria-label="Default select example" value="{{old('singer_id')}}">
+                            <option selected value="">Chọn Ca Sĩ</option>
+                            @foreach ( $Singers as $Singer)
+                            <option value="{{$Singer->id}}">{{$Singer->singer_name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Thể loại</label>
-                        <select class="form-select" name="categories_id" aria-label="Default select example" value="{{old('categories_id')}}">
+                        <label class="col-md-12 mb-2">Thể loại <span class="text-danger">(*)</span></label>
+                        <select class="form-select" name="category_id" aria-label="Default select example" value="{{old('category_id')}}">
                             <option selected value="">Chọn thể loại</option>
                             @foreach ( $Categories as $category)
                             <option value="{{$category->id}}">{{$category->categorie_name}}</option>
@@ -77,16 +77,15 @@
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Ngày phát hành</label>
+                        <label class="col-md-12 mb-2">Ngày phát hành <span class="text-danger">(*)</span></label>
                         <input type="date" name="release_day" value="{{old('release_day')}}" class="form-control form-control-line">
 
                     </div>
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Quốc gia</label>
-                        <!-- <input type="text" name="country" class="form-control form-control-line" value="{{old('country')}}"> -->
-                        <select class="form-select" name="country" aria-label="Default select example" value="{{old('country')}}">
+                        <label class="col-md-12 mb-2">Quốc gia <span class="text-danger">(*)</span></label>
+                        <select class="form-select" name="country_id" aria-label="Default select example" value="{{old('country_id')}}">
                             <option selected value="">Chọn quốc gia</option>
 
                             @foreach ( $Countries as $country)
@@ -96,30 +95,30 @@
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Nhà cung cấp</label>
+                        <label class="col-md-12 mb-2">Nhà cung cấp <span class="text-danger">(*)</span></label>
                         <input type="text" name="provider" class="form-control form-control-line" value="{{old('provider')}}">
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Nhà soạn nhạc</label>
+                        <label class="col-md-12 mb-2">Nhà soạn nhạc <span class="text-danger">(*)</span></label>
                         <input type="text" name="composer" class="form-control form-control-line" value="{{old('composer')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">File nhạc Basic</label>
+                        <label class="col-md-12 mb-2">File nhạc Basic <span class="text-danger">(*)</span></label>
                         <input type="file" name="file_basic" accept="audio/mp3" >
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">File nhạc Plus</label>
+                        <label class="col-md-12 mb-2">File nhạc Plus</label>
                         <input type="file" name="file_plus" accept="audio/mp3" >
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">File nhạc Premium</label>
+                        <label class="col-md-12 mb-2">File nhạc Premium</label>
                         <input type="file" name="file_premium" accept="audio/mp3" >
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Hình ảnh</label>
+                    <label class="col-md-12 mb-2">Hình ảnh <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="file" name="song_image" id="songImage" accept="image/*" >
                     </div>
@@ -155,5 +154,15 @@
             preview.src = ''; // Nếu không có file, bỏ ảnh preview
         }
     });
+</script>
+<script
+  src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js">
+</script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>
 @endsection

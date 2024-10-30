@@ -59,10 +59,10 @@
                     <select name="filterTheloai" id="indexPage" class="form-select" onchange="submitForm()">
                         <option value=""></option>
                         <option value="{{request()->input('filterTheloai') ? request()->input('filterTheloai') : ''}}" selected>
-                        {{request()->input('filterTheloai') ? \App\Models\Categories::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Thể loại'}}
+                            {{request()->input('filterTheloai') ? \App\Models\Categories::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Thể loại'}}
                         </option>
                         @foreach ( \App\Models\Categories::all() as $categori)
-                            <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
+                        <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,10 +71,10 @@
                     <select name="filterSinger" id="indexPage" class="form-select" onchange="submitForm()">
                         <option value="" selected></option>
                         <option value="{{request()->input('filterSinger') ? request()->input('filterSinger') : ''}}" selected>
-                        {{request()->input('filterSinger') ? \App\Models\Singer::find(request()->input('filterSinger'))->singer_name : 'Chọn Ca sỹ'}}
+                            {{request()->input('filterSinger') ? \App\Models\Singer::find(request()->input('filterSinger'))->singer_name : 'Chọn Ca sỹ'}}
                         </option>
                         @foreach ( \App\Models\Singer::all() as $singer)
-                            <option value="{{$singer->id}}">{{$singer->singer_name}}</option>
+                        <option value="{{$singer->id}}">{{$singer->singer_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -138,7 +138,7 @@
 
                 <td>
                     <a href="{{route('show-music',$song->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    <a href="{{route('show-music',$song->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-upload"></i></a>
+                    <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#upFile" onclick="setModal('{{$song->id}}','{{$song->song_name}}')"> <i class="fa-solid fa-upload"></i></a>
                     <form action="{{route('delete-music',$song->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -156,7 +156,41 @@
     <div class=" mb-5">
         {!! $songs->links('pagination::bootstrap-5') !!}
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="upFile" tabindex="-1" aria-labelledby="upFileLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="upFileLabel">Tải lên file bài hát</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data" id="uploadForm">
+                    @csrf
+                    @method('put')
+                    <div class="modal-body">
+                        <h4>Tên bài hát : <span id="tenBaiHat"></span></h4>
+                        <div class="col-xl-12 mt-3">
+                            <label class="col-md-12 mb-2">File nhạc Basic <span class="text-danger">(*)</span></label>
+                            <input type="file" name="file_basic_up" accept="audio/mp3" class="upFile">
+                        </div>
+                        <div class="col-xl-12 mt-3">
+                            <label class="col-md-12 mb-2">File nhạc Plus</label>
+                            <input type="file" name="file_plus_up" accept="audio/mp3" class="upFile">
+                        </div>
+                        <div class="col-xl-12 mt-3">
+                            <label class="col-md-12 mb-2">File nhạc Premium</label>
+                            <input type="file" name="file_premium_up" accept="audio/mp3" class="upFile">
+                        </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -186,6 +220,14 @@
     // form show list page
     function submitForm() {
         document.getElementById('itemsPerPageForm').submit();
+    }
+
+    const uploadRoute = "{{ route('up-load-file-music', ['id' => '__ID__']) }}";
+    function setModal(id, song_name){
+
+        document.getElementById('tenBaiHat').innerText = song_name;
+        const finalAction = uploadRoute.replace('__ID__', id);
+        document.getElementById('uploadForm').action = finalAction;
     }
 </script>
 

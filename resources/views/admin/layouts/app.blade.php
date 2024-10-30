@@ -24,7 +24,7 @@
 
     @include('admin.layouts.header')
     @include('admin.layouts.left-sidebar')
-    <div id="main-content">
+    <div id="main-content" class="mb-5">
         @yield('content')
     </div>
 

@@ -40,6 +40,10 @@ Route::prefix('songs')->group(function () {
     Route::get('/{id}/show', [MusicController::class, 'show_music'])->name('show-music');
     Route::put('/{id}/update', [MusicController::class, 'update_music'])->name('update-music');
 
+    // update file nhạc
+    Route::put('/{id}/update-file-music', [MusicController::class, 'up_loadFile_music'])->name('up-load-file-music');
+
+
     Route::delete('/{id}/delete', [MusicController::class, 'delete_music'])->name('delete-music');
     Route::post('/list/delete', [MusicController::class, 'delete_list_music'])->name('delete-list-music');
 
