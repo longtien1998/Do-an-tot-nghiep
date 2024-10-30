@@ -9,7 +9,8 @@ use App\Http\Controllers\admin\SingerController;
 use App\Http\Controllers\admin\AlbumController;
 use App\Http\Controllers\admin\CopyrightController;
 use App\Http\Controllers\admin\PublishersController;
-use App\Http\Controllers\admin\AdvertisementsController;
+use App\Http\Controllers\admin\ads\AdvertisementsController;
+use App\Http\Controllers\admin\ads\S3AdsController;
 use App\Http\Controllers\admin\UsersController;
 use App\Http\Controllers\admin\CommentController;
 use App\Http\Controllers\admin\S3ImageController;
@@ -114,11 +115,14 @@ Route::get('/list-advertisements', [AdvertisementsController::class, 'list_adver
 Route::get('/add-advertisements', [AdvertisementsController::class, 'add_advertisements'])->name('add-advertisements');
 Route::post('/add-advertisements', [AdvertisementsController::class, 'storeAdvertisements'])->name('store-advertisements');
 
-Route::get('/update-advertisements/{id}', [AdvertisementsController::class, 'update_advertisements'])->name('update-advertisements');
-Route::put('/update-advertisements/{id}', [AdvertisementsController::class, 'storeUpdate'])->name('store-advertisements');
+Route::get('/update-advertisements/{id}', [AdvertisementsController::class, 'edit_advertisements'])->name('update-advertisements');
+Route::put('/update-advertisements/{id}', [AdvertisementsController::class, 'update_advertisements'])->name('store-advertisements');
 
 Route::post('/search-advertisements', [AdvertisementsController::class, 'searchAds'])->name('searchAds');
 
+
+Route::get('/s3ads', [S3AdsController::class, 'file_ads'])->name('s3ads.index');
+Route::post('/s3ads', [S3AdsController::class, 'destroy_file_ads'])->name('s3ads.destroy');
 
 
 Route::delete('/delete-advertisements/{id}', [AdvertisementsController::class, 'delete_advertisements'])->name('delete-advertisements');
@@ -137,15 +141,56 @@ Route::get('/destroy-trash-advertisements/{id}', [AdvertisementsController::clas
 
 
 
+//Users
 
 Route::get('/list-users', [UsersController::class, 'list_users'])->name('list-users');
+
 Route::get('/add-users', [UsersController::class, 'add_users'])->name('add-users');
 Route::post('/add-users', [UsersController::class, 'storeAddUser'])->name('store-addUsers');
+
 Route::get('/delete-users/{id}', [UsersController::class, 'delete_users'])->name('delete-users');
+
 Route::get('/update-users/{id}', [UsersController::class, 'update_users'])->name('update-users');
 Route::put('/update-users/{id}', [UsersController::class, 'storeUpdate'])->name('store-updateUsers');
 
+Route::get('/list-trash-users', [UsersController::class, 'list_trash_users'])->name('list_trash_users');
+
+Route::post('/search-users', [UsersController::class, 'searchUser'])->name('searchUser');
+
+
+Route::delete('/delete-users/{id}', [UsersController::class, 'delete_users'])->name('delete-users');
+Route::post('/list/delete-users', [UsersController::class, 'delete_list_users'])->name('delete_list_users');
+
+Route::get('/list-trash-users', [UsersController::class, 'list_trash_users'])->name('list_trash_users');
+
+
+Route::post('/restore-users', [UsersController::class, 'restore_trash_users'])->name('restore_trash_users');
+Route::get('/restore-all-users', [UsersController::class, 'restore_all_users'])->name('restore_all_users');
+
+Route::post('/delete-users', [UsersController::class, 'delete_trash_users'])->name('delete_trash_users');
+Route::get('/delete-all-users', [UsersController::class, 'delete_all_users'])->name('delete_all_users');
+
+Route::get('/destroy-trash-users/{id}', [UsersController::class, 'destroy_trash_users'])->name('destroy_trash_users');
+
+
+//Comments
+
 Route::get('/list-comments', [CommentController::class, 'list_comments'])->name('list-comments');
-Route::get('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
+Route::delete('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
 Route::get('/update_comments/{id}', [CommentController::class, 'update_comments'])->name('update_comments');
 Route::put('/update_comments/{id}', [CommentController::class, 'storeComment'])->name('store_comments');
+
+Route::get('/list-trash-comments', [CommentController::class, 'list_trash_comments'])->name('list_trash_comments');
+
+Route::post('/search-comments', [CommentController::class, 'searchComments'])->name('searchComments');
+
+Route::post('/list/delete-comments', [CommentController::class, 'delete_list_comments'])->name('delete_list_comments');
+
+Route::post('/restore-comments', [CommentController::class, 'restore_trash_comments'])->name('restore_trash_comments');
+Route::get('/restore-all-comments', [CommentController::class, 'restore_all_comments'])->name('restore_all_comments');
+
+Route::post('/delete-comments', [CommentController::class, 'delete_trash_comments'])->name('delete_trash_comments');
+Route::get('/delete-all-comments', [CommentController::class, 'delete_all_comments'])->name('delete_all_comments');
+
+Route::get('/destroy-trash-comments/{id}', [CommentController::class, 'destroy_trash_comments'])->name('destroy_trash_comments');
+

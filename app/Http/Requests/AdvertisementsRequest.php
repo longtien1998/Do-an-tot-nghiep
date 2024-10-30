@@ -24,7 +24,7 @@ class AdvertisementsRequest extends FormRequest
         return [
             'ads_name' => 'required|max:255',
             'ads_description' => 'required|max:255',
-            'file_path' => 'required|mimes:mp4,mov,avi,flv|max:10240',
+            'file_path' => 'required|max:10240',
         ];
     }
     public function messages()
@@ -34,7 +34,6 @@ class AdvertisementsRequest extends FormRequest
             'ads_name.max' => 'Tên quảng cáo không được quá 255 ký tự',
             'ads_description.required' => 'Vui lòng nhập mô tả quảng cáo',
             'ads_description.max' => 'Mô tả quảng cáo không được dài quá 255 ký tự',
-            'file_path.mimes' => 'Chỉ chấp nhận các định dạng video mp4, mov, avi, flv.',
             'file_path.max'   => 'Dung lượng tối đa cho video là 10MB.',
             'file_path.required' => 'Vui lòng thêm đường dẫn quảng cáo',
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\admin\ads;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,6 +11,7 @@ use App\Http\Requests\AdvertisementsRequest;
 
 class AdvertisementsController extends Controller
 {
+
 
     public function list_advertisements()
     {
@@ -34,37 +35,31 @@ class AdvertisementsController extends Controller
 
 
         if ($request->hasFile('file_path')) {
-
-            // Lưu file vào S3
-            $path_ads = $request->file('file_path')->store('ads', 's3');
-
-            // Thiết lập quyền công khai cho file đã upload
-            Storage::disk('s3')->setVisibility($path_ads, 'public');
-
-            // Lấy URL công khai của file
-            $data['file_path'] = Storage::disk('s3')->url($path_ads);
+            $file = $request->file('file_path');
+            $adsName = $request->ads_name;
+            $url_ads = Advertisements::up_file_ads($file, $adsName);
+            $data['file_path'] = $url_ads;
         } else {
             $data['file_path'] = null;
         }
         if (Advertisements::createAds($data)) {
-            toastr()->success('Thêm quảng cáo thành công');
-            return redirect('/list-advertisements');
+            return redirect()->route('list-advertisements')->with('success', 'Thêm quảng cáo thành công');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Thêm quảng cáo thất bại');
         }
     }
 
 
 
 
-    public function update_advertisements($id)
+    public function edit_advertisements($id)
     {
         $ads = Advertisements::find($id);
         return view('admin.advertisements.update-advertisements', compact('ads'));
     }
 
 
-    public function storeUpdate(Request $request, $id)
+    public function update_advertisements(Request $request, $id)
     {
         $ads = Advertisements::find($id);
         $data   = [
@@ -74,21 +69,19 @@ class AdvertisementsController extends Controller
 
         if ($request->hasFile('file_path')) {
             $file = $request->file('file_path');
-            $path_image = $file->store('ads', 's3');
-            Storage::disk('s3')->setVisibility($path_image, 'public');
-            $data['file_path'] = Storage::disk('s3')->url($path_image);
+            $adsName = $request->ads_name;
+            $url_ads = Advertisements::up_file_ads($file, $adsName);
+            $data['file_path'] = $url_ads;
         } else {
             $data['file_path'] = $ads->file_path;
         }
         if (Advertisements::updateAds($id, $data)) {
-            toastr()->success('Cập nhật quảng cáo thành công');
-            return redirect('/list-advertisements');
+            return redirect()->route('list-advertisements')->with('success', 'Cập nhật quảng cáo thành công');
         } else {
-            toastr()->error('Cập nhật quảng cáo thất bại');
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Cập nhật quảng cáo thất bại');
+
         }
     }
-
     public function delete_advertisements($id)
     {
         try {
@@ -210,7 +203,7 @@ class AdvertisementsController extends Controller
     {
         try {
             Advertisements::withTrashed()->where('id', $id)->forceDelete();
-            return redirect()->route('list-trash-ads')->with('success', 'Xóa quảng cáo khỏi thùng rác thành công!');
+            return redirect()->route('list_trash_ads')->with('success', 'Xóa quảng cáo khỏi thùng rác thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa quảng cáo khỏi thùng rác thất bại.');
         }

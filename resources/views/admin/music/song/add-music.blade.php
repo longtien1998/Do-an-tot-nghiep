@@ -70,7 +70,6 @@
                         <label class="col-md-12">Thể loại</label>
                         <select class="form-select" name="categories_id" aria-label="Default select example" value="{{old('categories_id')}}">
                             <option selected value="">Chọn thể loại</option>
-
                             @foreach ( $Categories as $category)
                             <option value="{{$category->id}}">{{$category->categorie_name}}</option>
                             @endforeach
@@ -86,7 +85,7 @@
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Quốc gia</label>
-                        <input type="text" name="country" class="form-control form-control-line" value="{{old('country')}}">
+                        <!-- <input type="text" name="country" class="form-control form-control-line" value="{{old('country')}}"> -->
                         <select class="form-select" name="country" aria-label="Default select example" value="{{old('country')}}">
                             <option selected value="">Chọn quốc gia</option>
 
