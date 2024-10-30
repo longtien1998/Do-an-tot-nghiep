@@ -11,7 +11,8 @@
     use App\Http\Controllers\admin\AlbumController;
     use App\Http\Controllers\admin\CopyrightController;
     use App\Http\Controllers\admin\PublishersController;
-    use App\Http\Controllers\admin\AdvertisementsController;
+    use App\Http\Controllers\admin\ads\AdvertisementsController;
+    use App\Http\Controllers\admin\ads\S3AdsController;
     use App\Http\Controllers\admin\UsersController;
     use App\Http\Controllers\admin\CommentController;
     use App\Http\Controllers\admin\S3ImageController;
@@ -24,7 +25,7 @@
         Route::get('/login',  'index')->name('login-index');
         Route::post('/login',  'authenticate')->name('login');
         Route::post('/logout',  'logout')->name('logout');
-
+    });
     Route::get('/test', function () {
         return view('test');
     });
