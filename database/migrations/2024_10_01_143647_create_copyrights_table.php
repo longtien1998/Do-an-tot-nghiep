@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hasTable('migrations')){
+        if(!Schema::hasTable('copyrights')){
             Schema::create('copyrights', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('song_id')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->timestamp('issue_date')->nullable();
                 $table->timestamp('expiry_date')->nullable();
                 $table->text('usage_rights')->nullable();
-                $table->text('tems')->nullable();
+                $table->text('terms')->nullable();
                 $table->string('license_file')->nullable();
                 $table->timestamps();
             });

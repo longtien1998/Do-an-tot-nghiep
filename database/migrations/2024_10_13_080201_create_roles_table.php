@@ -14,9 +14,11 @@ return new class extends Migration
         if(!Schema::hasTable('roles')){
             Schema::create('roles', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('user_id');
+                $table->string('role_name');
+                $table->unsignedBigInteger('user_id')->unique();
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->integer('role_type');
+
                 $table->timestamps();
             });
         }

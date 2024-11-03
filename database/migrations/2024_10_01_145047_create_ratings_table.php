@@ -21,8 +21,8 @@ return new class extends Migration
                 $table->tinyInteger('rating');
                 $table->text('comment')->nullable();
                 $table->timestamp('rating_date');
-                $table->softDeletes();
                 $table->timestamps();
+                $table->softDeletes();
             });
         }
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Api\Songs;
+use App\Http\Resources\SongsResource;
 
 class SongsController extends Controller
 {
@@ -42,7 +43,7 @@ class SongsController extends Controller
 
             ],404);
         } else {
-            return response()->json($songs, 200);
+            return response()->json(SongsResource::collection($songs), 200);
         }
     }
 
@@ -53,6 +54,46 @@ class SongsController extends Controller
         if($songs->isEmpty()){
             return response()->json([
                 'message' =>'Không có bài hát',
+
+            ],404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
+
+    // Bài hát theo thể loại quốc gia
+    public function list_song_Country($id){
+        $songs = Songs::list_song_Country($id);
+        if($songs->isEmpty()){
+            return response()->json([
+                'message' =>'Không có bài hát trong thể loại này',
+
+            ],404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
+    // Bài hát theo thể loại
+    public function list_song_category($id){
+        $songs = Songs::list_song_category($id);
+        if($songs->isEmpty()){
+            return response()->json([
+                'message' =>'Không có bài hát trong thể loại này',
+
+            ],404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
+    // Bài hát theo ca sĩ
+    public function list_song_singer($id){
+        $songs = Songs::list_song_singer($id);
+        if($songs->isEmpty()){
+            return response()->json([
+                'message' =>'Không có bài hát của ca sĩ này',
 
             ],404);
         } else {

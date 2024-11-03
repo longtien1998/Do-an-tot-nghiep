@@ -36,6 +36,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('url.index')}}" class="nav-item">
+                    <i class="fa-solid fa-link"></i>
+                        <span class="">List URL</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('s3songs.index')}}" class="nav-item">
                     <i class="fa-solid fa-file"></i>
                         <span class="">File bài hát</span>
@@ -108,10 +114,32 @@
             <i class="fa-solid fa-copyright"></i>
             <span>Bản quyền</span>
         </a>
-        <a class="nav-item" href="{{route('list-publishers')}}">
-            <i class="fa-solid fa-industry"></i>
-            <span>Nhà xuất bản</span>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-nxb" aria-controls="ql-nxb">
+            <i class="fa-sharp-duotone fa-solid fa-layer-group"></i>
+            <span>Nhà xuất bản <i class="fa fa-caret-down float-end "></i></span>
         </a>
+        <div class="accordion-collapse collapse" id="ql-nxb" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('publishers.create')}}" class="nav-item">
+                    <i class="fa-solid fa-circle-plus"></i>
+                        <span class="">Thêm Nhà xuất bản</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('publishers.index')}}" class="nav-item">
+                    <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách Nhà xuất bản</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('publishers.trash.index')}}" class="nav-item">
+                    <i class="fa-solid fa-trash"></i>
+                        <span class="">Nhà xuất bản đã xóa</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-ads" aria-controls="ql-ads">
             <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo <i class="fa fa-caret-down float-end "></i></span>

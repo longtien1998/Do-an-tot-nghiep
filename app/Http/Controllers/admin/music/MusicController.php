@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\admin\music;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -343,7 +343,7 @@ class MusicController extends Controller
             try {
                 foreach ($deletelist as $list) {
                     $song = Music::find($list);
-                    $song->deleted();
+                    $song->delete();
                 }
                 return redirect()->route('list-music')->with('success', 'Xoá bài hát thành công!');
             } catch (\Exception $e) {
@@ -360,7 +360,7 @@ class MusicController extends Controller
     public function list_trash_music()
 
     {
-        $songs = Music::onlyTrashed()->get();
+        $songs = Music::onlyTrashed()->paginate(10);
         // dd($songs);
         return view('admin.music.trash.list-trash-music', compact('songs'));
     }

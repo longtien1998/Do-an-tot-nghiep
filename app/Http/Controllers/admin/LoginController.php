@@ -13,17 +13,23 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function authenticate(LoginRequest $request){
+    public function authenticate(Request $request){
 
-        // dd($request->all());
-        $request->validated();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ],[
+            'email.required' => 'Vui lòng nhập email',
+            'email.email' => 'Email không đúng định dạng',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+        ]);
 
+        if (Auth::attempt( $credentials)) {
 
-        $request->authenticate();
-        dd($request->authenticate());
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false))->with('success','Đăng nhập thành công');
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard', absolute: false))->with('success','Đăng nhập thành công');
+        }
+        return redirect()->back()->with('error','Email hoặc mật khẩu không đúng');
 
     }
 
