@@ -24,7 +24,18 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-            <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            <form class="form-horizontal form-material row" action="{{route('publishers.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên nhà xuất bản <span class="text-danger">(*)</span></label>
@@ -32,19 +43,19 @@
                         <input type="text" name="publisher_name" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Tên gọi khác </label>
                     <div class="col-md-12">
-                        <input type="text" name="alisas_name" value="" class="form-control form-control-line">
+                        <input type="text" name="alias_name" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Quốc gia</label>
                     <div class="col-md-12">
                         <input type="text" name="country" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Thành phố </label>
                     <div class="col-md-12">
                         <input type="text" name="city" value="" class="form-control form-control-line">
@@ -56,19 +67,19 @@
                         <input type="text" name="address" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Trang web </label>
                     <div class="col-md-12">
                         <input type="text" name="website" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Email </label>
                     <div class="col-md-12">
                         <input type="email" name="email" value="" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Số điện thoại</label>
                     <div class="col-md-12">
                         <input type="text" name="phone" value="" class="form-control form-control-line">
@@ -77,8 +88,9 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Logo</label>
                     <div class="col-md-12">
-                        <input type="file" name="logo" value="" class="form-control form-control-line">
+                        <input type="file" name="logo" value="" id="logoImage" accept="image/*" class="form-control form-control-line">
                     </div>
+                    <img id="previewImage" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
@@ -95,5 +107,29 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('js')
+
+<script>
+    document.getElementById('logoImage').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Lấy file đầu tiên từ input
+        const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
+
+        if (file) {
+            const reader = new FileReader(); // Tạo FileReader để đọc file
+
+            reader.onload = function(e) {
+                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
+            };
+
+            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            preview.classList.remove('d-none'); // Hiển thị ảnh preview
+        } else {
+            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+        }
+    });
+</script>
 
 @endsection

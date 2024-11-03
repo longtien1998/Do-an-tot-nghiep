@@ -41,4 +41,15 @@ Route::get('/luot-tai/{id}', [App\Http\Controllers\Api\SongsController::class, '
 Route::get('/bxh-100', [App\Http\Controllers\Api\SongsController::class, 'bxh_100']);
 // 10 bài hát ngẫu nhiên
 Route::get('/rand-10', [App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
-//
+// thể loại quốc gia
+Route::get('/quoc-gia',[App\Http\Controllers\Api\CountryController::class, 'index']);
+// Bài hát theo quốc gia
+Route::get('/quoc-gia/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::class, 'list_song_Country']);
+// Thể loại Bài hát
+Route::get('/the-loai',[App\Http\Controllers\Api\CategoryController::class, 'index']);
+// Bài hát theo thể loại
+Route::get('/the-loai/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::class, 'list_song_category']);
+// Ca sĩ
+Route::get('/ca-si',[App\Http\Controllers\Api\SingerController::class, 'index']);
+// Bài hát theo Ca sĩ
+Route::get('/ca-si/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::class, 'list_song_singer']);

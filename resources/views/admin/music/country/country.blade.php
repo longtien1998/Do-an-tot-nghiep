@@ -92,7 +92,7 @@
 
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_songs" class=""></th>
+                <th><input type="checkbox" name="" id="check_all_list" class=""></th>
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(3)">Tên Quốc gia <span class="sort-icon"> ⬍ </span></th>
@@ -103,7 +103,7 @@
         <tbody>
             @foreach($countries as $index => $country)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$country->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$country->id}}"></td>
                 <th scope="row">{{$countries->firstItem() + $index}}</th>
                 <td>{{$country->id}}</td>
                 <td>{{$country->name_country}}</td>
@@ -197,10 +197,10 @@
 <script>
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 
