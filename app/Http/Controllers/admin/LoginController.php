@@ -15,11 +15,17 @@ class LoginController extends Controller
 
     public function authenticate(LoginRequest $request){
 
-        $request->validated();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ],[
+            'email.required' => 'Vui lòng nhập email',
+            'email.email' => 'Email không đúng định dạng',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+        ]);
 
-        $request->ensureIsNotRateLimited();
+        if (Auth::attempt( $credentials)) {
 
-        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
 
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard', absolute: false))->with('success','Đăng nhập thành công');
