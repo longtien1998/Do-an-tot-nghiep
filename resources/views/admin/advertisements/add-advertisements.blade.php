@@ -14,6 +14,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Quảng cáo</li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm quảng cáo</li>
                     </ol>
                 </nav>
@@ -35,7 +36,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal form-material" action="{{route('advertisements.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên quảng cáo <span class="text-danger">(*)</span></label>
@@ -50,7 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Đường dẫn</label>
+                    <label class="col-md-12">Đường dẫn <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="file" name="file_path" value="" class="form-control form-control-line" accept="audio/mp3/mp4">
                     </div>

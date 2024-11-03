@@ -103,7 +103,7 @@ class User extends Authenticatable
         'updated_at',
         'deleted_at',)
         ->whereNull('deleted_at')
-        ->get();
+        ->paginate(10);
     }
     public static function search_users($search)
     {
@@ -112,5 +112,23 @@ class User extends Authenticatable
             ->select('users.*')
             ->get();
         return $users;
+    }
+    public static function show($id)
+    {
+        $users = User::find($id);
+
+        return (object)[
+            'id'                => $users->id,
+            'name'              => $users->name,
+            'email'             => $users->email,
+            'phone'             => $users->phone,
+            'email_verified_at' => $users->email_verified_at,
+            'password'          => $users->password,
+            'image'             => $users->image,
+            'gender'            => $users->gender,
+            'birthday'          => $users->birthday,
+            'users_type'        => $users->users_type,
+            'expiry_date'       => $users->expiry_date,
+        ];
     }
 }

@@ -25,8 +25,6 @@ class MusicController extends Controller
 
     public function list_music(Request $request)
     {
-
-
         $perPage = 10;
         $filterTheloai = false;
         $filterSinger = false;

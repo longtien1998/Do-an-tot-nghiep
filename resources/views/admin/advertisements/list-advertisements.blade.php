@@ -25,7 +25,6 @@
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <a href="{{route('list-advertisements')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
-            <a href="{{route('add-advertisements')}}" class="btn btn-success">Thêm quảng cáo</a>
         </div>
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('searchAds')}}" method="post">
@@ -50,11 +49,11 @@
     <table class="table text-center" id="myTable">
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_ads" class=""></th>
-                <th scope="col">ID</th>
-                <th scope="col">Tên quảng cáo</th>
-                <th scope="col">Mô tả</th>
-                <th scope="col">Đường dẫn</th>
+                <th><input type="checkbox" name="" id="check_all_list" class=""></th>
+                <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(2)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(3)">Mô tả <span class="sort-icon">⬍</span></th>
+                <th scope="col">Đường dẫn </th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -62,13 +61,13 @@
             @php $stt = 1; @endphp
             @foreach($advertisements as $ads)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$ads->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$ads->id}}"></td>
                 <th scope="row">{{$ads->id}}</th>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
                 <td><a href="{{$ads->file_path}}" target="_blank">{{$ads->file_path}}</a></td>
                 <td>
-                    <a href="{{route('update-advertisements',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{route('advertisements.edit',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
                     <form action="{{ route('delete-advertisements', $ads->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -92,12 +91,17 @@
     @endif
 
 </div>
+<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination">
+        {{$advertisements->links('pagination::bootstrap-5')}}
+    </ul>
+</div>
 
 @endsection
 @section('js')
 <script>
-     document.querySelector('#check_all_ads').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+    document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -108,10 +112,10 @@
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 
