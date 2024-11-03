@@ -13,6 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Quảng cáo</li>
                         <li class="breadcrumb-item active" aria-current="page">Tất cả file quảng cáo</li>
                     </ol>
                 </nav>

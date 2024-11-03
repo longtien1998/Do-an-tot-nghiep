@@ -14,6 +14,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm tài khoản</li>
                     </ol>
                 </nav>
@@ -27,19 +28,19 @@
             <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Tên</label>
+                    <label class="col-md-12">Tên <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="name" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Mật khẩu</label>
+                    <label class="col-md-12">Mật khẩu <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="password" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Email</label>
+                    <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="email" name="email" value="" class="form-control form-control-line">
                     </div>
@@ -58,9 +59,12 @@
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Giới tính</label>
-                    <div class="col-md-12">
-                        <input type="text" name="gender" value="" class="form-control form-control-line">
-                    </div>
+                    <select class="form-select" name="gender" id="">
+                        <option value="">Chọn giới tính</option>
+                        <option value="1">Nam</option>
+                        <option value="0">Nữ</option>
+
+                    </select>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Sinh nhật</label>

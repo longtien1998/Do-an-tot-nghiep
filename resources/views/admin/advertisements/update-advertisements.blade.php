@@ -24,7 +24,11 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+<<<<<<< HEAD
             <form class="form-horizontal form-material" action="{{route('update-advertisements')}}" method="POST" enctype="multipart/form-data">
+=======
+            <form class="form-horizontal form-material" action="{{ route('advertisements.update', $ads->id) }}" method="POST" enctype="multipart/form-data">
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -40,11 +44,13 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Đường dẫn</label>
+                    <label class="col-md-12">Đường dẫn <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                    @if($ads->file_path)
-                        <input type="text" name="file_path" id="file" value="{{asset('admin/upload/ads/'. $ads->file_path)}}" class="form-control form-control-line" >
-                    @endif
+                        @if($ads->file_path)
+                        <input type="text" name="file_path_text" value="{{ asset('admin/upload/ads/' . $ads->file_path) }}" class="form-control form-control-line" disabled>
+                        @endif
+                        <input type="file" name="file_path" id="file" class="form-control form-control-line mt-2">
+
                     </div>
                 </div>
                 @if($errors->any())
@@ -62,7 +68,6 @@
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Cập nhật</button>
-                        <button type="button" id="uploadFile" class="btn btn-primary"> Upload file</button>
                     </div>
                 </div>
             </form>
@@ -73,11 +78,11 @@
 @endsection
 @section('js')
 <script>
-    document.getElementById('uploadFile').addEventListener('click',function(){
-        if(document.getElementById('file').getAttribute('type') == 'text'){
-            document.getElementById('file').setAttribute('type','file');
+    document.getElementById('uploadFile').addEventListener('click', function() {
+        if (document.getElementById('file').getAttribute('type') == 'text') {
+            document.getElementById('file').setAttribute('type', 'file');
         } else {
-            document.getElementById('file').setAttribute('type','text');
+            document.getElementById('file').setAttribute('type', 'text');
         }
 
     });

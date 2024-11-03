@@ -39,7 +39,7 @@ class CommentController extends Controller
     public function list_trash_comments()
 
     {
-        $comments = Comment::onlyTrashed()->get();
+        $comments = Comment::onlyTrashed()->paginate(10);
         return view('admin.comments.list-trash-comments', compact('comments'));
     }
 
@@ -177,6 +177,30 @@ class CommentController extends Controller
             } else {
                 toastr()->success('Tìm bình luận thành công');
                 return view('admin.comments.list-comments', compact('comments'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bình luận nào phù hợp với từ khóa.');
+        }
+    }
+    public function search_comments_trash(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $comments = Comment::onlyTrashed()->where('comment', 'LIKE', '%' . $query . '%')->get();
+            if ($comments->isEmpty()) {
+                return redirect()->route('list_trash_comments')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
+            } else {
+                toastr()->success('Tìm bình luận thành công');
+                return view('admin.comments.list-trash-comments', compact('comments'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bình luận nào phù hợp với từ khóa.');

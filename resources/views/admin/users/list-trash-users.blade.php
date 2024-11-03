@@ -28,7 +28,7 @@
             <a href="{{route('list_trash_users')}}" class="btn btn-outline-success"> Tất cả tài khoản đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="" method="post">
+            <form class="search-form" action="{{route('searchTrashUser')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên tài khoản..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -53,18 +53,20 @@
                 </form>
                 <a href="{{route('restore_all_users')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả tài khoản</a>
             </div>
-
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_ads" class="check_all_songs" ></th>
-                <th scope="col">STT</th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_list" ></th>
+                <th scope="col" onclick="sortTable(1)">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Email <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Email <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Số điện thoại <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(6)">Giới tính <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(7)">Ngày sinh <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hình ảnh</th>
-                <th scope="col" onclick="sortTable(3)">Ngày tạo <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Quyền <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(9)">Ngày tạo <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(10)">Quyền <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(11)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -73,11 +75,14 @@
             @php $stt = 1; @endphp
             @foreach($users as $user)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$user->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$user->id}}"></td>
                 <th scope="row">{{$stt}}</th>
                 <td>{{$user->id}}</td>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
+                <td>{{$user->phone}}</td>
+                <td>{{$user->gender}}</td>
+                <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
                 <td>
@@ -100,13 +105,17 @@
     </table>
 
 </div>
-
+<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination">
+        {{$users->links('pagination::bootstrap-5')}}
+    </ul>
+</div>
 @endsection
 @section('js')
 
 <script>
-    document.querySelector('#check_all_ads').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+    document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -124,7 +133,7 @@
        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 

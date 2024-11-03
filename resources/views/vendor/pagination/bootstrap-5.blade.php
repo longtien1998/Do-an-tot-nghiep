@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
-    <nav class="d-flex justify-items-center justify-content-between">
-        <div class="d-flex justify-content-between flex-fill d-sm-none">
+    <nav class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center flex-fill d-sm-none">
             <ul class="pagination">
                 {{-- Previous Page Link --}}
                 @if ($paginator->onFirstPage())
@@ -26,9 +26,9 @@
             </ul>
         </div>
 
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
+        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-center">
             <div class="mx-2">
-                <p class="small text-muted">
+                <p class="small text-muted mt-3">
                     {!! __('Hiển thị') !!}
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
                     {!! __('đến') !!}
@@ -40,7 +40,7 @@
             </div>
 
             <div>
-                <ul class="pagination">
+                <ul class="pagination justify-content-center">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

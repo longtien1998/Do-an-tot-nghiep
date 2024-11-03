@@ -114,7 +114,27 @@
         });
 
 
+<<<<<<< HEAD
         // danh mục
+=======
+    // danh mục
+    Route::group([
+        'prefix' => 'categories',
+        // 'middleware' => ['auth'],
+        'controller' => CategoriesController::class,
+        'as' => 'categories.',
+    ], function () {
+
+        Route::get('/list',  'list_categories')->name('list');
+        Route::get('/add',  'add_categories')->name('add');
+        Route::post('/store',  'store_categories')->name('store');
+        Route::get('/{id}/edit',  'edit_categories')->name('edit');
+        Route::put('/{id}/update',  'update_categories')->name('update');
+        Route::delete('/{id}/delete',  'delete_categories')->name('delete');
+        Route::post('/list/delete',  'delete_list')->name('delete-list');
+        Route::post('/search',  'search_categories')->name('search');
+
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
         Route::group([
             'prefix' => 'categories',
             'middleware' => ['admin'],
@@ -198,17 +218,28 @@
 
     Route::get('/list-advertisements', [AdvertisementsController::class, 'list_advertisements'])->name('list-advertisements');
 
-    Route::get('/add-advertisements', [AdvertisementsController::class, 'add_advertisements'])->name('add-advertisements');
-    Route::post('/add-advertisements', [AdvertisementsController::class, 'storeAdvertisements'])->name('store-advertisements');
+    Route::get('/advertisements/create', [AdvertisementsController::class, 'add_advertisements'])->name('advertisements.create');
+    Route::post('/advertisements', [AdvertisementsController::class, 'storeAdvertisements'])->name('advertisements.store');
 
+<<<<<<< HEAD
     Route::get('/update-advertisements/{id}', [AdvertisementsController::class, 'edit_advertisements'])->name('edit-advertisements');
     Route::put('/update-advertisements/{id}', [AdvertisementsController::class, 'update_advertisements'])->name('update-advertisements');
+=======
+    Route::get('/advertisements/edit/{id}', [AdvertisementsController::class, 'edit_advertisements'])->name('advertisements.edit');
+    Route::put('/advertisements/update/{id}', [AdvertisementsController::class, 'update_advertisements'])->name('advertisements.update');
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
 
 
     Route::post('/search-advertisements', [AdvertisementsController::class, 'searchAds'])->name('searchAds');
+    Route::post('/search-trash-advertisements', [AdvertisementsController::class, 'search_ads_trash'])->name('searchTrashAds');
 
 
+<<<<<<< HEAD
     Route::get('/s3ads', [S3AdsController::class, 'file_ads'])->name('s3ads.index');
+=======
+
+    Route::get('/s3ads/show', [S3AdsController::class, 'file_ads'])->name('s3ads.index');
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
     Route::post('/s3ads', [S3AdsController::class, 'destroy_file_ads'])->name('s3ads.destroy');
 
 
@@ -242,7 +273,13 @@
 
     Route::get('/list-trash-users', [UsersController::class, 'list_trash_users'])->name('list_trash_users');
 
+<<<<<<< HEAD
     Route::post('/search-users', [UsersController::class, 'searchUser'])->name('searchUser');
+=======
+Route::post('/search-users', [UsersController::class, 'searchUser'])->name('searchUser');
+Route::post('/search-trash-users', [UsersController::class, 'search_users_trash'])->name('searchTrashUser');
+
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
 
 
     Route::delete('/delete-users/{id}', [UsersController::class, 'delete_users'])->name('delete-users');
@@ -259,17 +296,34 @@
 
     Route::get('/destroy-trash-users/{id}', [UsersController::class, 'destroy_trash_users'])->name('destroy_trash_users');
 
+Route::get('/show-user/{id}', [UsersController::class, 'show_user'])->name('show_users');
+
+
 
     //Comments
 
+<<<<<<< HEAD
     Route::get('/list-comments', [CommentController::class, 'list_comments'])->name('list-comments');
     Route::delete('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
     Route::get('/update_comments/{id}', [CommentController::class, 'update_comments'])->name('update_comments');
     Route::put('/update_comments/{id}', [CommentController::class, 'storeComment'])->name('store_comments');
+=======
+Route::get('/list-comments', [CommentController::class, 'list_comments'])->name('list-comments');
+
+Route::delete('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
+
+Route::get('/update_comments/{id}', [CommentController::class, 'update_comments'])->name('update_comments');
+Route::put('/update_comments/{id}', [CommentController::class, 'storeComment'])->name('store_comments');
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
 
     Route::get('/list-trash-comments', [CommentController::class, 'list_trash_comments'])->name('list_trash_comments');
 
+<<<<<<< HEAD
     Route::post('/search-comments', [CommentController::class, 'searchComments'])->name('searchComments');
+=======
+Route::post('/search-comments', [CommentController::class, 'searchComments'])->name('searchComments');
+Route::post('/search-trash-comments', [CommentController::class, 'search_comments_trash'])->name('searchTrashComments');
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
 
     Route::post('/list/delete-comments', [CommentController::class, 'delete_list_comments'])->name('delete_list_comments');
 

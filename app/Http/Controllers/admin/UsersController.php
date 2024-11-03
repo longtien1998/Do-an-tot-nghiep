@@ -77,7 +77,7 @@ class UsersController extends Controller
     public function list_trash_users()
 
     {
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->paginate(10);
         return view('admin.users.list-trash-users', compact('users'));
     }
 
@@ -209,6 +209,35 @@ class UsersController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy tài khoản nào phù hợp với từ khóa.');
         }
+    }
+    public function search_users_trash(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $users = User::onlyTrashed()->where('name', 'LIKE', '%' . $query . '%')->get();
+            if ($users->isEmpty()) {
+                return redirect()->route('list_trash_users')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
+            } else {
+                toastr()->success('Tìm tài khoản thành công');
+                return view('admin.users.list-trash-users', compact('users'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy tài khoản nào phù hợp với từ khóa.');
+        }
+    }
+    public function show_user($id)
+    {
+        $users = User::show($id);
+        return view('admin.users.show-users', compact('users',));
     }
 }
 

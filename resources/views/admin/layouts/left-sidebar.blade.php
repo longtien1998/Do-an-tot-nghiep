@@ -19,19 +19,19 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('add-music')}}" class="nav-item">
-                    <i class="fa-solid fa-circle-plus"></i>
+                        <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm bài hát</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list-music')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách bài hát</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list-trash-music')}}" class="nav-item">
-                    <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Bài hát đã xóa</span>
                     </a>
                 </li>
@@ -43,13 +43,13 @@
                 </li>
                 <li>
                     <a href="{{route('s3songs.index')}}" class="nav-item">
-                    <i class="fa-solid fa-file"></i>
+                        <i class="fa-solid fa-file"></i>
                         <span class="">File bài hát</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('s3images.index')}}" class="nav-item">
-                    <i class="fa-solid fa-image"></i>
+                        <i class="fa-solid fa-image"></i>
                         <span class="">Hình bài hát</span>
                     </a>
                 </li>
@@ -64,13 +64,13 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('list-country')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách quốc gia</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list_trash_country')}}" class="nav-item">
-                    <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Quốc gia đã xóa</span>
                     </a>
                 </li>
@@ -84,19 +84,19 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('categories.add')}}" class="nav-item">
-                    <i class="fa-solid fa-circle-plus"></i>
+                        <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm Thể loại</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('categories.list')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách Thể loại</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('categories.trash.list')}}" class="nav-item">
-                    <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Thể loại đã xóa</span>
                     </a>
                 </li>
@@ -147,18 +147,26 @@
         <div class="accordion-collapse collapse" id="ql-ads" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
+                    <a href="{{route('advertisements.create')}}" class="nav-item">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span class="">Thêm quảng cáo</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('list-advertisements')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách quảng cáo</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list_trash_ads')}}" class="nav-item">
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Quảng cáo đã xóa</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('s3ads.index')}}" class="nav-item">
+                        <i class="fa-solid fa-file"></i>
                         <span class="">File quảng cáo</span>
                     </a>
                 </li>
@@ -166,18 +174,26 @@
         </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-user" aria-controls="ql-user">
             <i class="fa-solid fa-users"></i>
-            <span>Người dùng <i class="fa fa-caret-down float-end "></i></span>
+            <span>Tài khoản <i class="fa fa-caret-down float-end "></i></span>
         </a>
         <div class="accordion-collapse collapse" id="ql-user" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
+            <li>
+                    <a href="{{route('add-users')}}" class="nav-item">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span class="">Thêm tài khoản</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{{route('list-users')}}" class="nav-item">
-                        <span class="">Danh sách người dùng</span>
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách tài khoản</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list_trash_users')}}" class="nav-item">
-                        <span class="">Người dùng đã xóa</span>
+                        <i class="fa-solid fa-trash"></i>
+                        <span class="">Tài khoản đã xóa</span>
                     </a>
                 </li>
 
@@ -191,11 +207,13 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('list-comments')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách bình luận</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('list_trash_comments')}}" class="nav-item">
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Bình luận đã xóa</span>
                     </a>
                 </li>
