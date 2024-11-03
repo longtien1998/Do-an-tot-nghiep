@@ -169,19 +169,15 @@
 <script>
      document.querySelector('#check_all_list').addEventListener('click', function() {
         var checkboxes = document.getElementsByClassName('check_list');
-
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
         }
-
         getCheckedValues()
-
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-delete').addEventListener('submit', function(e) {
         return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
-
     const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
