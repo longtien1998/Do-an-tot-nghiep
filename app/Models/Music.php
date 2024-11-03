@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Filepaths;
 use App\Models\Singer;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Music extends Model
 {
@@ -35,6 +37,62 @@ class Music extends Model
         'updated_at',
         'created_at',
     ];
+
+    public static function url($perPage)
+    {
+        try {
+
+
+            // Bước 1: Lấy dữ liệu các bài hát với phân trang
+            $paginatedSongs = DB::table('songs')
+                ->join('categories', 'songs.category_id', '=', 'categories.id')
+                ->join('country', 'songs.country_id', '=', 'country.id')
+                ->join('singers', 'songs.singer_id', '=', 'singers.id')
+                ->whereNull('songs.deleted_at')
+                ->select(
+                    'songs.id',
+                    'songs.song_name'
+                )
+                ->paginate($perPage); // Sử dụng $perPage để xác định số bản ghi trên mỗi trang
+
+            // Bước 2: Lấy danh sách song_id
+            $songIds = $paginatedSongs->pluck('id'); // Lấy danh sách song_id từ paginator
+
+            // Bước 3: Lấy các file_paths liên quan đến bài hát
+            $filePaths = DB::table('file_paths')
+                ->whereIn('song_id', $songIds)
+                ->select('song_id', 'path_type', 'file_path')
+                ->get()
+                ->groupBy('song_id'); // Gom nhóm theo song_id
+
+            // Bước 4: Gắn file_paths vào từng bài hát
+            $songsWithPaths = $paginatedSongs->getCollection()->map(function ($song) use ($filePaths) {
+                $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
+                    $carry[$item->path_type] = $item->file_path;
+                    return $carry;
+                }, []);
+
+                // Đảm bảo file_paths là một object
+                $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+                return $song;
+            });
+
+            // Bước 5: Tạo lại Paginator với dữ liệu đã xử lý
+            $newPaginator = new LengthAwarePaginator(
+                $songsWithPaths,
+                $paginatedSongs->total(),
+                $paginatedSongs->perPage(),
+                $paginatedSongs->currentPage(),
+                ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+            );
+
+            // Trả về paginator đã cập nhật
+            return $newPaginator;
+        } catch (\Exception $e) {
+            // Hiển thị lỗi nếu có
+            dd($e->getMessage());
+        }
+    }
 
     public static function up_image_song($file, $songName)
     {
@@ -117,7 +175,7 @@ class Music extends Model
         if ($filterCreate) {
             $query->whereDate('songs.created_at', $filterCreate); // Giả định rằng bạn có trường `created_at`
         }
-        $query->orderBy('id','asc');
+        $query->orderBy('id', 'asc');
         $songsList = $query->paginate($perPage);
         // dd($songsList);
         return $songsList;
@@ -164,7 +222,7 @@ class Music extends Model
             ->join('categories', 'songs.category_id', '=', 'categories.id')
             ->join('country', 'songs.country_id', '=', 'country.id')
             ->join('singers', 'songs.singer_id', '=', 'singers.id')
-            ->where('songs.song_name', 'LIKE', '%'. $search. '%')
+            ->where('songs.song_name', 'LIKE', '%' . $search . '%')
             ->select(
                 'songs.*',
                 'categories.categorie_name as category_name',

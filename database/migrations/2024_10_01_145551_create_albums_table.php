@@ -21,6 +21,7 @@ return new class extends Migration
                 $table->integer('listen_count')->nullable();
                 $table->timestamp('creation_date');
                 $table->timestamps();
+                $table->softDeletes();
             });
 
         }

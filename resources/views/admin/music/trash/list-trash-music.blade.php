@@ -59,7 +59,7 @@
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs"></th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_songs"></th>
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên bài hát <span class="sort-icon">⬍</span></th>
@@ -72,7 +72,7 @@
 
             @foreach($songs as $index => $song)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$song->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$song->id}}"></td>
                 <th scope="row">{{$songs->firstItem() + $index}}</th>
                 <td>{{$song->id}}</td>
                 <td>{{$song->song_name}}</td>
@@ -98,8 +98,8 @@
 @section('js')
 
 <script>
-    document.querySelector('#check_all_songs').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+    document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -110,14 +110,14 @@
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-restore').addEventListener('submit', function(e) {
-        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
 
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 

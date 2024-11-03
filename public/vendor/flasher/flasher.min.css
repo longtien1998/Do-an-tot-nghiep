@@ -31,7 +31,7 @@
 }
 
 .fl-wrapper[data-position^=top-] {
-    top: 4.5em
+    top: 4em
 }
 
 .fl-wrapper[data-position^=bottom-] {

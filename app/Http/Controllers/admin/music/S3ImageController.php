@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\admin\music;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;

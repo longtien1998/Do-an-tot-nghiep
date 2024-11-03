@@ -54,7 +54,7 @@ class AuthController extends Controller
             ]);
             // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Member',]);
+            return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Member',], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đăng ký thất bại' . $e], 500);
         }
@@ -94,7 +94,7 @@ class AuthController extends Controller
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'user' => $user
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đăng nhập thất bại'], 401);
         }
@@ -106,6 +106,11 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Đăng xuất thành công!'], 200);
     }
+    // public function logout()
+    // {
+    //     Auth::user()->tokens->delete();
+    //     return ['message' => 'Bạn đã thoát ứng dụng và token đã xóa'];
+    // }
     public function refresh()
     {
         $token = Auth::user()->createToken('auth_token')->plainTextToken;

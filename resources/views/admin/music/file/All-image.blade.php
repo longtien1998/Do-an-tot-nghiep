@@ -62,7 +62,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_songs" class="check_all_songs"></th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_songs"></th>
                 <th scope="col">STT</th>
                 <th scope="col">Image</th>
                 <th scope="col">URL</th>
@@ -74,7 +74,7 @@
             @php $stt = 1; @endphp
             @foreach($images as $image)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$image['path']}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$image['path']}}"></td>
                 <td>{{ $stt++ }}</td>
                 <td><img src="{{ $image['url'] }}" alt="Image" width="100"></td>
                 <td>{{ $image['url'] }}</td>
@@ -101,4 +101,19 @@
         </tbody>
     </table>
 </div>
+@endsection
+
+@section('js')
+<script>
+    // Gán sự kiện 'submit' cho form
+    document.getElementById('form-delete').addEventListener('submit', function(e) {
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
+    });
+    const checkboxes = document.getElementsByClassName('check_list');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('click', getCheckedValues);
+
+    }
+</script>
+
 @endsection

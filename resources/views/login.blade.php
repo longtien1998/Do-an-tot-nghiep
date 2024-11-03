@@ -44,11 +44,11 @@
                 <form action="{{route('login')}}" method="post">
                 @csrf
                     <div class="pom-agile">
-                        <input placeholder="E-mail" name="email" class="email" type="email" required="" autocapitalize="">
+                        <input placeholder="E-mail" name="email"  class="email" type="email"  autocomplete="on">
                         <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span>
                     </div>
                     <div class="pom-agile">
-                        <input placeholder="Mật khẩu" name="password" class="pass" type="password" required="" autocomplete="">
+                        <input placeholder="Mật khẩu" name="password" class="pass" type="password"  autocomplete="on">
                         <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span>
                     </div>
                     <div class="sub-w3l">

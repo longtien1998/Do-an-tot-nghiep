@@ -67,7 +67,11 @@
                 <td>{{$ads->ads_description}}</td>
                 <td><a href="{{$ads->file_path}}" target="_blank">{{$ads->file_path}}</a></td>
                 <td>
+<<<<<<< HEAD
+                    <a href="{{route('edit-advertisements',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
+=======
                     <a href="{{route('advertisements.edit',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
+>>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
                     <form action="{{ route('delete-advertisements', $ads->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
