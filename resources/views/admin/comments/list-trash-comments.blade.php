@@ -29,7 +29,7 @@
             <a href="{{route('list_trash_comments')}}" class="btn btn-outline-success"> Tất cả bình luận đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="" method="post">
+            <form class="search-form" action="{{route('searchTrashComments')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bình luận..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -58,15 +58,15 @@
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_ads" class="check_all_songs" ></th>
-                <th scope="col">STT</th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_list" ></th>
+                <th scope="col" onclick="sortTable(1)">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Bình luận <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Đánh giá <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Mã người dùng <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Mã bài hát <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Ngày đánh giá <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(11)">Ngày xóa <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Đánh giá <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Mã người dùng <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(6)">Mã bài hát <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(7)">Ngày đánh giá <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(8)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -74,7 +74,7 @@
             @php $stt = 1; @endphp
             @foreach($comments as $cmt)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$cmt->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$cmt->id}}"></td>
                 <th scope="row">{{$stt}}</th>
                 <td>{{$cmt->id}}</td>
                 <td>{{$cmt->comment}}</td>
@@ -98,13 +98,17 @@
     </table>
 
 </div>
-
+<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination">
+        {{$comments->links('pagination::bootstrap-5')}}
+    </ul>
+</div>
 @endsection
 @section('js')
 
 <script>
-    document.querySelector('#check_all_ads').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+    document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -114,14 +118,14 @@
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-restore').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+       return submitForm(e, 'check_song_list'); // Gọi hàm submitForm khi gửi
     });
 
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+       return submitForm(e, 'check_song_list'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 

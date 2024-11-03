@@ -29,7 +29,7 @@
             <a href="{{route('list_trash_ads')}}" class="btn btn-outline-success"> Tất cả quảng cáo đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="" method="post">
+            <form class="search-form" action="{{route('searchTrashAds')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên quảng cáo..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -58,12 +58,13 @@
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_ads" class="check_all_songs" ></th>
-                <th scope="col">STT</th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_list" ></th>
+                <th scope="col" onclick="sortTable(1)">STT <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Mô tả <span class="sort-icon">⬍</span></th>
                 <th scope="col">Đường dẫn</th>
-                <th scope="col" onclick="sortTable(11)">Ngày xóa <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(6)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -71,10 +72,11 @@
             @php $stt = 1; @endphp
             @foreach($advertisements as $ads)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$ads->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$ads->id}}"></td>
                 <th scope="row">{{$stt}}</th>
                 <td>{{$ads->id}}</td>
                 <td>{{$ads->ads_name}}</td>
+                <td>{{$ads->ads_description}}</td>
                 <td><a href="{{asset('admin/upload/ads/'. $ads->file_path)}}">{{$ads->file_path}}</a></td>
                 <td>{{$ads->deleted_at}}</td>
 
@@ -93,13 +95,17 @@
     </table>
 
 </div>
-
+<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination">
+        {{$advertisements->links('pagination::bootstrap-5')}}
+    </ul>
+</div>
 @endsection
 @section('js')
 
 <script>
-    document.querySelector('#check_all_ads').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+    document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -116,7 +122,7 @@
        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 

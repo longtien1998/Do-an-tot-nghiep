@@ -53,8 +53,8 @@ function closed(id){
 
 
 // check all songs
-document.querySelector('#check_all_songs').addEventListener('click', function() {
-    var checkboxes = document.getElementsByClassName('check_song');
+document.querySelector('#check_all_list').addEventListener('click', function() {
+    var checkboxes = document.getElementsByClassName('check_list');
 
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = this.checked;
@@ -66,7 +66,7 @@ document.querySelector('#check_all_songs').addEventListener('click', function() 
 
 // Hàm lấy giá trị của tất cả các checkbox đã được chọn
 function getCheckedValues() {
-    var checkboxes = document.getElementsByClassName('check_song');
+    var checkboxes = document.getElementsByClassName('check_list');
     var checkedValues = [];
     let total = 0;
     for (var i = 0; i < checkboxes.length; i++) {

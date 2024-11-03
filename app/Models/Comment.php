@@ -28,12 +28,14 @@ class Comment extends Model
         'comment',
         'rating_date',)
         ->whereNull('deleted_at')
-        ->get();
+        ->paginate(10);
     }
     public static function search_cmt($search)
     {
         $ratings = DB::table('ratings')
             ->where('comment', 'LIKE', '%' . $search . '%')
+            ->orWhere('rating', 'LIKE', '%' . $search . '%')
+            ->orWhere('rating_date', 'LIKE', '%' . $search . '%')
             ->select('ratings.*')
             ->get();
         return $ratings;

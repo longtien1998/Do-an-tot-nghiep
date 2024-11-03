@@ -47,16 +47,16 @@
             </form>
         </div>
     </div>
-    <table class="table text-center">
+    <table class="table text-center" id="myTable">
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_ads" class=""></th>
-                <th scope="col">ID</th>
-                <th scope="col">Bình luận</th>
-                <th scope="col">Đánh giá</th>
-                <th scope="col">Mã người dùng</th>
-                <th scope="col">Mã bài hát</th>
-                <th scope="col">Ngày đánh giá</th>
+                <th><input type="checkbox" name="" id="check_all_list" class=""></th>
+                <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(2)">Bình luận <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(3)">Đánh giá <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Mã người dùng <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Mã bài hát <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(6)">Ngày đánh giá <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành dộng</th>
             </tr>
         </thead>
@@ -64,7 +64,7 @@
             @php $stt = 1; @endphp
             @foreach($comments as $comment)
             <tr>
-                <td><input type="checkbox" class="check_song" value="{{$comment->id}}"></td>
+                <td><input type="checkbox" class="check_list" value="{{$comment->id}}"></td>
                 <th scope="row">{{$comment->id}}</th>
                 <td>{{$comment->comment}}</td>
                 <td>{{$comment->rating}}</td>
@@ -94,13 +94,17 @@
     </div>
     @endif
 </div>
-
+<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
+    <ul class="pagination">
+        {{$comments->links('pagination::bootstrap-5')}}
+    </ul>
+</div>
 @endsection
 
 @section('js')
 <script>
-     document.querySelector('#check_all_ads').addEventListener('click', function() {
-        var checkboxes = document.getElementsByClassName('check_song');
+     document.querySelector('#check_all_list').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('check_list');
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -111,10 +115,10 @@
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-        return submitForm(e, 'check_song'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_list'); // Gọi hàm submitForm khi gửi
     });
 
-    const checkboxes = document.getElementsByClassName('check_song');
+    const checkboxes = document.getElementsByClassName('check_list');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 

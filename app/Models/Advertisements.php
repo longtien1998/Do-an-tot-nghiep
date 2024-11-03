@@ -60,7 +60,7 @@ class Advertisements extends Model
         return DB::table('ads')
         ->select('id','ads_name','ads_description','file_path')
         ->whereNull('deleted_at')
-        ->get();
+        ->paginate(10);
     }
     public static function updateAds($id, $data)
     {
@@ -75,6 +75,7 @@ class Advertisements extends Model
     {
         $ads = DB::table('ads')
             ->where('ads_name', 'LIKE', '%' . $search . '%')
+            ->orWhere('ads_description', 'LIKE', '%' . $search . '%')
             ->select('ads.*')
             ->get();
         return $ads;

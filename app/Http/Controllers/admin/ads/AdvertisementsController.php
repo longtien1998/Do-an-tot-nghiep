@@ -135,7 +135,7 @@ class AdvertisementsController extends Controller
     public function list_trash_ads()
 
     {
-        $advertisements = Advertisements::onlyTrashed()->get();
+        $advertisements = Advertisements::onlyTrashed()->paginate(10);
         return view('admin.advertisements.list-trash-advertisements', compact('advertisements'));
     }
 
@@ -233,6 +233,33 @@ class AdvertisementsController extends Controller
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
+        }
+    }
+    public function search_ads_trash(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'search' => 'required|string',
+        ], [
+            'search.required' => 'Vui lòng nhập từ khóa tìm kiếm',
+            'search.string' => 'Từ khóa tìm kiếm phải là chuỗi',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate);
+        }
+        try {
+            $query = $request->search;
+            $advertisements = Advertisements::onlyTrashed()
+            ->where('ads_name','LIKE', '%' . $query . '%')
+            ->orWhere('ads_description','LIKE', '%' . $query . '%')
+            ->get();
+            if ($advertisements->isEmpty()) {
+                return redirect()->route('list_trash_ads')->with('error', 'Không tìm thấy quảng cáo nào phù hợp với từ khóa');
+            } else {
+                toastr()->success('Tìm quảng cáo thành công');
+                return view('admin.advertisements.list-trash-advertisements', compact('advertisements'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy quảng cáo nào phù hợp với từ khóa.');
         }
     }
 
