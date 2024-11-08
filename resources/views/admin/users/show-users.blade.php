@@ -14,7 +14,7 @@
                             <a href="{{route('dashboard')}}" class="text-decoration-none">Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{route('list-users')}}" class="text-decoration-none">Danh sách tài khoản</a>
+                            <a href="{{route('users.list')}}" class="text-decoration-none">Danh sách tài khoản</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Chi tiết tài khoản</li>
                     </ol>
@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-            <form class="form-horizontal form-material" action="{{route('store-updateUsers', $users->id)}}" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal form-material" action="{{route('users.update', $users->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group mt-3">
@@ -53,8 +53,8 @@
                         <label class="col-md-12">Giới tính</label>
                         <select class="form-select" name="gender" id="">
                             <option value="">Chọn giới tính</option>
-                            <option value="1" {{ old('gender', $users->gender) == 1 ? 'selected' : '' }}>Nam</option>
-                            <option value="0" {{ old('gender', $users->gender) == 0 ? 'selected' : '' }}>Nữ</option>
+                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
@@ -66,12 +66,11 @@
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-6 mt-3">
-                        <label class="col-md-12">Loại người dùng</label>
+                        <label class="col-md-12">Cấp độ tài khoản</label>
                         <select class="form-select" name="users_type" id="">
-                            <option value="">Chọn loại người dùng</option>
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
+                            <option value="">Chọn cấp độ tài khoản</option>
+                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
 

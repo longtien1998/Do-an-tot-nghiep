@@ -25,10 +25,10 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('list_trash_users')}}" class="btn btn-outline-success"> Tất cả tài khoản đã xóa</a>
+            <a href="{{route('users.trash.list')}}" class="btn btn-outline-success"> Tất cả tài khoản đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('searchTrashUser')}}" method="post">
+            <form class="search-form" action="{{route('users.trash.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên tài khoản..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -41,17 +41,17 @@
                 <div>Đã chọn <strong id="total-songs">0</strong> tài khoản</div>
             </div>
             <div class="col-sm-6 text-center my-3">
-                <form action="{{route('restore_trash_users')}}" class="d-inline" method="post" id="form-restore">
+                <form action="{{route('users.trash.restore')}}" class="d-inline" method="post" id="form-restore">
                     @csrf
                     <input type="text" value="" name="restore_list" id="songs-restore" hidden>
                     <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục tài khoản đã chọn?')">Khôi phục tài khoản</button>
                 </form>
-                <form action="{{route('delete_trash_users')}}" class="d-inline" method="post" id="form-delete">
+                <form action="{{route('users.trash.delete')}}" class="d-inline" method="post" id="form-delete">
                     @csrf
                     <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                     <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa tài khoản đã chọn?')">Xóa tài khoản</button>
                 </form>
-                <a href="{{route('restore_all_users')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả tài khoản</a>
+                <a href="{{route('users.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả tài khoản</a>
             </div>
         </div>
         <thead>
@@ -91,9 +91,9 @@
                 <td>{{$user->deleted_at}}</td>
 
                 <td>
-                    <a href="{{route('show-music',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
+                    <!-- <a href="{{route('show-music',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a> -->
 
-                    <a href="{{route('destroy_trash_users',$user->id)}}" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa tài khoản?')">
+                    <a href="{{route('users.trash.destroy',$user->id)}}" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa tài khoản?')">
                         <i class="fa-solid fa-trash"></i>
                     </a>
 

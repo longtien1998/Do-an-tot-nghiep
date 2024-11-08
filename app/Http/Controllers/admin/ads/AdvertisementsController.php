@@ -43,7 +43,7 @@ class AdvertisementsController extends Controller
             $data['file_path'] = null;
         }
         if (Advertisements::createAds($data)) {
-            return redirect()->route('list-advertisements')->with('success', 'Thêm quảng cáo thành công');
+            return redirect()->route('advertisements.list')->with('success', 'Thêm quảng cáo thành công');
         } else {
             return redirect()->back()->with('error', 'Thêm quảng cáo thất bại');
         }
@@ -76,7 +76,7 @@ class AdvertisementsController extends Controller
             $data['file_path'] = $ads->file_path;
         }
         if (Advertisements::updateAds($id, $data)) {
-            return redirect()->route('list-advertisements')->with('success', 'Cập nhật quảng cáo thành công');
+            return redirect()->route('advertisements.list')->with('success', 'Cập nhật quảng cáo thành công');
         } else {
             return redirect()->back()->with('error', 'Cập nhật quảng cáo thất bại');
 
@@ -86,7 +86,7 @@ class AdvertisementsController extends Controller
     {
         try {
             Advertisements::find($id)->delete();
-            return redirect()->route('list-advertisements')->with('success', 'Xoá quảng cáo thành công!');
+            return redirect()->route('advertisements.list')->with('success', 'Xoá quảng cáo thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa quảng cáo thất bại.');
         }
@@ -122,7 +122,7 @@ class AdvertisementsController extends Controller
                     $advertisements->deleted_at = now();
                     $advertisements->save();
                 }
-                return redirect()->route('list-advertisements')->with('success', 'Xoá quảng cáo thành công!');
+                return redirect()->route('advertisements.list')->with('success', 'Xoá quảng cáo thành công!');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa quảng cáo thất bại.');
             }
@@ -203,7 +203,7 @@ class AdvertisementsController extends Controller
     {
         try {
             Advertisements::withTrashed()->where('id', $id)->forceDelete();
-            return redirect()->route('list_trash_ads')->with('success', 'Xóa quảng cáo khỏi thùng rác thành công!');
+            return redirect()->route('advertisements.trash.list')->with('success', 'Xóa quảng cáo khỏi thùng rác thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa quảng cáo khỏi thùng rác thất bại.');
         }
@@ -225,7 +225,7 @@ class AdvertisementsController extends Controller
             $query = $request->search;
             $advertisements = Advertisements::search_ads($query);
             if ($advertisements->isEmpty()) {
-                return redirect()->route('list-advertisements')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
+                return redirect()->route('advertisements.list')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
 
             } else {
                 toastr()->success('Tìm quảng cáo thành công');
