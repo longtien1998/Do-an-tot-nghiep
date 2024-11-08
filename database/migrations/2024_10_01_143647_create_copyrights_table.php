@@ -19,12 +19,13 @@ return new class extends Migration
                 $table->foreign('song_id')->references('id')->on('songs')->nullOnDelete();
                 $table->foreign('publisher_id')->references('id')->on('publishers')->nullOnDelete();
                 $table->string('license_type',50)->nullable();
-                $table->timestamp('issue_date')->nullable();
-                $table->timestamp('expiry_date')->nullable();
+                $table->timestamp('issue_day')->nullable();
+                $table->timestamp('expiry_day')->nullable();
                 $table->text('usage_rights')->nullable();
                 $table->text('terms')->nullable();
                 $table->string('license_file')->nullable();
                 $table->timestamps();
+                $table->softDeletes();
             });
         }
     }

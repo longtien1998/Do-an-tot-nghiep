@@ -8,6 +8,12 @@ body {
     color: #333;
 }
 
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: small;
+}
 th,
 td {
     vertical-align: middle;
@@ -272,4 +278,77 @@ td {
 
 .collapse.show {
     display: block;
+}
+
+
+/* Nền preloader */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff; /* Nền trắng hoàn toàn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Spinner với vòng tròn đôi và hiệu ứng gradient */
+.spinner {
+    position: relative;
+    width: 80px; /* Tăng kích thước cho nổi bật hơn */
+    height: 80px;
+    animation: rotate 1.5s linear infinite;
+}
+
+/* Vòng tròn ngoài với hiệu ứng gradient */
+.spinner::before, .spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 6px solid transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+/* Vòng tròn ngoài - Gradient chuyển màu */
+.spinner::before {
+    border-top: 6px solid;
+    border-image: linear-gradient(45deg, #3498db, #9b59b6);
+    border-image-slice: 1;
+    animation: spin 1.2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+/* Vòng tròn trong - Gradient ngược */
+.spinner::after {
+    border-bottom: 6px solid;
+    border-image: linear-gradient(45deg, #e74c3c, #f1c40f);
+    border-image-slice: 1;
+    animation: spin 1.2s cubic-bezier(0.42, 0, 0.58, 1) infinite reverse;
+}
+
+/* Tạo hiệu ứng xoay */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hiệu ứng xoay nhẹ toàn bộ */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
 }
