@@ -293,26 +293,4 @@
 
         });
 
-
-        // Route::get('/list-comments', [CommentController::class, 'list_comments'])->name('list-comments');
-
-        // Route::delete('/delete-comments/{id}', [CommentController::class, 'delete_comments'])->name('delete-comments');
-
-        // Route::get('/update_comments/{id}', [CommentController::class, 'edit_comments'])->name('update_comments');
-        // Route::put('/update_comments/{id}', [CommentController::class, 'update_comments'])->name('store_comments');
-
-        // Route::get('/list-trash-comments', [CommentController::class, 'list_trash_comments'])->name('list_trash_comments');
-
-        // Route::post('/search-comments', [CommentController::class, 'searchComments'])->name('searchComments');
-        // Route::post('/search-trash-comments', [CommentController::class, 'search_comments_trash'])->name('searchTrashComments');
-
-        // Route::post('/list/delete-comments', [CommentController::class, 'delete_list_comments'])->name('delete_list_comments');
-
-        // Route::post('/restore-comments', [CommentController::class, 'restore_trash_comments'])->name('restore_trash_comments');
-        // Route::get('/restore-all-comments', [CommentController::class, 'restore_all_comments'])->name('restore_all_comments');
-
-        // Route::post('/delete-comments', [CommentController::class, 'delete_trash_comments'])->name('delete_trash_comments');
-        // Route::get('/delete-all-comments', [CommentController::class, 'delete_all_comments'])->name('delete_all_comments');
-
-        // Route::get('/destroy-trash-comments/{id}', [CommentController::class, 'destroy_trash_comments'])->name('destroy_trash_comments');
     });
