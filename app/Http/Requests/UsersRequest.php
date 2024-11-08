@@ -22,11 +22,11 @@ class UsersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique|max:255',
+            'name' => 'required|max:255|unique:users,name,'.$this->id,
             'email' => 'required|email|unique:users,email,'. $this->id,
             'phone' => 'nullable|digits:10',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gerder' => 'nullable|max:10',
+            'gerder' => 'nullable',
             'birthday' => 'nullable|date|before_or_equal:today',
         ];
     }
@@ -41,7 +41,6 @@ class UsersRequest extends FormRequest
             'phone.digits' => 'Số điện thoại không được dài quá 10 ký tự',
             'image.max' => 'Hình ảnh không được quá 2MB',
             'image.mimes' => 'Hình ảnh không đúng định dạng',
-            'gerder.max' => 'Giới tính không được quá 10 ký tự',
             'birthday.before_or_equal' => 'Ngày sinh không được quá ngày hiện tại',
         ];
     }

@@ -26,10 +26,10 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('list_trash_comments')}}" class="btn btn-outline-success"> Tất cả bình luận đã xóa</a>
+            <a href="{{route('comments.trash.list')}}" class="btn btn-outline-success"> Tất cả bình luận đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('searchTrashComments')}}" method="post">
+            <form class="search-form" action="{{route('comments.trash.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bình luận..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -42,17 +42,17 @@
                 <div>Đã chọn <strong id="total-songs">0</strong> bình luận</div>
             </div>
             <div class="col-sm-6 text-center my-3">
-                <form action="{{route('restore_trash_comments')}}" class="d-inline" method="post" id="form-restore">
+                <form action="{{route('comments.trash.restore')}}" class="d-inline" method="post" id="form-restore">
                     @csrf
                     <input type="text" value="" name="restore_list" id="songs-restore" hidden>
                     <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục bình luận đã chọn?')">Khôi phục bình luận</button>
                 </form>
-                <form action="{{route('delete_trash_comments')}}" class="d-inline" method="post" id="form-delete">
+                <form action="{{route('comments.trash.delete')}}" class="d-inline" method="post" id="form-delete">
                     @csrf
                     <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                     <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa bình luận đã chọn?')">Xóa bình luận</button>
                 </form>
-                <a href="{{route('restore_all_comments')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bình luận</a>
+                <a href="{{route('comments.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bình luận</a>
             </div>
 
         </div>
@@ -85,8 +85,7 @@
                 <td>{{$cmt->deleted_at}}</td>
 
                 <td>
-                    <a href="{{route('show-music',$cmt->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    <a href="{{route('destroy_trash_comments',$cmt->id)}}" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa bình luận?')">
+                    <a href="{{route('comments.trash.destroy',$cmt->id)}}" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa bình luận?')">
                         <i class="fa-solid fa-trash"></i>
                     </a>
 

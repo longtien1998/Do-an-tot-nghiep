@@ -50,7 +50,7 @@
                 </td>
                 <td>
                     @if(!$ads['in_use'])
-                    <form action="{{ route('s3ads.destroy', ) }}" method="POST" class="d-inline">
+                    <form action="{{ route('advertisements.s3ads.destroy') }}" method="POST" class="d-inline">
                         @csrf
                         <input type="text" name="path" value="{{$ads['path']}}" hidden>
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận xóa file này?')">

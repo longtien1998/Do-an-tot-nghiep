@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
+use App\Models\RolesModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -12,8 +13,17 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
-    public function list_users(){
-        $users = User::selectUsers();
+    public function list_users(Request $request){
+        $perPage = 10;
+        $filterGenDer = false;
+        $filterRole = false;
+        $filterCreate = false;
+        if ($request->isMethod('post')) {
+            $filterGenDer = $request->input('filterGenDer');
+            $filterRole = $request->input('filterRole');
+            $filterCreate = $request->input('filterCreate');
+        }
+        $users = User::selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate);
         return view('admin.users.list-users', compact('users'));
     }
 
@@ -38,19 +48,27 @@ class UsersController extends Controller
         $users->image = $url_image;
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
+        $users->users_type = $request->users_type;
         if ($users->save()) {
-            return redirect()->route('list-users')->with('success', 'Thêm tài khoản thành công');
+            $user_id = $users->id;
+            $role_name = $request->role_type == 1 ? 'Nhân viên' : 'Người dùng';
+            RolesModel::create([
+                'user_id' => $user_id,
+                'role_type' => $request->role_type,
+                'role_name' => $role_name
+            ]);
+            return redirect()->route('users.list')->with('success', 'Thêm tài khoản thành công');
 
         } else {
             return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
 
         }
     }
-    public function update_users($id){
+    public function edit_users($id){
         $users = User::find($id);
         return view('admin.users.update-users', compact('users'));
     }
-    public function storeUpdate(UsersRequest $request, $id){
+    public function update_users(UsersRequest $request, $id){
         $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
@@ -66,7 +84,7 @@ class UsersController extends Controller
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
         if ($users->save()) {
-            return redirect()->route('list-users')->with('success', 'Cập nhật tài khoản thành công');
+            return redirect()->route('users.list')->with('success', 'Cập nhật tài khoản thành công');
 
         } else {
             return redirect()->back()->with('error', 'Cập nhật tài khoản thất bại');
@@ -85,7 +103,7 @@ class UsersController extends Controller
     {
         try {
             User::find($id)->delete();
-            return redirect()->route('list-users')->with('success', 'Xoá tài khoản thành công!');
+            return redirect()->route('users.list')->with('success', 'Xoá tài khoản thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản thất bại.');
         }
@@ -121,7 +139,7 @@ class UsersController extends Controller
                     $users->deleted_at = now();
                     $users->save();
                 }
-                return redirect()->route('list-users')->with('success', 'Xoá tài khoản thành công!');
+                return redirect()->route('users.list')->with('success', 'Xoá tài khoản thành công!');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản thất bại.');
             }
@@ -178,7 +196,7 @@ class UsersController extends Controller
     {
         try {
             User::withTrashed()->where('id', $id)->forceDelete();
-            return redirect()->route('list_trash_users')->with('success', 'Xóa tài khoản khỏi thùng rác thành công!');
+            return redirect()->route('users.trash.list')->with('success', 'Xóa tài khoản khỏi thùng rác thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản khỏi thùng rác thất bại.');
         }
@@ -200,7 +218,7 @@ class UsersController extends Controller
             $query = $request->search;
             $users = User::search_users($query);
             if ($users->isEmpty()) {
-                return redirect()->route('list-users')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
+                return redirect()->route('users.list')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
 
             } else {
                 toastr()->success('Tìm tài khoản thành công');
@@ -225,7 +243,7 @@ class UsersController extends Controller
             $query = $request->search;
             $users = User::onlyTrashed()->where('name', 'LIKE', '%' . $query . '%')->get();
             if ($users->isEmpty()) {
-                return redirect()->route('list_trash_users')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
+                return redirect()->route('users.trash.list')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
             } else {
                 toastr()->success('Tìm tài khoản thành công');
                 return view('admin.users.list-trash-users', compact('users'));

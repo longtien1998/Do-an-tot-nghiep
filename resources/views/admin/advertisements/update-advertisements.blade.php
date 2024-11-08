@@ -24,11 +24,8 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-<<<<<<< HEAD
-            <form class="form-horizontal form-material" action="{{route('update-advertisements')}}" method="POST" enctype="multipart/form-data">
-=======
             <form class="form-horizontal form-material" action="{{ route('advertisements.update', $ads->id) }}" method="POST" enctype="multipart/form-data">
->>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
+
                 @csrf
                 @method('PUT')
                 <div class="form-group">

@@ -24,10 +24,10 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('list-users')}}" class="btn btn-outline-success"> Tất cả tài khoản</a>
+            <a href="{{route('users.list')}}" class="btn btn-outline-success"> Tất cả tài khoản</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('searchUser')}}" method="post">
+            <form class="search-form" action="{{route('users.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên tài khoản..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -37,7 +37,7 @@
     <div class="form-group row justify-content-between m-0 p-0">
     <div class="form-group col-12 my-auto">
             <h5>Bộ Lọc</h5>
-            <form action="{{route('list-music')}}" class="row align-middle" method="post" id="itemsPerPageForm">
+            <form action="{{route('users.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
                 <div class="col-6 col-sm">
                     <label for="">Hiển thị</label>
@@ -52,32 +52,20 @@
                     </select>
                 </div>
                 <div class="col-6 col-sm">
-                    <label for="">Theo thể loại</label>
-                    <select name="filterTheloai" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value=""></option>
-                        <option value="{{request()->input('filterTheloai') ? request()->input('filterTheloai') : ''}}" selected>
-                            {{request()->input('filterTheloai') ? \App\Models\Categories::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Thể loại'}}
-                        </option>
-                        @foreach ( \App\Models\Categories::all() as $categori)
-                        <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
-                        @endforeach
+                    <label for="">Theo giới tính</label>
+                    <select name="filterGenDer" id="filterGenDer" class="form-select" onchange="submitForm()">
+                        <option value="">Chọn giới tính</option>
+                        <option value="Nam" {{ request()->input('filterGenDer') == 'Nam' ? 'selected' : '' }}>Nam</option>
+                        <option value="Nữ" {{ request()->input('filterGenDer') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                     </select>
                 </div>
                 <div class="col-6 col-sm">
-                    <label for="">Theo Ca sỹ</label>
-                    <select name="filterSinger" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value="" selected></option>
-                        <option value="{{request()->input('filterSinger') ? request()->input('filterSinger') : ''}}" selected>
-                            {{request()->input('filterSinger') ? \App\Models\Singer::find(request()->input('filterSinger'))->singer_name : 'Chọn Ca sỹ'}}
-                        </option>
-                        @foreach ( \App\Models\Singer::all() as $singer)
-                        <option value="{{$singer->id}}">{{$singer->singer_name}}</option>
-                        @endforeach
+                    <label for="">Theo quyền</label>
+                    <select name="filterRole" id="filterRole" class="form-select" onchange="submitForm()">
+                        <option value="">Chọn quyền</option>
+                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
+                        <option value="Nhân viên" {{ request()->input('filterRole') == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
                     </select>
-                </div>
-                <div class="col-6 col-sm">
-                    <label for="">Ngày Phát hành</label>
-                    <input type="date" name="filterRelease" class="form-control" value="{{request()->input('filterRelease') ? request()->input('filterRelease') : ''}}" onchange="submitForm()">
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Ngày tạo</label>
@@ -89,7 +77,7 @@
             <div>Đã chọn <strong id="total-songs">0</strong> tài khoản</div>
         </div>
         <div class="col-sm-6 my-3">
-            <form action="{{route('delete_list_users')}}" class="d-inline float-end" method="post" id="form-delete">
+            <form action="{{route('users.delete-list')}}" class="d-inline float-end" method="post" id="form-delete">
                 @csrf
                 <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tài khoản đã chọn?')">Xóa tài khoản</button>
@@ -109,6 +97,7 @@
                 <th scope="col" onclick="sortTable(7)">Hình ảnh <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(8)">Ngày tạo <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(9)">Quyền <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(10)">Loại người dùng <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -121,28 +110,25 @@
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                <td>
-                    @if ($user->gender == 1)
-                    Nam
-                    @else
-                    Nữ
-                    @endif
-                </td>
+                <td>{{$user->gender}}</td>
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
                 <td>
-                    Người dùng
+                    {{$user->role_name}}
                 </td>
+                <td>{{$user->users_type}}</td>
                 <td>
-                    <a href="{{route('show_users',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    <form action="{{ route('delete-users', $user->id) }}" method="POST" class="d-inline">
+                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
+                    <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-link btn-outline-danger" onclick="return confirm('Xác nhận xóa tài khoản?')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @php $stt++; @endphp
@@ -158,11 +144,9 @@
     </div>
     @endif
 </div>
-<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
-    <ul class="pagination">
-        {{$users->links('pagination::bootstrap-5')}}
-    </ul>
-</div>
+<div class=" mb-5">
+        {!! $users->links('pagination::bootstrap-5') !!}
+    </div>
 
 @endsection
 @section('js')
@@ -182,6 +166,9 @@
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('click', getCheckedValues);
 
+    }
+    function submitForm() {
+        document.getElementById('itemsPerPageForm').submit();
     }
 </script>
 

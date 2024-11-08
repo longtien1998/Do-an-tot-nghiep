@@ -77,7 +77,7 @@ class Advertisements extends Model
             ->where('ads_name', 'LIKE', '%' . $search . '%')
             ->orWhere('ads_description', 'LIKE', '%' . $search . '%')
             ->select('ads.*')
-            ->get();
+            ->paginate(10);
         return $ads;
     }
 }

@@ -24,10 +24,10 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('list-advertisements')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
+            <a href="{{route('advertisements.list')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('searchAds')}}" method="post">
+            <form class="search-form" action="{{route('advertisements.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên quảng cáo..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -39,7 +39,7 @@
             <div>Đã chọn <strong id="total-songs">0</strong> quảng cáo</div>
         </div>
         <div class="col-sm-6 my-3">
-            <form action="{{route('delete_list_ads')}}" class="d-inline float-end" method="post" id="form-delete">
+            <form action="{{route('advertisements.delete-list')}}" class="d-inline float-end" method="post" id="form-delete">
                 @csrf
                 <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa quảng cáo đã chọn?')">Xóa quảng cáo</button>
@@ -67,12 +67,9 @@
                 <td>{{$ads->ads_description}}</td>
                 <td><a href="{{$ads->file_path}}" target="_blank">{{$ads->file_path}}</a></td>
                 <td>
-<<<<<<< HEAD
-                    <a href="{{route('edit-advertisements',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
-=======
                     <a href="{{route('advertisements.edit',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
->>>>>>> 6f3d8aa7dcb0608227ba1c134947a31d0117ec9e
-                    <form action="{{ route('delete-advertisements', $ads->id) }}" method="POST" class="d-inline">
+
+                    <form action="{{ route('advertisements.delete', $ads->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-link btn-outline-danger" onclick="return confirm('Xác nhận xóa quảng cáo?')">

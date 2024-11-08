@@ -24,11 +24,11 @@
 <div class="container-fluid">
 <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('list-comments')}}" class="btn btn-outline-success"> Tất cả bình luận</a>
+            <a href="{{route('comments.list')}}" class="btn btn-outline-success"> Tất cả bình luận</a>
             <a href="#" class="btn btn-success">Thêm bình luận</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('searchComments')}}" method="post">
+            <form class="search-form" action="{{route('comments.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bình luận..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -40,7 +40,7 @@
             <div>Đã chọn <strong id="total-songs">0</strong> bình luận</div>
         </div>
         <div class="col-sm-6 my-3">
-            <form action="{{route('delete_list_comments')}}" class="d-inline float-end" method="post" id="form-delete">
+            <form action="{{route('comments.delete-list')}}" class="d-inline float-end" method="post" id="form-delete">
                 @csrf
                 <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận xóa bình luận đã chọn?')">Xóa bình luận</button>
@@ -72,8 +72,8 @@
                 <td>{{$comment->song_id}}</td>
                 <td>{{$comment->rating_date}}</td>
                 <td>
-                    <a href="{{route('update_comments', $comment->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
-                    <form action="{{ route('delete-comments', $comment->id) }}" method="POST" class="d-inline">
+                    <a href="{{route('comments.edit', $comment->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
+                    <form action="{{ route('comments.delete', $comment->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-link btn-outline-danger" onclick="return confirm('Xác nhận xóa bình luận?')">

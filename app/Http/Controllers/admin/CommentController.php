@@ -14,28 +14,23 @@ class CommentController extends Controller
         $comments = Comment::selectCmt();
         return view('admin.comments.list-comments', compact('comments'));
     }
-    public function update_comments($id){
+    public function edit_comments($id){
         $comments = Comment::find($id);
         return view('admin.comments.update-comments',compact('comments'));
     }
-    public function storeComment(Request $request, $id){
+    public function update_comments(Request $request, $id){
         $comments = Comment::find($id);
         $comments->comment = $request->comment;
         $comments->rating = $request->rating;
         if($comments->save()){
             toastr()->success('Cập nhật bình luận thành công');
-            return redirect('/list-comments');
+            return redirect()->route('comments.list');
         } else {
             toastr()->error('Cập nhật bình luận thất bại');
             return redirect()->back();
         }
     }
-    // public function delete_comments($id){
-    //     $comments = Comment::find($id);
-    //     $comments->delete();
-    //     toastr()->success('Cập nhật bình luận thành công');
-    //     return redirect('/list-comments');
-    // }
+
     public function list_trash_comments()
 
     {
@@ -48,7 +43,7 @@ class CommentController extends Controller
     try {
         $comment = Comment::findOrFail($id);
         $comment->delete();
-        return redirect()->route('list-comments')->with('success', 'Xoá bình luận thành công!');
+        return redirect()->route('comments.list')->with('success', 'Xoá bình luận thành công!');
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận thất bại.');
     }
@@ -84,7 +79,7 @@ class CommentController extends Controller
                     $comments->deleted_at = now();
                     $comments->save();
                 }
-                return redirect()->route('list-comments')->with('success', 'Xoá bình luận thành công!');
+                return redirect()->route('comments.list')->with('success', 'Xoá bình luận thành công!');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận thất bại.');
             }
@@ -146,7 +141,7 @@ class CommentController extends Controller
 
         if ($comment) {
             $comment->forceDelete();
-            return redirect()->route('list_trash_comments')->with('success', 'Xóa bình luận khỏi thùng rác thành công!');
+            return redirect()->route('comments.trash.list')->with('success', 'Xóa bình luận khỏi thùng rác thành công!');
         } else {
             return redirect()->back()->with('error', 'Bình luận không tồn tại trong thùng rác.');
         }
@@ -172,7 +167,7 @@ class CommentController extends Controller
             $query = $request->search;
             $comments = Comment::search_cmt($query);
             if ($comments->isEmpty()) {
-                return redirect()->route('list-comments')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
+                return redirect()->route('comments.list')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
 
             } else {
                 toastr()->success('Tìm bình luận thành công');
@@ -197,7 +192,7 @@ class CommentController extends Controller
             $query = $request->search;
             $comments = Comment::onlyTrashed()->where('comment', 'LIKE', '%' . $query . '%')->get();
             if ($comments->isEmpty()) {
-                return redirect()->route('list_trash_comments')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
+                return redirect()->route('comments.trash.list')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
             } else {
                 toastr()->success('Tìm bình luận thành công');
                 return view('admin.comments.list-trash-comments', compact('comments'));

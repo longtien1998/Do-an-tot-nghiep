@@ -153,19 +153,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list-advertisements')}}" class="nav-item">
+                    <a href="{{route('advertisements.list')}}" class="nav-item">
                         <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách quảng cáo</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list_trash_ads')}}" class="nav-item">
+                    <a href="{{route('advertisements.trash.list')}}" class="nav-item">
                         <i class="fa-solid fa-trash"></i>
                         <span class="">Quảng cáo đã xóa</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('s3ads.index')}}" class="nav-item">
+                    <a href="{{route('advertisements.s3ads.index')}}" class="nav-item">
                         <i class="fa-solid fa-file"></i>
                         <span class="">File quảng cáo</span>
                     </a>
@@ -179,19 +179,19 @@
         <div class="accordion-collapse collapse" id="ql-user" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
             <li>
-                    <a href="{{route('add-users')}}" class="nav-item">
+                    <a href="{{route('users.create')}}" class="nav-item">
                         <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm tài khoản</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list-users')}}" class="nav-item">
+                    <a href="{{route('users.list')}}" class="nav-item">
                         <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách tài khoản</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list_trash_users')}}" class="nav-item">
+                    <a href="{{route('users.trash.list')}}" class="nav-item">
                         <i class="fa-solid fa-trash"></i>
                         <span class="">Tài khoản đã xóa</span>
                     </a>
@@ -206,13 +206,13 @@
         <div class="accordion-collapse collapse" id="ql-cmt" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
-                    <a href="{{route('list-comments')}}" class="nav-item">
+                    <a href="{{route('comments.list')}}" class="nav-item">
                         <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách bình luận</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('list_trash_comments')}}" class="nav-item">
+                    <a href="{{route('comments.trash.list')}}" class="nav-item">
                         <i class="fa-solid fa-trash"></i>
                         <span class="">Bình luận đã xóa</span>
                     </a>

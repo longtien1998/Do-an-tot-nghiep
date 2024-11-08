@@ -37,7 +37,7 @@ class Comment extends Model
             ->orWhere('rating', 'LIKE', '%' . $search . '%')
             ->orWhere('rating_date', 'LIKE', '%' . $search . '%')
             ->select('ratings.*')
-            ->get();
+            ->paginate(10);
         return $ratings;
     }
 }
