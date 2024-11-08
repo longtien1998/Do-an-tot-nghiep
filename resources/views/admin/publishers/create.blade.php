@@ -14,6 +14,9 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('dashboard')}}">Trang chủ</a>
                         </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{route('publishers.index')}}">Nhà xuất bản</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Thêm nhà xuất bản</li>
                     </ol>
                 </nav>

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Pulishers;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PulisherRequest extends FormRequest
+class PublisherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class PulisherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'publisher_name' => 'required|unique:publishers,publisher_name|string',
-            'alias_name' => 'required|unique:publishers,alias_name|string',
+            'publisher_name' => 'required|unique:publishers,publisher_name|string' | $this ->  id,
+            'alias_name' => 'required|unique:publishers,alias_name|string' | $this ->  id,
             'country' => 'required|string',
             'city' => 'required|string',
             'address' => 'required|string',

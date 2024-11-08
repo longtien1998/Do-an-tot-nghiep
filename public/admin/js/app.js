@@ -1,3 +1,26 @@
+// Hiển thị preloader khi tải lại hoặc điều hướng sang trang khác
+window.addEventListener('beforeunload', function() {
+    document.getElementById('preloader').style.display = 'flex';
+});
+
+// Hiển thị preloader khi người dùng nhấp vào các liên kết nội bộ
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(event) {
+        // Chỉ kích hoạt cho các liên kết nội bộ
+        if (link.hostname === window.location.hostname) {
+            document.getElementById('preloader').style.display = 'flex';
+        }
+    });
+});
+
+// Ẩn preloader sau khi trang đã tải xong
+window.addEventListener('load', function() {
+    document.getElementById('preloader').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+});
+
+
+
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
 const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
 

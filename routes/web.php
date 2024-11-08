@@ -9,7 +9,7 @@
     use App\Http\Controllers\admin\CategoriesController;
     use App\Http\Controllers\admin\SingerController;
     use App\Http\Controllers\admin\AlbumController;
-    use App\Http\Controllers\admin\CopyrightController;
+    use App\Http\Controllers\admin\Copyright\CopyrightController;
     use App\Http\Controllers\admin\Publisher\PublishersController;
     use App\Http\Controllers\admin\ads\AdvertisementsController;
     use App\Http\Controllers\admin\ads\S3AdsController;
@@ -164,8 +164,8 @@
             Route::group([
                 'prefix' => 'trash',
                 'as' => 'trash.',
-            ], function () {
-                Route::match(['get', 'post'], '/',  'trash_publishers')->name('index');
+            ],function () {
+                Route::match(['get', 'post'], '/',  'trash')->name('index');
                 Route::post('/search',  'search_trash_publishers')->name('search');
                 Route::get('/{id}/restore', 'restore_publishers')->name('restore');
                 Route::post('/restore', 'restore_list_publishers')->name('restore-list');
@@ -173,6 +173,43 @@
                 Route::get('/{id}/destroy', 'destroy_publishers')->name('destroy');
                 Route::post('/destroy', 'destroy_list_publishers')->name('destroy-list');
             });
+
+
+            Route::get('/file-logo','file')->name('file');
+            Route::post('/destroy-logo', 'destroy_file')->name('destroy_file');
+            Route::post('/list-destroy-logo', 'list_destroy_file')->name('destroy-list-logo');
+        });
+
+
+        // Copyright
+        Route::group([
+            'prefix' => 'copyrights',
+            'controller' => CopyrightController::class,
+            'as' => 'copyrights.',
+        ], function () {
+            Route::match(['get', 'post'], '/',  'index')->name('index');
+            Route::post('/search',  'search')->name('search');
+            Route::get('/create',  'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}/edit',  'edit')->name('edit');
+            Route::put('/{id}/update',  'update')->name('update');
+            Route::delete('/{id}/delete',  'delete')->name('delete');
+            Route::post('/delete-list',  'delete_list')->name('delete-list');
+
+            Route::group([
+                'prefix' => 'trash',
+                'as' => 'trash.',
+            ], function () {
+                Route::match(['get', 'post'], '/',  'trash')->name('index');
+                Route::post('/search',  'search_trash_copyrights')->name('search');
+                Route::get('/{id}/restore', 'restore_copyrights')->name('restore');
+                Route::post('/restore', 'restore_list_copyrights')->name('restore-list');
+                Route::get('/restore-all', 'restore_all_copyrights')->name('restore-all');
+                Route::get('/{id}/destroy', 'destroy_copyrights')->name('destroy');
+                Route::post('/destroy', 'destroy_list_copyrights')->name('destroy-list');
+            });
+
+            Route::get('/file','file')->name('file');
         });
     }); // đóng group midle login
 
@@ -188,10 +225,6 @@
     Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
     Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
     Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');
-
-    Route::get('/list-copyright', [CopyrightController::class, 'list_copyright'])->name('list-copyright');
-    Route::get('/add-copyright', [CopyrightController::class, 'add_copyright'])->name('add-copyright');
-    Route::get('/update-copyright', [CopyrightController::class, 'update_copyright'])->name('update-copyright');
 
 
     //advertisements

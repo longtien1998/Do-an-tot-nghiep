@@ -31,7 +31,9 @@
 
 <body>
 
-
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
     @include('admin.layouts.header')
     @include('admin.layouts.left-sidebar')
     <div id="main-content" class="mb-5">

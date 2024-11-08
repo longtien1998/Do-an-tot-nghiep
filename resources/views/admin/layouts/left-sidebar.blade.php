@@ -110,10 +110,38 @@
             <i class="fa-solid fa-compact-disc"></i>
             <span>Album</span>
         </a>
-        <a class="nav-item" href="{{route('list-copyright')}}">
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-bq" aria-controls="ql-qb">
             <i class="fa-solid fa-copyright"></i>
-            <span>Bản quyền</span>
+            <span>Bản quyền <i class="fa fa-caret-down float-end "></i></span>
         </a>
+        <div class="accordion-collapse collapse" id="ql-bq" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('copyrights.create')}}" class="nav-item">
+                    <i class="fa-solid fa-circle-plus"></i>
+                        <span class="">Thêm Bản quyền</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('copyrights.index')}}" class="nav-item">
+                    <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách Bản quyền</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('copyrights.trash.index')}}" class="nav-item">
+                    <i class="fa-solid fa-trash"></i>
+                        <span class="">Bản quyền đã xóa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('copyrights.file')}}" class="nav-item">
+                    <i class="fa-solid fa-file"></i>
+                        <span class="">File Bản quyền</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-nxb" aria-controls="ql-nxb">
             <i class="fa-sharp-duotone fa-solid fa-layer-group"></i>
             <span>Nhà xuất bản <i class="fa fa-caret-down float-end "></i></span>
@@ -136,6 +164,12 @@
                     <a href="{{route('publishers.trash.index')}}" class="nav-item">
                     <i class="fa-solid fa-trash"></i>
                         <span class="">Nhà xuất bản đã xóa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('publishers.file')}}" class="nav-item">
+                    <i class="fa-solid fa-file"></i>
+                        <span class="">File logo Nhà xuất bản</span>
                     </a>
                 </li>
             </ol>
