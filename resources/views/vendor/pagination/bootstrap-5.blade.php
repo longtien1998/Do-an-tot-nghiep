@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-center">
+        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-between">
             <div class="mx-2">
                 <p class="small text-muted mt-3">
                     {!! __('Hiển thị') !!}

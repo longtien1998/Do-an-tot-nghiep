@@ -55,13 +55,13 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày phát hành</label>
                     <div class="col-md-12">
-                        <input type="date" name="issue_date" value="" class="form-control form-control-line">
+                        <input type="date" name="issue_day" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày hết hạn</label>
                     <div class="col-md-12">
-                        <input type="date" name="expiry_date" value="" class="form-control form-control-line">
+                        <input type="date" name="expiry_day" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">

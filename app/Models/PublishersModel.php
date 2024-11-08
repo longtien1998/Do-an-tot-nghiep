@@ -27,10 +27,11 @@ class PublishersModel extends Model
         'created_at',
         'updated_at',
         'deleted_at',
-        ];
+    ];
 
 
-    public static function up_image_Pulisher($file, $Pulisher){
+    public static function up_image_Pulisher($file, $Pulisher)
+    {
         try {
             $PulisherSlug = Str::slug($Pulisher, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
@@ -51,5 +52,62 @@ class PublishersModel extends Model
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
+    }
+
+    public static function search($query)
+    {
+        return self::where('publisher_name', 'LIKE', '%' . $query . '%')
+            ->orWhere('alias_name', 'LIKE', '%' . $query . '%')
+            ->orWhere('country', 'LIKE', '%' . $query . '%')
+            ->orWhere('city', 'LIKE', '%' . $query . '%')
+            ->orWhere('address', 'LIKE', '%' . $query . '%')
+            ->orWhere('website', 'LIKE', '%' . $query . '%')
+            ->orWhere('email', 'LIKE', '%' . $query . '%')
+            ->orWhere('phone', 'LIKE', '%' . $query . '%')
+            ->orWhere('description', 'LIKE', '%' . $query . '%')
+            ->paginate(20);
+    }
+
+    public static function getAll($perPage, $filterCreateStart, $filterCreateEnd)
+    {
+        $query = self::whereNull('deleted_at');
+        if ($filterCreateStart) {
+            $query->where('created_at', '>=', $filterCreateStart);
+        }
+
+        if ($filterCreateEnd) {
+            $query->where('created_at', '<=', $filterCreateEnd);
+        }
+        return $query->paginate($perPage);
+    }
+
+    public static function getAlltrash($perPage, $filterCreateStart, $filterCreateEnd)
+    {
+        $query = self::onlyTrashed();
+        if ($filterCreateStart) {
+            $query->where('deleted_at', '>=', $filterCreateStart);
+        }
+
+        if ($filterCreateEnd) {
+            $query->where('deleted_at', '<=', $filterCreateEnd);
+        }
+        return $query->paginate($perPage);
+    }
+
+    public static function search_trash_publishers($searchQuery)
+    {
+        return self::onlyTrashed()
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('publisher_name', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('alias_name', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('country', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('city', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('address', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('website', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->paginate(20);
     }
 }

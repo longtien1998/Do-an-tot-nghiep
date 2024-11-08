@@ -82,6 +82,13 @@
                 <p class="card-value">510</p>
             </div>
         </div>
+        <div class="col">
+            <div class="dashboard-card">
+                <i class='bx bx-building-house'></i>
+                <h5>Nhà xuất bản</h5>
+                <p class="card-value">{{$total_publishers}}</p>
+            </div>
+        </div>
     </div>
 
     <!-- More Dashboard Content -->
