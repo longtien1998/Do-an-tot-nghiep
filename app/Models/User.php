@@ -66,7 +66,7 @@ class User extends Authenticatable
         try {
             $userNameSlug = Str::slug($userName, '_'); // Tạo slug cho tên bài hát
             $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = time().'_'. $userNameSlug . '.' . strtolower($extension); // Đặt tên file
+            $fileName = time() . '_' . $userNameSlug . '.' . strtolower($extension); // Đặt tên file
 
 
             // Đường dẫn lưu trữ trên S3
@@ -85,50 +85,41 @@ class User extends Authenticatable
             dd($e->getMessage());
         }
     }
-    public static function selectUsers(){
-        return DB::table('users')
-        ->select('id',
-        'name',
-        'email',
-        'phone',
-        'email_verified_at',
-        'password',
-        'image',
-        'gender',
-        'birthday',
-        'users_type',
-        'expiry_date',
-        'remember_token',
-        'created_at',
-        'updated_at',
-        'deleted_at',)
-        ->whereNull('deleted_at')
-        ->paginate(10);
+    public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
+    {
+
+        $query = DB::table('users')
+            ->join('roles', 'users.id', '=', 'roles.user_id')
+            ->select(
+                'users.*',
+                'roles.role_name as role_name',
+            )
+            ->whereNull('deleted_at');
+        if ($filterGenDer) {
+            $query->where('users.gender', $filterGenDer);
+        }
+        if ($filterRole) {
+            $query->where('roles.role_name', $filterRole);
+        }
+        if ($filterCreate) {
+            $query->whereDate('users.created_at', $filterCreate);
+        }
+
+        $query->orderBy('id', 'asc');
+        $userList = $query->paginate($perPage);
+        return $userList;
     }
     public static function search_users($search)
     {
         $users = DB::table('users')
             ->where('name', 'LIKE', '%' . $search . '%')
             ->select('users.*')
-            ->get();
+            ->paginate(10);
         return $users;
     }
     public static function show($id)
     {
         $users = User::find($id);
-
-        return (object)[
-            'id'                => $users->id,
-            'name'              => $users->name,
-            'email'             => $users->email,
-            'phone'             => $users->phone,
-            'email_verified_at' => $users->email_verified_at,
-            'password'          => $users->password,
-            'image'             => $users->image,
-            'gender'            => $users->gender,
-            'birthday'          => $users->birthday,
-            'users_type'        => $users->users_type,
-            'expiry_date'       => $users->expiry_date,
-        ];
+        return $users;
     }
 }
