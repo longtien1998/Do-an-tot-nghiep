@@ -7,6 +7,10 @@
         </a>
     </div>
     <nav class="nav flex-column " id="accordionFlushExample">
+        <a class="nav-item" href="https://soundwave.io.vn" target="_blank">
+            <i class="fas fa-home"></i>
+            <span>Trang chủ</span>
+        </a>
         <a class="nav-item" href="{{route('dashboard')}}">
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
@@ -37,7 +41,7 @@
                 </li>
                 <li>
                     <a href="{{route('url.index')}}" class="nav-item">
-                    <i class="fa-solid fa-link"></i>
+                        <i class="fa-solid fa-link"></i>
                         <span class="">List URL</span>
                     </a>
                 </li>
@@ -56,7 +60,7 @@
             </ol>
         </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-qg" aria-controls="ql-qg">
-            <i class="fa-solid fa-music"></i>
+            <i class="fa-solid fa-globe"></i>
             <span>Thể loại Quốc gia<i class="fa fa-caret-down float-end "></i></span>
 
         </a>
@@ -118,25 +122,25 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('copyrights.create')}}" class="nav-item">
-                    <i class="fa-solid fa-circle-plus"></i>
+                        <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm Bản quyền</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('copyrights.index')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách Bản quyền</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('copyrights.trash.index')}}" class="nav-item">
-                    <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Bản quyền đã xóa</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('copyrights.file')}}" class="nav-item">
-                    <i class="fa-solid fa-file"></i>
+                        <i class="fa-solid fa-file"></i>
                         <span class="">File Bản quyền</span>
                     </a>
                 </li>
@@ -150,25 +154,25 @@
             <ol class="nav-collapse">
                 <li>
                     <a href="{{route('publishers.create')}}" class="nav-item">
-                    <i class="fa-solid fa-circle-plus"></i>
+                        <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm Nhà xuất bản</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('publishers.index')}}" class="nav-item">
-                    <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                         <span class="">Danh sách Nhà xuất bản</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('publishers.trash.index')}}" class="nav-item">
-                    <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i>
                         <span class="">Nhà xuất bản đã xóa</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('publishers.file')}}" class="nav-item">
-                    <i class="fa-solid fa-file"></i>
+                        <i class="fa-solid fa-file"></i>
                         <span class="">File logo Nhà xuất bản</span>
                     </a>
                 </li>
@@ -212,7 +216,7 @@
         </a>
         <div class="accordion-collapse collapse" id="ql-user" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
-            <li>
+                <li>
                     <a href="{{route('users.create')}}" class="nav-item">
                         <i class="fa-solid fa-circle-plus"></i>
                         <span class="">Thêm tài khoản</span>
