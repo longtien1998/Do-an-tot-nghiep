@@ -85,7 +85,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Sinh nhật</label>
                     <div class="col-md-12">
-                        <input type="date" name="birthday" value="" class="form-control form-control-line">
+                        <input type="date" name="birthday" id="birthday" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
@@ -109,4 +109,33 @@
     </div>
 </div>
 
+@endsection
+@section('js')
+<script>
+
+    $(document).ready(function() {
+        // validate ngày
+        const dateInput = $('#birthday');
+
+        // Lấy ngày hôm nay ở định dạng YYYY-MM-DD
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0-11, cần +1
+        const dd = String(today.getDate()).padStart(2, '0'); // Ngày trong tháng
+
+        // Thiết lập giá trị tối đa cho thẻ input là hôm nay
+        const maxDate = `${yyyy}-${mm}-${dd}`;
+        dateInput.attr('max', maxDate);
+
+        // Xử lý sự kiện thay đổi trên input để kiểm tra tính hợp lệ (nếu cần)
+        dateInput.on('change', function() {
+            if (new Date(dateInput.val()) > new Date(maxDate)) {
+                dateInput.addClass('is-invalid');
+                dateInput.val(''); // Xóa giá trị nếu chọn không hợp lệ
+            } else {
+                dateInput.addClass('is-valid');
+            }
+        });
+    });
+</script>
 @endsection
