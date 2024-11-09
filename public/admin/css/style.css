@@ -217,26 +217,25 @@ td {
     box-shadow: 0 6px 20px #1E2B39;
 }
 
-.dashboard-card h5 {
+.dashboard-card span {
     font-size: 20px;
-    margin-bottom: 15px;
+    margin: 0 0 0 10px;
+
 }
 
 .dashboard-card p {
     font-size: 16px;
-    color: #666;
 }
 
 .dashboard-card i {
-    font-size: 40px;
+    font-size: 30px;
     margin-bottom: 10px;
-    color: #007bff;
 }
 
 .dashboard-card .card-value {
     font-size: 24px;
     font-weight: bold;
-    color: #007bff;
+
 }
 
 /* Footer */
