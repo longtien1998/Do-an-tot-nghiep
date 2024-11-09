@@ -20,15 +20,7 @@ class Comment extends Model
         'rating_date',
     ];
     public static function selectCmt(){
-        return DB::table('ratings')
-        ->select('id',
-        'user_id',
-        'song_id',
-        'rating',
-        'comment',
-        'rating_date',)
-        ->whereNull('deleted_at')
-        ->paginate(10);
+        return Self::paginate(10);
     }
     public static function search_cmt($search)
     {
@@ -39,5 +31,13 @@ class Comment extends Model
             ->select('ratings.*')
             ->paginate(10);
         return $ratings;
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function song()
+    {
+        return $this->belongsTo(Music::class);
     }
 }

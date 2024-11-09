@@ -41,19 +41,21 @@
             <div class="col-sm-3 my-3">
                 <div>Đã chọn <strong id="total-songs">0</strong> bài hát</div>
             </div>
-            <div class="col-sm-6 text-center my-3">
-                <form action="{{route('list-restore-songs')}}" class="d-inline" method="post" id="form-restore">
-                    @csrf
-                    <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục bài hát đã chọn?')">Khôi phục bài hát</button>
-                </form>
-                <form action="{{route('list-delete-songs')}}" class="d-inline" method="post" id="form-delete">
-                    @csrf
-                    <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
-                    <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa bài hát đã chọn?')">Xóa bài hát</button>
-                </form>
-                <a href="{{route('restore-all-songs')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bài hát</a>
-                <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả bài hát</a> -->
+            <div class="col-sm-6 my-3">
+                <div class="float-end">
+                    <form action="{{route('list-restore-songs')}}" class="d-inline" method="post" id="form-restore">
+                        @csrf
+                        <input type="text" value="" name="restore_list" id="songs-restore" hidden>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục bài hát đã chọn?')">Khôi phục bài hát</button>
+                    </form>
+                    <form action="{{route('list-delete-songs')}}" class="d-inline" method="post" id="form-delete">
+                        @csrf
+                        <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa bài hát đã chọn?')">Xóa bài hát</button>
+                    </form>
+                    <a href="{{route('restore-all-songs')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả bài hát</a>
+                    <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả bài hát</a> -->
+                </div>
             </div>
 
         </div>

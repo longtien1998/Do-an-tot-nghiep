@@ -25,7 +25,7 @@
 <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <a href="{{route('comments.list')}}" class="btn btn-outline-success"> Tất cả bình luận</a>
-            <a href="#" class="btn btn-success">Thêm bình luận</a>
+            <!-- <a href="#" class="btn btn-success">Thêm bình luận</a> -->
         </div>
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('comments.search')}}" method="post">
@@ -54,8 +54,8 @@
                 <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(2)">Bình luận <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Đánh giá <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(4)">Mã người dùng <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(5)">Mã bài hát <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Người dùng <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Bài hát <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(6)">Ngày đánh giá <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành dộng</th>
             </tr>
@@ -68,8 +68,8 @@
                 <th scope="row">{{$comment->id}}</th>
                 <td>{{$comment->comment}}</td>
                 <td>{{$comment->rating}}</td>
-                <td>{{$comment->user_id}}</td>
-                <td>{{$comment->song_id}}</td>
+                <td>{{$comment->user->name}}</td>
+                <td>{{$comment->song->song_name}}</td>
                 <td>{{$comment->rating_date}}</td>
                 <td>
                     <a href="{{route('comments.edit', $comment->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>
