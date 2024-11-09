@@ -62,28 +62,28 @@
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Thu nhập</span>
                 <p class="card-value">58,300 VND</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);">
                 <i class="fa-solid fa-comment"></i>
                 <span>Bình luận</span>
                 <p class="card-value">{{$total_comment}}</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%);">
                 <i class='bx bxs-album'></i>
                 <span>Album</span>
                 <p class="card-value">510</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #b2fefa 0%, #0ed2f7 100%);">
                 <i class='bx bx-building-house'></i>
                 <span>Nhà xuất bản</span>
                 <p class="card-value">{{$total_publishers}}</p>
