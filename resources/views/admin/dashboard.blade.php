@@ -26,66 +26,66 @@
 <div class="container-fluid">
     <div class="row row-cols-xxl-6 row-cols-xl-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(98deg, rgba(249,246,181,1) 39%, rgba(153,255,161,1) 87%);">
                 <i class="fas fa-users"></i>
-                <h5>Người dùng</h5>
+                <span>Người dùng</span>
                 <p class="card-value">{{$total_user}}</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(98deg, rgba(186,249,181,1) 39%, rgba(153,225,255,1) 87%);">
                 <i class="fas fa-music"></i>
-                <h5>Bài hát</h5>
+                <span>Bài hát</span>
                 <p class="card-value">{{$total_song}}</p>
             </div>
         </div>
         <div class="col col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(138deg, rgba(181,246,249,1) 32%, rgba(153,164,255,1) 87%);">
                 <!-- <i class="fas fa-microphone-stand"></i> -->
                 <i class='bx bxs-microphone-alt'></i>
-                <h5>Ca sĩ</h5>
+                <span>Ca sĩ</span>
                 <p class="card-value">{{$total_singer}}</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(138deg, rgba(181,202,249,1) 32%, rgba(209,153,255,1) 87%);">
                 <i class="fa-solid fa-list"></i>
-                <h5>Thể loại</h5>
+                <span>Thể loại</span>
                 <p class="card-value">{{$total_category}}</p>
             </div>
         </div>
         <div class="col">
-            <div class="dashboard-card">
+            <div class="dashboard-card" style="background: linear-gradient(169deg, rgba(218,181,249,1) 0%, rgba(255,153,155,1) 100%);">
                 <i class="fas fa-box"></i>
-                <h5>Đơn hàng</h5>
+                <span>Đơn hàng</span>
                 <p class="card-value">100</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card">
                 <i class="fas fa-dollar-sign"></i>
-                <h5>Thu nhập</h5>
-                <p class="card-value">$58,300</p>
+                <span>Thu nhập</span>
+                <p class="card-value">58,300 VND</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card">
                 <i class="fa-solid fa-comment"></i>
-                <h5>Bình luận</h5>
+                <span>Bình luận</span>
                 <p class="card-value">{{$total_comment}}</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card">
                 <i class='bx bxs-album'></i>
-                <h5>Album</h5>
+                <span>Album</span>
                 <p class="card-value">510</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card" >
                 <i class='bx bx-building-house'></i>
-                <h5>Nhà xuất bản</h5>
+                <span>Nhà xuất bản</span>
                 <p class="card-value">{{$total_publishers}}</p>
             </div>
         </div>
