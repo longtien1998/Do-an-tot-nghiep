@@ -121,6 +121,12 @@ class MusicController extends Controller
                     'path_type' => 'Basic',
                     'song_id' => $song_id
                 ]);
+            } else{
+                Filepaths::create([
+                    'file_path' => $request->file_basic,
+                    'path_type' => 'Basic',
+                    'song_id' => $song_id
+                ]);
             }
             // thêm đường dẫn plus
             if ($request->hasFile('file_plus')) {
@@ -131,6 +137,12 @@ class MusicController extends Controller
 
                 Filepaths::create([
                     'file_path' => $url_plus,
+                    'path_type' => 'plus',
+                    'song_id' => $song_id
+                ]);
+            } else {
+                Filepaths::create([
+                    'file_path' => $request->file_plus,
                     'path_type' => 'plus',
                     'song_id' => $song_id
                 ]);
@@ -145,6 +157,12 @@ class MusicController extends Controller
 
                 Filepaths::create([
                     'file_path' => $url_premium,
+                    'path_type' => 'premium',
+                    'song_id' => $song_id
+                ]);
+            } else {
+                Filepaths::create([
+                    'file_path' => $request->file_premium,
                     'path_type' => 'premium',
                     'song_id' => $song_id
                 ]);
@@ -464,5 +482,15 @@ class MusicController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bài hát nào phù hợp với từ khóa.');
         }
+    }
+
+
+    // Validate
+    public function validate_name(Request $request){
+        $name = Music::where('song_name','=', $request->song_name)->first();
+        if($name){
+            return response()->json(['success' => true,'message' =>'Tên bài hát đã tồn tại']);
+        }
+        return response()->json(['success' => false, 'message' => 'Tên bài hát không tồn tại']);
     }
 }

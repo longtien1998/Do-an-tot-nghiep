@@ -76,6 +76,14 @@
                     Route::get('/delete-all',  'delete_all_music')->name('delete-all-songs');
                     Route::get('/{id}/destroy',  'destroy_trash_music')->name('destroy-trash-songs');
                 });
+
+                // check validation
+                Route::group([
+                    'prefix' => 'validate',
+                    'as' => 'validate.',
+                ], function(){
+                    Route::post('name','validate_name')->name('name');
+                });
             });
             route::prefix('s3')->group(function () {
                 // hình ảnh trên AWS S3
