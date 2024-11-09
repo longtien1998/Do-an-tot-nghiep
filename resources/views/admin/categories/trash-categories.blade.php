@@ -41,19 +41,22 @@
             <div class="col-sm-6 my-3">
                 <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
             </div>
-            <div class="col-sm-6 text-center my-3">
-                <form action="{{route('categories.trash.restore-list')}}" class="d-inline" method="post" id="form-restore">
-                    @csrf
-                    <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục Quốc gia đã chọn?')">Khôi phục thể loại</button>
-                </form>
-                <form action="{{route('categories.trash.destroy-list')}}" class="d-inline" method="post" id="form-delete">
-                    @csrf
-                    <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
-                    <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa Quốc gia đã chọn?')">Xóa thể loại</button>
-                </form>
-                <a href="{{route('categories.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả thể loại</a>
-                <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả Quốc gia</a> -->
+            <div class="col-sm-6 my-3">
+                <div class="float-end">
+                    <form action="{{route('categories.trash.restore-list')}}" class="d-inline" method="post" id="form-restore">
+                        @csrf
+                        <input type="text" value="" name="restore_list" id="songs-restore" hidden>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục Quốc gia đã chọn?')">Khôi phục thể loại</button>
+                    </form>
+                    <form action="{{route('categories.trash.destroy-list')}}" class="d-inline" method="post" id="form-delete">
+                        @csrf
+                        <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa Quốc gia đã chọn?')">Xóa thể loại</button>
+                    </form>
+                    <a href="{{route('categories.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả thể loại</a>
+                    <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả Quốc gia</a> -->
+                </div>
+
             </div>
 
         </div>

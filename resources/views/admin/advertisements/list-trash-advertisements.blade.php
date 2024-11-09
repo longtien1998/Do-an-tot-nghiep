@@ -41,24 +41,27 @@
             <div class="col-sm-3 my-3">
                 <div>Đã chọn <strong id="total-songs">0</strong> Quảng cáo</div>
             </div>
-            <div class="col-sm-6 text-center my-3">
-                <form action="{{route('advertisements.trash.restore')}}" class="d-inline" method="post" id="form-restore">
-                    @csrf
-                    <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
-                </form>
-                <form action="{{route('advertisements.trash.delete')}}" class="d-inline" method="post" id="form-delete">
-                    @csrf
-                    <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
-                    <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa quảng cáo đã chọn?')">Xóa quảng cáo</button>
-                </form>
-                <a href="{{route('advertisements.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả quảng cáo</a>
+            <div class="col-sm-6 my-3">
+                <div class="float-end">
+                    <form action="{{route('advertisements.trash.restore')}}" class="d-inline" method="post" id="form-restore">
+                        @csrf
+                        <input type="text" value="" name="restore_list" id="songs-restore" hidden>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
+                    </form>
+                    <form action="{{route('advertisements.trash.delete')}}" class="d-inline" method="post" id="form-delete">
+                        @csrf
+                        <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa quảng cáo đã chọn?')">Xóa quảng cáo</button>
+                    </form>
+                    <a href="{{route('advertisements.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả quảng cáo</a>
+                </div>
+
             </div>
 
         </div>
         <thead>
             <tr>
-                <th><input type="checkbox" name="" id="check_all_list" class="check_all_list" ></th>
+                <th><input type="checkbox" name="" id="check_all_list" class="check_all_list"></th>
                 <th scope="col" onclick="sortTable(1)">STT <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
@@ -113,11 +116,11 @@
     });
     // Gán sự kiện 'submit' cho form
     document.getElementById('form-restore').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
     document.getElementById('form-delete').addEventListener('submit', function(e) {
-       return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
+        return submitForm(e, 'check_song_trash'); // Gọi hàm submitForm khi gửi
     });
 
     const checkboxes = document.getElementsByClassName('check_list');

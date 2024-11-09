@@ -40,18 +40,20 @@
             <div class="col-sm-3 my-3">
                 <div>Đã chọn <strong id="total-songs">0</strong> tài khoản</div>
             </div>
-            <div class="col-sm-6 text-center my-3">
-                <form action="{{route('users.trash.restore')}}" class="d-inline" method="post" id="form-restore">
-                    @csrf
-                    <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục tài khoản đã chọn?')">Khôi phục tài khoản</button>
-                </form>
-                <form action="{{route('users.trash.delete')}}" class="d-inline" method="post" id="form-delete">
-                    @csrf
-                    <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
-                    <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa tài khoản đã chọn?')">Xóa tài khoản</button>
-                </form>
-                <a href="{{route('users.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả tài khoản</a>
+            <div class="col-sm-6 my-3">
+                <div class="float-end">
+                    <form action="{{route('users.trash.restore')}}" class="d-inline" method="post" id="form-restore">
+                        @csrf
+                        <input type="text" value="" name="restore_list" id="songs-restore" hidden>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục tài khoản đã chọn?')">Khôi phục tài khoản</button>
+                    </form>
+                    <form action="{{route('users.trash.delete')}}" class="d-inline" method="post" id="form-delete">
+                        @csrf
+                        <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa tài khoản đã chọn?')">Xóa tài khoản</button>
+                    </form>
+                    <a href="{{route('users.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả tài khoản</a>
+                </div>
             </div>
         </div>
         <thead>

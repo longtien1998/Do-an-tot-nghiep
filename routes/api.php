@@ -53,3 +53,11 @@ Route::get('/the-loai/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::c
 Route::get('/ca-si',[App\Http\Controllers\Api\SingerController::class, 'index']);
 // Bài hát theo Ca sĩ
 Route::get('/ca-si/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::class, 'list_song_singer']);
+//Bài hát yêu thích
+Route::get('/{id}/bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'list_song_favourite']);
+//Add Bài hát yêu thích
+Route::post('/bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'add_song_favourite']);
+//Xóa Bài hát yêu thích
+Route::post('/xoa-bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'delete_song_favourite']);
+//Add binh luận
+Route::post('/binh-luan',[App\Http\Controllers\admin\CommentController::class,'add_comment']);

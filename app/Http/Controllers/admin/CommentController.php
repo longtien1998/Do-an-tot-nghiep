@@ -8,21 +8,52 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+
 class CommentController extends Controller
 {
-    public function list_comments(){
+    public function add_comment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id',
+            'song_id',
+            'comment',
+            'rating' => 'numeric|max:5|min:1'
+        ], [
+            'rating.max' => 'Đánh giá tối đa 5 sao',
+            'rating.min' => 'Đánh giá tối thiểu 1 sao',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
+        }
+
+        $data = $request->all();
+        if (Comment::where('user_id', $data['user_id'])
+            ->where('song_id', $data['song_id'])
+            ->where('rating', $data['rating'])->first()
+        ) {
+            return response()->json(['message' => 'Bạn đã bình luận về bài hát này'], 400);
+        }
+        $add = Comment::create($data);
+        // dd($data);
+        return response()->json($add);
+    }
+    public function list_comments()
+    {
         $comments = Comment::selectCmt();
+        // dd($comments->users);
         return view('admin.comments.list-comments', compact('comments'));
     }
-    public function edit_comments($id){
+    public function edit_comments($id)
+    {
         $comments = Comment::find($id);
-        return view('admin.comments.update-comments',compact('comments'));
+        return view('admin.comments.update-comments', compact('comments'));
     }
-    public function update_comments(Request $request, $id){
+    public function update_comments(Request $request, $id)
+    {
         $comments = Comment::find($id);
         $comments->comment = $request->comment;
         $comments->rating = $request->rating;
-        if($comments->save()){
+        if ($comments->save()) {
             toastr()->success('Cập nhật bình luận thành công');
             return redirect()->route('comments.list');
         } else {
@@ -39,15 +70,15 @@ class CommentController extends Controller
     }
 
     public function delete_comments($id)
-{
-    try {
-        $comment = Comment::findOrFail($id);
-        $comment->delete();
-        return redirect()->route('comments.list')->with('success', 'Xoá bình luận thành công!');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận thất bại.');
+    {
+        try {
+            $comment = Comment::findOrFail($id);
+            $comment->delete();
+            return redirect()->route('comments.list')->with('success', 'Xoá bình luận thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận thất bại.');
+        }
     }
-}
 
     public function delete_trash_comments(Request $request)
     {
@@ -133,23 +164,23 @@ class CommentController extends Controller
 
 
     public function destroy_trash_comments($id)
-{
-    session()->forget('error');
+    {
+        session()->forget('error');
 
-    try {
-        $comment = Comment::withTrashed()->find($id);
+        try {
+            $comment = Comment::withTrashed()->find($id);
 
-        if ($comment) {
-            $comment->forceDelete();
-            return redirect()->route('comments.trash.list')->with('success', 'Xóa bình luận khỏi thùng rác thành công!');
-        } else {
-            return redirect()->back()->with('error', 'Bình luận không tồn tại trong thùng rác.');
+            if ($comment) {
+                $comment->forceDelete();
+                return redirect()->route('comments.trash.list')->with('success', 'Xóa bình luận khỏi thùng rác thành công!');
+            } else {
+                return redirect()->back()->with('error', 'Bình luận không tồn tại trong thùng rác.');
+            }
+        } catch (\Exception $e) {
+            // dd($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận khỏi thùng rác thất bại.');
         }
-    } catch (\Exception $e) {
-        // dd($e->getMessage());
-        return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bình luận khỏi thùng rác thất bại.');
     }
-}
 
 
     public function searchComments(Request $request)
@@ -168,7 +199,6 @@ class CommentController extends Controller
             $comments = Comment::search_cmt($query);
             if ($comments->isEmpty()) {
                 return redirect()->route('comments.list')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
-
             } else {
                 toastr()->success('Tìm bình luận thành công');
                 return view('admin.comments.list-comments', compact('comments'));
@@ -202,4 +232,3 @@ class CommentController extends Controller
         }
     }
 }
-
