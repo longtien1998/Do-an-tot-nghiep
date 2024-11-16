@@ -93,7 +93,9 @@
             @endforeach
         </tbody>
     </table>
-
+    <div class=" mb-5">
+        {!! $songs->links('pagination::bootstrap-5') !!}
+    </div>
 </div>
 
 @endsection

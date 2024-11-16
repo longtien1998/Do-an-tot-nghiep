@@ -22,8 +22,8 @@ class PublisherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'publisher_name' => 'required|unique:publishers,publisher_name|string' | $this ->  id,
-            'alias_name' => 'required|unique:publishers,alias_name|string' | $this ->  id,
+            'publisher_name' => 'required|string|unique:publishers,publisher_name,'. $this->route(param: 'id'),
+            'alias_name' => 'required|string|unique:publishers,alias_name,' . $this->route('id'),
             'country' => 'required|string',
             'city' => 'required|string',
             'address' => 'required|string',

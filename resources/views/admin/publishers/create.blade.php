@@ -43,55 +43,55 @@
                 <div class="form-group">
                     <label class="col-md-12">Tên nhà xuất bản <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="publisher_name" value="" class="form-control form-control-line">
+                        <input type="text" name="publisher_name" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Tên gọi khác </label>
                     <div class="col-md-12">
-                        <input type="text" name="alias_name" value="" class="form-control form-control-line">
+                        <input type="text" name="alias_name" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Quốc gia</label>
                     <div class="col-md-12">
-                        <input type="text" name="country" value="" class="form-control form-control-line">
+                        <input type="text" name="country" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Thành phố </label>
                     <div class="col-md-12">
-                        <input type="text" name="city" value="" class="form-control form-control-line">
+                        <input type="text" name="city" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Địa chỉ </label>
                     <div class="col-md-12">
-                        <input type="text" name="address" value="" class="form-control form-control-line">
+                        <input type="text" name="address" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Trang web </label>
                     <div class="col-md-12">
-                        <input type="text" name="website" value="" class="form-control form-control-line">
+                        <input type="text" name="website" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Email </label>
                     <div class="col-md-12">
-                        <input type="email" name="email" value="" class="form-control form-control-line">
+                        <input type="email" name="email" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Số điện thoại</label>
                     <div class="col-md-12">
-                        <input type="text" name="phone" value="" class="form-control form-control-line">
+                        <input type="text" name="phone" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Logo</label>
                     <div class="col-md-12">
-                        <input type="file" name="logo" value="" id="logoImage" accept="image/*" class="form-control form-control-line">
+                        <input type="file" name="logo" id="logoImage" accept="image/*" class="form-control form-control-line">
                     </div>
                     <img id="previewImage" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>

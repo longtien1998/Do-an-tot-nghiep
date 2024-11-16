@@ -2,6 +2,7 @@
     <?php
 
     use App\Http\Controllers\admin\LoginController;
+    use App\Http\Controllers\admin\Notification\NotificationController;
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\admin\HomeController;
     use App\Http\Controllers\admin\music\MusicController;
@@ -20,6 +21,7 @@
     use App\Http\Controllers\admin\music\UrlsongController;
 
 
+    Route::get('/notification-count', [NotificationController::class, 'count']);
 
     route::group([
         'controller' => LoginController::class,
@@ -217,7 +219,9 @@
                 Route::post('/destroy', 'destroy_list_copyrights')->name('destroy-list');
             });
 
-            Route::get('/file','file')->name('file');
+            Route::get('/file-copyright','file')->name('file');
+            Route::post('/destroy-file-copyright', 'destroy_file')->name('destroy_file');
+            Route::post('/list-destroy-file-copyright', 'list_destroy_file')->name('destroy-list-logo');
         });
     }); // đóng group midle login
 

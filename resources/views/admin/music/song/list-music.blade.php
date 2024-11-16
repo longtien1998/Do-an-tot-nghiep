@@ -59,9 +59,9 @@
                     <select name="filterTheloai" id="indexPage" class="form-select" onchange="submitForm()">
                         <option value=""></option>
                         <option value="{{request()->input('filterTheloai') ? request()->input('filterTheloai') : ''}}" selected>
-                            {{request()->input('filterTheloai') ? \App\Models\Categories::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Thể loại'}}
+                            {{request()->input('filterTheloai') ? \App\Models\Category::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Thể loại'}}
                         </option>
-                        @foreach ( \App\Models\Categories::all() as $categori)
+                        @foreach ( \App\Models\Category::all() as $categori)
                         <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
                         @endforeach
                     </select>

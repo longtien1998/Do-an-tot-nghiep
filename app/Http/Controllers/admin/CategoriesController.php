@@ -5,14 +5,14 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Categories;
+use App\Models\Category;
 
 
 class CategoriesController extends Controller
 {
     public function list_categories()
     {
-        $categories = Categories::paginate(10);
+        $categories = Category::paginate(10);
         return view('admin.categories.list-categories', compact('categories'));
     }
 
@@ -38,13 +38,13 @@ class CategoriesController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate->errors());
         }
-        $category = Categories::where('categorie_name', $request->categorie_name)->first();
+        $category = Category::where('categorie_name', $request->categorie_name)->first();
         if($category){
             return redirect()->back()->with('error','Tên thể loại đã tồn tại.');
         }
 
         try {
-            Categories::create($request->All());
+            Category::create($request->All());
             return redirect()->route('categories.list')->with('success','Thêm thể loại thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error','Thêm thể loại thất bại.'.$e);
@@ -53,7 +53,7 @@ class CategoriesController extends Controller
 
 
     public function edit_categories($id){
-        $category = Categories::find($id);
+        $category = Category::find($id);
         return view('admin.categories.edit-categories', compact('category'));
     }
 
@@ -74,7 +74,7 @@ class CategoriesController extends Controller
             return redirect()->back()->withErrors($validate->errors());
         }
         try {
-            $category = Categories::find($id);
+            $category = Category::find($id);
             $category->update($request->all());
             return redirect()->route('categories.list')->with('success','Cập nhật thể loại thành công.');
         } catch (\Exception $e) {
@@ -86,7 +86,7 @@ class CategoriesController extends Controller
     public function delete_categories($id)
     {
         try {
-            $category = Categories::find($id);
+            $category = Category::find($id);
             $category->delete();
             return redirect()->route('categories.list')->with('success','Xóa thể loại thành công.');
         } catch (\Exception $e) {
@@ -99,7 +99,7 @@ class CategoriesController extends Controller
         if (is_array($deletelist)) {
             try {
                 foreach ($deletelist as $list) {
-                    $Country = Categories::find($list);
+                    $Country = Category::find($list);
                     $Country->delete();
                 }
                 return redirect()->route('categories.list')->with('success', 'Xoá thể loại thành công!');
@@ -113,7 +113,7 @@ class CategoriesController extends Controller
     }
     public function search_categories(Request $request){
         $query = $request->search;
-        $categories = Categories::where('categorie_name', 'LIKE', '%'. $query. '%')->whereNull('deleted_at')->paginate(10);
+        $categories = Category::where('categorie_name', 'LIKE', '%'. $query. '%')->whereNull('deleted_at')->paginate(10);
         if($categories->isEmpty()) return redirect()->back()->with('error', 'Không tìm thấy kết quả cho tìm kiếm');
 
         Toastr()->success('Tìm thể loại thành công');
@@ -124,12 +124,12 @@ class CategoriesController extends Controller
     // trash
 
     public function trash_categories(){
-        $categories = Categories::onlyTrashed()->paginate(10);
+        $categories = Category::onlyTrashed()->paginate(10);
         return view('admin.categories.trash-categories', compact('categories'));
     }
     public function restore_categories($id){
         try {
-            $category = Categories::withTrashed()->find($id);
+            $category = Category::withTrashed()->find($id);
             $category->restore();
             return redirect()->back()->with('success','Phục hồi thể loại thành công.');
         } catch (\Exception $e) {
@@ -143,7 +143,7 @@ class CategoriesController extends Controller
         if (is_array($restorelist)) {
             try {
                 foreach ($restorelist as $list) {
-                    $Country = Categories::withTrashed()->find($list);
+                    $Country = Category::withTrashed()->find($list);
                     $Country->restore();
                 }
                 return redirect()->back()->with('success', 'Phục hồi thể loại thành công!');
@@ -157,7 +157,7 @@ class CategoriesController extends Controller
 
     public function restore_all_categories(){
         try {
-            Categories::withTrashed()->restore();
+            Category::withTrashed()->restore();
             return redirect()->back()->with('success','Phục hồi tất cả thể loại thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error','Phục hồi tất cả thể loại thất bại.');
@@ -166,7 +166,7 @@ class CategoriesController extends Controller
 
     public function destroy_categories($id){
         try {
-            $category = Categories::withTrashed()->find($id);
+            $category = Category::withTrashed()->find($id);
             $category->forceDelete();
             return redirect()->back()->with('success','Xóa thể loại vĩnh viễn thành công.');
         } catch (\Exception $e) {
@@ -180,7 +180,7 @@ class CategoriesController extends Controller
         if (is_array($deletelist)) {
             try {
                 foreach ($deletelist as $list) {
-                    $Country = Categories::withTrashed()->find($list);
+                    $Country = Category::withTrashed()->find($list);
                     $Country->forceDelete();
                 }
                 return redirect()->back()->with('success', 'Xóa thể loại vĩnh viễn thành công!');

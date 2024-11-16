@@ -32,7 +32,10 @@ Route::group([
 });
 // show member
 
-
+// chi tiết bài hát
+Route::get('/bai-hat/{id}', [App\Http\Controllers\Api\SongsController::class,'show']);
+// chi tiết nhà xuất bản
+Route::get('/nha-xuat-ban/{id}', [App\Http\Controllers\Api\PublisherController::class, 'show']);
 // lượt nghe
 Route::get('/luot-nghe/{id}', [App\Http\Controllers\Api\SongsController::class, 'luot_nghe']);
 // lượt tải

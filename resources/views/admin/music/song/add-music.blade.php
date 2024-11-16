@@ -101,7 +101,7 @@
                         <input type="text" name="provider" id="provider" class="form-control form-control-line border-3" value="{{old('provider')}}" disabled>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12 mb-2">Nhà soạn nhạc <span class="text-danger">(*)</span></label>
+                        <label class="col-md-12 mb-2">Tác giả <span class="text-danger">(*)</span></label>
                         <input type="text" name="composer" id="composer" class="form-control form-control-line border-3" value="{{old('composer')}}" disabled>
                     </div>
                 </div>

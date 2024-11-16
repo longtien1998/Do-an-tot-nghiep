@@ -1,11 +1,17 @@
+
+// url ajax
+const urlAjax = 'http://127.0.0.1:8000/';
+
+
+
 // Hiển thị preloader khi tải lại hoặc điều hướng sang trang khác
-window.addEventListener('beforeunload', function() {
+window.addEventListener('beforeunload', function () {
     document.getElementById('preloader').style.display = 'flex';
 });
 
 // Hiển thị preloader khi người dùng nhấp vào các liên kết nội bộ
 document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', function(event) {
+    link.addEventListener('click', function (event) {
         // Chỉ kích hoạt cho các liên kết nội bộ
         if (link.hostname === window.location.hostname) {
             document.getElementById('preloader').style.display = 'flex';
@@ -14,11 +20,21 @@ document.querySelectorAll('a').forEach(link => {
 });
 
 // Ẩn preloader sau khi trang đã tải xong
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     document.getElementById('preloader').style.display = 'none';
     document.getElementById('content').style.display = 'block';
 });
 
+// thay đổi backgroud
+$(document).ready(function () {
+    $('#slideThree').on('change', function () {
+        if ($(this).prop('checked')) {
+            document.body.style.removeProperty('background');
+        } else {
+            document.body.style.background = 'black';
+        }
+    });
+});
 
 
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -43,16 +59,16 @@ document.querySelectorAll('.nav-link[data-bs-toggle="collapse"]').forEach(functi
     });
 });
 
-document.getElementById('toggle-btn').addEventListener('click', function() {
+document.getElementById('toggle-btn').addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('closed');
     document.getElementById('header').classList.toggle('closed');
     document.getElementById('main-content').classList.toggle('closed');
     document.getElementById('footer').classList.toggle('closed');
-    document.querySelectorAll('.collapse').forEach(function(el) {
+    document.querySelectorAll('.collapse').forEach(function (el) {
         el.classList.remove('show');
     });
 });
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     if (window.innerWidth < 986) {
         document.getElementById('sidebar').classList.add('closed');
         document.getElementById('header').classList.add('closed');
@@ -66,17 +82,17 @@ window.addEventListener('resize', function() {
     }
 });
 
-function closed(id){
+function closed(id) {
     var el = document.getElementById(id);
     console.log(el);
-    if (el.classList === 'collapsing' ) {
+    if (el.classList === 'collapsing') {
         el.classList.remove('show');
     }
 }
 
 
 // check all songs
-document.querySelector('#check_all_list').addEventListener('click', function() {
+document.querySelector('#check_all_list').addEventListener('click', function () {
     var checkboxes = document.getElementsByClassName('check_list');
 
     for (var i = 0; i < checkboxes.length; i++) {
@@ -195,3 +211,46 @@ function updateIcons(columnIndex, isAscending) {
         }
     });
 }
+
+
+// validate ngày
+function validateDay(id, val) {
+    const dateInput = $(id);
+    // Lấy ngày hôm nay
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = today.getMonth(); // Tháng bắt đầu từ 0-11
+    let dd = today.getDate(); // Ngày trong tháng
+
+    // Nếu là ngày min, tăng 1 ngày (ngày mai)
+    if (val == 'min') dd++;
+
+    // Tạo đối tượng Date mới với ngày, tháng, và năm đã chỉnh sửa
+    const adjustedDate = new Date(yyyy, mm, dd);
+
+    // Đảm bảo rằng nếu ngày vượt quá số ngày trong tháng thì chuyển sang tháng tiếp theo
+    const adjustedDateString = adjustedDate.toISOString().split('T')[0];
+
+    // Thiết lập giá trị tối đa hoặc tối thiểu cho thẻ input
+    dateInput.attr(val, adjustedDateString);
+
+    // Xử lý sự kiện thay đổi trên input để kiểm tra tính hợp lệ
+    dateInput.on('change', function () {
+        const selectedDate = new Date(dateInput.val());
+        if (!dateInput.val()) {
+            dateInput.removeClass('is-valid is-invalid');
+        } else if (val == 'max' && selectedDate > new Date(adjustedDateString)) {
+            // Kiểm tra đối với max: chọn ngày không hợp lệ nếu lớn hơn ngày tối đa
+            dateInput.addClass('is-invalid').removeClass('is-valid');
+            dateInput.val(''); // Xóa giá trị nếu chọn không hợp lệ
+        } else if (val == 'min' && selectedDate < new Date(adjustedDateString)) {
+            // Kiểm tra đối với min: chọn ngày không hợp lệ nếu nhỏ hơn ngày tối thiểu
+            dateInput.addClass('is-invalid').removeClass('is-valid');
+            dateInput.val(''); // Xóa giá trị nếu chọn không hợp lệ
+        } else {
+            dateInput.addClass('is-valid').removeClass('is-invalid');
+        }
+    });
+
+}
+

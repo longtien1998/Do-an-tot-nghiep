@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Filepaths;
@@ -37,6 +37,11 @@ class Music extends Model
         'updated_at',
         'created_at',
     ];
+
+    public function category()
+    {
+        return $this->belongto(Category::class);
+    }
 
     public static function url($perPage)
     {
@@ -196,7 +201,7 @@ class Music extends Model
             'country_id'         => $song->country_id,
             'country_name'       => Country::find($song->country_id)->name_country,
             'category_id'      => $song->category_id,
-            'category_name'      => Categories::find($song->category_id)->categorie_name,
+            'category_name'      => Category::find($song->category_id)->categorie_name,
             'singer_id'         => $song->singer_id,
             'singer_name'        => Singer::find($song->singer_id)->singer_name,
             'song_image'         => $song->song_image,

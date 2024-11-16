@@ -258,44 +258,6 @@
 
             </ol>
         </div>
-        <a class="nav-item collapsed" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
-            <i class="fa-solid fa-image"></i>
-            <span>Hình ảnh </span>
-        </a>
-        <div class="collapse" id="ql-image">
-            <ol class="nav-collapse">
-
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">Hình Tài khoản</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">Hình ca sĩ</span>
-                    </a>
-                </li>
-            </ol>
-        </div>
-        <a class="nav-item collapsed" href="#ql-file-songs" data-bs-toggle="collapse">
-            <i class="fa-solid fa-file"></i>
-            <span>File nhạc</span>
-        </a>
-        <div class="collapse" id="ql-file-songs">
-            <ol class="nav-collapse">
-
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">File quảng cáo</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">file demo</span>
-                    </a>
-                </li>
-            </ol>
-        </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <a href="route('logout')" class="nav-item dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">

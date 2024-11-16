@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hasTable('country')){
-            Schema::create('country', function (Blueprint $table) {
+        if(!Schema::hasTable('notification')){
+            Schema::create('notification', function (Blueprint $table) {
                 $table->id();
-                $table->string('name_country')->unique();
-                $table->string('description_country')->nullable();
-                $table->string('background')->nullable();
-                $table->softDeletes();
+                $table->string('message');
+                $table->text('icon');
+                $table->string('action_url');
+                $table->boolean('status')->default('1');
                 $table->timestamps();
             });
-
         }
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('country');
+        Schema::dropIfExists('notification');
     }
 };

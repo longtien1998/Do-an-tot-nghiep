@@ -94,7 +94,9 @@
             @endforeach
         </tbody>
     </table>
-
+    <div class=" mb-5">
+        {!! $Countries->links('pagination::bootstrap-5') !!}
+    </div>
 </div>
 
 @endsection

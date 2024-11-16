@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Categories extends Model
+class Category extends Model
 {
     use HasFactory,SoftDeletes;
 
@@ -16,4 +16,8 @@ class Categories extends Model
         'description',
 
     ];
+    public function music()
+    {
+        return $this->hasMany(Music::class);
+    }
 }

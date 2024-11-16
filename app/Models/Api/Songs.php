@@ -61,10 +61,14 @@ class Songs extends Model
         // Bước 2: Lấy danh sách song_id
         $songIds = collect($songsArray)->pluck('id');
 
+        $copyright = DB::table('copyrights')
+            ->whereIn('song_id', $songIds)
+            ->select('song_id', 'copyright_type', 'copyright_content')
+
         // Bước 3: Lấy các file_paths liên quan đến bài hát
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
-            ->select('song_id', 'path_type', 'file_path')
+            ->select( 'license_type', 'terms', '')
             ->get()
             ->groupBy('song_id'); // Gom nhóm theo song_id
 
