@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-class PublishersModel extends Model
+class Publisher extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'publishers';
@@ -52,6 +52,22 @@ class PublishersModel extends Model
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
+    }
+
+    public static function getImage(){
+        // Lấy tất cả các file trong folder 'Pulisher_logo'
+        $files = Storage::disk('s3')->files('Pulisher_logo');
+        // Lấy danh sách ảnh từ bảng songs (music)
+        $usedImages = self::pluck('logo')->toArray();
+        // Tạo danh sách ảnh kèm thông tin sử dụng
+        $images = array_map(function ($file) use ($usedImages) {
+            return [
+                'path'    => $file,
+                'url'     => Storage::disk('s3')->url($file),
+                'in_use'  => in_array(Storage::disk('s3')->url($file), $usedImages), // Kiểm tra ảnh có đang dùng
+            ];
+        }, $files);
+        return $images;
     }
 
     public static function search($query)

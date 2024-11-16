@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Response;
 use App\Models\Music;
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Country;
 use App\Http\Requests\Music\MusicPostRequest;
 use App\Http\Requests\Music\MusicUpdateRequest;
@@ -72,7 +72,7 @@ class MusicController extends Controller
 
     public function add_music()
     {
-        $Categories = Categories::all();
+        $Categories = Category::all();
         $Countries = Country::all();
         $Singers = Singer::all();
         return view('admin.music.song.add-music', compact('Categories', 'Countries', 'Singers'));
@@ -202,7 +202,7 @@ class MusicController extends Controller
     public function show_music($id)
     {
         $song = Music::show($id);
-        $Categories = Categories::all();
+        $Categories = Category::all();
         $Countries = Country::all();
         $Singers = Singer::all();
         // dd($song);

@@ -77,7 +77,7 @@
                             <option value="{{$category->id}}">{{$category->categorie_name}}</option>
                             @endforeach
 
-                        </select>   
+                        </select>
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12 mb-2">Ngày phát hành <span class="text-danger">(*)</span></label>

@@ -43,7 +43,7 @@
             <div class="modal fade" id="createCoutry" tabindex="-1" aria-labelledby="createCoutryLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form class="row g-3 needs-validation" novalidate method="post" action="{{route('store-country')}}">
+                        <form class="row g-3 needs-validation" novalidate method="post" action="{{route('store-country')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="createCoutryLabel">Thêm mới quốc gia</h1>
@@ -53,6 +53,14 @@
                                 <div class="col-md-12 position-relative">
                                     <label for="validationTooltip01" class="form-label">Tên quốc gia</label>
                                     <input type="text" class="form-control" name="name_country" id="validationTooltip01" required>
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                                <div class="col-md-12 my-3 position-relative">
+                                    <label for="validationTooltip01" class="form-label">Ảnh nền</label>
+                                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" required>
+                                    <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
@@ -96,7 +104,8 @@
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(3)">Tên Quốc gia <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(4)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(4)">Hình nền <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -107,13 +116,14 @@
                 <th scope="row">{{$countries->firstItem() + $index}}</th>
                 <td>{{$country->id}}</td>
                 <td>{{$country->name_country}}</td>
+                <td><img src="{{$country->background}}" alt="" width="100px"></td>
                 <td>{{$country->created_at}}</td>
 
                 <td>
-                    <a class="btn btn-link btn-outline-success" data-bs-toggle="modal" data-bs-target="#showCountry" onclick="showCountry('{{$country->id}}','{{$country->name_country}}','{{$country->created_at}}','{{$country->updated_at}}')">
+                    <a class="btn btn-link btn-outline-success" data-bs-toggle="modal" data-bs-target="#showCountry" onclick="showCountry('{{$country->id}}','{{$country->name_country}}','{{$country->background}}','{{$country->created_at}}','{{$country->updated_at}}')">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-                    <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editCountry" onclick="editCountry('{{$country->id}}','{{$country->name_country}}')">
+                    <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editCountry" onclick="editCountry('{{$country->id}}','{{$country->name_country}}','{{$country->background}}')">
                         <i class="fa-solid fa-edit"></i>
                     </a>
                     <form action="{{route('delete-country',$country->id)}}" method="post" class="d-inline">
@@ -142,7 +152,7 @@
                 <div class="modal-body">
                     <h5>Id Quốc gia : <strong id="idQuocGia"></strong></h5>
                     <h5>Tên thể loại Quốc gia : <strong id="tenQuocGia"></strong></h5>
-                    <h5>Mô tả Quốc gia : <strong id="moTaQuocGia"></strong></h5>
+                    <h5>Ảnh nền : <img id="moTaQuocGia" src="" width="150px"></img></h5>
                     <h5>Ngày tạo Quốc gia : <strong id="ngayTao"></strong></h5>
                     <h5>Ngày sửa Quốc gia : <strong id="ngaysSua"></strong></h5>
                 </div>
@@ -158,7 +168,7 @@
     <div class="modal fade" id="editCountry" tabindex="-1" aria-labelledby="editCountryLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formEditCountry">
+                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formEditCountry" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="modal-header">
@@ -174,8 +184,9 @@
                             </div>
                         </div>
                         <div class="col-md-12 position-relative my-3">
-                            <label for="validationTooltip01" class="form-label">Mô tả quốc gia</label>
-                            <input type="text" class="form-control" name="description_country" id="description_country" required>
+                            <label for="validationTooltip01" class="form-label">Ảnh nền</label>
+                            <input type="file" class="form-control" name="background" id="backgroundUp" accept="image/*" required>
+                            <img id="previewImageUp" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                             <div class="valid-tooltip">
                                 Looks good!
                             </div>
@@ -207,24 +218,68 @@
     }
 
 
+    document.getElementById('backgroundAdd').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Lấy file đầu tiên từ input
+        const preview = document.getElementById('previewImageAdd'); // Thẻ <img> để hiển thị ảnh
+
+        if (file) {
+            const reader = new FileReader(); // Tạo FileReader để đọc file
+
+            reader.onload = function(e) {
+                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
+            };
+
+            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            preview.classList.remove('d-none'); // Hiển thị ảnh preview
+        } else {
+            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+        }
+    });
+    document.getElementById('backgroundUp').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Lấy file đầu tiên từ input
+        const preview = document.getElementById('previewImageUp'); // Thẻ <img> để hiển thị ảnh
+
+        if (file) {
+            const reader = new FileReader(); // Tạo FileReader để đọc file
+
+            reader.onload = function(e) {
+                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
+            };
+
+            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            preview.classList.remove('d-none'); // Hiển thị ảnh preview
+        } else {
+            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+        }
+    });
+
+
+
     function showCountry() {
         let id = arguments[0];
         let name = arguments[1];
-        let created_at = arguments[2];
-        let updated_at = arguments[3];
+        let background = arguments[2];
+        let created_at = arguments[3];
+        let updated_at = arguments[4];
 
         $('#idQuocGia').text(id);
         $('#tenQuocGia').text(name);
+        $('#moTaQuocGia').attr('src', background);
         $('#ngayTao').text(created_at);
         $('#ngaysSua').text(updated_at);
     }
+
+
     const updateRoute = "{{ route('update-country', ['id' => '__ID__']) }}";
     function editCountry() {
         let id = arguments[0];
         let name = arguments[1];
+        let background = arguments[2];
 
         const finalAction = updateRoute.replace('__ID__', id);
         $('#name_country').val(name);
+        $('#previewImageUp').attr('src',background);
+        $('#previewImageUp').removeClass('d-none');
         $('#formEditCountry').attr('action', finalAction);
     }
 </script>

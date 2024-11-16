@@ -9,6 +9,15 @@ use App\Http\Resources\SongsResource;
 
 class SongsController extends Controller
 {
+    public function show($id){
+        $song = Songs::find($id);
+        if($song){
+            return response()->json($song);
+        } else {
+            return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
+        }
+
+    }
     public function luot_nghe($id){
         $song = Songs::find($id);
         if($song){
