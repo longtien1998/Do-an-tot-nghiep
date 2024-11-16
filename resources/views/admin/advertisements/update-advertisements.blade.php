@@ -25,7 +25,6 @@
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
             <form class="form-horizontal form-material" action="{{ route('advertisements.update', $ads->id) }}" method="POST" enctype="multipart/form-data">
-
                 @csrf
                 @method('PUT')
                 <div class="form-group">

@@ -39,7 +39,7 @@ class CommentController extends Controller
     }
     public function list_comments()
     {
-        $comments = Comment::selectCmt();
+        $comments = Comment::with(['user', 'song'])->paginate(10);
         // dd($comments->users);
         return view('admin.comments.list-comments', compact('comments'));
     }
@@ -220,7 +220,7 @@ class CommentController extends Controller
         }
         try {
             $query = $request->search;
-            $comments = Comment::onlyTrashed()->where('comment', 'LIKE', '%' . $query . '%')->get();
+            $comments = Comment::onlyTrashed()->where('comment', 'LIKE', '%' . $query . '%')->paginate(10);
             if ($comments->isEmpty()) {
                 return redirect()->route('comments.trash.list')->with('error', 'Không tìm thấy bình luận nào phù hợp với từ khóa');
             } else {

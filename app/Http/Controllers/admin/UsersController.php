@@ -241,7 +241,7 @@ class UsersController extends Controller
         }
         try {
             $query = $request->search;
-            $users = User::onlyTrashed()->where('name', 'LIKE', '%' . $query . '%')->get();
+            $users = User::onlyTrashed()->where('name', 'LIKE', '%' . $query . '%')->paginate(15);
             if ($users->isEmpty()) {
                 return redirect()->route('users.trash.list')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
             } else {
