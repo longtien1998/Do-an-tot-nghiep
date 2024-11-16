@@ -61,8 +61,6 @@
     <script type="text/javascript" src="{{asset('admin/js/app.js')}}"></script>
     @yield('js')
 
-
-
 </body>
 
 </html>

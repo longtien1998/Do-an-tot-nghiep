@@ -46,7 +46,7 @@
                     <form action="{{route('advertisements.trash.restore')}}" class="d-inline" method="post" id="form-restore">
                         @csrf
                         <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
+                        <button type="submit" class="btn btn-success mr-2" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
                     </form>
                     <form action="{{route('advertisements.trash.delete')}}" class="d-inline" method="post" id="form-delete">
                         @csrf

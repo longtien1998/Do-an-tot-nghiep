@@ -68,8 +68,8 @@
                 <th scope="row">{{$comment->id}}</th>
                 <td>{{$comment->comment}}</td>
                 <td>{{$comment->rating}}</td>
-                <td>{{$comment->user->name}}</td>
-                <td>{{$comment->song->song_name}}</td>
+                <td>{{ $comment->user ? $comment->user->name : 'Không tìm thấy người dùng' }}</td>
+                <td>{{ $comment->song ? $comment->song->song_name : 'Không tìm thấy bài hát' }}</td>
                 <td>{{$comment->rating_date}}</td>
                 <td>
                     <a href="{{route('comments.edit', $comment->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>

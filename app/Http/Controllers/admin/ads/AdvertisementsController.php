@@ -82,7 +82,7 @@ class AdvertisementsController extends Controller
 
         }
     }
-    public function delete_advertisements($id)
+    public function delete($id)
     {
         try {
             Advertisements::find($id)->delete();

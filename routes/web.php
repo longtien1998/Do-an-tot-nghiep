@@ -250,7 +250,7 @@
             Route::get('/{id}/edit',  'edit_advertisements')->name('edit');
             Route::put('/{id}/update',  'update_advertisements')->name('update');
             Route::post('/search',  'searchAds')->name('search');
-            Route::delete('/{id}/delete',  'delete_advertisements')->name('delete');
+            Route::delete('/{id}/delete',  'delete')->name('delete');
             Route::post('/delete-list',  'delete_list_ads')->name('delete-list');
             Route::prefix('s3')->group(function () {
                 Route::get('/s3ads/show', [S3AdsController::class, 'file_ads'])->name('s3ads.index');

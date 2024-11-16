@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+
 class Comment extends Model
 {
     use HasFactory, SoftDeletes;
@@ -19,8 +20,9 @@ class Comment extends Model
         'comment',
         'rating_date',
     ];
-    public static function selectCmt(){
-        return Self::paginate(10);
+    public static function selectCmt()
+    {
+        return Self::with(['user', 'song'])->paginate(10);
     }
     public static function search_cmt($search)
     {
@@ -30,12 +32,13 @@ class Comment extends Model
             ->orWhere('rating_date', 'LIKE', '%' . $search . '%')
             ->select('ratings.*')
             ->paginate(10);
-        return $ratings;
+        return Comment::whereIn('id', $ratings->pluck('id'))->with(['user', 'song'])->paginate(10);
     }
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function song()
     {
         return $this->belongsTo(Music::class);
