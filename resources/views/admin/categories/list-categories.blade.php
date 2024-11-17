@@ -54,6 +54,7 @@
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(3)"> Tên thể loại <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Mô tả</th>
+                <th scope="col">Ảnh nền</th>
                 <th scope="col" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -66,6 +67,7 @@
                 <th scope="row">{{$category->id}}</th>
                 <td>{{$category->categorie_name}}</td>
                 <td>{{$category->description}}</td>
+                <td><img src="{{$category->background}}" alt="{{$category->categorie_name}}"></td>
                 <td>{{$category->created_at}}</td>
                 <td>
                     <a href="{{route('categories.edit',$category->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-pen-to-square"></i></a>

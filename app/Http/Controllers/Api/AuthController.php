@@ -92,7 +92,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Đăng nhập thành công',
                 'access_token' => $token,
-                'token_type' => 'bearer',
+                'token_type' => 'Bearer',
                 'user' => $user
             ], 200);
         } catch (\Exception $e) {

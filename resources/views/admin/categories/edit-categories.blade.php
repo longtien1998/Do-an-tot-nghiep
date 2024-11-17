@@ -53,6 +53,14 @@
                     <input type="text" name="description" value="{{$category->description}}" class="form-control form-control-line">
                     </div>
                 </div>
+                <div class="col-md-12 my-3 position-relative">
+                    <label for="validationTooltip01" class="form-label">Ảnh nền</label>
+                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" required>
+                    <img id="previewImageAdd" src="{{$category->background}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
+                    <div class="valid-tooltip">
+                        Looks good!
+                    </div>
+                </div>
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Cập nhật</button>
@@ -62,5 +70,32 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('js')
+<script>
+     document.getElementById('backgroundAdd').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Lấy file đầu tiên từ input
+        const preview = document.getElementById('previewImageAdd'); // Thẻ <img> để hiển thị ảnh
+
+        if (file) {
+            const reader = new FileReader(); // Tạo FileReader để đọc file
+
+            reader.onload = function(e) {
+                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
+            };
+
+            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            preview.classList.remove('d-none'); // Hiển thị ảnh preview
+        } else {
+            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+        }
+    });
+    $(document).ready(function() {
+        const img = $('#previewImageAdd');
+        img.attr('src') !== '' ? img.removeClass('d-none') : img.addClass('d-none');
+    });
+</script>
 
 @endsection

@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('categorie_name');
                 $table->string('description');
+                $table->string('background')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });

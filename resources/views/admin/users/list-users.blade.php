@@ -120,7 +120,7 @@
                 <td>{{$user->users_type}}</td>
                 <td>
                     <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    @if (Auth::check() && Auth::user()->id !== $user->id)
+                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')

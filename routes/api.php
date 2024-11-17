@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/test',[App\Http\Controllers\Api\TestController::class,'test']);
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -27,7 +29,7 @@ Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
     // đăng xuất
-    Route::post('users/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/member', [App\Http\Controllers\Api\MemberController::class, 'index']);
 });
 // show member
@@ -57,10 +59,10 @@ Route::get('/ca-si',[App\Http\Controllers\Api\SingerController::class, 'index'])
 // Bài hát theo Ca sĩ
 Route::get('/ca-si/{id}/bai-hat',[App\Http\Controllers\Api\SongsController::class, 'list_song_singer']);
 //Bài hát yêu thích
-Route::get('/{id}/bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'list_song_favourite']);
+Route::get('/{id}/bai-hat-yeu-thich',[App\Http\Controllers\Api\FavouriteSongController::class, 'list_song_favourite']);
 //Add Bài hát yêu thích
-Route::post('/bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'add_song_favourite']);
+Route::post('/bai-hat-yeu-thich',[App\Http\Controllers\Api\FavouriteSongController::class, 'add_song_favourite']);
 //Xóa Bài hát yêu thích
-Route::post('/xoa-bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'delete_song_favourite']);
+Route::post('/xoa-bai-hat-yeu-thich',[App\Http\Controllers\Api\FavouriteSongController::class, 'delete_song_favourite']);
 //Add binh luận
 Route::post('/binh-luan',[App\Http\Controllers\admin\CommentController::class,'add_comment']);

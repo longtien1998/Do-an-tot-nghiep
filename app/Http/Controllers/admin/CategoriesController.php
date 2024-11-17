@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
+use App\Http\Requests\CategoryRequest;
 
 
 class CategoriesController extends Controller
@@ -22,29 +23,21 @@ class CategoriesController extends Controller
         return view('admin.categories.add-categories');
     }
 
-    public function store_categories(Request $request)
+    public function store_categories(CategoryRequest $request)
     {
-        $validate = Validator::make($request->all(), [
-            'categorie_name' => 'required|string|max:255',
-            'description' => 'required|max:255'
-        ], [
-            'categorie_name.required' => 'Tên thể loại không được để trống.',
-            'categorie_name.max' => 'Tên thể loại quá dài.',
-
-            'description.required' => 'Mô tả không được để trống.',
-            'description.max' => 'Mô tả quá dài.'
-
-        ]);
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate->errors());
-        }
-        $category = Category::where('categorie_name', $request->categorie_name)->first();
-        if($category){
-            return redirect()->back()->with('error','Tên thể loại đã tồn tại.');
-        }
-
         try {
-            Category::create($request->All());
+            if($request->hasFile('background')){
+                $image = $request->file('background');
+                $name = $request->categorie_name;
+                $background = Category::up_image($image, $name);
+            } else {
+                $background = '';
+            }
+            Category::create([
+                'categorie_name' => $request->categorie_name,
+                'description' => $request->description,
+                'background' => $background,
+            ]);
             return redirect()->route('categories.list')->with('success','Thêm thể loại thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error','Thêm thể loại thất bại.'.$e);
@@ -57,25 +50,22 @@ class CategoriesController extends Controller
         return view('admin.categories.edit-categories', compact('category'));
     }
 
-    public function update_categories(Request $request, $id)
+    public function update_categories(CategoryRequest $request, $id)
     {
-
-        $validate = Validator::make($request->all(), [
-            'categorie_name' =>'required|string|max:255',
-            'description' =>'required|max:255'
-        ],[
-            'categorie_name.required' => 'Tên thể loại không được để trống.',
-            'categorie_name.max' => 'Tên thể loại quá dài.',
-
-            'description.required' => 'Mô tả không được để trống.',
-            'description.max' => 'Mô tả quá dài.'
-        ]);
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate->errors());
-        }
         try {
             $category = Category::find($id);
-            $category->update($request->all());
+            if($request->hasFile('background')){
+                $image = $request->file('background');
+                $name = $request->categorie_name;
+                $background = Category::up_image($image, $name);
+            } else {
+                $background = $category->background;
+            }
+            $category->update([
+                'categorie_name' => $request->categorie_name,
+                'description' => $request->description,
+                'background' => $background,
+            ]);
             return redirect()->route('categories.list')->with('success','Cập nhật thể loại thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Cập nhật thể loại thất bại.');

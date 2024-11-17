@@ -21,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware -> alias([
             'admin' => \App\Http\Middleware\Authentication::class,
         ]);
+        $middleware = [
+            \Illuminate\Http\Middleware\HandleCors::class, // Middleware CORS
+            // Các middleware khác...
+        ];
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
