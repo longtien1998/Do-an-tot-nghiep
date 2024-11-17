@@ -83,7 +83,17 @@ class UsersController extends Controller
         $users->image = $url_image;
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
+        $users->users_type = $request->users_type;
         if ($users->save()) {
+            $user_id = $users->id;
+            $role_name = $request->role_type == 1 ? 'Nhân viên' : 'Người dùng';
+            RolesModel::updateOrCreate(
+                ['user_id' => $user_id],
+                [
+                'role_type' => $request->role_type,
+                'role_name' => $role_name
+                ]
+            );
             return redirect()->route('users.list')->with('success', 'Cập nhật tài khoản thành công');
 
         } else {
