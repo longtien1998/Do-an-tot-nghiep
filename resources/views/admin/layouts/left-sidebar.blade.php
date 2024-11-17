@@ -260,10 +260,10 @@
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <a href="route('logout')" class="nav-item dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+            <button class="nav-item dropdown-item" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="float-start">Đăng xuất</span>
-            </a>
+            </button>
         </form>
     </nav>
 </div>
