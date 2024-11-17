@@ -2,9 +2,18 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Schedule;
+use Illuminate\Support\Facades\DB;
 use App\Console\Commands\CheckExpiryCopyright;
 
 
 
+
 app(Schedule::class)->command('check:expired-accounts')->everyTenSeconds();
+
+Schedule::call(function () {
+    DB::table('users')->where('id', '=', 3)->update([
+        'gender' => 'nam',
+    ]);
+})->everyTenSeconds();
+

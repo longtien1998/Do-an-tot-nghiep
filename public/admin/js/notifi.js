@@ -39,6 +39,6 @@ $(document).ready(function () {
             }
         });
     }
-    getNotifications();
-    // setInterval(getNotifications, 10000);
+    // getNotifications();
+    setInterval(getNotifications, 100000);
 });

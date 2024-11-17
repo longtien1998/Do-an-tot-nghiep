@@ -10,7 +10,7 @@ use App\Http\Resources\SongsResource;
 class SongsController extends Controller
 {
     public function show($id){
-        $song = Songs::find($id);
+        $song = Songs::show($id);
         if($song){
             return response()->json($song);
         } else {
@@ -109,4 +109,6 @@ class SongsController extends Controller
             return response()->json($songs, 200);
         }
     }
+
+
 }
