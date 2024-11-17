@@ -29,6 +29,9 @@ Route::group([
     // đăng xuất
     Route::post('users/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/member', [App\Http\Controllers\Api\MemberController::class, 'index']);
+    // New Pass member
+    Route::post('/newpass-member',[App\Http\Controllers\Api\MemberController::class,'newpass']);
+    Route::post('/update-member',[App\Http\Controllers\Api\MemberController::class,'update']);
 });
 // show member
 
@@ -63,4 +66,8 @@ Route::post('/bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSong
 //Xóa Bài hát yêu thích
 Route::post('/xoa-bai-hat-yeu-thich',[App\Http\Controllers\admin\music\FavouriteSongController::class, 'delete_song_favourite']);
 //Add binh luận
-Route::post('/binh-luan',[App\Http\Controllers\admin\CommentController::class,'add_comment']);
+Route::post('/binh-luan',[App\Http\Controllers\Api\CommentController::class,'add_comment']);
+//Show bình luận theo id bài hát
+Route::get('/binh-luan/{id}',[App\Http\Controllers\Api\CommentController::class,'show_comment']);
+// Random quảng cảo
+Route::get('/quang-cao', [App\Http\Controllers\Api\AdvertisementsController::class,'randomAds']);

@@ -24,7 +24,7 @@ class AdvertisementsRequest extends FormRequest
         return [
             'ads_name' => 'required|max:255',
             'ads_description' => 'required|max:255',
-            'file_path' => 'required|max:10240',
+            'file_path' => 'required|mimes:mp3|max:10240',
         ];
     }
     public function messages()
@@ -36,6 +36,7 @@ class AdvertisementsRequest extends FormRequest
             'ads_description.max' => 'Mô tả quảng cáo không được dài quá 255 ký tự',
             'file_path.max'   => 'Dung lượng tối đa cho video là 10MB.',
             'file_path.required' => 'Vui lòng thêm đường dẫn quảng cáo',
+            'file_path.mimes' => 'File quảng cáo phải là mp3',
 
         ];
     }

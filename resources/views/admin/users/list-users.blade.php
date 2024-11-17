@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between m-0 p-0">
-    <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-auto">
             <h5>Bộ Lọc</h5>
             <form action="{{route('users.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
@@ -105,7 +105,11 @@
             @php $stt = 1; @endphp
             @foreach($users as $user)
             <tr>
-                <td><input type="checkbox" class="check_list" value="{{$user->id}}"></td>
+                <td>
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
+                        <input type="checkbox" class="check_list" value="{{$user->id}}">
+                    @endif
+                </td>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
@@ -145,13 +149,13 @@
     @endif
 </div>
 <div class=" mb-5">
-        {!! $users->links('pagination::bootstrap-5') !!}
-    </div>
+    {!! $users->links('pagination::bootstrap-5') !!}
+</div>
 
 @endsection
 @section('js')
 <script>
-     document.querySelector('#check_all_list').addEventListener('click', function() {
+    document.querySelector('#check_all_list').addEventListener('click', function() {
         var checkboxes = document.getElementsByClassName('check_list');
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -167,6 +171,7 @@
         checkboxes[i].addEventListener('click', getCheckedValues);
 
     }
+
     function submitForm() {
         document.getElementById('itemsPerPageForm').submit();
     }
