@@ -224,11 +224,32 @@
 
 
 
+   // Quản lý ca sĩ
+    Route::prefix('singer')->group(function () {
+        // Danh sách ca sĩ
+        Route::get('/list_singer', [SingerController::class, 'list_singer'])->name('list-singer');
+        
+        // Tìm kiếm ca sĩ
+        Route::post('/search', [SingerController::class, 'search_singer'])->name('search-singer');
+    
+        // Thêm và lưu trữ ca sĩ
+        Route::get('/add', [SingerController::class, 'add_singer'])->name('add-singer');
+        Route::post('/store', [SingerController::class, 'store_singer'])->name('store-singer');
+    
+        // Hiển thị thông tin chi tiết ca sĩ
+        Route::get('/{id}/show', [SingerController::class, 'show_singer'])->name('show-singer');
+    
+        // Cập nhật thông tin ca sĩ
+        Route::get('/{id}/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
+    
+        // Xóa ca sĩ
+        Route::delete('/{id}/delete', [SingerController::class, 'delete_singer'])->name('delete-singer');
+    });
+    
 
-
-    Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
-    Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
-    Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
+    // Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
+    // Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
+    // Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
 
     Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
     Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
