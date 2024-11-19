@@ -9,7 +9,7 @@ use App\Console\Commands\CheckExpiryCopyright;
 
 
 
-app(Schedule::class)->command('check:expired-accounts')->everyTenSeconds();
+Schedule::command('check:expired-accounts')->everyTenSeconds();
 
 Schedule::call(function () {
     DB::table('users')->where('id', '=', 3)->update([
