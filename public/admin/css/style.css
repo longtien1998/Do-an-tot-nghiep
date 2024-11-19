@@ -8,6 +8,15 @@ body {
     color: #333;
 }
 
+.fl-wrapper[data-position^=top-] {
+    top: 4em !important;
+}
+
+.fl-wrapper {
+    width: 34em !important;
+    z-index: 9999 !important;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
