@@ -24,7 +24,7 @@ class LoginController extends Controller
             'password.required' => 'Vui lòng nhập mật khẩu',
         ]);
 
-        if (Auth::guard('admin')->attempt( $credentials)) {
+        if (Auth::attempt( $credentials)) {
 
 
             $request->session()->regenerate();
@@ -39,7 +39,7 @@ class LoginController extends Controller
      * Destroy an authenticated session.
      */
     public function logout(Request $request){
-        Auth::guard('admin')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
 

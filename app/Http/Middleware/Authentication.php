@@ -17,7 +17,7 @@ class Authentication
     public function handle(Request $request, Closure $next): Response
     {
         // Kiểm tra xem người dùng đã đăng nhập chưa
-        if (!Auth::guard('admin')->check()) {
+        if (!Auth::check()) {
             // Nếu chưa đăng nhập, chuyển hướng đến trang login
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
         }

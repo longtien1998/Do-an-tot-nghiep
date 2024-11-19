@@ -50,7 +50,7 @@
             <!-- Example single danger button -->
             <div class="btn-group">
                 <a type="button" class="text-decoration-none text-black dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span>Welcome {{Auth::guard('admin')->user() ? Auth::guard('admin')->user()->name : 'Admin'}}</span>
+                    <span>Welcome {{Auth::user() ? Auth::user()->name : 'Admin'}}</span>
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>

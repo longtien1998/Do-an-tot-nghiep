@@ -22,7 +22,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'categorie_name' => 'required|string|max:255|unique:categories,categorie_name,id'. $this->route(param: 'id'),
+            'categorie_name' => 'required|string|max:255|unique:categories,categorie_name,'. $this->route(param: 'id'),
             'description' => 'required|max:255',
             'background' => 'required'
         ];

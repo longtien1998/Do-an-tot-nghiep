@@ -44,6 +44,7 @@ class AuthController extends Controller
                 'birthday' => $request->birthday,
                 'image' => 'https://admin.soundwave.io.vn/upload/image/users/user.png',
                 'remember_token' => Str::random(10),
+                'users_type' => 'Basic',
             ]);
 
             $user_id = $user->id;
@@ -52,9 +53,10 @@ class AuthController extends Controller
                 'user_id' => $user_id,
                 'role_id' => 2, // khách hàng
             ]);
+            Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Member',], 201);
+            return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đăng ký thất bại' . $e], 500);
         }

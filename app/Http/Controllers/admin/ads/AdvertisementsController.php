@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\ads;
+namespace App\Http\Controllers\Admin\Ads;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

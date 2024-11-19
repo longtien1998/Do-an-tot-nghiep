@@ -23,10 +23,9 @@
     <!-- <link rel="stylesheet" href="{{asset('admin/css/font-awesome.css')}}"> -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('vendor/flasher/flasher.min.css')}}">
+    <!-- <link rel="stylesheet" href="{{asset('vendor/flasher/flasher.min.css')}}">
 
-    <script type="text/javascript" src="{{ asset('vendor/flasher/flasher.min.js') }}"></script>
-
+    <script type="text/javascript" src="{{ asset('vendor/flasher/flasher.min.js') }}"></script> -->
 
 </head>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\music;
+namespace App\Http\Controllers\Admin\Music;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
