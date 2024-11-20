@@ -68,7 +68,7 @@
                 <th scope="row">{{$category->id}}</th>
                 <td>{{$category->categorie_name}}</td>
                 <td>{{$category->description}}</td>
-                <td><img src="{{$category->background}}" alt="{{$category->categorie_name}}"></td>
+                <td><img src="{{$category->background}}" alt="{{$category->categorie_name}}" width="150px"></td>
                 <td>{{$category->created_at}}</td>
                 <td>
                     <a href="{{route('categories.edit',$category->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-pen-to-square"></i></a>

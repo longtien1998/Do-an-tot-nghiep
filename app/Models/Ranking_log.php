@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Ranking_log extends Model
 {
     use HasFactory;
-    protected $table = 'rangking_logs';
+    protected $table = 'ranking_logs';
 }

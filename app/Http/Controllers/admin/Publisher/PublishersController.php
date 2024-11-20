@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\Publisher;
+namespace App\Http\Controllers\Admin\Publisher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Publisher;

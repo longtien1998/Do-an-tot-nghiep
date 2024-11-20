@@ -54,6 +54,14 @@ body {
 }
 /*--//header--*/
 
+.fl-wrapper[data-position^=top-] {
+    top: 4em !important;
+}
+.fl-wrapper {
+    width: 34em !important;
+    z-index: 9999 !important;
+}
+
 /*--main--*/
 .wthree-pro h2 {
     font-size: 1.2em;

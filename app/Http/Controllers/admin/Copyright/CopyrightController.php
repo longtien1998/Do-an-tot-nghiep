@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\Copyright;
+namespace App\Http\Controllers\Admin\Copyright;
 
 use App\Http\Controllers\Controller;
 use App\Models\Copyright;

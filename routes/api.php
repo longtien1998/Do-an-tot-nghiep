@@ -45,8 +45,18 @@ Route::get('/nha-xuat-ban/{id}', [App\Http\Controllers\Api\PublisherController::
 Route::get('/luot-nghe/{id}', [App\Http\Controllers\Api\SongsController::class, 'luot_nghe']);
 // lượt tải
 Route::get('/luot-tai/{id}', [App\Http\Controllers\Api\SongsController::class, 'luot_tai']);
-// Bxh 100
+// Bxh 100 bài hát hàng tuần
 Route::get('/bxh-100', [App\Http\Controllers\Api\SongsController::class, 'bxh_100']);
+// 10 bài hát mới nhất
+Route::get('/new-song', [App\Http\Controllers\Api\SongsController::class, 'new_song']);
+// top trending / thịnh hành
+Route::get('/trending', [App\Http\Controllers\Api\SongsController::class, 'list_song_trending']);
+// top 100 lượt nghe
+Route::get('/top-listen', [App\Http\Controllers\Api\SongsController::class, 'top_listen']);
+// top 100 lượt yêu thích
+Route::get('/top-like', [App\Http\Controllers\Api\SongsController::class, 'top_like']);
+// top 100 lượt tải
+Route::get('/top-download', [App\Http\Controllers\Api\SongsController::class, 'top_download']);
 // 10 bài hát ngẫu nhiên
 Route::get('/rand-10', [App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
 // thể loại quốc gia

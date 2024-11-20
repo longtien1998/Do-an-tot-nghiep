@@ -1,15 +1,6 @@
 <?php
 
 return [
-    'pdf' => [
-        'driver' => 'dompdf',
-        'page_size' => 'A4',  // Kích thước giấy mặc định
-        'paper_orientation' => 'portrait',  // Hoặc 'landscape' tùy theo nhu cầu
-        'margin_left' => 30,   // Lề trái
-        'margin_right' => 20,  // Lề phải
-        'margin_top' => 25,    // Lề trên
-        'margin_bottom' => 25, // Lề dưới
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -187,15 +178,8 @@ return [
          *
          * @var string
          */
-        'default_font' => 'DejaVu Sans',
+        'default_font' => 'serif',
 
-
-        /**
-         * The default font size
-         *
-         * The font size in points (pt).
-         */
-        // 'default_paper_margin' => [94, 76, 94, 113],
         /**
          * Image DPI setting
          *
@@ -311,7 +295,6 @@ return [
          * @var bool
          */
         'enable_html5_parser' => true,
-        'debug_layout_padding_box' => [94, 76, 94, 113],
     ],
 
 ];

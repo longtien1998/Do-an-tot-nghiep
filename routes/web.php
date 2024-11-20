@@ -1,27 +1,25 @@
+<?php
 
-    <?php
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\Notification\NotificationController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\Music\MusicController;
+use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\SingerController;
+use App\Http\Controllers\Admin\AlbumController;
+use App\Http\Controllers\Admin\Copyright\CopyrightController;
+use App\Http\Controllers\Admin\Publisher\PublishersController;
+use App\Http\Controllers\Admin\Ads\AdvertisementsController;
+use App\Http\Controllers\Admin\aAs\S3AdsController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\Music\S3ImageController;
+use App\Http\Controllers\Admin\Music\S3SongController;
+use App\Http\Controllers\Admin\Music\UrlsongController;
 
-    use App\Http\Controllers\admin\LoginController;
-    use App\Http\Controllers\admin\Notification\NotificationController;
-    use Illuminate\Support\Facades\Route;
-    use App\Http\Controllers\admin\HomeController;
-    use App\Http\Controllers\admin\music\MusicController;
-    use App\Http\Controllers\admin\CountriesController;
-    use App\Http\Controllers\admin\CategoriesController;
-    use App\Http\Controllers\admin\SingerController;
-    use App\Http\Controllers\admin\AlbumController;
-    use App\Http\Controllers\admin\Copyright\CopyrightController;
-    use App\Http\Controllers\admin\Publisher\PublishersController;
-    use App\Http\Controllers\admin\ads\AdvertisementsController;
-    use App\Http\Controllers\admin\ads\S3AdsController;
-    use App\Http\Controllers\admin\UsersController;
-    use App\Http\Controllers\admin\CommentController;
-    use App\Http\Controllers\admin\music\S3ImageController;
-    use App\Http\Controllers\admin\music\S3SongController;
-    use App\Http\Controllers\admin\music\UrlsongController;
-
-
-    Route::get('/notification-count', [NotificationController::class, 'count']);
+Route::get('/notification-count', [NotificationController::class, 'count']);
 
     route::group([
         'controller' => LoginController::class,
@@ -339,3 +337,4 @@
         });
 
     });
+
