@@ -126,8 +126,9 @@ class Songs extends Model
                 ->whereBetween('date', [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()])
 
                 ->first();
-                // dd($listen->count);
-        
+                $listen_count = $listen ? intval($listen->count) : 0;
+                // dd($listen_count);
+
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
@@ -146,7 +147,7 @@ class Songs extends Model
                 'lyrics' => $bh->lyrics,
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
-                'listen_count' => $listen->count,
+                'listen_count' => $listen_count,
             ];
         });
 

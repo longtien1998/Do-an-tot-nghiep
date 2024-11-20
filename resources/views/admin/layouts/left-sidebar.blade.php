@@ -15,6 +15,21 @@
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-lu" aria-controls="ql-lu">
+            <i class='bx bxs-layout'></i>
+            <span>Layout<i class="fa fa-caret-down float-end "></i></span>
+
+        </a>
+        <div class="accordion-collapse collapse" id="ql-lu" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="" class="nav-item">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="">Banner</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-songs" aria-controls="ql-songs">
             <i class="fa-solid fa-music"></i>
             <span>Bài hát <i class="fa fa-caret-down float-end "></i></span>
