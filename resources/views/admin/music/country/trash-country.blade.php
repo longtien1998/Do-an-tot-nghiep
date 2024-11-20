@@ -69,6 +69,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($Countries))
             @php $stt = 1; @endphp
             @foreach($Countries as $index => $Country)
             <tr>
@@ -92,6 +93,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <div class=" mb-5">

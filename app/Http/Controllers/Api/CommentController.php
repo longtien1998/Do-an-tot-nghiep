@@ -40,6 +40,7 @@ class CommentController extends Controller
     }
     public function show_comment($id){
         try {
+            
             $comment = Comment::where('song_id',$id)->get();
             // dd($comment);
             if($comment->isEmpty()){

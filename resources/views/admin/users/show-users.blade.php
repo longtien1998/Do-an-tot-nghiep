@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Cấp độ tài khoản</label>
+                        <label class="col-md-12">Loại người dùng</label>
                         <select class="form-select" name="users_type" id="">
                             <option value="Basic" {{ old('users_type', $users->users_type) == 'Basic' ? 'selected' : '' }}>Basic</option>
                             <option value="Plus" {{ old('users_type', $users->users_type) == 'Plus' ? 'selected' : '' }}>Plus</option>
@@ -75,9 +75,9 @@
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Quyền</label>
-                        <select class="form-select" name="role_type" id="">
-                            <option value="1" {{ old('role_type', $users->role_type) == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
-                            <option value="2" {{ old('role_type', $users->role_type) == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
+                        <select class="form-select" name="role_type">
+                            <option value="1" {{ old('role_type', $users->role->role_type) == 1 ? 'selected' : '' }}>Nhân viên</option>
+                            <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Người dùng</option>
                         </select>
                     </div>
 

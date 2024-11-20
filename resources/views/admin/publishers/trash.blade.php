@@ -98,6 +98,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($trashs))
             @foreach($trashs as $index => $publisher)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$publisher->id}}"></td>
@@ -119,6 +120,11 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="20">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <div class=" mb-5">

@@ -66,6 +66,7 @@ class UsersController extends Controller
     }
     public function edit_users($id){
         $users = User::find($id);
+        dd($users);
         return view('admin.users.update-users', compact('users'));
     }
     public function update_users(UsersRequest $request, $id){
@@ -265,6 +266,7 @@ class UsersController extends Controller
     public function show_user($id)
     {
         $users = User::show($id);
+        // dd($users->role);
         return view('admin.users.show-users', compact('users',));
     }
 }

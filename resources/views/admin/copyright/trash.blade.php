@@ -91,6 +91,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($trashes))
             @foreach($trashes as $index => $trash)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$trash->id}}"></td>
@@ -113,6 +114,11 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="15">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <div class=" mb-5">
