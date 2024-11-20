@@ -58,6 +58,7 @@
             </tr>
         </thead>
         <tbody>
+            @if (count($advertisements))
             @php $stt = 1; @endphp
             @foreach($advertisements as $ads)
             <tr>
@@ -80,6 +81,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

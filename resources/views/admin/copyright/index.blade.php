@@ -92,6 +92,7 @@
                 </tr>
             </thead>
             <tbody>
+                @if(count($copyrights))
                 @foreach($copyrights as $index => $copyright)
                 <tr>
                     <td><input type="checkbox" class="check_list" value="{{$copyright->id}}"></td>
@@ -117,6 +118,11 @@
                     </td>
                 </tr>
                 @endforeach
+                @else
+                <tr class="text-center">
+                    <td colspan="15">Không có dữ liệu</td>
+                </tr>
+                @endif
             </tbody>
         </table>
         <div class=" mb-5">

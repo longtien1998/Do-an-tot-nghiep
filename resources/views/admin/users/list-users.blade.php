@@ -102,11 +102,12 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($users))
             @php $stt = 1; @endphp
             @foreach($users as $user)
             <tr>
                 <td>
-                    @if (Auth::check() && Auth::user()->id !== $user->id)
+                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
                         <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
@@ -137,6 +138,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

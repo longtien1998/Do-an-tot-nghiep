@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\RolesModel;
 
 class User extends Authenticatable
 {
@@ -60,6 +62,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()  {
+        return $this->belongsTo(RolesModel::class, 'id', 'user_id');
     }
     public static function up_file_users($file, $userName)
     {
