@@ -26,11 +26,11 @@ class SongsController extends Controller
         if ($song) {
             $song->listen_count += 1;
             $song->save();
-            $ranKing = Ranking_log::where('song_id', '=', $id)->Where('date', '=', Carbon::today())->first();
+            $ranKing = Ranking_log::where('song_id', '=', $id)->where('date', '=', Carbon::today())->first();
             if (!$ranKing) {
                 $ranKing = new Ranking_log();
                 $ranKing->song_id = $id;
-                $ranKing->date = now();
+                $ranKing->date =  Carbon::today();
                 $ranKing->listen_count = 1;
                 $ranKing->save();
             } else {
@@ -39,7 +39,7 @@ class SongsController extends Controller
             }
             return response()->json([
                 'message' => 'tăng lượt nghe thành công',
-                'data' => now()
+                'data' =>  Carbon::today()
             ], 200);
         } else {
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
@@ -51,11 +51,11 @@ class SongsController extends Controller
         if ($song) {
             $song->download_count += 1;
             $song->save();
-            $ranKing = Ranking_log::where('song_id', '=', $id)->orWhere('date', '=', now())->first();
+            $ranKing = Ranking_log::where('song_id', '=', $id)->where('date', '=', Carbon::today())->first();
             if (!$ranKing) {
                 $ranKing = new Ranking_log();
                 $ranKing->song_id = $id;
-                $ranKing->date = now();
+                $ranKing->date =  Carbon::today();
                 $ranKing->download_count = 1;
                 $ranKing->save();
             } else {
@@ -64,7 +64,7 @@ class SongsController extends Controller
             }
             return response()->json([
                 'message' => 'tăng lượt tải thành công',
-                'date' => now()
+                'date' =>  Carbon::today()
 
             ], 200);
         } else {
