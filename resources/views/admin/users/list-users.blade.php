@@ -63,8 +63,10 @@
                     <label for="">Theo quyền</label>
                     <select name="filterRole" id="filterRole" class="form-select" onchange="submitForm()">
                         <option value="">Chọn quyền</option>
-                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
+                        <option value="Admin" {{ request()->input('filterRole') == 'Admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="Quản lý" {{ request()->input('filterRole') == 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
                         <option value="Nhân viên" {{ request()->input('filterRole') == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
+                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
                     </select>
                 </div>
                 <div class="col-6 col-sm">
@@ -107,7 +109,7 @@
             @foreach($users as $user)
             <tr>
                 <td>
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
                         <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
@@ -125,7 +127,7 @@
                 <td>{{$user->users_type}}</td>
                 <td>
                     <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
