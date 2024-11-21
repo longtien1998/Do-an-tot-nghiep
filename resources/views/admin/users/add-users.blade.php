@@ -25,6 +25,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('users.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mt-3">
@@ -69,9 +80,15 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Quyền</label>
                     <select class="form-select" name="role_type" id="">
-                        <option value="">Chọn quyền</option>
-                        <option value="1">Nhân viên</option>
-                        <option value="2">Người dùng</option>
+                        <option value="" selected>Chọn quyền</option>
+                        @if ( Auth::check() && Auth::user()->role->role_type == 0 )
+                        <option value="0">Admin</option>
+                        <option value="1">Quản lý</option>
+                        <option value="2">Nhân viên</option>
+                        @elseif ( Auth::check() && Auth::user()->role->role_type == 1 )
+                        <option value="2">Nhân viên</option>
+                        @endif
+                        <option value="3">Người dùng</option>
                     </select>
                 </div>
                 <div class="form-group mt-3">
@@ -94,17 +111,7 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5>Thông báo !</h5>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
         </div>
     </div>
 </div>
@@ -112,7 +119,6 @@
 @endsection
 @section('js')
 <script>
-
     $(document).ready(function() {
         // validate ngày
         const dateInput = $('#birthday');

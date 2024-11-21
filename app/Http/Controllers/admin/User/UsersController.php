@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\User;
 
+use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
-use App\Models\RolesModel;
+use App\Models\Role;
+use App\Models\Role_detail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+
+
 
 class UsersController extends Controller
 {
@@ -51,12 +55,28 @@ class UsersController extends Controller
         $users->users_type = $request->users_type;
         if ($users->save()) {
             $user_id = $users->id;
-            $role_name = $request->role_type == 1 ? 'Nhân viên' : 'Người dùng';
-            RolesModel::create([
+            $role_type = $request->role_type;
+            if( $role_type == 0 ) $role_name = 'Admin';
+            elseif ( $role_type = 1) $role_name = 'Quản lý';
+            elseif ( $role_type = 2) $role_name = 'Nhân viên';
+            elseif ( $role_type = 3) $role_name = 'Khách hàng';
+            $role = Role::create([
                 'user_id' => $user_id,
                 'role_type' => $request->role_type,
                 'role_name' => $role_name
             ]);
+            if($role){
+                if($role_type == 0 || $role_type == 1 || $role_type == 2 ){
+                    Role_detail::create([
+                        'role_id' => $role->id,
+                    ]);
+                }
+            } else {
+                return redirect()->back()->with('error', 'Thêm quyền cho tài khoản thất bại');
+            }
+
+            event(new Registered($users));
+
             return redirect()->route('users.list')->with('success', 'Thêm tài khoản thành công');
 
         } else {
@@ -88,7 +108,7 @@ class UsersController extends Controller
         if ($users->save()) {
             $user_id = $users->id;
             $role_name = $request->role_type == 1 ? 'Nhân viên' : 'Người dùng';
-            RolesModel::updateOrCreate(
+            Role::updateOrCreate(
                 ['user_id' => $user_id],
                 [
                 'role_type' => $request->role_type,

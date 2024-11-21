@@ -12,12 +12,18 @@ use App\Http\Controllers\Admin\AlbumController;
 use App\Http\Controllers\Admin\Copyright\CopyrightController;
 use App\Http\Controllers\Admin\Publisher\PublishersController;
 use App\Http\Controllers\Admin\Ads\AdvertisementsController;
-use App\Http\Controllers\Admin\aAs\S3AdsController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\Ads\S3AdsController;
+use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\Music\S3ImageController;
 use App\Http\Controllers\Admin\Music\S3SongController;
 use App\Http\Controllers\Admin\Music\UrlsongController;
+use App\Http\Controllers\Admin\User\Role_detailController;
+use Illuminate\Support\Facades\Auth;
+
+
+Auth::routes(['verify' => true]);
+
 
 Route::get('/notification-count', [NotificationController::class, 'count']);
 
@@ -232,9 +238,6 @@ Route::get('/notification-count', [NotificationController::class, 'count']);
     Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
     Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
 
-    Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
-    Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
-    Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');
 
 
     //advertisements
@@ -290,6 +293,8 @@ Route::get('/notification-count', [NotificationController::class, 'count']);
             Route::delete('/{id}/delete',  'delete_users')->name('delete');
             Route::post('/delete-list',  'delete_list_users')->name('delete-list');
             Route::get('/{id}/show',  'show_user')->name('show');
+
+            //trash
             Route::group([
                 'prefix' => 'trash',
                 'as' => 'trash.',
@@ -303,6 +308,21 @@ Route::get('/notification-count', [NotificationController::class, 'count']);
                 Route::get('/{id}/destroy',  'destroy_trash_users')->name('destroy');
 
             });
+
+
+
+        });
+
+            // role
+        Route::group([
+            'prefix' => 'roles',
+            'controller' => Role_detailController::class,
+            'as' => 'roles.',
+        ], function () {
+            Route::match(['get', 'post'],'/list',  'index')->name('list');
+            Route::get('/create',  'add')->name('create');
+
+            Route::put('/{id}/update',  'update')->name('update');
 
         });
 
@@ -337,4 +357,9 @@ Route::get('/notification-count', [NotificationController::class, 'count']);
         });
 
     });
+
+    Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
+    Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
+    Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');
+
 
