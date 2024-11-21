@@ -22,7 +22,7 @@ class UsersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|unique:users,name,'.$this->id,
+            'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email,'. $this->id,
             'phone' => 'nullable|digits:10',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -33,7 +33,6 @@ class UsersRequest extends FormRequest
     public function messages() {
         return [
             'name.required' => 'Tên không được để trống',
-            'name.unique' => 'Tên đã tồn tại',
             'name.max' => 'Tên không được dài quá 255 ký tự',
             'email.required' => 'Email không được để trống',
             'email.email' => 'Email không đúng định dạng',

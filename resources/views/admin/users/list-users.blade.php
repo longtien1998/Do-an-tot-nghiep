@@ -110,21 +110,45 @@
             <tr>
                 <td>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
-                        <input type="checkbox" class="check_list" value="{{$user->id}}">
+                    <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                <td>{{$user->gender}}</td>
+                <td>
+
+                    @if($user->gender == 'Nam')
+                    <span class="bg-info text-white p-1 rounded-2">{{$user->gender}}</span>
+                    @else
+                    <span class="text-white p-1 rounded-2" style="background-color: pink;">{{$user->gender}}</span>
+                    @endif
+
+                </td>
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
                 <td>
-                    {{$user->role_name}}
+                    @if($user->role_name == 'Admin')
+                    <span class="bg-danger text-white p-1 rounded-2">{{$user->role_name}}</span>
+                    @elseif($user->role_name == 'Quản lý')
+                    <span class="bg-primary text-white p-1 rounded-2">{{$user->role_name}}</span>
+                    @elseif($user->role_name == 'Nhân viên')
+                    <span class="bg-success text-white p-1 rounded-2">{{$user->role_name}}</span>
+                    @else
+                    <span class="bg-warning text-white p-1 rounded-2">{{$user->role_name}}</span>
+                    @endif
                 </td>
-                <td>{{$user->users_type}}</td>
+                <td>
+                    @if($user->users_type == 'Basic')
+                    <span class="bg-secondary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @elseif($user->users_type == 'Plus')
+                    <span class="bg-primary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @else
+                    <span class="bg-warning text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @endif
+                </td>
                 <td>
                     <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
