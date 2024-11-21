@@ -53,6 +53,7 @@
                 <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(2)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Mô tả <span class="sort-icon">⬍</span></th>
+                <th scope="col">Hình ảnh</th>
                 <th scope="col">Đường dẫn </th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -66,6 +67,13 @@
                 <th scope="row">{{$ads->id}}</th>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
+                <td>
+                    @if($ads->image_path)
+                    <img width="50" height="50" src="{{$ads->image_path}}" alt="">
+                    @else
+                    <img width="50" height="50" src="{{asset('logo.png')}}">
+                    @endif
+                </td>
                 <td><a href="{{$ads->file_path}}" target="_blank">{{$ads->file_path}}</a></td>
                 <td>
                     <a href="{{route('advertisements.edit',$ads->id)}}"> <i class="fa-solid fa-pen-to-square"></i></a>

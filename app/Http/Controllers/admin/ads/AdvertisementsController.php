@@ -42,6 +42,14 @@ class AdvertisementsController extends Controller
         } else {
             $data['file_path'] = null;
         }
+        if ($request->hasFile('image_path')) {
+            $file = $request->file('image_path');
+            $adsName = $request->ads_name;
+            $url_image_ads = Advertisements::up_image_ads($file, $adsName);
+            $data['image_path'] = $url_image_ads;
+        } else {
+            $data['image_path'] = null;
+        }
         if (Advertisements::createAds($data)) {
             return redirect()->route('advertisements.list')->with('success', 'Thêm quảng cáo thành công');
         } else {
@@ -61,26 +69,33 @@ class AdvertisementsController extends Controller
 
     public function update_advertisements(Request $request, $id)
     {
-        $ads = Advertisements::find($id);
-        $data   = [
+        // Validate dữ liệu
+        $request->validate([
+            'ads_name' => 'required|string|max:255',
+            'ads_description' => 'nullable|string',
+            'file_path' => 'nullable|file|max:2048',
+            'image_path' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $data = [
             'ads_name' => $request->ads_name,
-            'ads_description'=> $request->ads_description
+            'ads_description' => $request->ads_description,
         ];
 
+      
         if ($request->hasFile('file_path')) {
-            $file = $request->file('file_path');
-            $adsName = $request->ads_name;
-            $url_ads = Advertisements::up_file_ads($file, $adsName);
-            $data['file_path'] = $url_ads;
-        } else {
-            $data['file_path'] = $ads->file_path;
+            $data['file_path'] = Advertisements::up_file_ads($request->file('file_path'), $request->ads_name);
         }
-        if (Advertisements::updateAds($id, $data)) {
-            return redirect()->route('advertisements.list')->with('success', 'Cập nhật quảng cáo thành công');
-        } else {
-            return redirect()->back()->with('error', 'Cập nhật quảng cáo thất bại');
 
+
+        if ($request->hasFile('image_path')) {
+            $data['image_path'] = Advertisements::up_image_ads($request->file('image_path'), $request->ads_name);
         }
+
+        // Gọi hàm updateAds
+        Advertisements::updateAds($id, $data);
+
+        return redirect()->route('advertisements.list')->with('success', 'Cập nhật quảng cáo thành công!');
     }
     public function delete($id)
     {
@@ -226,7 +241,6 @@ class AdvertisementsController extends Controller
             $advertisements = Advertisements::search_ads($query);
             if ($advertisements->isEmpty()) {
                 return redirect()->route('advertisements.list')->with('error', 'Không tìm thấy bài hát nào phù hợp với từ khóa');
-
             } else {
                 toastr()->success('Tìm quảng cáo thành công');
                 return view('admin.advertisements.list-advertisements', compact('advertisements'));
@@ -249,9 +263,9 @@ class AdvertisementsController extends Controller
         try {
             $query = $request->search;
             $advertisements = Advertisements::onlyTrashed()
-            ->where('ads_name','LIKE', '%' . $query . '%')
-            ->orWhere('ads_description','LIKE', '%' . $query . '%')
-            ->get();
+                ->where('ads_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('ads_description', 'LIKE', '%' . $query . '%')
+                ->get();
             if ($advertisements->isEmpty()) {
                 return redirect()->route('list_trash_ads')->with('error', 'Không tìm thấy quảng cáo nào phù hợp với từ khóa');
             } else {
@@ -262,7 +276,4 @@ class AdvertisementsController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy quảng cáo nào phù hợp với từ khóa.');
         }
     }
-
 }
-
-

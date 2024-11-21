@@ -25,6 +25,7 @@ class AdvertisementsRequest extends FormRequest
             'ads_name' => 'required|max:255',
             'ads_description' => 'required|max:255',
             'file_path' => 'required|mimes:mp3|max:10240',
+            'image_path' => 'nullable|mimes:jpg,png,jpeg,gif|max:5120'
         ];
     }
     public function messages()
@@ -37,7 +38,8 @@ class AdvertisementsRequest extends FormRequest
             'file_path.max'   => 'Dung lượng tối đa cho video là 10MB.',
             'file_path.required' => 'Vui lòng thêm đường dẫn quảng cáo',
             'file_path.mimes' => 'File quảng cáo phải là mp3',
-
+            'image_path.max'   => 'Dung lượng tối đa cho hình ảnh là 5MB',
+            'image_path.mimes' => 'File hình ảnh phải là jpg, png, jpeg,gif',
         ];
     }
 }

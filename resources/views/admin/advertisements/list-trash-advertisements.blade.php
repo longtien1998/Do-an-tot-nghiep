@@ -66,6 +66,7 @@
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(4)">Mô tả <span class="sort-icon">⬍</span></th>
+                <th scope="col">Hình ảnh</th>
                 <th scope="col">Đường dẫn</th>
                 <th scope="col" onclick="sortTable(6)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
@@ -81,6 +82,13 @@
                 <td>{{$ads->id}}</td>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
+                <td>
+                    @if($ads->image_path)
+                    <img width="50" height="50" src="{{$ads->image_path}}" alt="">
+                    @else
+                    <img width="50" height="50" src="{{asset('logo.png')}}">
+                    @endif
+                </td>
                 <td><a href="{{asset('admin/upload/ads/'. $ads->file_path)}}">{{$ads->file_path}}</a></td>
                 <td>{{$ads->deleted_at}}</td>
 

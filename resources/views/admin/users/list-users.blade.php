@@ -107,7 +107,7 @@
             @foreach($users as $user)
             <tr>
                 <td>
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
                         <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
@@ -125,7 +125,7 @@
                 <td>{{$user->users_type}}</td>
                 <td>
                     <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -140,7 +140,7 @@
             @endforeach
             @else
             <tr class="text-center">
-                <td colspan="10">Không có dữ liệu</td>
+                <td colspan="20">Không có dữ liệu</td>
             </tr>
             @endif
         </tbody>
