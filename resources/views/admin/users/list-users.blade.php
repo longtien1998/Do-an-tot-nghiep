@@ -142,7 +142,7 @@
             @endforeach
             @else
             <tr class="text-center">
-                <td colspan="10">Không có dữ liệu</td>
+                <td colspan="20">Không có dữ liệu</td>
             </tr>
             @endif
         </tbody>
