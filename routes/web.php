@@ -18,6 +18,7 @@
     use App\Http\Controllers\admin\music\S3ImageController;
     use App\Http\Controllers\admin\music\S3SongController;
     use App\Http\Controllers\admin\music\UrlsongController;
+    
 
 
 
@@ -221,35 +222,50 @@
         });
     }); // đóng group midle login
 
+    Route::group([
+        'prefix' => 'singer',
+        'controller' => SingerController::class,
+        'as' => 'singer.',
+    ], function () {
+        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::post('/search',  'search')->name('search');
+        Route::get('/create',  'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{id}/edit',  'edit')->name('edit');
+        Route::put('/{id}/update',  'update')->name('update');
+        Route::delete('/{id}/delete',  'delete')->name('delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list');
 
+        Route::group([
+            'prefix' => 'trash',
+            'as' => 'trash.',
+        ], function () {
+            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::post('/search',  'search_trash_singer')->name('search');
+            Route::get('/{id}/restore', 'restore_singer')->name('restore');
+            Route::post('/restore', 'restore_list_singer')->name('restore-list');
+            Route::get('/restore-all', 'restore_all_singer')->name('restore-all');
+            Route::get('/{id}/destroy', 'destroy_singer')->name('destroy');
+            Route::post('/destroy', 'destroy_list_singer')->name('destroy-list');
+        });
+
+        Route::get('/file','file')->name('file');
+    });
 
 
    // Quản lý ca sĩ
-    Route::prefix('singer')->group(function () {
-        // Danh sách ca sĩ
-        Route::get('/list_singer', [SingerController::class, 'list_singer'])->name('list-singer');
-        
-        // Tìm kiếm ca sĩ
-        Route::post('/search', [SingerController::class, 'search_singer'])->name('search-singer');
-    
-        // Thêm và lưu trữ ca sĩ
-        Route::get('/add', [SingerController::class, 'add_singer'])->name('add-singer');
-        Route::post('/store', [SingerController::class, 'store_singer'])->name('store-singer');
-    
-        // Hiển thị thông tin chi tiết ca sĩ
-        Route::get('/{id}/show', [SingerController::class, 'show_singer'])->name('show-singer');
-    
-        // Cập nhật thông tin ca sĩ
-        Route::get('/{id}/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
-    
-        // Xóa ca sĩ
-        Route::delete('/{id}/delete', [SingerController::class, 'delete_singer'])->name('delete-singer');
-    });
-    
-
-    // Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
-    // Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
-    // Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
+//    Route::prefix('singer')->name('singer.')->group(function () {
+//     Route::get('/', [SingerController::class, 'list_singer'])->name('list'); // Danh sách ca sĩ
+//     Route::get('/search', [SingerController::class,'search_singer'])->name('search'); // Tạo ca s�� mới
+//     Route::get('/add', [SingerController::class, 'add_singer'])->name('add'); // Thêm ca sĩ
+//     Route::post('/store', [SingerController::class, 'store_singer'])->name('store'); // Lưu ca sĩ mới
+//     Route::get('/edit/{id}', [SingerController::class, 'edit_singer'])->name('edit'); // Sửa ca sĩ
+//     Route::post('/update/{id}', [SingerController::class, 'update_singer'])->name('update'); // Lưu thông tin sửa ca sĩ
+//     Route::delete('/delete/{id}', [SingerController::class, 'delete_singer'])->name('delete'); // Xóa ca sĩ
+//     Route::get('/trash', [SingerController::class, 'list_trash_singers'])->name('trash.list'); // Danh sách ca sĩ đã xóa
+//     Route::post('/restore/{id}', [SingerController::class, 'restore_singer'])->name('restore'); // Khôi phục ca sĩ
+//     Route::delete('/destroy/{id}', [SingerController::class, 'destroy_singer'])->name('destroy'); // Xóa vĩnh viễn ca sĩ
+// });
 
     Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
     Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');

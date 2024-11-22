@@ -24,12 +24,12 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
-            <form class="form-horizontal form-material" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal form-material" action="{{route('singer.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên ca sĩ <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="categorie_name" value="" class="form-control form-control-line">
+                        <input type="text" name="singer_name" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
@@ -41,19 +41,19 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày sinh</label>
                     <div class="col-md-12">
-                        <input type="date" name="birthday" value="" class="form-control form-control-line">
+                        <input type="date" name="singer_birth_date" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Tiểu sử</label>
                     <div class="col-md-12">
-                        <textarea name="biography" class="form-control form-control-line" id="editor1"></textarea>
+                        <textarea name="singer_biography" class="form-control form-control-line" id="editor1"></textarea>
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Giới tính</label>
                     <div class="col-md-12">
-                        <select class="form-select" name="gender" aria-label="Default select example">
+                        <select class="form-select" name="singer_gender" aria-label="Default select example">
                             <option selected>Chọn giới tính</option>
                             <option value="1">Nam</option>
                             <option value="2">Nữ</option>
@@ -63,7 +63,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Quê quán</label>
                     <div class="col-md-12">
-                        <input type="text" name="country" value="" class="form-control form-control-line">
+                        <input type="text" name="singer_country" value="" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
