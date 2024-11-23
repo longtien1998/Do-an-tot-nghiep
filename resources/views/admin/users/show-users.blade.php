@@ -26,6 +26,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('users.update', $users->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -78,14 +89,14 @@
                         <label class="col-md-12">Quyền</label>
                         <select class="form-select" name="role_type">
                             @if (Auth::user()->id !== $users->id)
-                                @if ( Auth::check() && Auth::user()->role->role_type == 0 )
-                                    <option value="0" {{ old('role_type', $users->role->role_type) == 0 ? 'selected' : '' }}>Admin</option>
-                                    <option value="1" {{ old('role_type', $users->role->role_type) == 1 ? 'selected' : '' }}>Quản lý</option>
-                                    <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
-                                @elseif ( Auth::check() && Auth::user()->role->role_type == 1 )
-                                    <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
-                                @endif
-                                    <option value="3" {{ old('role_type', $users->role->role_type) == 3 ? 'selected' : '' }}>Người dùng</option>
+                            @if ( Auth::check() && Auth::user()->role->role_type == 0 )
+                            <option value="0" {{ old('role_type', $users->role->role_type) == 0 ? 'selected' : '' }}>Admin</option>
+                            <option value="1" {{ old('role_type', $users->role->role_type) == 1 ? 'selected' : '' }}>Quản lý</option>
+                            <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
+                            @elseif ( Auth::check() && Auth::user()->role->role_type == 1 )
+                            <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
+                            @endif
+                            <option value="3" {{ old('role_type', $users->role->role_type) == 3 ? 'selected' : '' }}>Người dùng</option>
                             @else
                             <option value="{{$users->role->role_type}}" selected>{{$users->role->role_name}}</option>
                             @endif
@@ -113,17 +124,7 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5>Thông báo !</h5>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
         </div>
     </div>
 </div>
