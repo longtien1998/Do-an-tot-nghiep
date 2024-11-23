@@ -26,6 +26,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('users.update', $users->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -73,6 +84,7 @@
                             <option value="Premium" {{ old('users_type', $users->users_type) == 'Premium' ? 'selected' : '' }}>Premium</option>
                         </select>
                     </div>
+
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Ngày hết hạn</label>
                         <div class="col-md-12">
@@ -94,17 +106,7 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5>Thông báo !</h5>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
         </div>
     </div>
 </div>
