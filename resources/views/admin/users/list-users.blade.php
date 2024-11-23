@@ -117,13 +117,25 @@
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                
+                <td>
+                    @if($user->gender == 'nam')
+                    <span class="bg-info text-white p-1 rounded-2">Nam</span>
+                    @elseif($user->gender == 'nu')
+                    <span class="text-white p-1 rounded-2" style="background-color: pink;">Nữ</span>
+                    @else
+                    <span class="text-white p-1 rounded-2" style="background-color: gray;">Khác</span>
+                    @endif
+                </td>
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
-
-                <td>{{$user->roles->pluck('name')->join(', ')}}</td>
-         
+                <td>
+                    @foreach ($user->roles as $role)
+                    <span class="text-white p-1 rounded-2" @if ($role->color) style="background-color:{{$role->color}};" @endif >
+                        {{$role->name}}
+                    </span>
+                    @endforeach
+                </td>
                 <td>
                     @if($user->users_type == 'Basic')
                     <span class="bg-secondary text-white p-1 rounded-2">{{$user->users_type}}</span>
