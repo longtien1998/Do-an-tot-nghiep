@@ -78,20 +78,6 @@
                     </select>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Quyền</label>
-                    <select class="form-select" name="role_type" id="">
-                        <option value="" selected>Chọn quyền</option>
-                        @if ( Auth::check() && Auth::user()->role->role_type == 0 )
-                        <option value="0">Admin</option>
-                        <option value="1">Quản lý</option>
-                        <option value="2">Nhân viên</option>
-                        @elseif ( Auth::check() && Auth::user()->role->role_type == 1 )
-                        <option value="2">Nhân viên</option>
-                        @endif
-                        <option value="3">Người dùng</option>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
                     <label class="col-md-12">Loại người dùng</label>
                     <select class="form-select" name="users_type" id="">
                         <option value="Basic" selected>Basic</option>

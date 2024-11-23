@@ -198,4 +198,17 @@ class SongsController extends Controller
             return response()->json($songs, 200);
         }
     }
+
+    // Bài hát mới nhất
+    public function new_song(){
+        $songs = Songs::new_Song();
+        if ($songs->isEmpty()) {
+            return response()->json([
+               'message' => 'Không có bài hát',
+
+            ], 404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
 }

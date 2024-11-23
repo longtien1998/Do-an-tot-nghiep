@@ -244,18 +244,44 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('roles.list')}}" class="nav-item">
-                        <i class="fa-solid fa-shield"></i>
-                        <span class="">Phân quyền tài khoản</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{route('users.trash.list')}}" class="nav-item">
                         <i class="fa-solid fa-trash"></i>
                         <span class="">Tài khoản đã xóa</span>
                     </a>
                 </li>
 
+            </ol>
+        </div>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-quyen" aria-controls="ql-quyen">
+            <i class="fa-solid fa-shield"></i>
+            <span>Phân quyền <i class="fa fa-caret-down float-end "></i></span>
+        </a>
+        <div class="accordion-collapse collapse" id="ql-quyen" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('modules.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách Module</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('permissions.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách quyền</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('roles.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách vai trò</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('authorization.index')}}" class="nav-item">
+                        <i class="fa-solid fa-shield"></i>
+                        <span class="">Phân quyền tài khoản</span>
+                    </a>
+                </li>
             </ol>
         </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-cmt" aria-controls="ql-cmt">

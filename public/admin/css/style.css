@@ -29,13 +29,39 @@ td {
     vertical-align: middle;
 }
 
+table>thead>tr>th{
+    background-color: #0D7EFF !important;
+    color: white !important;
+    height: 50px !important;
+}
 .checkbox-wrapper-34 {
     --blue: #0D7EFF;
     --g08: #E1E5EB;
     --g04: #848ea1;
-    width: 60px;
+    /* width: 60px; */
+
+}
+.container-fluid {
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #b8c8df;
+}
+.card-body .form-group{
+    padding: 15px;
+    background-color: white !important;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #b8c8df;
+    margin: 20px 0 20px 0;
+}
+.form-group label{
+    margin: 10px 0 10px 0 ;
 }
 
+
+
+.row{
+    margin: 0;
+}
 .checkbox-wrapper-34 .tgl {
     display: none;
 }
@@ -62,7 +88,7 @@ td {
 
 .checkbox-wrapper-34 .tgl+.tgl-btn {
     outline: 0;
-    display: block;
+    /* display: block; */
     width: 57px;
     height: 27px;
     position: relative;
@@ -89,7 +115,7 @@ td {
 .checkbox-wrapper-34 .tgl+.tgl-btn:before {
     display: inline;
     position: absolute;
-    top: 7px;
+    top: 20%;
 }
 
 .checkbox-wrapper-34 .tgl:checked+.tgl-btn:after {
@@ -594,4 +620,16 @@ td {
 .notification .li {
     background-color: #8cd1ff;
 
+}
+
+.bg-blue>button{
+    background-color: rgb(7, 16, 100);
+    color: rgb(255, 255, 255) !important;
+}
+.bg-blue>button.active{
+    color: black !important;
+    background-color: rgb(236, 29, 29) !important;
+}
+.tab-pane.active{
+    border:1px solid rgb(236, 29, 29);
 }

@@ -73,25 +73,6 @@
                             <option value="Premium" {{ old('users_type', $users->users_type) == 'Premium' ? 'selected' : '' }}>Premium</option>
                         </select>
                     </div>
-                    @if (Auth::check() && Auth::user()->role->role_type == 0 || Auth::user()->role->role_type == 1)
-                    <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Quyền</label>
-                        <select class="form-select" name="role_type">
-                            @if (Auth::user()->id !== $users->id)
-                                @if ( Auth::check() && Auth::user()->role->role_type == 0 )
-                                    <option value="0" {{ old('role_type', $users->role->role_type) == 0 ? 'selected' : '' }}>Admin</option>
-                                    <option value="1" {{ old('role_type', $users->role->role_type) == 1 ? 'selected' : '' }}>Quản lý</option>
-                                    <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
-                                @elseif ( Auth::check() && Auth::user()->role->role_type == 1 )
-                                    <option value="2" {{ old('role_type', $users->role->role_type) == 2 ? 'selected' : '' }}>Nhân viên</option>
-                                @endif
-                                    <option value="3" {{ old('role_type', $users->role->role_type) == 3 ? 'selected' : '' }}>Người dùng</option>
-                            @else
-                            <option value="{{$users->role->role_type}}" selected>{{$users->role->role_name}}</option>
-                            @endif
-                        </select>
-                    </div>
-                    @endif
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Ngày hết hạn</label>
                         <div class="col-md-12">

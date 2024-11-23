@@ -121,12 +121,10 @@
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
-                <td>
-                    {{$user->role_name}}
-                </td>
+                <td>{{$user->roles->pluck('name')->join(', ')}}</td>
                 <td>{{$user->users_type}}</td>
                 <td>
-                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
+                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-edit"></i></a>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf

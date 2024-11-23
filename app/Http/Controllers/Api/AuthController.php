@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         // xác thực request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255,un',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8'
 
@@ -50,10 +50,10 @@ class AuthController extends Controller
             $user_id = $user->id;
 
             RolesModel::created([
+                'role_type' => 'Người dùng',
                 'user_id' => $user_id,
-                'role_id' => 2, // khách hàng
+                'role_id' => 3, // khách hàng
             ]);
-            Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',], 201);

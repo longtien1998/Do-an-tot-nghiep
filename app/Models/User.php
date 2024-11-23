@@ -13,11 +13,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Role;
-
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -65,9 +65,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function role()  {
-        return $this->belongsTo(Role::class, 'id', 'user_id');
-    }
     public static function up_file_users($file, $userName)
     {
         try {
@@ -95,12 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
     {
 
-        $query = DB::table('users')
-            ->join('roles', 'users.id', '=', 'roles.user_id')
-            ->select(
-                'users.*',
-                'roles.role_name as role_name',
-            )
+        $query =self::with('roles')
             ->whereNull('deleted_at');
         if ($filterGenDer) {
             $query->where('users.gender', $filterGenDer);
@@ -114,11 +106,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $query->orderBy('id', 'asc');
         $userList = $query->paginate($perPage);
+
         return $userList;
     }
     public static function search_users($search)
     {
-        $users = DB::table('users')
+        $users = self::with('roles')
             ->where('name', 'LIKE', '%' . $search . '%')
             ->select('users.*')
             ->paginate(10);
