@@ -117,29 +117,11 @@
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                <td>
-
-                    @if($user->gender == 'Nam')
-                    <span class="bg-info text-white p-1 rounded-2">{{$user->gender}}</span>
-                    @else
-                    <span class="text-white p-1 rounded-2" style="background-color: pink;">{{$user->gender}}</span>
-                    @endif
-
-                </td>
+                
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
-                <td>
-                    @if($user->role_name == 'Admin')
-                    <span class="bg-danger text-white p-1 rounded-2">{{$user->role_name}}</span>
-                    @elseif($user->role_name == 'Quản lý')
-                    <span class="bg-primary text-white p-1 rounded-2">{{$user->role_name}}</span>
-                    @elseif($user->role_name == 'Nhân viên')
-                    <span class="bg-success text-white p-1 rounded-2">{{$user->role_name}}</span>
-                    @else
-                    <span class="bg-warning text-white p-1 rounded-2">{{$user->role_name}}</span>
-                    @endif
-                </td>
+               
                 <td>
                     @if($user->users_type == 'Basic')
                     <span class="bg-secondary text-white p-1 rounded-2">{{$user->users_type}}</span>
