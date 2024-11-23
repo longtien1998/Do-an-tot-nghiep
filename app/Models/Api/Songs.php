@@ -126,8 +126,8 @@ class Songs extends Model
                 ->whereBetween('date', [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()])
 
                 ->first();
-                $listen_count = $listen ? intval($listen->count) : 0;
-                // dd($listen_count);
+            $listen_count = $listen ? intval($listen->count) : 0;
+            // dd($listen_count);
 
             return (object) [
                 'id' => $bh->id,
@@ -502,6 +502,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'like_count' => $bh->like_count,
             ];
         });
 
@@ -565,6 +566,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'like_count' => $bh->like_count,
             ];
         });
 
@@ -627,6 +629,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'like_count' => $bh->like_count,
             ];
         });
 
@@ -654,6 +657,65 @@ class Songs extends Model
             return $song;
         });
         // dd($songsWithPaths);
+
+        // Trả về danh sách bài hát đã gắn file_paths
+        return $songsWithPaths;
+    }
+
+    // top bài hát mới nhất
+    public static function new_song()
+    {
+        // Bước 1: Lấy dữ liệu các bài hát mới nhất
+        $randum = self::with(['singer', 'country', 'category', 'copyright'])
+            ->whereNull('songs.deleted_at') // Chỉ lấy bài hát chưa bị xoá
+            ->orderBy('songs.created_at', 'desc') // Sắp xếp theo thời gian tạo, bài hát mới nhất ở trên
+            ->limit(15) // Giới hạn chỉ lấy 15 bài hát mới nhất
+            ->get(); // Lấy tất cả các bài hát thỏa mãn điều kiện
+
+        $songsArray = $randum->map(function ($bh) {
+            return (object) [
+                'id' => $bh->id,
+                'song_name' => $bh->song_name,
+                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_id' => $bh->singer_id,
+                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_id' => $bh->country_id,
+                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_id' => $bh->category_id,
+                'provider' => $bh->provider,
+                'composer' => $bh->composer,
+                'download_count' => $bh->download_count,
+                'copyright_type' => $bh->copyright->license_type ?? null,
+                'publisher_name' => $bh->copyright->publisher->publisher_name ?? null,
+                'description' => $bh->description,
+                'lyrics' => $bh->lyrics,
+                'song_image' => $bh->song_image,
+                'release_day' => $bh->release_date,
+                'listen_count' => $bh->listen_count,
+                'like_count' => $bh->like_count,
+            ];
+        });
+        // Bước 2: Lấy danh sách song_id
+        $songIds = collect($songsArray)->pluck('id');
+
+        // Bước 3: Lấy các file_paths liên quan đến bài hát
+        $filePaths = DB::table('file_paths')
+            ->whereIn('song_id', $songIds)
+            ->select('song_id', 'path_type', 'file_path')
+            ->get()
+            ->groupBy('song_id'); // Gom nhóm theo song_id
+
+        // Bước 4: Gắn file_paths vào từng bài hát
+        $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
+            $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
+                $carry[$item->path_type] = $item->file_path;
+                return $carry;
+            }, []);
+
+            // Đảm bảo file_paths là một object
+            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+            return $song;
+        });
 
         // Trả về danh sách bài hát đã gắn file_paths
         return $songsWithPaths;

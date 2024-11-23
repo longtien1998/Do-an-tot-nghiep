@@ -6,11 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
-use App\Models\Role;
-use App\Models\Role_detail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 
 
@@ -32,6 +31,7 @@ class UsersController extends Controller
     }
 
     public function add_users(){
+
         return view('admin.users.add-users');
     }
 
@@ -47,35 +47,12 @@ class UsersController extends Controller
             $userName = $request->name;
             $url_image = User::up_file_users($file, $userName);
         } else {
-            $url_image = null;
+            $url_image = 'https://soundwave2.s3.us-east-2.amazonaws.com/singer-image/user.png';
         }
         $users->image = $url_image;
         $users->gender = $request->gender;
         $users->birthday = $request->birthday;
-        $users->users_type = $request->users_type;
         if ($users->save()) {
-            $user_id = $users->id;
-            $role_type = $request->role_type;
-            if( $role_type == 0 ) $role_name = 'Admin';
-            elseif ( $role_type = 1) $role_name = 'Quản lý';
-            elseif ( $role_type = 2) $role_name = 'Nhân viên';
-            elseif ( $role_type = 3) $role_name = 'Khách hàng';
-            $role = Role::create([
-                'user_id' => $user_id,
-                'role_type' => $request->role_type,
-                'role_name' => $role_name
-            ]);
-            if($role){
-                if($role_type == 0 || $role_type == 1 || $role_type == 2 ){
-                    Role_detail::create([
-                        'role_id' => $role->id,
-                    ]);
-                }
-            } else {
-                return redirect()->back()->with('error', 'Thêm quyền cho tài khoản thất bại');
-            }
-
-            event(new Registered($users));
 
             return redirect()->route('users.list')->with('success', 'Thêm tài khoản thành công');
 
@@ -86,7 +63,7 @@ class UsersController extends Controller
     }
     public function edit_users($id){
         $users = User::find($id);
-        dd($users);
+
         return view('admin.users.update-users', compact('users'));
     }
     public function update_users(UsersRequest $request, $id){
@@ -106,15 +83,7 @@ class UsersController extends Controller
         $users->birthday = $request->birthday;
         $users->users_type = $request->users_type;
         if ($users->save()) {
-            $user_id = $users->id;
-            $role_name = $request->role_type == 1 ? 'Nhân viên' : 'Người dùng';
-            Role::updateOrCreate(
-                ['user_id' => $user_id],
-                [
-                'role_type' => $request->role_type,
-                'role_name' => $role_name
-                ]
-            );
+
             return redirect()->route('users.list')->with('success', 'Cập nhật tài khoản thành công');
 
         } else {
