@@ -4,7 +4,7 @@
 <div class="page-breadcrumb mb-5">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">Danh sách bài hát</h4>
+            <h4 class="page-title">Danh sách đường dẫn bài hát</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
@@ -15,7 +15,7 @@
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Bài hát</li>
 
-                        <li class="breadcrumb-item active" aria-current="page">Danh sách bài hát</li>
+                        <li class="breadcrumb-item active" aria-current="page">Danh sách đường dẫn bài hát</li>
                     </ol>
                 </nav>
             </div>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <table class="table text-center" id="myTable">
+    <table class="table text-center mt-3" id="myTable">
 
         <thead>
             <tr>
