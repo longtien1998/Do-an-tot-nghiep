@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('country_id')->nullable();
                 $table->foreign('country_id')->references('id')->on('country')->nullOnDelete();
                 $table->timestamp('release_day')->nullable();
+                $table->string('time')->nullable();
                 $table->integer('listen_count')->default(0);
                 $table->string('provider')->nullable();
                 $table->string('composer')->nullable();

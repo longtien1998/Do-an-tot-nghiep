@@ -32,7 +32,8 @@ class MusicPostRequest extends FormRequest
             'provider' => 'required|string',
             'composer' => 'required|string',
             'file_basic' => 'required',
-            'song_image' => 'required'
+            'song_image' => 'required',
+            'time' => 'required',
         ];
     }
 
@@ -51,7 +52,8 @@ class MusicPostRequest extends FormRequest
             'provider.required' => 'Chưa chọn nhà cung cấp',
             'composer.required' => 'Chưa chọn ca sỹ',
             'file_basic.required' => 'Chưa chọn file bài hát',
-            'song_image.required' => 'Chưa chọn ảnh bài hát'
+            'song_image.required' => 'Chưa chọn ảnh bài hát',
+            'time.required' => 'Chưa nhập thời lượng bài hát'
         ];
     }
     protected function failedValidation(Validator $validator)

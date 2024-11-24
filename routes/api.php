@@ -32,8 +32,8 @@ Route::group([
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/member', [App\Http\Controllers\Api\MemberController::class, 'index']);
     // New Pass member
-    Route::post('/newpass-member',[App\Http\Controllers\Api\MemberController::class,'newpass']);
-    Route::post('/update-member',[App\Http\Controllers\Api\MemberController::class,'update']);
+    Route::put('/{id}/newpass-member',[App\Http\Controllers\Api\MemberController::class,'newpass']);
+    Route::put('/{id}/update-member',[App\Http\Controllers\Api\MemberController::class,'update']);
 });
 // show member
 
@@ -83,3 +83,5 @@ Route::post('/binh-luan',[App\Http\Controllers\Api\CommentController::class,'add
 Route::get('/binh-luan/{id}',[App\Http\Controllers\Api\CommentController::class,'show_comment']);
 // Random quảng cảo
 Route::get('/quang-cao', [App\Http\Controllers\Api\AdvertisementsController::class,'randomAds']);
+// tìm kiếm
+Route::post('/tim-kiem', [App\Http\Controllers\Api\SearchController::class,'search']);

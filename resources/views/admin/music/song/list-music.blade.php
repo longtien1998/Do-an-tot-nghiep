@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between align-content-center m-0 p-0">
-        <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
             <form action="{{route('list-music')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
@@ -114,8 +114,10 @@
                 <th scope="col" onclick="sortTable(6)">Thể loại <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(7)">Ca sỹ <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(8)">Ngày phát hành <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(10)">Thời lượng <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(9)">Lượt nghe <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(10)">Lượt tải <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(10)">Lượt thích <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(11)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -133,8 +135,10 @@
                 <td>{{$song->category_name}}</td>
                 <td>{{$song->singer_name}}</td>
                 <td>{{$song->release_day}}</td>
+                <td>{{$song->time}}</td>
                 <td>{{$song->listen_count}}</td>
                 <td>{{$song->download_count}}</td>
+                <td>{{$song->like_count}}</td>
                 <td>{{$song->created_at}}</td>
 
                 <td>
@@ -176,16 +180,20 @@
                     <div class="modal-body">
                         <h4>Tên bài hát : <span id="tenBaiHat"></span></h4>
                         <div class="col-xl-12 mt-3">
+                            <label class="col-md-12 mb-2">Thời lượng</label>
+                            <input type="text" name="time" class="upFile form-control" id="time_song">
+                        </div>
+                        <div class="col-xl-12 mt-3">
                             <label class="col-md-12 mb-2">File nhạc Basic <span class="text-danger">(*)</span></label>
-                            <input type="file" name="file_basic_up" accept="audio/mp3" class="upFile">
+                            <input type="file" name="file_basic_up" accept="audio/*" onchange="getTime(this)" class="upFile">
                         </div>
                         <div class="col-xl-12 mt-3">
                             <label class="col-md-12 mb-2">File nhạc Plus</label>
-                            <input type="file" name="file_plus_up" accept="audio/mp3" class="upFile">
+                            <input type="file" name="file_plus_up" accept="audio/*" onchange="getTime(this)" class="upFile">
                         </div>
                         <div class="col-xl-12 mt-3">
                             <label class="col-md-12 mb-2">File nhạc Premium</label>
-                            <input type="file" name="file_premium_up" accept="audio/mp3" class="upFile">
+                            <input type="file" name="file_premium_up" accept="audio/*" onchange="getTime(this)" class="upFile">
                         </div>
 
                     </div>
@@ -229,7 +237,8 @@
     }
 
     const uploadRoute = "{{ route('up-load-file-music', ['id' => '__ID__']) }}";
-    function setModal(id, song_name){
+
+    function setModal(id, song_name) {
 
         document.getElementById('tenBaiHat').innerText = song_name;
         const finalAction = uploadRoute.replace('__ID__', id);

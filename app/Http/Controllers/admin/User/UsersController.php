@@ -27,7 +27,8 @@ class UsersController extends Controller
             $filterCreate = $request->input('filterCreate');
         }
         $users = User::selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate);
-        return view('admin.users.list-users', compact('users'));
+        $roles = Role::all();
+        return view('admin.users.list-users', compact('users', 'roles'));
     }
 
     public function add_users(){
@@ -217,12 +218,13 @@ class UsersController extends Controller
         try {
             $query = $request->search;
             $users = User::search_users($query);
+            $roles = User::all();
             if ($users->isEmpty()) {
                 return redirect()->route('users.list')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
 
             } else {
                 toastr()->success('Tìm tài khoản thành công');
-                return view('admin.users.list-users', compact('users'));
+                return view('admin.users.list-users', compact('users','roles'))->with('success','Tìm tài khoản thành công');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy tài khoản nào phù hợp với từ khóa.');
