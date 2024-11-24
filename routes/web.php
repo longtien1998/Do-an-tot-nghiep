@@ -21,6 +21,7 @@
     use App\Http\Controllers\admin\music\UrlsongController;
 
 
+
     Route::get('/notification-count', [NotificationController::class, 'count']);
 
     route::group([
@@ -32,7 +33,7 @@
     });
     Route::get('/test', function () {
         return view('test');
-    });
+    })->name('test');
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
@@ -83,8 +84,8 @@
                 Route::group([
                     'prefix' => 'validate',
                     'as' => 'validate.',
-                ], function(){
-                    Route::post('name','validate_name')->name('name');
+                ], function () {
+                    Route::post('name', 'validate_name')->name('name');
                 });
             });
             route::prefix('s3')->group(function () {
@@ -174,7 +175,7 @@
             Route::group([
                 'prefix' => 'trash',
                 'as' => 'trash.',
-            ],function () {
+            ], function () {
                 Route::match(['get', 'post'], '/',  'trash')->name('index');
                 Route::post('/search',  'search_trash_publishers')->name('search');
                 Route::get('/{id}/restore', 'restore_publishers')->name('restore');
@@ -185,7 +186,7 @@
             });
 
 
-            Route::get('/file-logo','file')->name('file');
+            Route::get('/file-logo', 'file')->name('file');
             Route::post('/destroy-logo', 'destroy_file')->name('destroy_file');
             Route::post('/list-destroy-logo', 'list_destroy_file')->name('destroy-list-logo');
         });
@@ -219,7 +220,7 @@
                 Route::post('/destroy', 'destroy_list_copyrights')->name('destroy-list');
             });
 
-            Route::get('/file-copyright','file')->name('file');
+            Route::get('/file-copyright', 'file')->name('file');
             Route::post('/destroy-file-copyright', 'destroy_file')->name('destroy_file');
             Route::post('/list-destroy-file-copyright', 'list_destroy_file')->name('destroy-list-logo');
         });
@@ -229,14 +230,6 @@
 
 
 
-
-    Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
-    Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
-    Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
-
-    Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
-    Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
-    Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');
 
 
     //advertisements
@@ -271,9 +264,7 @@
                 Route::post('/delete',  'delete_trash_ads')->name('delete');
                 Route::get('/delete-all',  'delete_all_ads')->name('delete-all');
                 Route::get('/{id}/destroy',  'destroy_trash_ads')->name('destroy');
-
             });
-
         });
 
 
@@ -303,9 +294,7 @@
                 Route::post('/delete',  'delete_trash_users')->name('delete');
                 Route::get('/delete-all',  'delete_all_users')->name('delete-all');
                 Route::get('/{id}/destroy',  'destroy_trash_users')->name('destroy');
-
             });
-
         });
 
         //Comments
@@ -333,9 +322,45 @@
                 Route::post('/delete',  'delete_trash_comments')->name('delete');
                 Route::get('/delete-all',  'delete_all_comments')->name('delete-all');
                 Route::get('/{id}/destroy',  'destroy_trash_comments')->name('destroy');
-
             });
-
         });
 
+        //album
+
+        Route::group([
+            'prefix' => 'albums',
+            'controller' => AlbumController::class,
+            'as' => 'albums.',
+        ], function () {
+            Route::get('/', 'list_album')->name('list'); // Trang danh sách album
+            Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
+            Route::post('/search',  'search_album')->name('search');
+            Route::post('/', 'store_album')->name('store'); // Xử lý lưu album
+            Route::get('/{id}/edit', 'edit_album')->name('edit'); // Trang chỉnh sửa album
+            Route::put('/{id}', 'update_album')->name('update'); // Xử lý cập nhật album
+            Route::delete('/{id}/delete', 'delete_album')->name('delete'); // Xử lý lưu album
+            Route::post('/list/delete', 'delete_list')->name('delete-list'); // Xóa danh sách album
+             // Route::get('/singer/{id}/albums','showAlbumsWithAllSongs')->name('singer.albums');
+
+            Route::group([
+                'prefix' => 'trash',
+                'as' => 'trash.',
+            ], function () {
+                Route::get('/list',  'list_trash_album')->name('list');
+                Route::post('/search',  'search_album_trash')->name('search');
+                Route::post('/restore',  'restore_trash_album')->name('restore');
+                Route::get('/restore-all',  'restore_all_album')->name('restore-all');
+                Route::post('/delete',  'delete_trash_album')->name('delete');
+                Route::get('/delete-all',  'delete_all_album')->name('delete-all');
+                Route::get('/{id}/destroy',  'destroy_trash_album')->name('destroy');
+            });
+        });
     });
+
+    Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
+    Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
+    Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
+
+    // Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
+    // Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
+    // Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');

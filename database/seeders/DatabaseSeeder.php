@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Quốc',
         //     'email' => 'quoc@gmail.com',
         // ]);
+          // User::factory()->create([
+        //     'name' => 'Nguyên',
+        //     'email' => 'Alex@gmail.com',
+        // ]);
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
