@@ -88,7 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
-    }
+    }   
+    //model album
     public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
     {
 

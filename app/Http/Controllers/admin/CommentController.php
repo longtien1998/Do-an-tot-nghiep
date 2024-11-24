@@ -182,6 +182,8 @@ class CommentController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy bình luận nào phù hợp với từ khóa.');
         }
     }
+
+    
     public function search_comments_trash(Request $request)
     {
         $validate = Validator::make($request->all(), [

@@ -239,4 +239,8 @@ class Music extends Model
             ->paginate(10);
         return $songs;
     }
+    public function albums()
+    {
+        return $this->belongsToMany(Album::class, 'album_song', 'song_id', 'album_id');
+    }
 }
