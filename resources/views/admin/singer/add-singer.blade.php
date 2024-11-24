@@ -54,9 +54,9 @@
                     <label class="col-md-12">Giới tính</label>
                     <div class="col-md-12">
                         <select class="form-select" name="singer_gender" aria-label="Default select example">
-                            <option selected>Chọn giới tính</option>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
+                            <option value="">Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
                         </select>
                     </div>
                 </div>

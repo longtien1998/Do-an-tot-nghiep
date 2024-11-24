@@ -52,10 +52,22 @@ class Singer extends Authenticatable
         ];
     }
 
+    public function albums()
+    {
+        return $this->hasMany(Album::class, 'singer_id');
+
+    }
+    public static function show($id)
+    {
+        $singer = Singer::find($id);
+        return $singer;
+    }
+
+
     /**
      * Method to upload singer image to S3
      */
-    public static function up_file_singer($file, $singername)
+    public static function up_image($file, $singername)
     {
         try {
             $singernameSlug = Str::slug($singername, '_'); // Tạo slug cho tên ca sĩ
@@ -120,14 +132,5 @@ class Singer extends Authenticatable
     /**
      * Method to show singer details by ID
      */
-    public static function show($id)
-    {
-        $singer = Singer::find($id);
-        return $singer;
-    }
-    public function albums()
-    {
-        return $this->hasMany(Album::class, 'singer_id');
 
-    }
 }
