@@ -64,8 +64,8 @@
                         <label class="col-md-12">Giới tính</label>
                         <select class="form-select" name="gender" id="">
                             <option value="">Chọn giới tính</option>
-                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                            <option value="nam" {{ old('gender', $users->gender) == 'nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="nu" {{ old('gender', $users->gender) == 'nu' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">

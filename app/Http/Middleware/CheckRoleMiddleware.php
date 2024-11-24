@@ -23,9 +23,9 @@ class CheckRoleMiddleware
         }
         // Lấy người dùng hiện tại
         $user = Auth::user();
-
+        // dd($permission);
         // Kiểm tra nếu người dùng có quyền thông qua vai trò
-        if (!$user->role || !$user->role->permissions->pluck('name')->contains($permission)) {
+        if (!$user->role || !$user->role->can($permission)) {
             abort(403, 'Unauthorized action.');
         }
 

@@ -25,6 +25,7 @@
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <a href="{{route('users.list')}}" class="btn btn-outline-success"> Tất cả tài khoản</a>
+            <a href="{{route('users.create')}}" class="btn btn-success">Thêm tài khoản</a>
         </div>
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('users.search')}}" method="post">

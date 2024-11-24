@@ -4,7 +4,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">Tất cả logo</h4>
+            <h4 class="page-title">Tất cả file bản quyền</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
@@ -16,7 +16,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{route('copyrights.index')}}" class="text-decoration-none">Nhà bản quyền</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Tất cả logo</li>
+                        <li class="breadcrumb-item active" aria-current="page">Tất cả file bản quyền</li>
                     </ol>
                 </nav>
             </div>
