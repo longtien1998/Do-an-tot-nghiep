@@ -121,12 +121,38 @@
                 </li>
             </ol>
         </div>
-
-        <a class="nav-item" href="{{route('list-singer')}}">
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-cs" aria-controls="ql-cs">
             <i class="fa-solid fa-microphone"></i>
-            <span>Ca sĩ</span>
+            <span>Ca sĩ<i class="fa fa-caret-down float-end "></i></span>
         </a>
-        
+        <div class="accordion-collapse collapse" id="ql-cs" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('singer.create')}}" class="nav-item">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span class="">Thêm Ca sĩ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('singer.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách Ca sĩ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('singer.trash.index')}}" class="nav-item">
+                        <i class="fa-solid fa-trash"></i>
+                        <span class="">Ca sĩ đã xóa</span>
+                    </a>
+                </li>
+                <!-- <li>
+                    <a href="" class="nav-item">
+                        <i class="fa-solid fa-file"></i>
+                        <span class="">Hình Ca sĩ</span>
+                    </a>
+                </li> -->
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-album" aria-controls="ql-album">
             <i class="fa-solid fa-compact-disc"></i>
             <span>Album <i class="fa fa-caret-down float-end "></i></span>
