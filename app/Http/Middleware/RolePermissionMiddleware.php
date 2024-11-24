@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRoleMiddleware
+class RolePermissionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -25,7 +25,7 @@ class CheckRoleMiddleware
         $user = Auth::user();
 
         // Kiểm tra nếu người dùng có quyền thông qua vai trò
-        if (!$user->role || !$user->role->permissions->pluck('name')->contains($permission)) {
+        if (!$user->hasPermissionTo('songs.index')) {
             abort(403, 'Unauthorized action.');
         }
 

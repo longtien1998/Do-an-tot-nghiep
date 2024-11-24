@@ -29,6 +29,8 @@ class Songs extends Model
         'song_image',
         'release_date',
         'listen_count',
+        'like_count',
+        'time',
         'provider',
         'composer',
         'download_count',
@@ -91,6 +93,8 @@ class Songs extends Model
             'song_image' => $bh->song_image,
             'release_day' => $bh->release_day,
             'listen_count' => $bh->listen_count,
+            'like_count' => $bh->like_count,
+            'time' => $bh->time,
             'file_paths' => $filePaths, // Đường dẫn tệp được gom nhóm
         ];
 
@@ -148,6 +152,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $listen_count,
+                'time' => $bh->time,
             ];
         });
 
@@ -212,6 +217,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'time' => $bh->time,
             ];
         });
         // Bước 2: Lấy danh sách song_id
@@ -270,6 +276,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'time' => $bh->time,
             ];
         });
         // Bước 2: Lấy danh sách song_id
@@ -327,6 +334,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'time' => $bh->time,
             ];
         });
         // Bước 2: Lấy danh sách song_id
@@ -385,6 +393,7 @@ class Songs extends Model
                 'song_image' => $bh->song_image,
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
+                'time' => $bh->time,
             ];
         });
         // Bước 2: Lấy danh sách song_id
@@ -444,6 +453,7 @@ class Songs extends Model
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
                 'total_score' => $totalScore,
+                'time' => $bh->time,
             ];
         })->sortByDesc('total_score')->values();
         // Bước 2: Lấy danh sách song_id
@@ -503,6 +513,7 @@ class Songs extends Model
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
                 'like_count' => $bh->like_count,
+                'time' => $bh->time,
             ];
         });
 
@@ -567,6 +578,7 @@ class Songs extends Model
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
                 'like_count' => $bh->like_count,
+                'time' => $bh->time,
             ];
         });
 
@@ -630,6 +642,7 @@ class Songs extends Model
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
                 'like_count' => $bh->like_count,
+                'time' => $bh->time,
             ];
         });
 
@@ -693,6 +706,7 @@ class Songs extends Model
                 'release_day' => $bh->release_date,
                 'listen_count' => $bh->listen_count,
                 'like_count' => $bh->like_count,
+                'time' => $bh->time,
             ];
         });
         // Bước 2: Lấy danh sách song_id
@@ -720,4 +734,6 @@ class Songs extends Model
         // Trả về danh sách bài hát đã gắn file_paths
         return $songsWithPaths;
     }
+
+    
 }
