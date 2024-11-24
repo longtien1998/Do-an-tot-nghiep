@@ -14,7 +14,7 @@ class FavouriteSongController extends Controller
 {
     public function list_song_favourite($id)
     {
-        $getAll = FavouriteSong::where('user_id', $id)->get();
+        $getAll = FavouriteSong::where('user_id', $id)->get()->pluck('id');
         return response()->json($getAll);
     }
 

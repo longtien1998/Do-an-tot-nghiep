@@ -119,7 +119,7 @@
                             <label class="form-check-label" for="file_basic_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_basic_text" disabled>
                         </div>
-                        <input type="file" name="file_basic" id="file_basic" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
+                        <input type="file" name="file_basic" id="file_basic" onchange="getTime(this)" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12 mb-2">File nhạc Plus</label>
@@ -127,7 +127,7 @@
                             <label class="form-check-label" for="file_plus_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_plus_text" disabled>
                         </div>
-                        <input type="file" name="file_plus" id="file_plus" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
+                        <input type="file" name="file_plus" id="file_plus" onchange="getTime(this)" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12 mb-2">File nhạc Premium</label>
@@ -135,7 +135,13 @@
                             <label class="form-check-label" for="file_premium_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_premium_text" disabled>
                         </div>
-                        <input type="file" name="file_premium" id="file_premium" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
+                        <input type="file" name="file_premium" id="file_premium" onchange="getTime(this)" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12 mb-2">Thời lượng <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-control-line border-3" name="time" id="time_song" required>
                     </div>
                 </div>
                 <div class="form-group mt-4">
@@ -226,7 +232,7 @@
                     editorInstance.disableReadOnlyMode('initial');
                 }
                 if (elements[currentIndex + 1] === '#file_basic' || elements[currentIndex + 1] === '#file_plus' || elements[currentIndex + 1] === '#file_premium') {
-                    $(elements[currentIndex + 1]+'_text').removeAttr('disabled');
+                    $(elements[currentIndex + 1] + '_text').removeAttr('disabled');
                 }
             }
         }
@@ -268,7 +274,7 @@
         // validate tên bài hát
         $('#song_name').keyup(function() {
             let song_name = $(this).val();
-            if(song_name !== ""){
+            if (song_name !== "") {
                 $.ajax({
                     url: 'validate/name',
                     headers: {

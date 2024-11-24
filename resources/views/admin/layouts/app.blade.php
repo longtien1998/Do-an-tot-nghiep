@@ -31,9 +31,12 @@
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
 
     <link rel="stylesheet" href="{{asset('vendor/flasher/flasher.min.css')}}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
     <script type="text/javascript" src="{{ asset('vendor/flasher/flasher.min.js') }}"></script>
 
-
+    <script type="text/javascript" src="{{ asset('admin/js/function.js') }}"></script>
     <!-- Thêm Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
@@ -66,7 +69,7 @@
         }
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script type="text/javascript" src="{{ asset('vendor/flasher/flasher.min.js') }}"></script>
     <!-- Thêm Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

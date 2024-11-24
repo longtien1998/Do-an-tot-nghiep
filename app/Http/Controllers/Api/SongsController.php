@@ -20,6 +20,8 @@ class SongsController extends Controller
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
     }
+
+    // set lượt nghe
     public function luot_nghe($id)
     {
         $song = Songs::find($id);
@@ -45,6 +47,8 @@ class SongsController extends Controller
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
     }
+
+    // set lượt tải
     public function luot_tai($id)
     {
         $song = Songs::find($id);
@@ -71,6 +75,8 @@ class SongsController extends Controller
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
     }
+
+    // BXH 100 bài hát trong tuần
     public function bxh_100()
     {
         $songs = Songs::bxh_tuan();
@@ -84,6 +90,7 @@ class SongsController extends Controller
         }
     }
 
+    // ngẫu nhiên 10 bài hát
     public function songs_rand_10()
     {
 
@@ -98,7 +105,6 @@ class SongsController extends Controller
             return response()->json($songs, 200);
         }
     }
-
 
     // Bài hát theo thể loại quốc gia
     public function list_song_Country($id)
@@ -204,11 +210,13 @@ class SongsController extends Controller
         $songs = Songs::new_Song();
         if ($songs->isEmpty()) {
             return response()->json([
-               'message' => 'Không có bài hát',
+                'message' => 'Không có bài hát',
 
             ], 404);
         } else {
             return response()->json($songs, 200);
         }
     }
+
+
 }

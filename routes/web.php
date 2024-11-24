@@ -47,7 +47,6 @@ Route::get('/test', function () {
 Route::group([
     'middleware' => ['login'],
 ], function () {
-
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
@@ -197,13 +196,42 @@ Route::group([
             Route::get('/{id}/destroy', 'destroy_publishers')->name('destroy');
             Route::post('/destroy', 'destroy_list_publishers')->name('destroy-list');
         });
-
-
         Route::get('/file-logo', 'file')->name('file');
         Route::post('/destroy-logo', 'destroy_file')->name('destroy_file');
         Route::post('/list-destroy-logo', 'list_destroy_file')->name('destroy-list-logo');
     });
 
+
+    // singer
+
+    Route::group([
+        'prefix' => 'singer',
+        'controller' => SingerController::class,
+        'as' => 'singer.',
+    ], function () {
+        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::post('/search',  'search')->name('search');
+        Route::get('/create',  'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{id}/edit',  'edit')->name('edit');
+        Route::put('/{id}/update',  'update')->name('update');
+        Route::delete('/{id}/delete',  'delete')->name('delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list');
+        Route::group([
+            'prefix' => 'trash',
+            'as' => 'trash.',
+        ], function () {
+            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::post('/search',  'search_trash_singer')->name('search');
+            Route::get('/{id}/restore', 'restore_singer')->name('restore');
+            Route::post('/restore', 'restore_list_singer')->name('restore-list');
+            Route::get('/restore-all', 'restore_all_singer')->name('restore-all');
+            Route::get('/{id}/destroy', 'destroy_singer')->name('destroy');
+            Route::post('/destroy', 'destroy_list_singer')->name('destroy-list');
+        });
+
+        Route::get('/file', 'file')->name('file');
+    });
 
     // Copyright
     Route::group([
@@ -336,10 +364,10 @@ Route::group([
 
     //Modules
     Route::group([
-        'prefix' =>'modules',
+        'prefix' => 'modules',
         // 'middleware' => ['role:role_13'],
         'controller' => ModuleController::class,
-        'as' =>'modules.',
+        'as' => 'modules.',
     ], function () {
         Route::match(['get', 'post'], '/',  'index')->name('index');
         Route::get('/create',  'create')->name('create');
@@ -353,10 +381,10 @@ Route::group([
 
     //Permissions
     Route::group([
-        'prefix' =>'permissions',
+        'prefix' => 'permissions',
         // 'middleware' => ['role:role_13'],
         'controller' => PermissionController::class,
-        'as' =>'permissions.',
+        'as' => 'permissions.',
     ], function () {
         Route::match(['get', 'post'], '/',  'index')->name('index');
         Route::get('/create',  'create')->name('create');
@@ -370,10 +398,10 @@ Route::group([
 
     //roles
     Route::group([
-        'prefix' =>'roles',
+        'prefix' => 'roles',
         // 'middleware' => ['role:role_13'],
         'controller' => RoleController::class,
-        'as' =>'roles.',
+        'as' => 'roles.',
     ], function () {
         Route::match(['get', 'post'], '/',  'index')->name('index');
         Route::get('/create',  'create')->name('create');
@@ -389,10 +417,10 @@ Route::group([
 
     //authorization
     Route::group([
-        'prefix' =>'authorization',
+        'prefix' => 'authorization',
         // 'middleware' => ['role:role_13'],
         'controller' => AuthorizationController::class,
-        'as' =>'authorization.',
+        'as' => 'authorization.',
     ], function () {
         Route::match(['get', 'post'], '/',  'index')->name('index');
         Route::put('/{user}/update',  'update')->name('update');
@@ -400,14 +428,34 @@ Route::group([
     });
 
 
+    //album
+
+    Route::group([
+        'prefix' => 'albums',
+        'controller' => AlbumController::class,
+        'as' => 'albums.',
+    ], function () {
+        Route::get('/', 'list_album')->name('list'); // Trang danh sách album
+        Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
+        Route::post('/search',  'search_album')->name('search');
+        Route::post('/', 'store_album')->name('store'); // Xử lý lưu album
+        Route::get('/{id}/edit', 'edit_album')->name('edit'); // Trang chỉnh sửa album
+        Route::put('/{id}', 'update_album')->name('update'); // Xử lý cập nhật album
+        Route::delete('/{id}/delete', 'delete_album')->name('delete'); // Xử lý lưu album
+        Route::post('/list/delete', 'delete_list')->name('delete-list'); // Xóa danh sách album
+        // Route::get('/singer/{id}/albums','showAlbumsWithAllSongs')->name('singer.albums');
+
+        Route::group([
+            'prefix' => 'trash',
+            'as' => 'trash.',
+        ], function () {
+            Route::get('/list',  'list_trash_album')->name('list');
+            Route::post('/search',  'search_album_trash')->name('search');
+            Route::post('/restore',  'restore_trash_album')->name('restore');
+            Route::get('/restore-all',  'restore_all_album')->name('restore-all');
+            Route::post('/delete',  'delete_trash_album')->name('delete');
+            Route::get('/delete-all',  'delete_all_album')->name('delete-all');
+            Route::get('/{id}/destroy',  'destroy_trash_album')->name('destroy');
+        });
+    });
 }); // đóng group midle login
-
-
-Route::get('/list-singer', [SingerController::class, 'list_singer'])->name('list-singer');
-Route::get('/add-singer', [SingerController::class, 'add_singer'])->name('add-singer');
-Route::get('/update-singer', [SingerController::class, 'update_singer'])->name('update-singer');
-
-Route::get('/list-album', [AlbumController::class, 'list_album'])->name('list-album');
-Route::get('/add-album', [AlbumController::class, 'add_album'])->name('add-album');
-Route::get('/update-album', [AlbumController::class, 'update_album'])->name('update-album');
-

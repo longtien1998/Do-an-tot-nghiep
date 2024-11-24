@@ -4,7 +4,7 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-5 align-self-center">
-                <h4 class="page-title">Thêm album</h4>
+                <h4 class="page-title">Chỉnh sửa album</h4>
             </div>
             <div class="col-7 align-self-center">
                 <div class="d-flex align-items-center justify-content-end">
@@ -13,7 +13,10 @@
                             <li class="breadcrumb-item">
                                 <a href="{{ route('dashboard') }}">Trang chủ</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Thêm album</li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('albums.list') }}">Danh sách album</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa album</li>
                         </ol>
                     </nav>
                 </div>
@@ -35,20 +38,21 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <form action="{{ route('albums.store') }}" method="POST" enctype="multipart/form-data">
+                <!-- Form Chỉnh Sửa Album -->
+                <form action="{{ route('albums.update', $album->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     <div class="form-group">
                         <label for="album_name">Tên album</label>
-                        <input type="text" name="album_name" id="album_name" class="form-control"
-                            value="{{ old('album_name') }}">
+                        <input type="text" class="form-control" name="album_name" id="album_name"
+                            value="{{ old('album_name', $album->album_name) }}" required>
                     </div>
-
                     <div class="form-group mt-3">
                         <label for="singer_id">Ca sĩ</label>
                         <select name="singer_id" id="singer_id" class="form-control">
-                            <option selected value="">Chọn Ca Sĩ</option>
                             @foreach ($singers as $singer)
-                                <option value="{{ $singer->id }}">{{ $singer->singer_name }}</option>
+                                <option value="{{ $singer->id }}" @if ( $album->singer_id == $singer->id ) selected @endif>{{ $singer->singer_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -56,28 +60,23 @@
                     <div class="col-md-12 my-3 position-relative">
                         <label for="validationTooltip01" class="form-label">Ảnh nền</label>
                         <input type="file" class="form-control" name="image" id="imageAdd" accept="image/*">
-                        <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
+                        <img id="previewImageAdd" src="{{$album->image}}" alt="Image Preview"
+                            style="max-width: 300px; margin-top: 10px;" class="d-none">
                         <div class="valid-tooltip">
                             Looks good!
                         </div>
                     </div>
-                    {{-- <div class="form-group mt-3">
-                        <label for="image">Hình ảnh</label>
-                        <input type="file" name="image" id="image" class="form-control">
-                    </div> --}}
 
                     <div class="form-group mt-3">
                         <label for="creation_date">Ngày tạo</label>
-                        <input type="hidden" name="creation_date" id="creation_date"
-                            value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                        <input type="text" class="form-control" value="{{ \Carbon\Carbon::now()->format('d-m-Y') }}"
+  
+                        <input type="text" class="form-control" value="{{ $album->creation_date }}"
                             disabled>
                     </div>
 
-
                     <div class="form-group mt-3">
                         <div class="col-sm-12">
-                            <button class="btn btn-success" type="submit">Thêm mới</button>
+                            <button class="btn btn-success" type="submit">Cập nhật</button>
                         </div>
                     </div>
                 </form>
@@ -103,6 +102,15 @@
                 preview.classList.remove('d-none'); // Hiển thị ảnh preview
             } else {
                 preview.src = ''; // Nếu không có file, bỏ ảnh preview
+            }
+        });
+
+        $(document).ready(function(){
+            const img = $('#previewImageAdd');
+            if(img.attr('src')){
+                img.removeClass('d-none'); // Hiển thị ảnh preview
+            } else {
+                img.addClass('d-none'); // Hiển thị ảnh preview
             }
         });
     </script>

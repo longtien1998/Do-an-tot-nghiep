@@ -57,7 +57,9 @@ table>thead>tr>th{
     margin: 10px 0 10px 0 ;
 }
 
-
+.form-check .form-check-label{
+    margin: 0;
+}
 
 .row{
     margin: 0;

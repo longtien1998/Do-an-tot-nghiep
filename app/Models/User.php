@@ -11,8 +11,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Role;
+
+/**
+ * @method bool hasPermissionTo(string|int|\Spatie\Permission\Models\Permission $permission, string|null $guardName = null)
+ * @method bool hasRole(string|\Spatie\Permission\Models\Role $roles, string|null $guardName = null)
+ * @method \Spatie\Permission\Models\Role assignRole(...$roles)
+ */
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -88,7 +92,8 @@ class User extends Authenticatable implements MustVerifyEmail
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
-    }
+    }   
+    //model album
     public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
     {
 
@@ -98,7 +103,9 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->where('users.gender', $filterGenDer);
         }
         if ($filterRole) {
-            $query->where('roles.role_name', $filterRole);
+            $query->whereHas('roles', function ($q) use ($filterRole) {
+                $q->where('roles.id', $filterRole);
+            });
         }
         if ($filterCreate) {
             $query->whereDate('users.created_at', $filterCreate);
@@ -113,6 +120,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $users = self::with('roles')
             ->where('name', 'LIKE', '%' . $search . '%')
+            ->orWhere('email', 'LIKE', '%'. $search. '%')
+            ->orWhere('phone', 'LIKE', '%'. $search. '%')
+            ->orWhereHas('roles', function ($q) use ($search) {
+                $q->where('roles.name', 'LIKE', '%'. $search. '%');
+            })
             ->select('users.*')
             ->paginate(10);
         return $users;

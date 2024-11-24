@@ -103,7 +103,8 @@ class MusicController extends Controller
                 'country_id' => $request->country_id,
                 'provider' => $request->provider,
                 'composer' => $request->composer,
-                'song_image' => $url_image
+                'song_image' => $url_image,
+                'time' => $request->time
             ]);
 
             $song_id = $music->id;
@@ -318,7 +319,10 @@ class MusicController extends Controller
                     ]);
                 }
             }
-            return redirect()->back()->with('success', 'Up load file bài hát thành công');
+            $song->update([
+                'time' => $request->time,
+            ]);
+            return redirect()->route('list-music')->with('success', 'Up load file bài hát thành công');
         } catch (\Exception $e) {
             // Kiểm tra và xóa file dựa trên đường dẫn nội bộ (path_image)
 

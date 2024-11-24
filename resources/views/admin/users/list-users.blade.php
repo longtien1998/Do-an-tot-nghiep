@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between m-0 p-0">
-        <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-3">
             <h5>Bộ Lọc</h5>
             <form action="{{route('users.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
@@ -64,10 +64,9 @@
                     <label for="">Theo quyền</label>
                     <select name="filterRole" id="filterRole" class="form-select" onchange="submitForm()">
                         <option value="">Chọn quyền</option>
-                        <option value="Admin" {{ request()->input('filterRole') == 'Admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="Quản lý" {{ request()->input('filterRole') == 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
-                        <option value="Nhân viên" {{ request()->input('filterRole') == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
-                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
+                        @foreach ($roles as $role)
+                        <option value="{{$role->id}}" @if (request()->input('filterRole') == $role->id ) selected @endif > {{$role->name}} </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-sm">

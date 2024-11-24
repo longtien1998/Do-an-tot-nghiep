@@ -23,7 +23,7 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between">
         <div class="col-sm-6 my-3">
-            <a href="{{route('copyrights.index')}}" class="btn btn-outline-success">Thêm bản quyền</a>
+            <a href="{{route('copyrights.index')}}" class="btn btn-outline-success">Tất cả bản quyền</a>
             <a href="{{route('copyrights.create')}}" class="btn btn-success">Thêm bản quyền</a>
         </div>
         <div class="col-sm-3 my-3">
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between align-content-center m-0 p-0">
-        <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
             <form action="{{route('copyrights.index')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
