@@ -26,6 +26,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('users.update', $users->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -66,18 +77,11 @@
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Cấp độ tài khoản</label>
+                        <label class="col-md-12">Loại người dùng</label>
                         <select class="form-select" name="users_type" id="">
                             <option value="Basic" {{ old('users_type', $users->users_type) == 'Basic' ? 'selected' : '' }}>Basic</option>
                             <option value="Plus" {{ old('users_type', $users->users_type) == 'Plus' ? 'selected' : '' }}>Plus</option>
                             <option value="Premium" {{ old('users_type', $users->users_type) == 'Premium' ? 'selected' : '' }}>Premium</option>
-                        </select>
-                    </div>
-                    <div class="col-xl-4 mt-3">
-                        <label class="col-md-12">Quyền</label>
-                        <select class="form-select" name="role_type" id="">
-                            <option value="1" {{ old('role_type', $users->role_type) == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
-                            <option value="2" {{ old('role_type', $users->role_type) == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
                         </select>
                     </div>
 
@@ -102,17 +106,7 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5>Thông báo !</h5>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
         </div>
     </div>
 </div>

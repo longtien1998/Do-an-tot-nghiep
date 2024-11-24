@@ -6,6 +6,8 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,29 +16,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'admin',
-        //     'email' => 'admin@gmail.com',
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Tiến',
-        //     'email' => 'tien@gmail.com',
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Quốc',
-        //     'email' => 'quoc@gmail.com',
-        // ]);
-          // User::factory()->create([
-        //     'name' => 'Nguyên',
-        //     'email' => 'Alex@gmail.com',
-        // ]);
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('123123'),
+        $user = DB::table('users')->create([
+            [
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'phone' => '0982268784',
+                'email_verified_at' => date('Y-m-d H:i:s'),
+                'password' =>  Hash::make('Longtien@1998'),
+                'image' => 'john.png',
+                'gender' => 'Nam',
+                'birthday' => '1998-10-07',
+                'users_type' => 'Premium',
+                'expiry_date' => null,
+                'remember_token' => Str::random(10),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'deleted_at' => null,
+            ]
         ]);
-        $this->call(UsersTableSeeder::class);
     }
 }

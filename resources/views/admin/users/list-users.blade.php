@@ -63,8 +63,10 @@
                     <label for="">Theo quyền</label>
                     <select name="filterRole" id="filterRole" class="form-select" onchange="submitForm()">
                         <option value="">Chọn quyền</option>
-                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
+                        <option value="Admin" {{ request()->input('filterRole') == 'Admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="Quản lý" {{ request()->input('filterRole') == 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
                         <option value="Nhân viên" {{ request()->input('filterRole') == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
+                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
                     </select>
                 </div>
                 <div class="col-6 col-sm">
@@ -102,29 +104,50 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($users))
             @php $stt = 1; @endphp
             @foreach($users as $user)
             <tr>
                 <td>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
-                        <input type="checkbox" class="check_list" value="{{$user->id}}">
+                    <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                <td>{{$user->gender}}</td>
+                <td>
+                    @if($user->gender == 'nam')
+                    <span class="bg-info text-white p-1 rounded-2">Nam</span>
+                    @elseif($user->gender == 'nu')
+                    <span class="text-white p-1 rounded-2" style="background-color: pink;">Nữ</span>
+                    @else
+                    <span class="text-white p-1 rounded-2" style="background-color: gray;">Khác</span>
+                    @endif
+                </td>
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
                 <td>
-                    {{$user->role_name}}
+                    @foreach ($user->roles as $role)
+                    <span class="text-white p-1 rounded-2" @if ($role->color) style="background-color:{{$role->color}};" @endif >
+                        {{$role->name}}
+                    </span>
+                    @endforeach
                 </td>
-                <td>{{$user->users_type}}</td>
                 <td>
-                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
-                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->id !== $user->id)
+                    @if($user->users_type == 'Basic')
+                    <span class="bg-secondary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @elseif($user->users_type == 'Plus')
+                    <span class="bg-primary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @else
+                    <span class="bg-warning text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-edit"></i></a>
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -137,6 +160,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="20">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

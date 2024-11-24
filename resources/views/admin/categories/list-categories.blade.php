@@ -46,49 +46,51 @@
                         onclick="return confirm('Xác nhận xóa thể loại đã chọn?')">Xóa thể loại</button>
                 </form>
             </div>
-
-        </div>
-        <table class="table text-center" id="myTable">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" name="" id="check_all_list" class=""></th>
-                    <th scope="1">STT</th>
-                    <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(3)"> Tên thể loại <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col">Mô tả</th>
-                    <th scope="col">Ảnh nền</th>
-                    <th scope="col" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col">Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $index => $category)
-                    <tr>
-                        <td><input type="checkbox" class="check_list" value="{{ $category->id }}"></td>
-                        <td>{{ $categories->firstItem() + $index }}</td>
-                        <th scope="row">{{ $category->id }}</th>
-                        <td>{{ $category->categorie_name }}</td>
-                        <td>{{ $category->description }}</td>
-                        <td><img src="{{ $category->background }}" alt="{{ $category->categorie_name }}"></td>
-                        <td>{{ $category->created_at }}</td>
-                        <td>
-                            <a href="{{ route('categories.edit', $category->id) }}"
-                                class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-pen-to-square"></i></a>
-                            <form action="{{ route('categories.delete', $category->id) }}" method="post" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" data-bs-toggle="tooltip" title=""
-                                    class="btn btn-link btn-danger" data-original-title="Remove"
-                                    onclick="return confirm('Xác nhận xóa thể loại?')">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class=" mb-5">
+         </div>
+    <table class="table text-center" id="myTable">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="" id="check_all_list" class=""></th>
+                <th scope="1">STT</th>
+                <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(3)"> Tên thể loại <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Ảnh nền</th>
+                <th scope="col" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(count($categories))
+            @foreach ($categories as $index => $category)
+            <tr>
+                <td><input type="checkbox" class="check_list" value="{{$category->id}}"></td>
+                <td>{{$categories->firstItem() + $index}}</td>
+                <th scope="row">{{$category->id}}</th>
+                <td>{{$category->categorie_name}}</td>
+                <td>{{$category->description}}</td>
+                <td><img src="{{$category->background}}" alt="{{$category->categorie_name}}" width="150px"></td>
+                <td>{{$category->created_at}}</td>
+                <td>
+                    <a href="{{route('categories.edit',$category->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-pen-to-square"></i></a>
+                    <form action="{{route('categories.delete',$category->id)}}" method="post" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa thể loại?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
+        </tbody>
+    </table>
+    <div class=" mb-5">
             {!! $categories->links('pagination::bootstrap-5') !!}
         </div>
     </div>

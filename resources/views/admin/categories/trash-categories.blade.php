@@ -72,6 +72,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($categories))
             @foreach($categories as $index => $category)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$category->id}}"></td>
@@ -93,6 +94,11 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <div class=" mb-5">

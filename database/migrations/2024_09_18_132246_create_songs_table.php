@@ -29,6 +29,7 @@ return new class extends Migration
                 $table->string('provider')->nullable();
                 $table->string('composer')->nullable();
                 $table->integer('download_count')->default(0);
+                $table->integer('like_count')->default(0);
                 $table->timestamps();
                 $table->softDeletes();
             });

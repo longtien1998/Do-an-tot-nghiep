@@ -110,6 +110,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($countries))
             @foreach($countries as $index => $country)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$country->id}}"></td>
@@ -136,6 +137,11 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <div class>
