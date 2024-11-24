@@ -42,7 +42,7 @@ class SingerController extends Controller
     // Lưu ca sĩ mới
     public function store(Request $request)
     {
-        
+
         $validate = Validator::make($request->all(), [
             'singer_name' => 'required|string|max:255',
             'singer_birth_date' => 'required|date',
@@ -79,9 +79,10 @@ class SingerController extends Controller
 
         if ($request->hasFile('singer_image')) {
             $file = $request->file('singer_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $singer->singer_image = $filename;
-            $file->move(public_path('upload/image/singer'), $filename);
+            $name = $request->singer_name;
+            $singer->singer_image = Singer::up_image($file, $name);
+        } else {
+            $singer->singer_image = '';
         }
 
         if ($singer->save()) {
@@ -142,7 +143,7 @@ class SingerController extends Controller
         }
     }
 
-    
+
     public function delete_list(Request $request)
     {
         // dd($request->delete_list);
@@ -177,7 +178,7 @@ class SingerController extends Controller
     }
 
 
-    
+
 
     public function search_trash_singer(Request $request)
     {
@@ -232,5 +233,5 @@ class SingerController extends Controller
             return redirect()->back()->with('error', 'Xoá tất cả ca sĩ thất bại!');
         }
     }
-    
+
 }

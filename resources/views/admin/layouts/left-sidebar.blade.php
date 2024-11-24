@@ -159,7 +159,7 @@
         </a>
         <div class="accordion-collapse collapse" id="ql-album" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
-               
+
                 <li>
                     <a href="{{ route('albums.add') }}" class="nav-item">
                         <i class="fa-solid fa-circle-plus"></i>
@@ -178,10 +178,9 @@
                         <span class="">Album đã xóa</span>
                     </a>
                 </li>
-              
+
             </ol>
         </div>
-        
 
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-bq" aria-controls="ql-qb">
             <i class="fa-solid fa-copyright"></i>
@@ -247,14 +246,7 @@
                 </li>
             </ol>
         </div>
-        <a class="nav-item" href="{{route('list-singer')}}">
-            <i class="fa-solid fa-microphone"></i>
-            <span>Ca sĩ</span>
-        </a>
-        <a class="nav-item" href="{{route('list-album')}}">
-            <i class="fa-solid fa-compact-disc"></i>
-            <span>Album</span>
-        </a>
+        
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-ads" aria-controls="ql-ads">
             <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo <i class="fa fa-caret-down float-end "></i></span>

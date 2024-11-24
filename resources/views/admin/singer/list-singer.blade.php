@@ -98,16 +98,12 @@
                     <th scope="row">{{$singers->firstItem() + $index}}</th>
                     <td class="text-start">{{$singer->id}} </td>
                     <td class="text-start">{{$singer->singer_name}} </td>
-                    <td><img width="50px" height="50px" src="upload/image/singer/{{$singer->singer_image}}" alt=""></td>
-                    <td class="text-start">{{$singer->singer_country}}</td>
-                    <td class="text-start">{{$singer->singer_birth_date}}</td>
-                    <td class="text-start">{{$singer->singer_gender}}</td>
-                    <td class="text-start">{{$singer->singer_biography}}</td>
-                   
-
-                    
-                    <td class="text-start">{{$singer->description}}</td>
-                    <td class="text-start">{{$singer->created_at->format('d-m-Y')}}</td>
+                    <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
+                    <td >{{$singer->singer_country}}</td>
+                    <td >{{$singer->singer_birth_date}}</td>
+                    <td >{{$singer->singer_gender}}</td>
+                    <td class="text-start">{{Str::limit($singer->singer_biography, 25, '...')}}</td>
+                    <td>{{$singer->created_at->format('d-m-Y')}}</td>
                     <td scope="row-3">
                         <a href="{{route('singer.edit',$singer->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
                         <form action="{{route('singer.delete',$singer->id)}}" method="post" class="d-inline">
