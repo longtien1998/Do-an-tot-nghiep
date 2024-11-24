@@ -23,6 +23,10 @@ return new class extends Migration
                 $table->timestamp('expiry_day')->nullable();
                 $table->text('usage_rights')->nullable();
                 $table->text('terms')->nullable();
+                $table->integer('price')->nullable();
+                $table->string('payment')->nullable();
+                $table->string('location',255)->nullable();
+                $table->timestamp('pay_day')->nullable();
                 $table->string('license_file')->nullable();
                 $table->timestamps();
                 $table->softDeletes();

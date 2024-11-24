@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Mô tả</label>
+                    <label class="col-md-12">Mô tả <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="ads_description" value="" class="form-control form-control-line">
                     </div>
@@ -53,10 +53,15 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Đường dẫn <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="file" name="file_path" value="" class="form-control form-control-line" accept="audio/mp3/mp4">
+                        <input type="file" name="file_path" value="" class="form-control form-control-line" accept="audio/mp3">
                     </div>
                 </div>
-
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Hình ảnh <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
+                        <input type="file" name="image_path" value="" class="form-control form-control-line" accept="jpg/jpeg/png/gif">
+                    </div>
+                </div>
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Thêm mới</button>

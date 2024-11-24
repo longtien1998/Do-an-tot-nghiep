@@ -26,6 +26,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('users.update', $users->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -53,8 +64,8 @@
                         <label class="col-md-12">Giới tính</label>
                         <select class="form-select" name="gender" id="">
                             <option value="">Chọn giới tính</option>
-                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                            <option value="nam" {{ old('gender', $users->gender) == 'nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="nu" {{ old('gender', $users->gender) == 'nu' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
@@ -65,16 +76,16 @@
                     </div>
                 </div>
                 <div class="form-group row mt-3">
-                    <div class="col-xl-6 mt-3">
-                        <label class="col-md-12">Cấp độ tài khoản</label>
+                    <div class="col-xl-4 mt-3">
+                        <label class="col-md-12">Loại người dùng</label>
                         <select class="form-select" name="users_type" id="">
-                            <option value="">Chọn cấp độ tài khoản</option>
-                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                            <option value="Basic" {{ old('users_type', $users->users_type) == 'Basic' ? 'selected' : '' }}>Basic</option>
+                            <option value="Plus" {{ old('users_type', $users->users_type) == 'Plus' ? 'selected' : '' }}>Plus</option>
+                            <option value="Premium" {{ old('users_type', $users->users_type) == 'Premium' ? 'selected' : '' }}>Premium</option>
                         </select>
                     </div>
 
-                    <div class="col-xl-6 mt-3">
+                    <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Ngày hết hạn</label>
                         <div class="col-md-12">
                             <input type="date" name="expiry_date" value="{{old('expiry_date', $users->expiry_date)}}" class="form-control form-control-line">
@@ -95,17 +106,7 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <h5>Thông báo !</h5>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
         </div>
     </div>
 </div>

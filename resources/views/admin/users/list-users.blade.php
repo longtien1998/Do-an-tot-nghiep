@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between m-0 p-0">
-    <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-3">
             <h5>Bộ Lọc</h5>
             <form action="{{route('users.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
@@ -63,8 +63,9 @@
                     <label for="">Theo quyền</label>
                     <select name="filterRole" id="filterRole" class="form-select" onchange="submitForm()">
                         <option value="">Chọn quyền</option>
-                        <option value="Người dùng" {{ request()->input('filterRole') == 'Người dùng' ? 'selected' : '' }}>Người dùng</option>
-                        <option value="Nhân viên" {{ request()->input('filterRole') == 'Nhân viên' ? 'selected' : '' }}>Nhân viên</option>
+                        @foreach ($roles as $role)
+                        <option value="{{$role->id}}" @if (request()->input('filterRole') == $role->id ) selected @endif > {{$role->name}} </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-sm">
@@ -102,24 +103,49 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($users))
             @php $stt = 1; @endphp
             @foreach($users as $user)
             <tr>
-                <td><input type="checkbox" class="check_list" value="{{$user->id}}"></td>
+                <td>
+                    @if (Auth::check() && Auth::user()->id !== $user->id)
+                    <input type="checkbox" class="check_list" value="{{$user->id}}">
+                    @endif
+                </td>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
-                <td>{{$user->gender}}</td>
+                <td>
+                    @if($user->gender == 'nam')
+                    <span class="bg-info text-white p-1 rounded-2">Nam</span>
+                    @elseif($user->gender == 'nu')
+                    <span class="text-white p-1 rounded-2" style="background-color: pink;">Nữ</span>
+                    @else
+                    <span class="text-white p-1 rounded-2" style="background-color: gray;">Khác</span>
+                    @endif
+                </td>
                 <td>{{$user->birthday}}</td>
                 <td><img width="50px" height="50px" src="{{$user->image}}" alt=""></td>
                 <td>{{$user->created_at}}</td>
                 <td>
-                    {{$user->role_name}}
+                    @foreach ($user->roles as $role)
+                    <span class="text-white p-1 rounded-2" @if ($role->color) style="background-color:{{$role->color}};" @endif >
+                        {{$role->name}}
+                    </span>
+                    @endforeach
                 </td>
-                <td>{{$user->users_type}}</td>
                 <td>
-                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
+                    @if($user->users_type == 'Basic')
+                    <span class="bg-secondary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @elseif($user->users_type == 'Plus')
+                    <span class="bg-primary text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @else
+                    <span class="bg-warning text-white p-1 rounded-2">{{$user->users_type}}</span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{route('users.show',$user->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-edit"></i></a>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
                     <form action="{{ route('users.delete', $user->id) }}" method="POST" class="d-inline">
                         @csrf
@@ -133,6 +159,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="20">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 
@@ -145,13 +176,13 @@
     @endif
 </div>
 <div class=" mb-5">
-        {!! $users->links('pagination::bootstrap-5') !!}
-    </div>
+    {!! $users->links('pagination::bootstrap-5') !!}
+</div>
 
 @endsection
 @section('js')
 <script>
-     document.querySelector('#check_all_list').addEventListener('click', function() {
+    document.querySelector('#check_all_list').addEventListener('click', function() {
         var checkboxes = document.getElementsByClassName('check_list');
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = this.checked;
@@ -167,6 +198,7 @@
         checkboxes[i].addEventListener('click', getCheckedValues);
 
     }
+
     function submitForm() {
         document.getElementById('itemsPerPageForm').submit();
     }

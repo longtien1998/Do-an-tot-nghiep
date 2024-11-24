@@ -71,7 +71,7 @@
             </tr>
         </thead>
         <tbody>
-
+            @if(count($songs))
             @foreach($songs as $index => $song)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$song->id}}"></td>
@@ -91,9 +91,16 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
-
+    <div class=" mb-5">
+        {!! $songs->links('pagination::bootstrap-5') !!}
+    </div>
 </div>
 
 @endsection

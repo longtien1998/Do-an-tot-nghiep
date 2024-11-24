@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Music;
-use App\Models\PublishersModel;
+use App\Models\Publisher;
 use App\Models\Singer;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -20,10 +20,10 @@ class HomeController extends Controller
         $total_user = User::count();
         $total_song = Music::count();
         $total_singer = Singer::count();
-        $total_category = Categories::count();
+        $total_category = Category::count();
         $total_comment = Comment::count();
         $total_singer = Singer::count();
-        $total_publishers = PublishersModel::count();
+        $total_publishers = Publisher::count();
 
         return view('admin.dashboard', [
             'total_user' => $total_user,

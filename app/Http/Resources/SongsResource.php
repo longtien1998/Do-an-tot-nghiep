@@ -17,14 +17,17 @@ class SongsResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'song_name' => $this->song_name ,
+            'song_name' => $this->song_name,
             'description' => $this->description,
             'lyrics' => $this->lyrics,
             'song_image' => $this->song_image,
             'release_day' => $this->release_day,
             'listen_count' => $this->listen_count,
+            'time' => $this->time,
             'provider' => $this->provider,
             'composer' => $this->composer,
+            "copyright_type" => $this->copyright_type,
+            "publisher_name" => $this->publisher_name,
             'download_count' => $this->download_count,
             'category_name' => $this->category_name,
             'category_id' => $this->category_id,

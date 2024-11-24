@@ -21,9 +21,11 @@ class CountriesController extends Controller
         // dd($request->all());
         $validate = Validator::make($request->all(),[
             'name_country' => 'required|string',
+            'background' => 'required',
         ],[
             'name_country.required' => 'Tên quốc gia không được để trống.',
             'name_country.string' => 'Tên quốc gia phải là chuỗi ký tự',
+            'background.required' => 'Hình nền không được để trống.',
         ]);
         if($validate->fails()) {
             // dd($validate);
@@ -31,7 +33,18 @@ class CountriesController extends Controller
             return redirect()->back()->withErrors($validate);
         }
         try{
-            Country::create($request->all());
+            if($request->hasFile('background')){
+                $file = $request->file('background');
+                $name = $request->name_country;
+                $url_image = Country::up_image($file, $name);
+            } else {
+                $url_image = null;
+            }
+
+            Country::create([
+                'name_country' => $request->name_country,
+                'background' => $url_image,
+            ]);
             return redirect()->route('list-country')->with('success', 'Thêm mới quốc gia thành công.');
 
         } catch (\Exception $e) {
@@ -59,7 +72,17 @@ class CountriesController extends Controller
         }
 
         try{
-            Country::find($id)->update($request->all());
+            if($request->hasFile('background')){
+                $file = $request->file('background');
+                $name = $request->name_country;
+                $url_image = Country::up_image($file, $name);
+            } else {
+                $url_image = Country::find($id)->background;
+            }
+            Country::find($id)->update([
+                'name_country' => $request->name_country,
+                'background' => $url_image,
+            ]);
             return redirect()->route('list-country')->with('success', 'Cập nhật quốc gia thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Cập nhật quốc gia thất bại.');

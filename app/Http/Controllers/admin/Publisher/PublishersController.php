@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\admin\Publisher;
+namespace App\Http\Controllers\Admin\Publisher;
 
 use App\Http\Controllers\Controller;
-use App\Models\PublishersModel;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 use App\Http\Requests\Pulishers\PublisherRequest;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,7 @@ class PublishersController extends Controller
             $filterCreateStart = $request->input('filterCreateStart');
             $filterCreateEnd = $request->input('filterCreateEnd');
         }
-        $publishers = PublishersModel::getAll($perPage, $filterCreateStart, $filterCreateEnd);
+        $publishers = Publisher::getAll($perPage, $filterCreateStart, $filterCreateEnd);
         return view('admin.publishers.index', compact('publishers'));
     }
     public function create()
@@ -36,13 +36,13 @@ class PublishersController extends Controller
             if ($request->hasFile('logo')) {
                 $file_image = $request->file('logo');
                 $Pulisher = $request->publisher_name;
-                $logo = PublishersModel::up_image_Pulisher($file_image, $Pulisher);
+                $logo = Publisher::up_image_Pulisher($file_image, $Pulisher);
             } else {
                 $logo = null;
             }
             $data = $request->except('_token');
             $data['logo'] = $logo;
-            PublishersModel::create($data);
+            Publisher::create($data);
             return redirect()->route('publishers.index')->with('success', 'Thêm mới nhà xuất bản thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Thêm mới nhà xuất bản thất bại' . $e->getMessage());
@@ -50,18 +50,18 @@ class PublishersController extends Controller
     }
     public function edit($id)
     {
-        $publisher = PublishersModel::find($id);
+        $publisher = Publisher::find($id);
         return view('admin.publishers.edit', compact('publisher'));
     }
     public function update(PublisherRequest $request, $id)
     {
-        $publisher = PublishersModel::find($id);
+        $publisher = Publisher::find($id);
         $data = $request->except('_token');
         try {
             if ($request->hasFile('logo')) {
                 $file_image = $request->file('logo');
                 $Pulisher = $request->publisher_name;
-                $logo = PublishersModel::up_image_Pulisher($file_image, $Pulisher);
+                $logo = Publisher::up_image_Pulisher($file_image, $Pulisher);
                 $data['logo'] = $logo;
             } else {
                 $data['logo'] = $publisher->logo;
@@ -76,7 +76,7 @@ class PublishersController extends Controller
     public function delete($id)
     {
         try {
-            PublishersModel::find($id)->delete();
+            Publisher::find($id)->delete();
             return redirect()->route('publishers.index')->with('success', 'Xóa nhà xuất bản thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát thất bại.');
@@ -90,22 +90,22 @@ class PublishersController extends Controller
         if (is_array($deletelist)) {
             try {
                 foreach ($deletelist as $list) {
-                    $song = PublishersModel::find($list);
+                    $song = Publisher::find($list);
                     $song->delete();
                 }
                 return redirect()->route('publishers.index')->with('success', 'Xóa nhà xuất bản thành công');
             } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát thất bại.');
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa nhà xuất bản thất bại.');
             }
         } else {
-            return redirect()->back()->with('error', 'Xoá bài hát thất bại!');
+            return redirect()->back()->with('error', 'Xoá nhà xuất bản thất bại!');
         }
     }
 
     public function search(Request $request)
     {
         $query = $request->search;
-        $publishers = PublishersModel::search($query);
+        $publishers = Publisher::search($query);
         return view('admin.publishers.index', compact('publishers'));
     }
 
@@ -121,7 +121,7 @@ class PublishersController extends Controller
             $filterCreateStart = $request->input('filterCreateStart');
             $filterCreateEnd = $request->input('filterCreateEnd');
         }
-        $trashs = PublishersModel::getAlltrash($perPage, $filterCreateStart, $filterCreateEnd);
+        $trashs = Publisher::getAlltrash($perPage, $filterCreateStart, $filterCreateEnd);
 
         return view('admin.publishers.trash', compact('trashs'));
     }
@@ -129,13 +129,13 @@ class PublishersController extends Controller
     public function search_trash_publishers(Request $request)
     {
         $query = $request->search;
-        $trashs = PublishersModel::search_trash_publishers($query);
+        $trashs = Publisher::search_trash_publishers($query);
         return view('admin.publishers.trash', compact('trashs'));
     }
 
     public function restore_publishers($id)
     {
-        $trash = PublishersModel::withTrashed()->find($id);
+        $trash = Publisher::withTrashed()->find($id);
         $trash->restore();
         return redirect()->route('publishers.trash.index')->with('success', 'Khôi phục nhà xuất bản thành công');
     }
@@ -144,7 +144,7 @@ class PublishersController extends Controller
         $restorelist = json_decode($request->restore_list, true);
         if (is_array($restorelist)) {
            foreach ($restorelist as $restore){
-             $trash = PublishersModel::withTrashed()->find($restore);
+             $trash = Publisher::withTrashed()->find($restore);
              $trash->restore();
            }
             return redirect()->route('publishers.trash.index')->with('success', 'Khôi phục tất cả nhà xuất bản thành công');
@@ -155,14 +155,14 @@ class PublishersController extends Controller
 
     public function destroy_publishers($id)
     {
-        $trash = PublishersModel::withTrashed()->find($id);
+        $trash = Publisher::withTrashed()->find($id);
         $trash->forceDelete();
         return redirect()->route('publishers.trash.index')->with('success', 'Xóa vĩnh viễn nhà xuất bản thành công');
     }
 
     public function restore_all_publishers()
     {
-        PublishersModel::onlyTrashed()->restore();
+        Publisher::onlyTrashed()->restore();
         return redirect()->route('publishers.trash.index')->with('success', 'Khôi phục tất cả nhà xuất bản thành công');
     }
 
@@ -171,7 +171,7 @@ class PublishersController extends Controller
         $deletelist = json_decode($request->delete_list, true);
         if (is_array($deletelist)) {
             foreach ($deletelist as $list) {
-                $trash = PublishersModel::withTrashed()->find($list);
+                $trash = Publisher::withTrashed()->find($list);
                 $trash->forceDelete();
             }
             return redirect()->route('publishers.trash.index')->with('success', 'Xóa vĩnh viễn tất cả nhà xuất bản thành công');
@@ -187,18 +187,9 @@ class PublishersController extends Controller
     public function file()
     {
         try {
-            // Lấy tất cả các file trong folder 'song_image'
-            $files = Storage::disk('s3')->files('Pulisher_logo');
-            // Lấy danh sách ảnh từ bảng songs (music)
-            $usedImages = PublishersModel::pluck('logo')->toArray();
-            // Tạo danh sách ảnh kèm thông tin sử dụng
-            $images = array_map(function ($file) use ($usedImages) {
-                return [
-                    'path'    => $file,
-                    'url'     => Storage::disk('s3')->url($file),
-                    'in_use'  => in_array(Storage::disk('s3')->url($file), $usedImages), // Kiểm tra ảnh có đang dùng
-                ];
-            }, $files);
+
+            $images = Publisher::getImage();
+
 
             return view('admin.publishers.file', compact('images'));
         } catch (\Exception $e) {

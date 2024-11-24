@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('name_country')->unique();
                 $table->string('description_country')->nullable();
+                $table->string('background')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });

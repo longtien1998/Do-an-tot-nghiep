@@ -77,7 +77,7 @@
                             <option value="{{$category->id}}">{{$category->categorie_name}}</option>
                             @endforeach
 
-                        </select>   
+                        </select>
                     </div>
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12 mb-2">Ngày phát hành <span class="text-danger">(*)</span></label>
@@ -113,7 +113,7 @@
                         <input type="text" name="file_basic" accept="audio/mp3" value="{{$song->file_path_basic}}" class="form-control form-control-line upFile update" disabled>
                         <audio src="{{$song->file_path_basic}}" controls></audio>
                         @else
-                        <input type="file" name="file_basic" accept="audio/mp3"  disabled>
+                        <input type="file" name="file_basic" accept="audio/mp3" disabled>
                         @endif
                     </div>
                     <div class="col-xl-12 mt-3">
@@ -122,7 +122,7 @@
                         <input type="text" name="file_plus" accept="audio/mp3" value="{{$song->file_path_plus}}" class="form-control form-control-line upFile update" disabled>
                         <audio src="{{$song->file_path_plus}}" controls></audio>
                         @else
-                        <input type="file" name="file_plus" accept="audio/mp3"  disabled>
+                        <input type="file" name="file_plus" accept="audio/mp3" disabled>
                         @endif
                     </div>
                     <div class="col-xl-12 mt-3">
@@ -131,7 +131,7 @@
                         <input type="text" name="file_premium" accept="audio/mp3" value="{{$song->file_path_premium}}" class="form-control form-control-line upFile update" disabled>
                         <audio src="{{$song->file_path_premium}}" controls></audio>
                         @else
-                        <input type="file" name="file_premium" accept="audio/mp3"  disabled>
+                        <input type="file" name="file_premium" accept="audio/mp3" disabled>
                         @endif
                     </div>
                 </div>
@@ -143,6 +143,7 @@
                     <img id="previewImage" src="{{$song->song_image}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
                 <div class="form-group mt-3">
+                    <p><strong>Thời lượng: </strong>{{$song->time}}</p>
                     <p><strong>Lượt Nghe: </strong>{{$song->listen_count}}</p>
                     <p><strong>Lượt tải: </strong>{{$song->download_count}}</p>
                     <p><strong>Ngày tạo: </strong>{{$song->created_at}}</p>
@@ -170,22 +171,26 @@
                             <div class="modal-body">
                                 <h4>Tên bài hát : {{$song->song_name}}</h4>
                                 <div class="col-xl-12 mt-3">
+                                    <label class="col-md-12 mb-2">Thời lượng</label>
+                                    <input type="text" name="time" class="upFile form-control" id="time_song">
+                                </div>
+                                <div class="col-xl-12 mt-3">
                                     <label class="col-md-12 mb-2">File nhạc Basic <span class="text-danger">(*)</span></label>
-                                    <input type="file" name="file_basic_up" accept="audio/mp3" class="upFile">
+                                    <input type="file" name="file_basic_up" accept="audio/mp3" onchange="getTime(this)" class="upFile">
                                 </div>
                                 <div class="col-xl-12 mt-3">
                                     <label class="col-md-12 mb-2">File nhạc Plus</label>
-                                    <input type="file" name="file_plus_up" accept="audio/mp3" class="upFile">
+                                    <input type="file" name="file_plus_up" accept="audio/mp3" onchange="getTime(this)" class="upFile">
                                 </div>
                                 <div class="col-xl-12 mt-3">
                                     <label class="col-md-12 mb-2">File nhạc Premium</label>
-                                    <input type="file" name="file_premium_up" accept="audio/mp3" class="upFile">
+                                    <input type="file" name="file_premium_up" accept="audio/mp3"  onchange="getTime(this)" class="upFile">
                                 </div>
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary" >Lưu</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
                             </div>
                         </form>
                     </div>

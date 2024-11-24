@@ -46,15 +46,15 @@
                     <form action="{{route('categories.trash.restore-list')}}" class="d-inline" method="post" id="form-restore">
                         @csrf
                         <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục Quốc gia đã chọn?')">Khôi phục thể loại</button>
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục thể loại đã chọn?')">Khôi phục thể loại</button>
                     </form>
                     <form action="{{route('categories.trash.destroy-list')}}" class="d-inline" method="post" id="form-delete">
                         @csrf
                         <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
-                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa Quốc gia đã chọn?')">Xóa thể loại</button>
+                        <button type="submit" class="btn btn-warning" onclick="return confirm('Xác nhận xóa thể loại đã chọn?')">Xóa thể loại</button>
                     </form>
                     <a href="{{route('categories.trash.restore-all')}}" class="btn btn-primary" onclick="return confirm('Xác nhận khôi phục tất cả?')">Khôi phục tất cả thể loại</a>
-                    <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả Quốc gia</a> -->
+                    <!-- <a href="{{route('delete-all-songs')}}" class="btn btn-danger" onclick="return confirm('Xác nhận xóa tất cả?')">Xóa tất cả thể loại</a> -->
                 </div>
 
             </div>
@@ -72,6 +72,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($categories))
             @foreach($categories as $index => $category)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$category->id}}"></td>
@@ -93,9 +94,16 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
-
+    <div class=" mb-5">
+        {!! $categories->links('pagination::bootstrap-5') !!}
+    </div>
 </div>
 
 @endsection

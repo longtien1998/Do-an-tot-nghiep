@@ -74,6 +74,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($comments))
             @php $stt = 1; @endphp
             @foreach($comments as $cmt)
             <tr>
@@ -96,6 +97,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

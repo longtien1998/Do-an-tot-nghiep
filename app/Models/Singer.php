@@ -125,4 +125,9 @@ class Singer extends Authenticatable
         $singer = Singer::find($id);
         return $singer;
     }
+    public function albums()
+    {
+        return $this->hasMany(Album::class, 'singer_id');
+
+    }
 }

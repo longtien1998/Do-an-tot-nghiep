@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="form-group row justify-content-between align-content-center m-0 p-0">
-        <div class="form-group col-12 my-auto">
+        <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
             <form action="{{route('publishers.index')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
@@ -95,6 +95,7 @@
                 </tr>
             </thead>
             <tbody>
+                @if(count($publishers))
                 @foreach($publishers as $index => $publisher)
                 <tr>
                     <td><input type="checkbox" class="check_list" value="{{$publisher->id}}"></td>
@@ -125,6 +126,11 @@
                     </td>
                 </tr>
                 @endforeach
+                @else
+                <tr class="text-center">
+                    <td colspan="20">Không có dữ liệu</td>
+                </tr>
+                @endif
             </tbody>
         </table>
         <div class=" mb-5">

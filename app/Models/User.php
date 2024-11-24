@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +12,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+/**
+ * @method bool hasPermissionTo(string|int|\Spatie\Permission\Models\Permission $permission, string|null $guardName = null)
+ * @method bool hasRole(string|\Spatie\Permission\Models\Role $roles, string|null $guardName = null)
+ * @method \Spatie\Permission\Models\Role assignRole(...$roles)
+ */
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +68,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public static function up_file_users($file, $userName)
     {
         try {
@@ -84,22 +92,20 @@ class User extends Authenticatable
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
-    }
+    }   
+    //model album
     public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
     {
 
-        $query = DB::table('users')
-            ->join('roles', 'users.id', '=', 'roles.user_id')
-            ->select(
-                'users.*',
-                'roles.role_name as role_name',
-            )
+        $query =self::with('roles')
             ->whereNull('deleted_at');
         if ($filterGenDer) {
             $query->where('users.gender', $filterGenDer);
         }
         if ($filterRole) {
-            $query->where('roles.role_name', $filterRole);
+            $query->whereHas('roles', function ($q) use ($filterRole) {
+                $q->where('roles.id', $filterRole);
+            });
         }
         if ($filterCreate) {
             $query->whereDate('users.created_at', $filterCreate);
@@ -107,12 +113,18 @@ class User extends Authenticatable
 
         $query->orderBy('id', 'asc');
         $userList = $query->paginate($perPage);
+
         return $userList;
     }
     public static function search_users($search)
     {
-        $users = DB::table('users')
+        $users = self::with('roles')
             ->where('name', 'LIKE', '%' . $search . '%')
+            ->orWhere('email', 'LIKE', '%'. $search. '%')
+            ->orWhere('phone', 'LIKE', '%'. $search. '%')
+            ->orWhereHas('roles', function ($q) use ($search) {
+                $q->where('roles.name', 'LIKE', '%'. $search. '%');
+            })
             ->select('users.*')
             ->paginate(10);
         return $users;

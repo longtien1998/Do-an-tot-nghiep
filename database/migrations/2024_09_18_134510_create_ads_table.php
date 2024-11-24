@@ -17,6 +17,7 @@ return new class extends Migration
                 $table->string('ads_name');
                 $table->text('ads_description');
                 $table->string('file_path');
+                $table->string('image_path');
                 $table->timestamps();
                 $table->softDeletes();
             });

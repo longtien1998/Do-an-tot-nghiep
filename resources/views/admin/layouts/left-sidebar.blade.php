@@ -15,6 +15,21 @@
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-lu" aria-controls="ql-lu">
+            <i class='bx bxs-layout'></i>
+            <span>Layout<i class="fa fa-caret-down float-end "></i></span>
+
+        </a>
+        <div class="accordion-collapse collapse" id="ql-lu" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="" class="nav-item">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="">Banner</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-songs" aria-controls="ql-songs">
             <i class="fa-solid fa-music"></i>
             <span>Bài hát <i class="fa fa-caret-down float-end "></i></span>
@@ -106,7 +121,6 @@
                 </li>
             </ol>
         </div>
-        
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-cs" aria-controls="ql-cs">
             <i class="fa-solid fa-microphone"></i>
             <span>Ca sĩ<i class="fa fa-caret-down float-end "></i></span>
@@ -139,10 +153,36 @@
                 </li> -->
             </ol>
         </div>
-        <a class="nav-item" href="{{route('list-album')}}">
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-album" aria-controls="ql-album">
             <i class="fa-solid fa-compact-disc"></i>
-            <span>Album</span>
+            <span>Album <i class="fa fa-caret-down float-end "></i></span>
         </a>
+        <div class="accordion-collapse collapse" id="ql-album" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+               
+                <li>
+                    <a href="{{ route('albums.add') }}" class="nav-item">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>Thêm album</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('albums.list') }}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span>Danh sách album</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('albums.trash.list')}}" class="nav-item">
+                        <i class="fa-solid fa-trash"></i>
+                        <span class="">Album đã xóa</span>
+                    </a>
+                </li>
+              
+            </ol>
+        </div>
+        
+
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-bq" aria-controls="ql-qb">
             <i class="fa-solid fa-copyright"></i>
             <span>Bản quyền <i class="fa fa-caret-down float-end "></i></span>
@@ -207,6 +247,14 @@
                 </li>
             </ol>
         </div>
+        <a class="nav-item" href="{{route('list-singer')}}">
+            <i class="fa-solid fa-microphone"></i>
+            <span>Ca sĩ</span>
+        </a>
+        <a class="nav-item" href="{{route('list-album')}}">
+            <i class="fa-solid fa-compact-disc"></i>
+            <span>Album</span>
+        </a>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-ads" aria-controls="ql-ads">
             <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo <i class="fa fa-caret-down float-end "></i></span>
@@ -266,6 +314,38 @@
 
             </ol>
         </div>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-quyen" aria-controls="ql-quyen">
+            <i class="fa-solid fa-shield"></i>
+            <span>Phân quyền <i class="fa fa-caret-down float-end "></i></span>
+        </a>
+        <div class="accordion-collapse collapse" id="ql-quyen" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('modules.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách Module</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('permissions.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách quyền</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('roles.index')}}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="">Danh sách vai trò</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('authorization.index')}}" class="nav-item">
+                        <i class="fa-solid fa-shield"></i>
+                        <span class="">Phân quyền tài khoản</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-cmt" aria-controls="ql-cmt">
             <i class="fa-solid fa-comment"></i>
             <span>Bình luận <i class="fa fa-caret-down float-end "></i></span>
@@ -287,50 +367,12 @@
 
             </ol>
         </div>
-        <a class="nav-item collapsed" href="#ql-image" data-bs-toggle="collapse" onclick="closed('ql-image')">
-            <i class="fa-solid fa-image"></i>
-            <span>Hình ảnh </span>
-        </a>
-        <div class="collapse" id="ql-image">
-            <ol class="nav-collapse">
-
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">Hình Tài khoản</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">Hình ca sĩ</span>
-                    </a>
-                </li>
-            </ol>
-        </div>
-        <a class="nav-item collapsed" href="#ql-file-songs" data-bs-toggle="collapse">
-            <i class="fa-solid fa-file"></i>
-            <span>File nhạc</span>
-        </a>
-        <div class="collapse" id="ql-file-songs">
-            <ol class="nav-collapse">
-
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">File quảng cáo</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="nav-item">
-                        <span class="">file demo</span>
-                    </a>
-                </li>
-            </ol>
-        </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <a href="route('logout')" class="nav-item dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+            <button class="nav-item dropdown-item" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="float-start">Đăng xuất</span>
-            </a>
+            </button>
         </form>
     </nav>
 </div>

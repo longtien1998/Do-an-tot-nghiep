@@ -27,6 +27,17 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material row" id="formedit" action="{{route('publishers.update',$publisher->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('put')
@@ -39,7 +50,7 @@
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Tên gọi khác </label>
                     <div class="col-md-12">
-                        <input type="text" name="alisas_name" value="{{$publisher->alias_name}}" class="form-control form-control-line update" disabled>
+                        <input type="text" name="alias_name" value="{{$publisher->alias_name}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">

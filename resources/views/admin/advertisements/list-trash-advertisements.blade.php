@@ -46,7 +46,7 @@
                     <form action="{{route('advertisements.trash.restore')}}" class="d-inline" method="post" id="form-restore">
                         @csrf
                         <input type="text" value="" name="restore_list" id="songs-restore" hidden>
-                        <button type="submit" class="btn btn-success" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
+                        <button type="submit" class="btn btn-success mr-2" onclick="return confirm('Xác nhận khôi phục quảng cáo đã chọn?')">Khôi phục quảng cáo</button>
                     </form>
                     <form action="{{route('advertisements.trash.delete')}}" class="d-inline" method="post" id="form-delete">
                         @csrf
@@ -66,12 +66,14 @@
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên quảng cáo <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(4)">Mô tả <span class="sort-icon">⬍</span></th>
+                <th scope="col">Hình ảnh</th>
                 <th scope="col">Đường dẫn</th>
                 <th scope="col" onclick="sortTable(6)">Ngày xóa <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
+            @if (count($advertisements))
             @php $stt = 1; @endphp
             @foreach($advertisements as $ads)
             <tr>
@@ -80,6 +82,13 @@
                 <td>{{$ads->id}}</td>
                 <td>{{$ads->ads_name}}</td>
                 <td>{{$ads->ads_description}}</td>
+                <td>
+                    @if($ads->image_path)
+                    <img width="50" height="50" src="{{$ads->image_path}}" alt="">
+                    @else
+                    <img width="50" height="50" src="{{asset('logo.png')}}">
+                    @endif
+                </td>
                 <td><a href="{{asset('admin/upload/ads/'. $ads->file_path)}}">{{$ads->file_path}}</a></td>
                 <td>{{$ads->deleted_at}}</td>
 
@@ -92,6 +101,11 @@
             </tr>
             @php $stt++; @endphp
             @endforeach
+            @else
+            <tr class="text-center">
+                <td colspan="10">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

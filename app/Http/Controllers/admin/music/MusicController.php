@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\music;
+namespace App\Http\Controllers\Admin\Music;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Response;
 use App\Models\Music;
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\Country;
 use App\Http\Requests\Music\MusicPostRequest;
 use App\Http\Requests\Music\MusicUpdateRequest;
@@ -72,7 +72,7 @@ class MusicController extends Controller
 
     public function add_music()
     {
-        $Categories = Categories::all();
+        $Categories = Category::all();
         $Countries = Country::all();
         $Singers = Singer::all();
         return view('admin.music.song.add-music', compact('Categories', 'Countries', 'Singers'));
@@ -103,7 +103,8 @@ class MusicController extends Controller
                 'country_id' => $request->country_id,
                 'provider' => $request->provider,
                 'composer' => $request->composer,
-                'song_image' => $url_image
+                'song_image' => $url_image,
+                'time' => $request->time
             ]);
 
             $song_id = $music->id;
@@ -202,7 +203,7 @@ class MusicController extends Controller
     public function show_music($id)
     {
         $song = Music::show($id);
-        $Categories = Categories::all();
+        $Categories = Category::all();
         $Countries = Country::all();
         $Singers = Singer::all();
         // dd($song);
@@ -318,7 +319,10 @@ class MusicController extends Controller
                     ]);
                 }
             }
-            return redirect()->back()->with('success', 'Up load file bài hát thành công');
+            $song->update([
+                'time' => $request->time,
+            ]);
+            return redirect()->route('list-music')->with('success', 'Up load file bài hát thành công');
         } catch (\Exception $e) {
             // Kiểm tra và xóa file dựa trên đường dẫn nội bộ (path_image)
 
