@@ -37,26 +37,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            <form class="form-horizontal form-material row" action="{{route('modules.store')}}" method="POST" >
-                @csrf
-                <div class="form-group">
-                    <label class="col-md-12">Tên module <span class="text-danger">(*)</span></label>
-                    <div class="col-md-12">
-                        <input type="text" name="name" value="{{ old('name') }}" class="form-control form-control-line" required>
+            <div class="row justify-content-between">
+                <form class="form-horizontal form-material row col-md-7" action="{{route('modules.store')}}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label class="col-md-12">Tên module <span class="text-danger">(*)</span></label>
+                        <div class="col-md-12">
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control form-control-line" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group col-md-12 mt-3">
-                    <label class="col-md-12">Tên gọi khác <span class="text-danger">(*)</span></label>
-                    <div class="col-md-12">
-                        <input type="text" name="slug" value="{{ old('slug') }}"  class="form-control form-control-line" required>
+                    <div class="form-group col-md-12 mt-3">
+                        <label class="col-md-12">Tên gọi khác <span class="text-danger">(*)</span></label>
+                        <div class="col-md-12">
+                            <input type="text" name="slug" value="{{ old('slug') }}" class="form-control form-control-line" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group mt-3" style="margin-bottom: 30px;">
-                    <div class="col-sm-12">
-                        <button class="btn btn-success" type="submit">Thêm mới</button>
+                    <div class="form-group mt-3" style="margin-bottom: 30px;">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success" type="submit">Thêm mới</button>
+                        </div>
                     </div>
+                </form>
+                <div class="col-md-4 shadow p-3 mb-5 rounded mt-3">
+                    <h4>Danh sách module</h4>
+                    <ul class="list-group list-group-numbered">
+                        @foreach ($modules as $module)
+                        <li class="list-group-item">{{$module->name}} ({{$module->slug}})</li>
+                        @endforeach
+
+                    </ul>
+
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

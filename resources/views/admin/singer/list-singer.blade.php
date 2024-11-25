@@ -102,9 +102,8 @@
                 @foreach($singers as $index => $singer)
                 <tr>
                     <td><input type="checkbox" class="check_list" value="{{$singer->id}}"></td>
-
                     <th scope="row">{{$singers->firstItem() + $index}}</th>
-                    <td class="text-start">{{$singer->id}} </td>
+                    <td >{{$singer->id}} </td>
                     <td class="text-start">{{$singer->singer_name}} </td>
                     <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
                     <td >{{$singer->singer_country}}</td>

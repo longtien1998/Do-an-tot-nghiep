@@ -12,12 +12,10 @@
 
 <body>
 
-    <form action="api/17/newpass-member" method="post">
-
+    <form action="api/create-vnpay-url" method="post">
         @csrf
-        @method('put')
-        <input type="text" name="password" id="text">
-        <input type="text" name="new-password" id="text">
+        <input type="text" name="amount" id="text">
+        <!-- <input type="text" name="new-password" id="text"> -->
         <button id="" type="submit">lưu</button>
     </form>
 

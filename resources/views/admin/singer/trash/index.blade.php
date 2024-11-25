@@ -104,7 +104,7 @@
                 <th scope="row">{{$trashs->firstItem() + $index}}</th>
                 <td>{{$singer->id}}</td>
                 <td class="text-start">{{$singer->singer_name}} </td>
-                <td><img width="50px" height="50px" src="/../upload/image/singer/{{$singer->singer_image}}" alt=""></td>
+                <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
                 <td>{{$singer->deleted_at}}</td>
 
                 <td>

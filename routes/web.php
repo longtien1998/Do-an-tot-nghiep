@@ -25,6 +25,11 @@ use App\Http\Controllers\Admin\Authorization\RoleController;
 use Illuminate\Support\Facades\Auth;
 
 
+//test
+Route::get('/test', function () {
+    return view('test');
+});
+
 
 // lấy thông báo
 Route::get('/notification-count', [NotificationController::class, 'count']);
@@ -38,20 +43,13 @@ route::group([
     Route::post('/logout',  'logout')->name('logout');
 });
 
-//test
-Route::get('/test', function () {
-    return view('test');
-});
-
-
 Route::group([
     'middleware' => ['login'],
 ], function () {
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
-
-
+    
     // bài hát
     Route::group([
         'prefix' => 'songs',

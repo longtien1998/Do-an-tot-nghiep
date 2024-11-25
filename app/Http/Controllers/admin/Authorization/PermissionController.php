@@ -43,7 +43,8 @@ class PermissionController extends Controller
     public function create()
     {
         $modules = Module::all();
-        return view('admin.authorization.permissions.create', compact('modules'));
+        $permissions = Permission::all();
+        return view('admin.authorization.permissions.create', compact('modules','permissions'));
     }
 
     /**
