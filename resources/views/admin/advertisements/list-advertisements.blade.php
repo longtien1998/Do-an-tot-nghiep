@@ -25,6 +25,7 @@
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <a href="{{route('advertisements.list')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
+            <a href="{{route('advertisements.create')}}" class="btn btn-success">Thêm quảng cáo</a>
         </div>
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('advertisements.search')}}" method="post">
