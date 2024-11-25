@@ -35,14 +35,14 @@
                         <input type="text" name="singer_name" value="{{$singer->singer_name}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
-                <div class="form-group col-md-6 mt-3">
+                <div class="form-group col-md-12 mt-3">
                     <label class="col-md-12">Hình ảnh </label>
                     <div class="col-md-12">
                         <input type="file" name="singer_image" value="{{$singer->singer_image}}" id="Image" accept="image/*" class="form-control form-control-line update" disabled>
                     </div>
                     <img id="previewImage" src="{{$singer->singer_image}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
-                <div class="form-group col-md-6 mt-3">
+                <div class="form-group col-md-12 mt-3">
                     <label class="col-md-12">Quốc gia</label>
                     <div class="col-md-12">
                         <input type="text" name="singer_country" value="{{$singer->singer_country}}" class="form-control form-control-line update" disabled>

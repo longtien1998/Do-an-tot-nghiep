@@ -41,25 +41,25 @@
                 <div class="form-group">
                     <label class="col-md-12">Tên quảng cáo <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="ads_name" value="" class="form-control form-control-line">
+                        <input type="text" name="ads_name" class="form-control form-control-line" value="{{old('ads_name')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="ads_description" value="" class="form-control form-control-line">
+                        <input type="text" name="ads_description" class="form-control form-control-line" value="{{old('ads_description')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Đường dẫn <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="file" name="file_path" value="" class="form-control form-control-line" accept="audio/mp3">
+                        <input type="file" name="file_path" class="form-control form-control-line" accept="audio/mp3" value="{{old('file_path')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="file" name="image_path" value="" class="form-control form-control-line" accept="jpg/jpeg/png/gif">
+                        <input type="file" name="image_path" class="form-control form-control-line" accept="jpg/jpeg/png/gif" value="{{old('image_path')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">

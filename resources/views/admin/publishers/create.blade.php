@@ -43,62 +43,62 @@
                 <div class="form-group">
                     <label class="col-md-12">Tên nhà xuất bản <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="publisher_name" class="form-control form-control-line">
+                        <input type="text" name="publisher_name" class="form-control form-control-line" value="{{old('publisher_name')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Tên gọi khác </label>
                     <div class="col-md-12">
-                        <input type="text" name="alias_name" class="form-control form-control-line">
+                        <input type="text" name="alias_name" class="form-control form-control-line" value="{{old('alias_name')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Quốc gia</label>
                     <div class="col-md-12">
-                        <input type="text" name="country" class="form-control form-control-line">
+                        <input type="text" name="country" class="form-control form-control-line" value="{{old('country')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Thành phố </label>
                     <div class="col-md-12">
-                        <input type="text" name="city" class="form-control form-control-line">
+                        <input type="text" name="city" class="form-control form-control-line" value="{{old('city')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Địa chỉ </label>
                     <div class="col-md-12">
-                        <input type="text" name="address" class="form-control form-control-line">
+                        <input type="text" name="address" class="form-control form-control-line" value="{{old('address')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Trang web </label>
                     <div class="col-md-12">
-                        <input type="text" name="website" class="form-control form-control-line">
+                        <input type="text" name="website" class="form-control form-control-line" value="{{old('website')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Email </label>
                     <div class="col-md-12">
-                        <input type="email" name="email" class="form-control form-control-line">
+                        <input type="email" name="email" class="form-control form-control-line" value="{{old('email')}}">
                     </div>
                 </div>
                 <div class="form-group col-md-4 mt-3">
                     <label class="col-md-12">Số điện thoại</label>
                     <div class="col-md-12">
-                        <input type="text" name="phone" class="form-control form-control-line">
+                        <input type="text" name="phone" class="form-control form-control-line" value="{{old('phone')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Logo</label>
                     <div class="col-md-12">
-                        <input type="file" name="logo" id="logoImage" accept="image/*" class="form-control form-control-line">
+                        <input type="file" name="logo" id="logoImage" accept="image/*" class="form-control form-control-line" value="{{old('logo')}}">
                     </div>
                     <img id="previewImage" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                        <textarea name="description" class="form-control form-control-line" id="editor1"></textarea>
+                        <textarea name="description" class="form-control form-control-line" id="editor1">{{old('description')}}</textarea>
                     </div>
                 </div>
                 <div class="form-group mt-3" style="margin-bottom: 30px;">

@@ -41,36 +41,36 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Tên <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="name" value="" class="form-control form-control-line">
+                        <input type="text" name="name" class="form-control form-control-line" value="{{old('name')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mật khẩu <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="password" value="" class="form-control form-control-line">
+                        <input type="text" name="password" class="form-control form-control-line" value="{{old('password')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="email" name="email" value="" class="form-control form-control-line">
+                        <input type="email" name="email" class="form-control form-control-line" value="{{old('email')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Số điện thoại</label>
                     <div class="col-md-12">
-                        <input type="text" name="phone" value="" class="form-control form-control-line">
+                        <input type="text" name="phone" class="form-control form-control-line" value="{{old('phone')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh</label>
                     <div class="col-md-12">
-                        <input type="file" name="image" value="" class="form-control form-control-line">
+                        <input type="file" name="image" class="form-control form-control-line" value="{{old('image')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Giới tính</label>
-                    <select class="form-select" name="gender" id="">
+                    <select class="form-select" name="gender" id="" value="{{old('gender')}}">
                         <option value="">Chọn giới tính</option>
                         <option value="nam">Nam</option>
                         <option value="nu">Nữ</option>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Loại người dùng</label>
-                    <select class="form-select" name="users_type" id="">
+                    <select class="form-select" name="users_type" id="" value="{{old('users_type')}}">
                         <option value="Basic" selected>Basic</option>
                         <option value="Plus">Plus</option>
                         <option value="Premium">Premium</option>
@@ -88,7 +88,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Sinh nhật</label>
                     <div class="col-md-12">
-                        <input type="date" name="birthday" id="birthday" value="" class="form-control form-control-line">
+                        <input type="date" name="birthday" id="birthday" value="{{old('birthday')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
