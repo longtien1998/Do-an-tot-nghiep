@@ -14,18 +14,23 @@ class SingerController extends Controller
     // Hiển thị danh sách ca sĩ
     public function index(Request $request)
     {
-        $perPage = 10;
-        $filterGenre = $request->input('filterGenre', null);
-        $filterCountry = $request->input('filterCountry', null);
-
+        $perPage = $request->input('perPage', 10);
+        $filterGenDer = $request->input('filterGenDer', false);
+        $filterCreateStart = $request->input('filterCreateStart', false);
+        $filterCreateEnd = $request->input('filterCreateEnd', false);
         $query = Singer::query();
 
-        if ($filterGenre) {
-            $query->where('singer_gender', $filterGenre);
+        if ($filterGenDer) {
+            $query->where('singer_gender', $filterGenDer);
         }
 
-        if ($filterCountry) {
-            $query->where('singer_country', $filterCountry);
+
+        if ($filterCreateStart) {
+            $query->where('created_at', '>=', $filterCreateStart);
+        }
+
+        if ($filterCreateEnd) {
+            $query->where('created_at', '<=', $filterCreateEnd);
         }
 
         $singers = $query->paginate($perPage);
@@ -44,16 +49,17 @@ class SingerController extends Controller
     {
 
         $validate = Validator::make($request->all(), [
-            'singer_name' => 'required|string|max:255',
+            'singer_name' => 'required|string|max:255|unique:singers,singer_name',
             'singer_birth_date' => 'required|date',
             'singer_gender' => 'required|string|max:255',
             'singer_biography' => 'nullable|string',
             'singer_country' => 'required|string|max:255',
             'singer_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ],[
+        ], [
             'singer_name.required' => 'Tên ca sĩ không được để trống',
             'singer_name.string' => 'Tên ca sĩ phải là chuỗi',
             'singer_name.max' => 'Tên ca sĩ không được dài quá 255 ký tự',
+            'singer_name.unique' => 'Tên ca sĩ đã tồn tại',
             'singer_birth_date.required' => 'Ngày sinh không được để trống',
             'singer_birth_date.date' => 'Ngày sinh phải đúng định dạng ngày tháng',
             'singer_gender.required' => 'Giới tính không được để trống',
@@ -67,7 +73,7 @@ class SingerController extends Controller
             'singer_image.max' => 'Hình đại diện không quá 2MB',
         ]);
         if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate->errors());
+            return redirect()->back()->withErrors($validate->errors())->withInput();
         }
 
         $singer = new Singer();
@@ -120,9 +126,8 @@ class SingerController extends Controller
 
         if ($request->hasFile('singer_image')) {
             $file = $request->file('singer_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $singer->singer_image = $filename;
-            $file->move(public_path('upload/image/singer'), $filename);
+            $name = $request->singer_name;
+            $singer->singer_image = Singer::up_image($file, $name);
         }
 
         if ($singer->save()) {
@@ -171,9 +176,24 @@ class SingerController extends Controller
     }
 
     // Hiển thị danh sách ca sĩ trong thùng rác
-    public function trash()
+    public function trash(Request $request)
     {
-        $trashs = Singer::onlyTrashed()->paginate(10);
+        $perPage = $request->input('perPage', 10);
+        $filterCreateStart = $request->input('filterCreateStart', false);
+        $filterCreateEnd = $request->input('filterCreateEnd', false);
+
+        $query = Singer::onlyTrashed();
+
+        if ($filterCreateStart) {
+            $query->where('deleted_at', '>=', $filterCreateStart);
+        }
+
+        if ($filterCreateEnd) {
+            $query->where('deleted_at', '<=', $filterCreateEnd);
+        }
+
+        $trashs = $query->paginate($perPage);
+
         return view('admin.singer.trash.index', compact('trashs'));
     }
 
@@ -194,13 +214,14 @@ class SingerController extends Controller
         return redirect()->route('singer.trash.index')->with('success', 'Khôi phục ca sĩ thành công');
     }
 
-    public function restore_list_singer(Request $request){
+    public function restore_list_singer(Request $request)
+    {
         $restorelist = json_decode($request->restore_list, true);
         if (is_array($restorelist)) {
-           foreach ($restorelist as $restore){
-             $trash = Singer::withTrashed()->find($restore);
-             $trash->restore();
-           }
+            foreach ($restorelist as $restore) {
+                $trash = Singer::withTrashed()->find($restore);
+                $trash->restore();
+            }
             return redirect()->route('singer.trash.index')->with('success', 'Khôi phục tất cả ca sĩ thành công');
         } else {
             return redirect()->back()->with('error', 'Khôi phục tất cả ca sĩ thất bại!');
@@ -233,5 +254,4 @@ class SingerController extends Controller
             return redirect()->back()->with('error', 'Xoá tất cả ca sĩ thất bại!');
         }
     }
-
 }

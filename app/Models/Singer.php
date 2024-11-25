@@ -40,18 +40,6 @@ class Singer extends Authenticatable
         'deleted_at',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'singer_birth_date' => 'datetime',
-        ];
-    }
-
     public function albums()
     {
         return $this->hasMany(Album::class, 'singer_id');
@@ -120,17 +108,20 @@ class Singer extends Authenticatable
     /**
      * Method to search singers
      */
-    public static function search_singers($search)
+    public static function search($search)
     {
         $singers = DB::table('singers')
             ->where('singer_name', 'LIKE', '%' . $search . '%')
             ->select('singers.*')
-            ->paginate(10);
+            ->paginate(20);
         return $singers;
     }
 
-    /**
-     * Method to show singer details by ID
-     */
-
+    public static function search_trash_singer($search)
+    {
+        $singers = self::withTrashed()
+            ->where('singer_name', 'LIKE', '%' . $search . '%')
+            ->paginate(20);
+        return $singers;
+    }
 }

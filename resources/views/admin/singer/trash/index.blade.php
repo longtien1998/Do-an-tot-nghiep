@@ -27,12 +27,12 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('singer.trash.index')}}" class="btn btn-outline-success"> Tất cả ca s đã xóa</a>
+            <a href="{{route('singer.trash.index')}}" class="btn btn-outline-success"> Tất cả ca sĩ đã xóa</a>
         </div>
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('singer.trash.search')}}" method="post">
                 @csrf
-                <input type="text" name="search" placeholder="Tên, tên khác, Quốc gia, Thành ..." required />
+                <input type="text" name="search" placeholder="Tên, Quốc gia..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
@@ -55,17 +55,17 @@
                     </select>
                 </div>
                 <div class="col-6 col-sm-2">
-                    <label for="">Từ: Ngày tạo</label>
+                    <label for="">Từ: Ngày xóa</label>
                     <input type="date" name="filterCreateStart" class="form-control" value="{{request()->input('filterCreateStart') ? request()->input('filterCreateStart') : ''}}" onchange="submitForm()">
                 </div>
                 <div class="col-6 col-sm-2">
-                    <label for="">Đến: Ngày tạo</label>
+                    <label for="">Đến: Ngày xóa</label>
                     <input type="date" name="filterCreateEnd" class="form-control" value="{{request()->input('filterCreateEnd') ? request()->input('filterCreateEnd') : ''}}" onchange="submitForm()">
                 </div>
             </form>
         </div>
         <div class="col-sm-6 my-3">
-            <di>Đã chọn <strong id="total-songs">0</strong> mục</div>
+            <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
         </div>
         <div class="col-sm-6 my-3">
             <div class="float-end">
