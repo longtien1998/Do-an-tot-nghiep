@@ -24,30 +24,41 @@
 <div class="container-fluid">
     <div class="card" style="border: none; border-radius: 0px;">
         <div class="card-body">
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5>Thông báo !</h5>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <form class="form-horizontal form-material" action="{{route('singer.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên ca sĩ <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="singer_name" value="" class="form-control form-control-line">
+                        <input type="text" name="singer_name" value="{{old('singer_name')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh</label>
                     <div class="col-md-12">
-                        <input type="file" name="singer_image" value="" class="form-control form-control-line">
+                        <input type="file" name="singer_image" value="{{old('singer_image')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày sinh</label>
                     <div class="col-md-12">
-                        <input type="date" name="singer_birth_date" value="" class="form-control form-control-line">
+                        <input type="date" name="singer_birth_date" value="{{old('singer_birth_date')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Tiểu sử</label>
                     <div class="col-md-12">
-                        <textarea name="singer_biography" class="form-control form-control-line" id="editor1"></textarea>
+                        <textarea name="singer_biography" class="form-control form-control-line" id="editor1">{{old('singer_biography')}}</textarea>
                     </div>
                 </div>
                 <div class="form-group mt-3">
@@ -63,7 +74,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Quê quán</label>
                     <div class="col-md-12">
-                        <input type="text" name="singer_country" value="" class="form-control form-control-line">
+                        <input type="text" name="singer_country" value="{{old('singer_country')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">

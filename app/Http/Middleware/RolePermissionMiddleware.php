@@ -25,7 +25,7 @@ class RolePermissionMiddleware
         $user = Auth::user();
         // dd($permission);
         // Kiểm tra nếu người dùng có quyền thông qua vai trò
-        if (!$user->hasPermissionTo('songs.index')) {
+        if (!$user->hasPermissionTo($permission)) {
             abort(403, 'Unauthorized action.');
         }
 

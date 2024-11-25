@@ -29,7 +29,7 @@
         <div class="col-sm-3 my-3">
             <form class="search-form" action="{{route('singer.search')}}" method="post">
                 @csrf
-                <input type="text" name="search" placeholder="Tên, tên khác, Quốc gia, Thành ..." required />
+                <input type="text" name="search" placeholder="Tên, Quốc gia, ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
@@ -49,6 +49,14 @@
                         <option value="200" {{request()->input('indexPage') == 200 ? 'selected' : ''}}>200</option>
                         <option value="500" {{request()->input('indexPage') == 500 ? 'selected' : ''}}>500</option>
                         <option value="1000" {{request()->input('indexPage') == 1000 ? 'selected' : ''}}>1000</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-2">
+                    <label for="">Theo giới tính</label>
+                    <select name="filterGenDer" id="filterGenDer" class="form-select" onchange="submitForm()">
+                        <option value="{{ request()->input('filterGenDer')}}">{{ request()->input('filterGenDer')}}</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
                     </select>
                 </div>
                 <div class="col-6 col-sm-2">
@@ -85,7 +93,7 @@
                     <th scope="col" onclick="sortTable(5)">Quốc Gia <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(6)">Ngày Sinh <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(7)">Giới Tính <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(8)">Tiểu Sử <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" >Tiểu Sử </th>
                     <th scope="col-2" onclick="sortTable(9)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2">Hành động</th>
                 </tr>
@@ -105,7 +113,7 @@
                     <td class="text-start">{{Str::limit($singer->singer_biography, 25, '...')}}</td>
                     <td>{{$singer->created_at->format('d-m-Y')}}</td>
                     <td scope="row-3">
-                        <a href="{{route('singer.edit',$singer->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-eye"></i></a>
+                        <a href="{{route('singer.edit',$singer->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-edit"></i></a>
                         <form action="{{route('singer.delete',$singer->id)}}" method="post" class="d-inline">
                             @csrf
                             @method('DELETE')

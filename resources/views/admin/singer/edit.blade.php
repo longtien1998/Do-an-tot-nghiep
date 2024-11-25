@@ -12,10 +12,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{route('dashboard')}}">Trang chủ</a>
+                            <a href="{{route('dashboard')}}" aria-current="page">Trang chủ</a>
                         </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{route('singer.index')}}">ca sĩ</a>
+                        <li class="breadcrumb-item" aria-current="page">ca sĩ</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Cập nhật ca sĩ</li>
                     </ol>
@@ -36,46 +35,43 @@
                         <input type="text" name="singer_name" value="{{$singer->singer_name}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
-                <div class="form-group col-md-4 mt-3">
+                <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Hình ảnh </label>
                     <div class="col-md-12">
                         <input type="file" name="singer_image" value="{{$singer->singer_image}}" id="Image" accept="image/*" class="form-control form-control-line update" disabled>
                     </div>
-                    <img id="previewImage" src="upload/image/singer{{$singer->singer_image}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
+                    <img id="previewImage" src="{{$singer->singer_image}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
-                <div class="form-group col-md-4 mt-3">
+                <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Quốc gia</label>
                     <div class="col-md-12">
-                        <input type="text" name="singer_country" value="{{$singer->singercountry}}" class="form-control form-control-line update" disabled>
+                        <input type="text" name="singer_country" value="{{$singer->singer_country}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
-               
+
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày sinh</label>
                     <div class="col-md-12">
-                        <input type="date" name="singer_birth_date" value="" class="form-control form-control-line">
+                        <input type="date" name="singer_birth_date" value="{{$singer->singer_birth_date}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Giới tính</label>
                     <div class="col-md-12">
-                        <select class="form-select" name="singer_gender" aria-label="Default select example">
-                            <option selected>Chọn giới tính</option>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
+                        <select class="form-select update" name="singer_gender" aria-label="Default select example " disabled>
+                            <option value="Nam" @if ($singer->singer_gender == 'Nam') selected @endif >Nam</option>
+                            <option value="Nữ" @if ($singer->singer_gender == 'Nữ') selected @endif >Nữ</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="col-md-12">Mô tả</label>
+                    <label class="col-md-12">Tiểu sử</label>
                     <div class="col-md-12">
                         <textarea name="singer_biography" class="form-control form-control-line update" id="editor1" disabled>{{$singer->singer_biography}}</textarea>
                     </div>
-                </div>    
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Ngày tạo: {{$singer->created_at}}</label>
                 </div>
                 <div class="form-group mt-3">
+                    <label class="col-md-12">Ngày tạo: {{$singer->created_at}}</label>
                     <label class="col-md-12">Ngày update: {{$singer->updated_at}}</label>
                 </div>
                 <div class="form-group mt-3" style="margin-bottom: 30px;">
@@ -114,7 +110,7 @@
     });
 
 
-    document.getElementById('logoImage').addEventListener('change', function(event) {
+    document.getElementById('Image').addEventListener('change', function(event) {
         const file = event.target.files[0]; // Lấy file đầu tiên từ input
         const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
 
