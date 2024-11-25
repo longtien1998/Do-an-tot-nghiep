@@ -98,13 +98,14 @@
             </tr>
         </thead>
         <tbody>
+            @if(count($trashs))
             @foreach($trashs as $index => $singer)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{$singer->id}}"></td>
                 <th scope="row">{{$trashs->firstItem() + $index}}</th>
                 <td>{{$singer->id}}</td>
                 <td class="text-start">{{$singer->singer_name}} </td>
-                <td><img width="50px" height="50px" src="/../upload/image/singer/{{$singer->singer_image}}" alt=""></td>
+                <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
                 <td>{{$singer->deleted_at}}</td>
 
                 <td>
@@ -119,6 +120,11 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr>
+                <td colspan="7">Không có dữ liệu</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 

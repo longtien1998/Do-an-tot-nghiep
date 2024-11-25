@@ -40,7 +40,7 @@
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Bài hát</label>
                     <div class="col-md-12">
-                        <select class="form-select" name="song_id" id="song_id" aria-label="Default select example">
+                        <select class="form-select" name="song_id" id="song_id" aria-label="Default select example" value="{{old('song_id')}}">
                             <option value="" selected>Chọn bài hát</option>
                             @foreach ( $songs as $song)
                             <option value="{{$song->id}}">{{$song->song_name}}</option>
@@ -53,7 +53,7 @@
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Nhà xuất bản</label>
                     <div class="col-md-12">
-                        <select class="form-select" name="publisher_id" id="publisher_id" aria-label="Default select example">
+                        <select class="form-select" name="publisher_id" id="publisher_id" aria-label="Default select example" value="{{old('publisher_id')}}">
                             <option value="" selected>Chọn nhà xuất bản</option>
                             @foreach ( $publishers as $publisher)
                             <option value="{{$publisher->id}}">{{$publisher->publisher_name}}</option>
@@ -64,7 +64,7 @@
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Loại giấy phép</label>
                     <div class="col-md-12">
-                        <select name="license_type" id="license_type" value="" class="form-select" aria-label="Default select example">
+                        <select name="license_type" id="license_type" value="{{old('license_type')}}" class="form-select" aria-label="Default select example">
                             <option value="">Chọn loại giấy phép</option>
                             <option value="Mechanical License (Giấy phép cơ học)">Mechanical License (Giấy phép cơ học)</option>
                             <option value="Performance License (Giấy phép biểu diễn công cộng)">Performance License (Giấy phép biểu diễn công cộng)</option>
@@ -79,49 +79,49 @@
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Ngày phát hành</label>
                     <div class="col-md-12">
-                        <input type="date" name="issue_day" id="issue_day" value="" class="form-control form-control-line">
+                        <input type="date" name="issue_day" id="issue_day" value="{{old('issue_day')}}" class="form-control form-control-line" >
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Ngày hết hạn</label>
                     <div class="col-md-12">
-                        <input type="date" name="expiry_day" id="expiry_day" value="" class="form-control form-control-line">
+                        <input type="date" name="expiry_day" id="expiry_day" value="{{old('expiry_day')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Quyền sử dụng</label>
                     <div class="col-md-12">
-                        <input type="text" name="usage_rights" id="usage_rights" value="" class="form-control form-control-line">
+                        <input type="text" name="usage_rights" id="usage_rights" value="{{old('usage_rights')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Giá chuyển nhượng</label>
                     <div class="col-md-12">
-                        <input type="number" name="price" id="price" value="" class="form-control form-control-line">
+                        <input type="number" name="price" id="price" value="{{old('price')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Hình thức thanh toán</label>
                     <div class="col-md-12">
-                        <input type="text" name="payment" id="payment" value="" class="form-control form-control-line">
+                        <input type="text" name="payment" id="payment" value="{{old('payment')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Địa điểm thanh toán</label>
                     <div class="col-md-12">
-                        <input type="text" name="location" id="location" value="" class="form-control form-control-line">
+                        <input type="text" name="location" id="location" value="{{old('location')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Thời gian thanh toán</label>
                     <div class="col-md-12">
-                        <input type="date" name="pay_day" id="pay_day" value="" class="form-control form-control-line">
+                        <input type="date" name="pay_day" id="pay_day" value="{{old('pay_day')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group col-md-12 mt-3">
                     <label class="col-md-12">Điều khoản</label>
                     <div class="col-md-12">
-                        <select name="terms" id="terms" value="" class="form-select" aria-label="Default select example">
+                        <select name="terms" id="terms" value="{{old('terms')}}" class="form-select" aria-label="Default select example">
                             <option value="" selected>Chọn điều khoản</option>
                             <option value="Điều khoản tiêu chuẩn">Điều khoản tiêu chuẩn</option>
                             <option value="Điều khoản tùy chỉnh">Điều khoản tùy chỉnh</option>
@@ -148,7 +148,7 @@
                 <div class="form-group col-md-6 mt-3" id="inputLicense">
                     <label class="col-md-12">Giấy phép</label>
                     <div class="col-md-12">
-                        <input type="file" name="license_file" id="license_file" value="" class="form-control form-control-line" accept="file/*" >
+                        <input type="file" name="license_file" id="license_file" value="{{old('license_file')}}" class="form-control form-control-line" accept="file/*" >
                         <input type="text" name="text" id="text" hidden disabled>
                     </div>
                 </div>

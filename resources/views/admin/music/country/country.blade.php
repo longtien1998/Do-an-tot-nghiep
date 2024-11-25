@@ -52,14 +52,14 @@
                             <div class="modal-body">
                                 <div class="col-md-12 position-relative">
                                     <label for="validationTooltip01" class="form-label">Tên quốc gia</label>
-                                    <input type="text" class="form-control" name="name_country" id="validationTooltip01" required>
+                                    <input type="text" class="form-control" name="name_country" id="validationTooltip01" value="{{old('name_country')}}" required>
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
                                 </div>
                                 <div class="col-md-12 my-3 position-relative">
                                     <label for="validationTooltip01" class="form-label">Ảnh nền</label>
-                                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" required>
+                                    <input type="file" class="form-control" name="background" id="backgroundAdd" value="{{old('background')}}"  accept="image/*" required>
                                     <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                                     <div class="valid-tooltip">
                                         Looks good!
