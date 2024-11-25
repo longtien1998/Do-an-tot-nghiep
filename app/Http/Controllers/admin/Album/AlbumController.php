@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Album;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
+use App\Models\AlbumSongs;
 use App\Models\Singer;
+use App\Models\Music;
 use App\Http\Requests\AlbumRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,6 +21,14 @@ class AlbumController extends Controller
         return view('admin.album.list-album', compact('albums'));
     }
 
+    //View list album_song
+    public function list_album_song()
+    {
+        $albums = Album::all();
+        $songs = Music::all();
+        $albumsong = AlbumSongs::paginate(10);
+        return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
+    }
     public function index()
     {
         $albums = Album::with('singer')->paginate(10); // Tải quan hệ singer

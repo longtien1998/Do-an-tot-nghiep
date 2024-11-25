@@ -19,6 +19,7 @@ return new class extends Migration
                 $table->foreign('album_id')->references('id')->on('albums')->nullOnDelete();
                 $table->foreign('song_id')->references('id')->on('songs')->nullOnDelete();
                 $table->timestamps();
+                $table->softDeletes();
             });
 
         }
