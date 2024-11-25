@@ -8,7 +8,8 @@ use App\Http\Controllers\Admin\Music\MusicController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\SingerController;
-use App\Http\Controllers\Admin\AlbumController;
+use App\Http\Controllers\Admin\Album\AlbumController;
+use App\Http\Controllers\Admin\Album\S3ImgAlbumController;
 use App\Http\Controllers\Admin\Copyright\CopyrightController;
 use App\Http\Controllers\Admin\Publisher\PublishersController;
 use App\Http\Controllers\Admin\Ads\AdvertisementsController;
@@ -445,7 +446,12 @@ Route::group([
         Route::delete('/{id}/delete', 'delete_album')->name('delete'); // Xử lý lưu album
         Route::post('/list/delete', 'delete_list')->name('delete-list'); // Xóa danh sách album
         // Route::get('/singer/{id}/albums','showAlbumsWithAllSongs')->name('singer.albums');
-
+        route::prefix('s3')->group(function () {
+            // hình ảnh trên AWS S3
+            Route::get('/images', [S3ImgAlbumController::class, 'image_albums'])->name('s3images.index');
+            Route::post('/images', [S3ImgAlbumController::class, 'destroy_image_albums'])->name('s3images.destroy');
+            Route::post('/images-destroy', [S3ImgAlbumController::class, 'list_destroy_image_albums'])->name('s3list-destroy-image-albums');
+        });
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',

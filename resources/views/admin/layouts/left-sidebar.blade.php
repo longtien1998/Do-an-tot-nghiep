@@ -178,6 +178,12 @@
                         <span class="">Album đã xóa</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('albums.s3images.index')}}" class="nav-item">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="">Hình album</span>
+                    </a>
+                </li>
 
             </ol>
         </div>
@@ -246,7 +252,7 @@
                 </li>
             </ol>
         </div>
-        
+
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-ads" aria-controls="ql-ads">
             <i class="fa-solid fa-rectangle-ad"></i>
             <span>Quảng cáo <i class="fa fa-caret-down float-end "></i></span>
