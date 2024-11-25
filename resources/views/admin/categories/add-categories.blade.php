@@ -43,18 +43,18 @@
                 <div class="form-group">
                     <label class="col-md-12">Tên thể loại <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="categorie_name" value="" class="form-control form-control-line">
+                        <input type="text" name="categorie_name" value="" class="form-control form-control-line" value="{{old('categorie_name')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mô tả</label>
                     <div class="col-md-12">
-                        <input type="text" name="description" value="" class="form-control form-control-line">
+                        <input type="text" name="description" value="" class="form-control form-control-line" value="{{old('description')}}">
                     </div>
                 </div>
                 <div class="col-md-12 my-3 position-relative">
                     <label for="validationTooltip01" class="form-label">Ảnh nền</label>
-                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" required>
+                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" value="{{old('background')}}" required>
                     <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                     <div class="valid-tooltip">
                         Looks good!

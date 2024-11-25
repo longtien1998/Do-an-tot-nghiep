@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Album extends Model
@@ -58,6 +59,25 @@ class Album extends Model
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
-    }  
+    }
+    public static function updateAlbum($id, $data)
+    {
+        $currentAlbum = DB::table('albums')->where('id', $id)->first();
+
+        if (!empty($data['image'])) {
+            if ($currentAlbum->image && Storage::disk('s3')->exists(parse_url($currentAlbum->image, PHP_URL_PATH))) {
+                Storage::disk('s3')->delete(parse_url($currentAlbum->image, PHP_URL_PATH));
+            }
+        } else {
+            $data['image'] = $currentAlbum->image;
+        }
+
+        // Cập nhật vào database
+        return DB::table('albums')->where('id', $id)->update([
+            'album_name' => $data['album_name'],
+            'singer_id' => $data['singer_id'],
+            'image' => $data['image'],
+        ]);
+    }
 }
 

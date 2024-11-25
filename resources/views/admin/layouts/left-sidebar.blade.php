@@ -178,6 +178,12 @@
                         <span class="">Album đã xóa</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('albums.s3images.index')}}" class="nav-item">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="">Hình album</span>
+                    </a>
+                </li>
 
             </ol>
         </div>

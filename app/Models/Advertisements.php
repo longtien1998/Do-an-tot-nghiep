@@ -73,7 +73,7 @@ class Advertisements extends Model
     }
     public static function createAds($data)
     {
-        return DB::table('ads')->create([
+        return DB::table('ads')->insert([
             'ads_name' => $data['ads_name'],
             'ads_description' => $data['ads_description'],
             'file_path' => $data['file_path'],

@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label for="album_name">Tên album</label>
                         <input type="text" class="form-control" name="album_name" id="album_name"
-                            value="{{ old('album_name', $album->album_name) }}" required>
+                            value="{{ old('album_name', $album->album_name) }}">
                     </div>
                     <div class="form-group mt-3">
                         <label for="singer_id">Ca sĩ</label>
@@ -59,7 +59,7 @@
 
                     <div class="col-md-12 my-3 position-relative">
                         <label for="validationTooltip01" class="form-label">Ảnh nền</label>
-                        <input type="file" class="form-control" name="image" id="imageAdd" accept="image/*">
+                        <input type="file" class="form-control" value="{{$album->image}}" name="image" id="imageAdd">
                         <img id="previewImageAdd" src="{{$album->image}}" alt="Image Preview"
                             style="max-width: 300px; margin-top: 10px;" class="d-none">
                         <div class="valid-tooltip">
@@ -69,7 +69,7 @@
 
                     <div class="form-group mt-3">
                         <label for="creation_date">Ngày tạo</label>
-  
+
                         <input type="text" class="form-control" value="{{ $album->creation_date }}"
                             disabled>
                     </div>

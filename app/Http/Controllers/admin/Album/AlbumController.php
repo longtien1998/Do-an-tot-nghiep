@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Album;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -81,26 +81,35 @@ class AlbumController extends Controller
         return view('admin.album.edit-album', compact('album', 'singers'));
     }
 
-    public function update_album(AlbumRequest $request, $id)
+    public function update_album(Request $request, $id)
     {
-        try {
-            $album = Album::find($id);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $name = $request->album_name;
-                $image = Album::up_file_album($image, $name);
-            } else {
-                $image = $album->image;
-            }
-            $album->update([
-                'album_name' => $request->album_name,
-                'singer_id' => $request->singer_id,
-                'image' => $image,
-            ]);
-            return redirect()->route('albums.list')->with('success', 'Cập nhật album thành công.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Cập nhật album thất bại.');
+        // dd($request->all());
+        $request->validate(
+            [
+                'album_name' => 'required|string|max:255',
+                'singer_id' => 'required|integer',
+                'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'album_name.required' => 'Tên album không được để trống',
+                'album_name.string' => 'Tên album phải là chuỗi',
+                'album_name.max' => 'Tên album không được quá 255 ký tự',
+                'singer_id.required' => 'Bạn chưa chọn ca sĩ',
+                'image.file' => 'Hình ảnh không được để trống',
+                'image.mimes' => 'Hình ảnh phải là file .jpeg, .png,
+                .jpg',
+                'image.max' => 'Hình ảnh không được quá 2MB',
+            ]
+        );
+        $data = [
+            'album_name' => $request->album_name,
+            'singer_id' => $request->singer_id,
+        ];
+        if ($request->hasFile('image')) {
+            $data['image'] = Album::up_file_album($request->file('image'), $request->album_name);
         }
+        Album::updateAlbum($id, $data);
+        return redirect()->route('albums.list')->with('success', 'Cập nhật album thành công!');
     }
 
     public function delete_album($id)

@@ -75,6 +75,7 @@
                 </tr>
             </thead>
             <tbody>
+                @if(count($albums))
                 @foreach ($albums as $index => $album)
                     <tr>
                         <td><input type="checkbox" class="check_list" value="{{ $album->id }}"></td>
@@ -99,6 +100,11 @@
                         </td>
                     </tr>
                 @endforeach
+                @else
+                <tr>
+                    <td colspan="10">Không có dữ liệu</td>
+                </tr>
+                @endif
             </tbody>
 
         </table>

@@ -99,11 +99,16 @@
                 </tr>
             </thead>
             <tbody>
+                @if(count($singers))
                 @foreach($singers as $index => $singer)
                 <tr>
                     <td><input type="checkbox" class="check_list" value="{{$singer->id}}"></td>
                     <th scope="row">{{$singers->firstItem() + $index}}</th>
+<<<<<<< HEAD
                     <td >{{$singer->id}} </td>
+=======
+                    <td>{{$singer->id}} </td>
+>>>>>>> 084183ecfa3ecc45da7ca09b719d4c4c2eb5cce0
                     <td class="text-start">{{$singer->singer_name}} </td>
                     <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
                     <td >{{$singer->singer_country}}</td>
@@ -123,6 +128,11 @@
                     </td>
                 </tr>
                 @endforeach
+                @else
+                <tr>
+                    <td colspan="11">Không có dữ liệu</td>
+                </tr>
+                @endif
             </tbody>
         </table>
         <div class=" mb-5">
