@@ -37,7 +37,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            <form class="form-horizontal form-material row" action="{{route('permissions.store')}}" method="POST" >
+            <div class="row justify-content-between">
+            <form class="form-horizontal form-material row col-md-7" action="{{route('permissions.store')}}" method="POST" >
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên quyền hạn <span class="text-danger">(*)</span></label>
@@ -68,6 +69,22 @@
                     </div>
                 </div>
             </form>
+            <div class="col-md-4 shadow p-3 mb-5 rounded mt-3">
+                    <h4>Danh sách quyền hạn</h4>
+                    <table class="table">
+                        <tr class>
+                            <th>Tên</th>
+                            <th>Module</th>
+                        </tr>
+                        @foreach ($permissions as $permission)
+                        <tr>
+                            <td>{{$permission->alias}} ({{$permission->name}})</td>
+                            <td>{{$permission->module->name}} ({{$permission->module->slug}})</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

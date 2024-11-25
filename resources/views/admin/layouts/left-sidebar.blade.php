@@ -145,12 +145,12 @@
                         <span class="">Ca sĩ đã xóa</span>
                     </a>
                 </li>
-                <!-- <li>
+                <li>
                     <a href="" class="nav-item">
                         <i class="fa-solid fa-file"></i>
                         <span class="">Hình Ca sĩ</span>
                     </a>
-                </li> -->
+                </li>
             </ol>
         </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-album" aria-controls="ql-album">

@@ -46,8 +46,9 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh</label>
                     <div class="col-md-12">
-                        <input type="file" name="singer_image" value="{{old('singer_image')}}" class="form-control form-control-line">
+                        <input type="file" name="singer_image" id="image" value="{{old('singer_image')}}" class="form-control form-control-line">
                     </div>
+                    <img id="previewImage" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày sinh</label>
@@ -86,5 +87,28 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('js')
+<script>
+     document.getElementById('image').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Lấy file đầu tiên từ input
+        const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
+
+        if (file) {
+            const reader = new FileReader(); // Tạo FileReader để đọc file
+
+            reader.onload = function(e) {
+                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
+            };
+
+            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            preview.classList.remove('d-none'); // Hiển thị ảnh preview
+        } else {
+            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+        }
+    });
+</script>
 
 @endsection

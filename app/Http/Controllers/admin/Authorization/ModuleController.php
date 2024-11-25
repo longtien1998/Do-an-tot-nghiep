@@ -31,7 +31,8 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        return view('admin.authorization.modules.create');
+        $modules = Module::all();
+        return view('admin.authorization.modules.create', compact('modules'));
     }
 
     /**
@@ -55,7 +56,7 @@ class ModuleController extends Controller
         }
         try {
             Module::create($request->all());
-            return redirect()->route('modules.index')->with('success', 'Thêm module thành công');
+            return redirect()->back()->with('success', 'Thêm module thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Thêm module thất bại')->withInput();
         }
