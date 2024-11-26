@@ -26,7 +26,7 @@ class RolePermissionMiddleware
         // dd($permission);
         // Kiểm tra nếu người dùng có quyền thông qua vai trò
         if (!$user->hasPermissionTo($permission)) {
-            abort(403, 'Unauthorized action.');
+            return redirect()->back()->with('warning', 'Bạn không có quyền với hành động này, vui lòng liên hệ quản trị viên để biết thêm thông tin chi tiết.');
         }
 
         return $next($request);

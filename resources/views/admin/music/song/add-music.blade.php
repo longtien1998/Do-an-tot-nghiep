@@ -41,7 +41,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12 mb-2">Tên bài hát <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="song_name" value="{{old('song_name')}}" class="form-control form-control-line border-3">
+                        <input type="text" name="song_name" value="{{old('song_name')}}" id="song_name" class="form-control form-control-line border-3">
                     </div>
                     <div class="text-danger m-3 d-none" id="error-song-name">
                     </div>

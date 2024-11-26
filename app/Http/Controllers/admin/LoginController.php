@@ -26,12 +26,13 @@ class LoginController extends Controller
             'email.email' => 'Email không đúng định dạng',
             'password.required' => 'Vui lòng nhập mật khẩu',
         ]);
-        // $user = User::where('email', '=', $credentials['email'])->first()->role->role_type;
-        // // Kiểm tra xem người dùng có quyền admin hay không
-        // if ($user > 2) {
-        //     // Nếu người dùng không có quyền quản trị, chuyển hướng login lại
-        //     return redirect()->back()->with('error', 'Tài khoản của bạn không có quyền vào Admin. Vui lòng đăng nhập tài khoản quản trị.');
-        // }
+        $user = User::firstWhere('email', '=', $credentials['email'])->roles->first()->role_type;
+        // dd($user);
+        // Kiểm tra xem người dùng có quyền admin hay không
+        if ($user !== 1 && $user !== 2 && $user !== 3) {
+            // Nếu người dùng không có quyền quản trị, chuyển hướng login lại
+            return redirect()->back()->with('error', 'Tài khoản của bạn không có quyền vào Admin. Vui lòng đăng nhập tài khoản quản trị.');
+        }
 
         if (Auth::attempt($credentials)) {
 
