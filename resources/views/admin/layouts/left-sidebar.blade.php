@@ -173,6 +173,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('albums.albumsongs.list') }}" class="nav-item">
+                        <i class="fa-solid fa-list"></i>
+                        <span>Danh sách hài hát trong album</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('albums.trash.list')}}" class="nav-item">
                         <i class="fa-solid fa-trash"></i>
                         <span class="">Album đã xóa</span>
