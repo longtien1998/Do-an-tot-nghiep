@@ -54,7 +54,7 @@
                 <div class="col-6 col-sm-2">
                     <label for="">Theo giới tính</label>
                     <select name="filterGenDer" id="filterGenDer" class="form-select" onchange="submitForm()">
-                        <option value="{{ request()->input('filterGenDer')}}">{{ request()->input('filterGenDer')}}</option>
+                        <option value="{{ request()->input('filterGenDer')}}">{{ request()->input('filterGenDer') ?? 'Chọn giới tính'}}</option>
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                     </select>
@@ -104,11 +104,7 @@
                 <tr>
                     <td><input type="checkbox" class="check_list" value="{{$singer->id}}"></td>
                     <th scope="row">{{$singers->firstItem() + $index}}</th>
-<<<<<<< HEAD
-                    <td >{{$singer->id}} </td>
-=======
                     <td>{{$singer->id}} </td>
->>>>>>> 084183ecfa3ecc45da7ca09b719d4c4c2eb5cce0
                     <td class="text-start">{{$singer->singer_name}} </td>
                     <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
                     <td >{{$singer->singer_country}}</td>

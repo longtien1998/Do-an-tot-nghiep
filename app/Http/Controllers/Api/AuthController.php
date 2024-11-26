@@ -47,13 +47,6 @@ class AuthController extends Controller
                 'users_type' => 'Basic',
             ]);
 
-            $user_id = $user->id;
-
-            RolesModel::created([
-                'role_type' => 'Người dùng',
-                'user_id' => $user_id,
-                'role_id' => 3, // khách hàng
-            ]);
             // tạo token
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',], 201);

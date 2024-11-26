@@ -20,7 +20,15 @@ class SongsController extends Controller
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
     }
-
+    public function play($id)
+    {
+        $song = Songs::play($id);
+        if ($song) {
+            return response()->json($song);
+        } else {
+            return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
+        }
+    }
     // set lượt nghe
     public function luot_nghe($id)
     {

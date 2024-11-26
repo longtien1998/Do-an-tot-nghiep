@@ -37,27 +37,27 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            <form class="form-horizontal form-material row" action="{{route('roles.update', $role->id)}}" method="POST">
+            <form class="form-horizontal form-material row justify-content-between" action="{{route('roles.update', $role->id)}}" method="POST">
                 @csrf
                 @method('put')
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label class="col-md-12 my-3">Tên vai trò <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
                         <input type="text" name="name" value="{{ $role->name  }}" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label class="col-md-12">Loại vai trò <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <select name="role_type" id="role_type" class="form-control">
+                        <select name="role_type" id="role_type" class="form-select">
                             @foreach($allRoleTypes as $roleType)
                             <option value="{{ $roleType }}"
                                 @if(in_array($roleType, $existingRoleTypes))
-                                    @if($role->role_type == $roleType)
-                                    selected
-                                    @else
-                                    disabled
-                                    @endif
+                                @if($role->role_type == $roleType)
+                                selected
+                                @else
+                                disabled
+                                @endif
                                 @endif
                                 >
                                 {{ $roleType }}
@@ -66,9 +66,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label class="col-md-12">Màu <span class="text-danger">(*)</span></label>
-                    <div class="col-md-1">
+                    <div class="col-md-5">
                         <input type="color" name="color" value="{{ $role->color }}" class="form-control form-control-line" required>
                     </div>
                 </div>
@@ -78,28 +78,30 @@
                         <div class="nav nav-tabs bg-blue" id="nav-tab" role="tablist">
                             @foreach ($modules as $module)
                             <button class="nav-link @if ($loop->first) active @endif"
-                                id="{{ $module->module_id }}-tab"
+                                id="{{ $module->id }}-tab"
                                 data-bs-toggle="tab"
-                                data-bs-target="#{{ $module->module_id }}"
+                                data-bs-target="#{{ $module->id }}"
                                 type="button" role="tab"
-                                aria-controls="{{ $module->module_id }}"
+                                aria-controls="{{ $module->id }}"
                                 aria-selected="true">
-                                {{ ucfirst($module->module->name) }}
+                                {{ ucfirst($module->name) }}
                             </button>
                             @endforeach
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         @foreach ($modules as $module)
-                        <div class="tab-pane row row-cols-4 p-4 fade @if ($loop->first) show active @endif" id="{{ $module->module_id }}" role="tabpanel" aria-labelledby="{{ $module->module_id  }}-tab" tabindex="0">
-                            @foreach ($permissions->where('module_id', $module->module_id ) as $permission)
-                            <div class="checkbox-wrapper-34 row align-items-center">
-                                <input class="tgl tgl-ios" id="permission-{{$permission->id}}" type="checkbox" name="permissions[]" value="{{ $permission->name }}"
-                                    @if ($role->hasPermissionTo($permission->name)) checked @endif>
-                                <label class="tgl-btn col-2" for="permission-{{$permission->id}}"></label>
-                                <span class="col-10 ps-2">{{$permission->alias }}</span>
+                        <div class="tab-pane fade @if ($loop->first) show active @endif" id="{{ $module->id }}" role="tabpanel" aria-labelledby="{{ $module->id  }}-tab" tabindex="0">
+                            <div class="row row-cols-4 p-4">
+                                @foreach ($permissions->where('module_id', $module->id ) as $permission)
+                                <div class="checkbox-wrapper-34 row align-items-center">
+                                    <input class="tgl tgl-ios" id="permission-{{$permission->id}}" type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                        @if ($role->hasPermissionTo($permission->name)) checked @endif>
+                                    <label class="tgl-btn col-2" for="permission-{{$permission->id}}"></label>
+                                    <span class="col-10 ps-2">{{$permission->alias }}</span>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                         @endforeach
                     </div>

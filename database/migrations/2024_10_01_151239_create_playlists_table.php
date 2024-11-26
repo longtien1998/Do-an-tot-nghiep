@@ -17,8 +17,7 @@ return new class extends Migration
                 $table->string('playlist_name');
                 $table->boolean('share')->default(false);
                 $table->unsignedBigInteger('user_id')->nullable();
-                $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-                $table->timestamp('creation_date')->nullable();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->timestamps();
             });
 

@@ -14,7 +14,7 @@ class SingerController extends Controller
     // Hiển thị danh sách ca sĩ
     public function index(Request $request)
     {
-        $perPage = $request->input('perPage', 10);
+        $perPage = $request->input('indexPage', 10);
         $filterGenDer = $request->input('filterGenDer', false);
         $filterCreateStart = $request->input('filterCreateStart', false);
         $filterCreateEnd = $request->input('filterCreateEnd', false);

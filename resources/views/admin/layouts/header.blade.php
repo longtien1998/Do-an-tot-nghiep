@@ -8,15 +8,15 @@
         <button type="submit"><i class="fas fa-search"></i></button>
     </form>
     <div class="row row-cols-3 align-items-center">
-        <div class="align-content-center m-0 p-0" style="width: 30px;">
+        <!-- <div class="align-content-center m-0 p-0" style="width: 30px;">
             <i class="fa-solid fa-cloud-sun text-warning"></i>
-        </div>
+        </div> -->
         <!-- .slideThree -->
-        <div class="slideThree col-1">
+        <!-- <div class="slideThree col-1">
 
             <input type="checkbox" value="None" id="slideThree" name="check" checked />
             <label for="slideThree"></label>
-        </div>
+        </div> -->
         <!-- end .slideThree -->
 
         <!--notification  -->

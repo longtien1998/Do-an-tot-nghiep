@@ -12,11 +12,13 @@
 
 <body>
 
-    <form action="api/create-vnpay-url" method="post">
+    <form action="api/playlist-user/1/add-song" method="post">
         @csrf
-        <input type="text" name="amount" id="text">
+        <label for="">tên playlist</label>
+        <input type="text" name="song_id" id="text">
+
         <!-- <input type="text" name="new-password" id="text"> -->
-        <button id="" type="submit">lưu</button>
+        <button id="" type="submit" >lưu</button>
     </form>
 
 </body>
