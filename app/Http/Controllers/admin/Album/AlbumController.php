@@ -29,32 +29,7 @@ class AlbumController extends Controller
         $albumsong = AlbumSongs::paginate(10);
         return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
     }
-    public function index()
-    {
-        $albums = Album::with('singer')->paginate(10); // Tải quan hệ singer
-        return view('admin.albums.list', compact('albums'));
-    }
-
-    // public function showAlbumsWithAllSongs($singerId)
-    // {
-    //     // Lấy thông tin ca sĩ
-    //     $singer = Singer::findOrFail($singerId);
-
-    //     // Lấy danh sách album thuộc ca sĩ
-    //     $albums = Album::with('songs')->where('singer_id', $singerId)->get();
-
-    //     // Lấy tất cả bài hát từ các album (không giới hạn bởi ca sĩ)
-    //     $allSongs = [];
-    //     foreach ($albums as $album) {
-    //         foreach ($album->songs as $song) {
-    //             $allSongs[] = $song;
-    //         }
-    //     }
-
-    //     return view('admin.album.show-albums-with-all-songs', compact('singer', 'albums', 'allSongs'));
-    // }
-
-
+    
     public function add_album()
     {
         $singers = Singer::all();
