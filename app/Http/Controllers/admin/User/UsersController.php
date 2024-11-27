@@ -72,6 +72,7 @@ class UsersController extends Controller
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
+        $users->password = bcrypt($request->password);
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $userName = $request->name;

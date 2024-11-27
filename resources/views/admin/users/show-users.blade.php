@@ -49,6 +49,12 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
+                        <input type="password" name="password" value="{{old('password', $users->password)}}" class="form-control form-control-line">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
+                    <div class="col-md-12">
                         <input type="email" name="email" value="{{old('email', $users->email)}}" class="form-control form-control-line">
                     </div>
                 </div>
