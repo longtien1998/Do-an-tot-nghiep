@@ -57,7 +57,7 @@ Route::group([
         // 'middleware' => ['role:role_3'],
     ], function () {
         route::controller(MusicController::class)->group(function () {
-            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware(['can:songs.index']);
+            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music');
 
             Route::post('/search',  'search_song')->name('search-song');
             Route::get('/add',  'add_music')->name('add-music');
