@@ -103,7 +103,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $modules = Permission::with(['module'])->select('permissions.module_id')->get();
+        $modules = Module::all();
         $permissions = Permission::all();
         $existingRoleTypes = Role::pluck('role_type')->toArray();
         $allRoleTypes = range(0, 20);

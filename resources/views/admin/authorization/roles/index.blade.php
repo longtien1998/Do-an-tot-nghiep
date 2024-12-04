@@ -21,7 +21,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid border">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <a href="{{route('roles.index')}}" class="btn btn-outline-success"> Tất cả Vai trò</a>
@@ -74,8 +74,8 @@
         </div>
 
     </div>
-    <div class="table-responsive-xl">
-        <table class="table text-center table-hover" id="myTable">
+    <div class="table-responsive-xl mb-3">
+        <table class="table text-center table-hover border" id="myTable">
             <thead>
                 <tr>
                     <th><input type="checkbox" name="" id="check_all_list" class=""></th>
@@ -84,7 +84,7 @@
                     <th scope="col" onclick="sortTable(3)">Tên Vai trò <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(4)">Loại vai trò <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(5)">Màu <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" style="max-width: 700px;" onclick="sortTable(6)">Quyền hạn <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(6)">Quyền hạn <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2" onclick="sortTable(5)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2">Hành động</th>
                 </tr>
@@ -100,11 +100,7 @@
                     <td>{{$role->name}} </td>
                     <td>{{$role->role_type}} </td>
                     <td><span class="btn" @if ($role->color) style="background-color:{{$role->color}};" @endif ></span></td>
-
-                    <style>
-
-                    </style>
-                    <td>{{$role->permissions->pluck('alias')->join(', ')}} </td>
+                    <td style="max-width: 700px;" >{{$role->permissions->pluck('alias')->join(', ')}} </td>
                     <td>{{$role->created_at->format('d-m-Y')}}</td>
                     <td scope="row-3">
                         <a href="{{route('roles.edit',$role->id)}}" class="btn btn-link btn-outline-warning"> <i class="fa-solid fa-edit"></i></a>

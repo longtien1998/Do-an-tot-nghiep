@@ -53,7 +53,13 @@ class Songs extends Model
         return $this->belongsTo(Copyright::class, 'id', 'song_id');
     }
 
-
+    public static function play($id){
+        $song = self::show($id);
+        if(!$song) return false;
+        $rand = self::getRandomSongs10();
+        $result = collect([$song])->merge($rand)->unique('id')->values();
+        return $result;
+    }
     public static function show($id)
     {
         // Bước 1: Lấy dữ liệu bài hát với các quan hệ liên quan
@@ -735,5 +741,5 @@ class Songs extends Model
         return $songsWithPaths;
     }
 
-    
+
 }

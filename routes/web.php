@@ -50,7 +50,7 @@ Route::group([
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
-    
+
     // bài hát
     Route::group([
         'prefix' => 'songs',
@@ -461,6 +461,13 @@ Route::group([
             Route::post('/delete',  'delete_trash_album')->name('delete');
             Route::get('/delete-all',  'delete_all_album')->name('delete-all');
             Route::get('/{id}/destroy',  'destroy_trash_album')->name('destroy');
+        });
+        // ALbum_song route
+        Route::group([
+            'prefix' => 'albumsongs',
+            'as' => 'albumsongs.',
+        ], function () {
+            Route::get('/list',  'list_album_song')->name('list');
         });
     });
 }); // đóng group midle login

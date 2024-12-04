@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Api\PaymentVnpController;
+use App\Http\Controllers\Api\PaymentMomoController;
 
 Route::get('/test', [App\Http\Controllers\Api\TestController::class, 'test']);
 
@@ -48,10 +49,15 @@ Route::group([
     Route::post('/binh-luan', [App\Http\Controllers\Api\CommentController::class, 'add_comment']);
 });
 
- // api thanh toán
- Route::post('/create-vnpay-url', [PaymentController::class, 'createVnpayUrl']);
- Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn']);
+// api thanh toán vnpay
+Route::post('/create-vnpay-url', [PaymentVnpController::class, 'createVnpayUrl']);
+Route::get('/vnpay-return', [PaymentVnpController::class, 'vnpayReturn']);
+// api thanh toán momo
+Route::post('/create-momo-url', [PaymentMomoController::class, 'createMomoUrl']);
+Route::get('/momo-return', [PaymentMomoController::class, 'momoReturn']);
 
+// chọn bài nghe
+Route::get('/{id}/play', [App\Http\Controllers\Api\SongsController::class, 'play']);
 // chi tiết bài hát
 Route::get('/bai-hat/{id}', [App\Http\Controllers\Api\SongsController::class, 'show']);
 // chi tiết nhà xuất bản
@@ -92,3 +98,16 @@ Route::get('/binh-luan/{id}', [App\Http\Controllers\Api\CommentController::class
 Route::get('/quang-cao', [App\Http\Controllers\Api\AdvertisementsController::class, 'randomAds']);
 // tìm kiếm
 Route::post('/tim-kiem', [App\Http\Controllers\Api\SearchController::class, 'search']);
+
+// danh sách playlist với suser_id
+Route::get('/playlist-user/{user_id}', [App\Http\Controllers\Api\PlaylistController::class, 'index']);
+// thêm playlist với user_id
+Route::post('/playlist-user', [App\Http\Controllers\Api\PlaylistController::class, 'store']);
+// xóa playlist với user_id
+Route::get('/playlist-user/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'destroy']);
+// thêm bài hát vào playlist
+Route::post('/playlist-user/{playlist_id}/add-song', [App\Http\Controllers\Api\PlaylistController::class, 'addSong']);
+// xóa bài hát khỏi playlist
+Route::get('/playlist-user/{playlist_id}/remove-song/{song_id}', [App\Http\Controllers\Api\PlaylistController::class,'removeSong']);
+// danh sách bài hát với playlist
+Route::get('/playlist/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'list_song']);

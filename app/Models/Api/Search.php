@@ -21,6 +21,7 @@ class Search extends Model
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
+                'song_image' => $bh->song_image,
                 'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
             ];
         });
@@ -37,6 +38,7 @@ class Search extends Model
             return (object) [
                 'id' => $bh->id,
                 'singer_name' => $bh->singer_name,
+                'singer_image' => $bh->singer_image,
                 'like_count' => $bh->like_count ?? null,
             ];
         });

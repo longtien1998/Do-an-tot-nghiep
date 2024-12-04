@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class PaymentVnpController extends Controller
 {
     public function createVnpayUrl(Request $request)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://soundwave.io.vn";
+        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
         $vnp_TmnCode = "X5Q306C0"; //Mã website tại VNPAY
         $vnp_HashSecret = "R04WJ0BG8LZTS97OTCCLTQ9PC6GRG6M2"; //Chuỗi bí mật
 
@@ -67,34 +67,50 @@ class PaymentController extends Controller
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
         $returnData = array(
+            'success' => true,
             'code' => '00',
             'message' => 'success',
             'data' => $vnp_Url
         );
 
-        header('Location: ' . $vnp_Url);
-        die();
-        // vui lòng tham khảo thêm tại code demo
-
-
-        // return redirect($vnpUrl); //->json(['payment_url' => $vnpUrl]);
+        return response()->json($returnData);
+        // header('Location: ' . $vnp_Url);
+        // die();
     }
 
     public function vnpayReturn(Request $request)
     {
         $vnp_HashSecret = 'R04WJ0BG8LZTS97OTCCLTQ9PC6GRG6M2';
-        $inputData = $request->all();
-
-        $vnp_SecureHash = $inputData['vnp_SecureHash'];
-        unset($inputData['vnp_SecureHash']);
-        ksort($inputData);
-        $hashData = urldecode(http_build_query($inputData));
-        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-
-        if ($secureHash === $vnp_SecureHash) {
-            return response()->json(['success' => true, 'message' => 'Thanh toán thành công']);
+        $vnp_SecureHash = $_GET['vnp_SecureHash'];
+        $inputData = array();
+        foreach ($_GET as $key => $value) {
+            if (substr($key, 0, 4) == "vnp_") {
+                $inputData[$key] = $value;
+            }
         }
 
-        return response()->json(['success' => false, 'message' => 'Thanh toán thất bại']);
+        unset($inputData['vnp_SecureHash']);
+        ksort($inputData);
+        $i = 0;
+        $hashData = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+        }
+
+        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        if ($secureHash == $vnp_SecureHash) {
+            if ($_GET['vnp_ResponseCode'] == '00') {
+                return response()->json(['success' => true, 'message' => 'Thanh toán thành công!']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Thanh toán không thành công!']);
+            }
+        } else {
+            return response()->json(['success' => false, 'message' => 'Thanh toán không thành công. Chữ ký không hợp lệ']);
+        }
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Album;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
+use App\Models\AlbumSongs;
 use App\Models\Singer;
+use App\Models\Music;
 use App\Http\Requests\AlbumRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,32 +21,15 @@ class AlbumController extends Controller
         return view('admin.album.list-album', compact('albums'));
     }
 
-    public function index()
+    //View list album_song
+    public function list_album_song()
     {
-        $albums = Album::with('singer')->paginate(10); // Tải quan hệ singer
-        return view('admin.albums.list', compact('albums'));
+        $albums = Album::all();
+        $songs = Music::all();
+        $albumsong = AlbumSongs::paginate(10);
+        return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
     }
-
-    // public function showAlbumsWithAllSongs($singerId)
-    // {
-    //     // Lấy thông tin ca sĩ
-    //     $singer = Singer::findOrFail($singerId);
-
-    //     // Lấy danh sách album thuộc ca sĩ
-    //     $albums = Album::with('songs')->where('singer_id', $singerId)->get();
-
-    //     // Lấy tất cả bài hát từ các album (không giới hạn bởi ca sĩ)
-    //     $allSongs = [];
-    //     foreach ($albums as $album) {
-    //         foreach ($album->songs as $song) {
-    //             $allSongs[] = $song;
-    //         }
-    //     }
-
-    //     return view('admin.album.show-albums-with-all-songs', compact('singer', 'albums', 'allSongs'));
-    // }
-
-
+    
     public function add_album()
     {
         $singers = Singer::all();
