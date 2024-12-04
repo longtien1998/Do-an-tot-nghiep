@@ -42,14 +42,20 @@
                     <h2>Đăng nhập</h2>
                 </div>
                 <form action="{{route('login')}}" method="post">
-                @csrf
+                    @csrf
                     <div class="pom-agile">
-                        <input placeholder="E-mail" name="email"  class="email" type="email"  autocomplete="on">
+                        <input placeholder="E-mail" name="email" class="email" type="email" autocomplete="on">
                         <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        @error('email')
+                        <div class="er-mail">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="pom-agile">
-                        <input placeholder="Mật khẩu" name="password" class="pass" type="password"  autocomplete="on">
+                        <input placeholder="Mật khẩu" name="password" class="pass" type="password" autocomplete="on">
                         <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span>
+                        @error('password')
+                        <div class="er-pass">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="sub-w3l">
                         <h6><a href="#">Khôi phục mật khẩu?</a></h6>

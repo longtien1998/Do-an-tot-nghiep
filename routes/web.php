@@ -50,6 +50,14 @@ Route::group([
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
+    Route::get('/getData/{date}', [HomeController::class, 'getData'])->name('getData');
+    Route::get('/getUser/{date}', [HomeController::class, 'getUser'])->name('getUser');
+    Route::get('/getPay/{date}', [HomeController::class, 'getPay'])->name('getPay');
+
+
+
+
+
 
     // bài hát
     Route::group([
@@ -470,4 +478,6 @@ Route::group([
             Route::get('/list',  'list_album_song')->name('list');
         });
     });
-}); // đóng group midle login
+
+});
+// đóng group midle login
