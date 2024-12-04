@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('singer_name');
                 $table->string('singer_image');
+                $table->string('singer_background');
                 $table->date('singer_birth_date')->nullable();
                 $table->string('singer_gender',10);
                 $table->text('singer_biography')->nullable();

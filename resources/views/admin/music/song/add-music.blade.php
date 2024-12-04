@@ -114,7 +114,7 @@
                 </div>
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12 mb-2">File nhạc Basic <span class="text-danger">(*)</span></label>
+                        <label class="col-md-12 mb-2">File nhạc Basic (128kbps) <span class="text-danger">(*)</span></label>
                         <div class="form-check form-switch mb-3">
                             <label class="form-check-label" for="file_basic_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_basic_text" disabled>
@@ -122,7 +122,7 @@
                         <input type="file" name="file_basic" id="file_basic" onchange="getTime(this)" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12 mb-2">File nhạc Plus</label>
+                        <label class="col-md-12 mb-2">File nhạc Plus (320kbps)</label>
                         <div class="form-check form-switch mb-3">
                             <label class="form-check-label" for="file_plus_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_plus_text" disabled>
@@ -130,7 +130,7 @@
                         <input type="file" name="file_plus" id="file_plus" onchange="getTime(this)" accept="audio/mp3" class="form-control form-control-line border-3" disabled>
                     </div>
                     <div class="col-xl-4 mt-3">
-                        <label class="col-md-12 mb-2">File nhạc Premium</label>
+                        <label class="col-md-12 mb-2">File nhạc Premium (lossess, .flac, .wav)</label>
                         <div class="form-check form-switch mb-3">
                             <label class="form-check-label" for="file_premium_text">Nhập text</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="file_premium_text" disabled>
