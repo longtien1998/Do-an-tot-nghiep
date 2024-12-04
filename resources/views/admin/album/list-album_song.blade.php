@@ -76,7 +76,7 @@
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
-            <form action="{{route('list-music')}}" class="row align-middle" method="post" id="itemsPerPageForm">
+            <form action="{{route('albums.albumsongs.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
                 <div class="col-6 col-sm">
                     <label for="">Hiển thị</label>
@@ -92,25 +92,23 @@
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Album</label>
-                    <select name="filterTheloai" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value=""></option>
-                        <option value="{{request()->input('filterTheloai') ? request()->input('filterTheloai') : ''}}" selected>
-                            {{request()->input('filterTheloai') ? \App\Models\Category::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Album'}}
+                    <select name="filterAlbum" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="{{request()->input('filterAlbum') ? request()->input('filterAlbum') : ''}}" selected>
+                            {{request()->input('filterAlbum') ? \App\Models\Album::find(request()->input('filterAlbum'))->album_name : 'Chọn Album'}}
                         </option>
-                        @foreach ( \App\Models\Category::all() as $categori)
-                        <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
+                        @foreach ( $albums as $album)
+                        <option value="{{$album->id}}" >{{$album->album_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Bài Hát</label>
-                    <select name="filterSinger" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value="" selected></option>
-                        <option value="{{request()->input('filterSinger') ? request()->input('filterSinger') : ''}}" selected>
-                            {{request()->input('filterSinger') ? \App\Models\Singer::find(request()->input('filterSinger'))->singer_name : 'Chọn Bài Hát'}}
+                    <select name="filterSong" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="{{request()->input('filterSong') ? request()->input('filterSong') : ''}}" selected>
+                            {{request()->input('filterSong') ? \App\Models\Music::find(request()->input('filterSong'))->song_name : 'Chọn Bài Hát'}}
                         </option>
-                        @foreach ( \App\Models\Singer::all() as $singer)
-                        <option value="{{$singer->id}}">{{$singer->singer_name}}</option>
+                        @foreach ( \App\Models\Music::all() as $song)
+                        <option value="{{$song->id}}">{{$song->song_name}}</option>
                         @endforeach
                     </select>
                 </div>

@@ -55,6 +55,7 @@ class SingerController extends Controller
             'singer_biography' => 'nullable|string',
             'singer_country' => 'required|string|max:255',
             'singer_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'singer_background' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'singer_name.required' => 'Tên ca sĩ không được để trống',
             'singer_name.string' => 'Tên ca sĩ phải là chuỗi',
@@ -66,11 +67,14 @@ class SingerController extends Controller
             'singer_gender.string' => 'Giới tính phải là chuỗi',
             'singer_biography.nullable' => 'Mô tả ca sĩ không được để trống',
             'singer_biography.string' => 'Mô tả ca sĩ phải là chuỗi',
-            'singer_country.required' => 'Quốc gia không được để trống',
-            'singer_country.string' => 'Quốc gia phải là chuỗi',
+            'singer_country.required' => 'Quê quán không được để trống',
+            'singer_country.string' => 'Quê quán phải là chuỗi',
             'singer_image.image' => 'Hình đại diện phải là hình ảnh',
             'singer_image.mimes' => 'Hình đại diện chỉ cho phép định dạng JPEG, PNG, JPG',
             'singer_image.max' => 'Hình đại diện không quá 2MB',
+            'singer_background.image' => 'Hình nền phải là hình ảnh',
+            'singer_background.mimes' => 'Hình nền chỉ cho phép định dạng JPEG, PNG, JPG',
+            'singer_background.max' => 'Hình nền không quá 2MB',
         ]);
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate->errors())->withInput();
@@ -90,6 +94,13 @@ class SingerController extends Controller
         } else {
             $singer->singer_image = '';
         }
+        if ($request->hasFile('singer_background')) {
+            $file = $request->file('singer_background');
+            $name = $request->singer_name;
+            $singer->singer_background = Singer::up_image($file, $name);
+        } else {
+            $singer->singer_background = '';
+        }
 
         if ($singer->save()) {
             return redirect()->route('singer.index')->with('success', 'Thêm ca sĩ thành công!');
@@ -108,14 +119,29 @@ class SingerController extends Controller
     // Lưu thông tin ca sĩ sau khi cập nhật
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'singer_name' => 'required|string|max:255',
+        $validate = Validator::make($request->all(), [
+            'singer_name' => 'required|string|max:255|unique:singers,singer_name,' . $id,
             'singer_birth_date' => 'required|date',
             'singer_gender' => 'required|string|max:255',
             'singer_biography' => 'nullable|string',
             'singer_country' => 'required|string|max:255',
-            'singer_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'singer_name.required' => 'Tên ca sĩ không được để trống',
+            'singer_name.string' => 'Tên ca sĩ phải là chuỗi',
+            'singer_name.max' => 'Tên ca sĩ không được dài quá 255 ký tự',
+            'singer_name.unique' => 'Tên ca sĩ đã tồn tại',
+            'singer_birth_date.required' => 'Ngày sinh không được để trống',
+            'singer_birth_date.date' => 'Ngày sinh phải đúng định dạng ngày tháng',
+            'singer_gender.required' => 'Giới tính không được để trống',
+            'singer_gender.string' => 'Giới tính phải là chuỗi',
+            'singer_biography.nullable' => 'Mô tả ca sĩ không được để trống',
+            'singer_biography.string' => 'Mô tả ca sĩ phải là chuỗi',
+            'singer_country.required' => 'Quê quán không được để trống',
+            'singer_country.string' => 'Quê quán phải là chuỗi',
         ]);
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate->errors())->withInput();
+        }
 
         $singer = Singer::findOrFail($id);
         $singer->singer_name = $request->singer_name;
@@ -128,6 +154,11 @@ class SingerController extends Controller
             $file = $request->file('singer_image');
             $name = $request->singer_name;
             $singer->singer_image = Singer::up_image($file, $name);
+        }
+        if ($request->hasFile('singer_background')) {
+            $file = $request->file('singer_background');
+            $name = $request->singer_name;
+            $singer->singer_background = Singer::up_image($file, $name);
         }
 
         if ($singer->save()) {

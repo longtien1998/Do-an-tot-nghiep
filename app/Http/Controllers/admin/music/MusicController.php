@@ -187,7 +187,7 @@ class MusicController extends Controller
             }
 
 
-            return  redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e);
+            return  redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e)->withInput();
         }
         // Upload file lên Amazon S3
         // $path = $request->file('music_file')->store('music', 's3');

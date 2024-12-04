@@ -35,12 +35,19 @@
                         <input type="text" name="singer_name" value="{{$singer->singer_name}}" class="form-control form-control-line update" disabled>
                     </div>
                 </div>
-                <div class="form-group col-md-12 mt-3">
+                <div class="form-group col-md-6 mt-3">
                     <label class="col-md-12">Hình ảnh </label>
                     <div class="col-md-12">
                         <input type="file" name="singer_image" value="{{$singer->singer_image}}" id="Image" accept="image/*" class="form-control form-control-line update" disabled>
                     </div>
                     <img id="previewImage" src="{{$singer->singer_image}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
+                </div>
+                <div class="form-group col-md-6 mt-3">
+                    <label class="col-md-12">Hình nền </label>
+                    <div class="col-md-12">
+                        <input type="file" name="singer_background" value="{{$singer->singer_background}}" id="Image2" accept="image/*" class="form-control form-control-line update" disabled>
+                    </div>
+                    <img id="previewImage2" src="{{$singer->singer_background}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
                 <div class="form-group col-md-12 mt-3">
                     <label class="col-md-12">Quốc gia</label>
@@ -77,7 +84,7 @@
                 <div class="form-group mt-3" style="margin-bottom: 30px;">
                     <div class="col-sm-12">
                         <button class="btn btn-warning" id="editBtn">Chỉnh sửa</button>
-                        <button class="btn btn-success" id="submit"  type="submit" disabled>Lưu</button>
+                        <button class="btn btn-success" id="submit" type="submit" disabled>Lưu</button>
                     </div>
                 </div>
             </form>
@@ -88,10 +95,6 @@
 @endsection
 @section('js')
 <script>
-    const previewImage = document.getElementById('previewImage');
-    if (previewImage.src !== undefined && previewImage.src !== null) {
-        previewImage.classList.remove('d-none');
-    }
 
     const button = document.getElementById('editBtn');
     button.addEventListener('click', function(e) {
@@ -104,27 +107,25 @@
                 input.setAttribute('disabled', '');
             }
         });
-
         // Đổi nội dung nút giữa "Chỉnh sửa" và "Khóa lại"
         button.textContent = button.textContent === 'Chỉnh sửa' ? 'Khóa lại' : 'Chỉnh sửa';
     });
 
 
-    document.getElementById('Image').addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Lấy file đầu tiên từ input
-        const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
-
-        if (file) {
-            const reader = new FileReader(); // Tạo FileReader để đọc file
-
-            reader.onload = function(e) {
-                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
-            };
-
-            reader.readAsDataURL(file); // Đọc file dưới dạng URL
-            preview.classList.remove('d-none'); // Hiển thị ảnh preview
-        } else {
-            preview.src = ''; // Nếu không có file, bỏ ảnh preview
+    $(document).ready(function() {
+        $('#image').on('change', function() {
+            previewImage(this, 'previewImage')
+        });
+        $('#image2').on('change', function() {
+            previewImage(this, 'previewImage2')
+        });
+        const previewImage = $('#previewImage');
+        if (previewImage.attr('src') !== undefined && previewImage.attr('src') !== null) {
+            previewImage.removeClass('d-none');
+        }
+        const previewImage2 = $('#previewImage2');
+        if (previewImage2.attr('src') !== undefined && previewImage2.attr('src') !== null) {
+            previewImage2.removeClass('d-none');
         }
     });
 </script>

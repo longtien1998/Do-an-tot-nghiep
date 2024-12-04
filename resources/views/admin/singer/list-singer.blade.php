@@ -89,12 +89,13 @@
                     <th scope="col">STT</th>
                     <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(3)">Tên Ca sĩ <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(4)">Hình Ảnh <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(5)">Quốc Gia <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(6)">Ngày Sinh <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(7)">Giới Tính <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(4)">Ảnh đại diện<span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(5)">Hình nền <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(6)">Quốc Gia <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(7)">Ngày Sinh <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(8)">Giới Tính <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" >Tiểu Sử </th>
-                    <th scope="col-2" onclick="sortTable(9)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col-2" onclick="sortTable(10)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2">Hành động</th>
                 </tr>
             </thead>
@@ -107,6 +108,7 @@
                     <td>{{$singer->id}} </td>
                     <td class="text-start">{{$singer->singer_name}} </td>
                     <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
+                    <td><img width="100px" height="50px" src="{{$singer->singer_background}}" alt=""></td>
                     <td >{{$singer->singer_country}}</td>
                     <td >{{$singer->singer_birth_date}}</td>
                     <td >{{$singer->singer_gender}}</td>
