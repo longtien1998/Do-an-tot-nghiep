@@ -84,6 +84,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
     letter-spacing: 1px;
 }
+
 .sub-main-w3 {
     width: 26%;
     margin: 10em auto 12em;
@@ -146,6 +147,36 @@ span.icon2 {
 	-o-transition:0.5s all;
 	-moz-transition:0.5s all;
 	-ms-transition:0.5s all;
+}
+
+
+.er-mail, .er-pass {
+    color: #dc3545;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgba(220, 53, 69, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+    transition: all 0.3s ease;
+}
+
+
+.er-mail:hover, .er-pass:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #fff;
+    cursor: pointer;
+}
+
+input.is-invalid {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+
+.icon1, .icon2 {
+    color: #dc3545;
 }
 /*--//main--*/
 
