@@ -202,8 +202,9 @@ class SingerController extends Controller
     public function search(Request $request)
     {
         $query = $request->search;
-        $singer = Singer::search($query);
-        return view('admin.singer.index', compact('singer'));
+        $singers = Singer::search($query);
+        // dd($singers);
+        return view('admin.singer.list-singer', compact('singers'));
     }
 
     // Hiển thị danh sách ca sĩ trong thùng rác

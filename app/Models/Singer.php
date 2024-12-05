@@ -117,6 +117,7 @@ class Singer extends Authenticatable
     {
         $singers = DB::table('singers')
             ->where('singer_name', 'LIKE', '%' . $search . '%')
+            ->whereNull('deleted_at')
             ->select('singers.*')
             ->paginate(20);
         return $singers;

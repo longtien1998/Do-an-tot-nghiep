@@ -163,7 +163,7 @@
     let mixedChart;
     let userChart;
     let payChart;
-
+    const token = $('meta[name="csrf-token"]').attr('content');
     chart(10);
     chartUser(10);
     chartPay(10);
@@ -204,7 +204,8 @@
             method: "get",
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                Authorization: `Bearer ${token}`,
+                
             },
 
 

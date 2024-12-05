@@ -86,7 +86,7 @@ Route::group([
 });
 
 // tìm kiếm
-    Route::post('/tim-kiem', [App\Http\Controllers\Api\SearchController::class, 'search']);
+Route::post('/tim-kiem', [App\Http\Controllers\Api\SearchController::class, 'search']);
 // Random quảng cảo
 Route::get('/quang-cao', [App\Http\Controllers\Api\AdvertisementsController::class, 'randomAds']);
 // chi tiết nhà xuất bản

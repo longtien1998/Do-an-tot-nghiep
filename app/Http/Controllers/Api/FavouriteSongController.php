@@ -14,7 +14,7 @@ class FavouriteSongController extends Controller
 {
     public function list_song_favourite($id)
     {
-        $getAll = FavouriteSong::where('user_id', $id)->get()->pluck('id');
+        $getAll = FavouriteSong::favoritesong($id);
         return response()->json($getAll);
     }
 
@@ -34,7 +34,7 @@ class FavouriteSongController extends Controller
         $song_id = $request->song_id;
         $song = Music::find($song_id);
         if (!$song) {
-            return response()->json(['message' => 'Không tìm thấy ca sĩ'], 404);
+            return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
         $check = $song->favouritesong()
             ->wherePivot('user_id',  $request->user_id)
