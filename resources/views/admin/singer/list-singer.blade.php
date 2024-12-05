@@ -113,7 +113,7 @@
                     <td >{{$singer->singer_birth_date}}</td>
                     <td >{{$singer->singer_gender}}</td>
                     <td class="text-start">{{Str::limit($singer->singer_biography, 25, '...')}}</td>
-                    <td>{{$singer->created_at->format('d-m-Y')}}</td>
+                    <td>{{$singer->created_at}}</td>
                     <td scope="row-3">
                         <a href="{{route('singer.edit',$singer->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-edit"></i></a>
                         <form action="{{route('singer.delete',$singer->id)}}" method="post" class="d-inline">

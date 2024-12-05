@@ -54,11 +54,6 @@ Route::group([
     Route::get('/getUser/{date}', [HomeController::class, 'getUser'])->name('getUser');
     Route::get('/getPay/{date}', [HomeController::class, 'getPay'])->name('getPay');
 
-
-
-
-
-
     // bài hát
     Route::group([
         'prefix' => 'songs',
@@ -476,7 +471,7 @@ Route::group([
             'as' => 'albumsongs.',
         ], function () {
             Route::match(['get', 'post'],'/list',  'list_album_song')->name('list');
-            
+
         });
     });
 
