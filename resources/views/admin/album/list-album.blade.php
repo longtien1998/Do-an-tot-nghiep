@@ -35,9 +35,27 @@
             </form>
         </div>
     </div>
-    <div class="form-group row justify-content-between m-0 p-0">
+    <div class="form-group row justify-content-between align-content-center m-0 p-0">
+        <div class="form-group col-12 my-4">
+            <h5>Bộ Lọc</h5>
+            <form action="{{route('list-album')}}" class="row align-middle" method="post" id="itemsPerPageForm">
+                @csrf
+                <div class="col-6 col-sm">
+                    <label for="">Hiển thị</label>
+                    <select name="indexPage" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="10" {{request()->input('indexPage') == 10 ? 'selected' : ''}}>10</option>
+                        <option value="20" {{request()->input('indexPage') == 20 ? 'selected' : ''}}>20</option>
+                        <option value="50" {{request()->input('indexPage') == 50 ? 'selected' : ''}}>50</option>
+                        <option value="100" {{request()->input('indexPage') == 100 ? 'selected' : ''}}>100</option>
+                        <option value="200" {{request()->input('indexPage') == 200 ? 'selected' : ''}}>200</option>
+                        <option value="500" {{request()->input('indexPage') == 500 ? 'selected' : ''}}>500</option>
+                        <option value="1000" {{request()->input('indexPage') == 1000 ? 'selected' : ''}}>1000</option>
+                    </select>
+                </div>
+            </form>
+        </div>
         <div class="col-sm-6 my-3">
-            <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
+            <div>Đã chọn <strong id="total-songs">0</strong> album</div>
         </div>
         <div class="col-sm-6 my-3">
             <form action="{{ route('albums.delete-list') }}" class="d-inline float-end" method="post" id="form-delete">
