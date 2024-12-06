@@ -11,14 +11,16 @@ class PaymentVnpController extends Controller
     public function createVnpayUrl(Request $request)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
+        // $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
+        $vnp_Returnurl = "https://soundwave.io.vn/Pay";
+
         $vnp_TmnCode = "X5Q306C0"; //Mã website tại VNPAY
         $vnp_HashSecret = "R04WJ0BG8LZTS97OTCCLTQ9PC6GRG6M2"; //Chuỗi bí mật
 
         $vnp_TxnRef = time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'thanh toán hóa đơn';
+        $vnp_OrderInfo = 'thanh toán hóa đơn SoundWave '+ $request->description +' - '+ $request->month +' tháng';
         $vnp_OrderType = 'Soundwave';
-        $vnp_Amount = 10000 * 100;
+        $vnp_Amount = $request->amount * 100;
         $vnp_Locale = 'vn';
 
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -66,6 +68,8 @@ class PaymentVnpController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
+        
+
         $returnData = array(
             'success' => true,
             'code' => '00',

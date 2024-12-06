@@ -14,22 +14,24 @@ use Illuminate\Support\Facades\Validator;
 class AlbumController extends Controller
 
 {
-    public function list_album()
+    public function list_album(Request $request)
     {
+        $perPage = $request->input('indexPage', 10);
         // Lấy dữ liệu album với ca sĩ và bài hát, phân trang
-        $albums = Album::with(['singer', 'songs'])->paginate(10);
+        $albums = Album::with(['singer', 'songs'])->paginate($perPage);
         return view('admin.album.list-album', compact('albums'));
     }
 
     //View list album_song
-    public function list_album_song()
+    public function list_album_song(Request $request)
     {
+        $perPage = $request->input('indexPage', 10);
         $albums = Album::all();
         $songs = Music::all();
-        $albumsong = AlbumSongs::paginate(10);
+        $albumsong = AlbumSongs::paginate($perPage);
         return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
     }
-    
+
     public function add_album()
     {
         $singers = Singer::all();

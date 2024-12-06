@@ -35,7 +35,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            <form class="form-horizontal form-material" action="{{route('singer.store')}}" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal row form-material" action="{{route('singer.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="col-md-12">Tên ca sĩ <span class="text-danger">(*)</span></label>
@@ -43,17 +43,24 @@
                         <input type="text" name="singer_name" value="{{old('singer_name')}}" class="form-control form-control-line">
                     </div>
                 </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Hình ảnh</label>
+                <div class="form-group col-md-6 mt-3">
+                    <label class="col-md-12">Ảnh đại diện</label>
                     <div class="col-md-12">
                         <input type="file" name="singer_image" id="image" value="{{old('singer_image')}}" class="form-control form-control-line">
                     </div>
                     <img id="previewImage" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                 </div>
+                <div class="form-group col-md-6 mt-3">
+                    <label class="col-md-12">Hình nền</label>
+                    <div class="col-md-12">
+                        <input type="file" name="singer_background" id="image2" value="{{old('singer_background')}}"  class="form-control form-control-line">
+                    </div>
+                    <img id="previewImage2" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
+                </div>
                 <div class="form-group mt-3">
                     <label class="col-md-12">Ngày sinh</label>
                     <div class="col-md-12">
-                        <input type="date" name="singer_birth_date" value="{{old('singer_birth_date')}}" class="form-control form-control-line">
+                        <input type="date" name="singer_birth_date" id="singer_birth_date" value="{{old('singer_birth_date')}}" class="form-control form-control-line">
                     </div>
                 </div>
                 <div class="form-group mt-3">
@@ -92,22 +99,15 @@
 
 @section('js')
 <script>
-     document.getElementById('image').addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Lấy file đầu tiên từ input
-        const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
+    $(document).ready(function() {
+        $('#image').on('change', function() {
+            previewImage(this,'previewImage')
+        });
+        $('#image2').on('change', function() {
+            previewImage(this,'previewImage2')
+        });
 
-        if (file) {
-            const reader = new FileReader(); // Tạo FileReader để đọc file
-
-            reader.onload = function(e) {
-                preview.src = e.target.result; // Đặt src của <img> bằng kết quả đọc file
-            };
-
-            reader.readAsDataURL(file); // Đọc file dưới dạng URL
-            preview.classList.remove('d-none'); // Hiển thị ảnh preview
-        } else {
-            preview.src = ''; // Nếu không có file, bỏ ảnh preview
-        }
+        validateDay('#singer_birth_date', 'max');
     });
 </script>
 

@@ -474,7 +474,7 @@ Route::group([
         'controller' => AlbumController::class,
         'as' => 'albums.',
     ], function () {
-        Route::get('/', 'list_album')->name('list'); // Trang danh sách album
+        Route::match(['get', 'post'],'/', 'list_album')->name('list'); // Trang danh sách album
         Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
         Route::post('/search',  'search_album')->name('search');
         Route::post('/', 'store_album')->name('store'); // Xử lý lưu album
@@ -493,7 +493,7 @@ Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::get('/list',  'list_trash_album')->name('list');
+            Route::match(['get', 'post'],'/list',  'list_trash_album')->name('list');
             Route::post('/search',  'search_album_trash')->name('search');
             Route::post('/restore',  'restore_trash_album')->name('restore');
             Route::get('/restore-all',  'restore_all_album')->name('restore-all');
@@ -506,7 +506,8 @@ Route::group([
             'prefix' => 'albumsongs',
             'as' => 'albumsongs.',
         ], function () {
-            Route::get('/list',  'list_album_song')->name('list');
+            Route::match(['get', 'post'],'/list',  'list_album_song')->name('list');
+
         });
     });
 

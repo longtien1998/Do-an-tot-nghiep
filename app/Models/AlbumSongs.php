@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 class AlbumSongs extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'album_song';
 
     protected $fillable = [
@@ -21,5 +21,14 @@ class AlbumSongs extends Model
         'updated_at',
         'deleted_at',
     ];
-    
+    public function song(){
+        return $this->belongsTo(Songs::class,'song_id','id');
+    }
+    public function album(){
+        return $this->belongsTo(Album::class,'album_id','id');
+    }
+
+    public static function selectAll(){
+        
+    }
 }

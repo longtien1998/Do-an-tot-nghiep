@@ -53,7 +53,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-12 my-3 position-relative">
+                    <div class="form-group col-md-12 my-3 position-relative">
                         <label for="validationTooltip01" class="form-label">Ảnh nền</label>
                         <input type="file" class="form-control" name="image" id="imageAdd" accept="image/*">
                         <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">

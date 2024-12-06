@@ -141,7 +141,7 @@ table>thead>tr>th{
 
 .checkbox-wrapper-34 .tgl-ios+.tgl-btn:before {
     content: "No";
-    left: 28px;
+    left: 30px;
     color: var(--g04);
     transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -168,7 +168,7 @@ table>thead>tr>th{
 
 .checkbox-wrapper-34 .tgl-ios:checked+.tgl-btn:before {
     content: "Yes";
-    left: 4px;
+    left: 7px;
     color: #fff;
 }
 

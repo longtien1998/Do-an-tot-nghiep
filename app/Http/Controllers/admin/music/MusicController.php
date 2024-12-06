@@ -119,7 +119,7 @@ class MusicController extends Controller
                 $url_basic = Music::up_file_song($file, $songName, $quality);
                 Filepaths::create([
                     'file_path' => $url_basic,
-                    'path_type' => 'Basic',
+                    'path_type' => 'basic',
                     'song_id' => $song_id
                 ]);
             } else{
@@ -187,7 +187,7 @@ class MusicController extends Controller
             }
 
 
-            return  redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e);
+            return  redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.' . $e)->withInput();
         }
         // Upload file lên Amazon S3
         // $path = $request->file('music_file')->store('music', 's3');

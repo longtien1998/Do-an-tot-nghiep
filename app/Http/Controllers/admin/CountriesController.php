@@ -20,12 +20,13 @@ class CountriesController extends Controller
     {
         // dd($request->all());
         $validate = Validator::make($request->all(),[
-            'name_country' => 'required|string',
+            'name_country' => 'required|string|unique:country,name_country',
             'background' => 'required',
         ],[
             'name_country.required' => 'Tên quốc gia không được để trống.',
             'name_country.string' => 'Tên quốc gia phải là chuỗi ký tự',
             'background.required' => 'Hình nền không được để trống.',
+            'name_country.unique' => 'Tên quốc gia đã tồn tại.',
         ]);
         if($validate->fails()) {
             // dd($validate);
@@ -60,10 +61,11 @@ class CountriesController extends Controller
     public function update_country(Request $request, $id){
         // dd($request->all());
         $validate = Validator::make($request->all(),[
-            'name_country' => 'required|string',
+            'name_country' => 'required|string|unique:country,name_country,'.$id,
         ],[
             'name_country.required' => 'Tên quốc gia không được để trống.',
             'name_country.string' => 'Tên quốc gia phải là chuỗi ký tự',
+            'name_country.unique' => 'Tên quốc gia đã tồn tại.',
         ]);
         if($validate->fails()) {
             // dd($validate);
