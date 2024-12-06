@@ -30,6 +30,27 @@
                 </li>
             </ol>
         </div>
+        <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-tk" aria-controls="ql-tk">
+        <i class="fa-solid fa-square-poll-vertical"></i>
+            <span>Thống kê<i class="fa fa-caret-down float-end "></i></span>
+
+        </a>
+        <div class="accordion-collapse collapse" id="ql-tk" data-bs-parent="#accordionFlushExample">
+            <ol class="nav-collapse">
+                <li>
+                    <a href="{{route('statisticalmusic.index')}}" class="nav-item">
+                        <i class="fa-solid fa-guitar"></i>
+                        <span class="">Thống kê bài hát</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('statisticalpay.index')}}" class="nav-item">
+                        <i class="fa-solid fa-money-bill"></i>
+                        <span class="">Thống kê thu nhập</span>
+                    </a>
+                </li>
+            </ol>
+        </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-songs" aria-controls="ql-songs">
             <i class="fa-solid fa-music"></i>
             <span>Bài hát <i class="fa fa-caret-down float-end "></i></span>

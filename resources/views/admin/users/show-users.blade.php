@@ -49,12 +49,6 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="password" name="password" value="{{old('password', $users->password)}}" class="form-control form-control-line">
-                    </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="col-md-12">Email <span class="text-danger">(*)</span></label>
-                    <div class="col-md-12">
                         <input type="email" name="email" value="{{old('email', $users->email)}}" class="form-control form-control-line">
                     </div>
                 </div>
@@ -68,10 +62,10 @@
 
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Giới tính</label>
-                        <select class="form-select" name="gender" id="">
+                        <select class="form-select" name="gender" >
                             <option value="">Chọn giới tính</option>
-                            <option value="nam" {{ old('gender', $users->gender) == 'nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="nu" {{ old('gender', $users->gender) == 'nu' ? 'selected' : '' }}>Nữ</option>
+                            <option value="Nam" {{ old('gender', $users->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="Nữ" {{ old('gender', $users->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="col-xl-4 mt-3">
@@ -84,7 +78,7 @@
                 <div class="form-group row mt-3">
                     <div class="col-xl-4 mt-3">
                         <label class="col-md-12">Loại người dùng</label>
-                        <select class="form-select" name="users_type" id="">
+                        <select class="form-select" name="users_type" >
                             <option value="Basic" {{ old('users_type', $users->users_type) == 'Basic' ? 'selected' : '' }}>Basic</option>
                             <option value="Plus" {{ old('users_type', $users->users_type) == 'Plus' ? 'selected' : '' }}>Plus</option>
                             <option value="Premium" {{ old('users_type', $users->users_type) == 'Premium' ? 'selected' : '' }}>Premium</option>
@@ -102,16 +96,50 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Hình ảnh</label>
                     <div class="col-md-12">
-                        <input type="file" name="image" value="{{old('image', $users->image)}}" class="form-control form-control-line">
+                        <input type="file" name="image" id="user-image" value="{{old('image', $users->image)}}" class="form-control form-control-line">
                     </div>
-                    <img class="mt-3" src="{{$users->image}}" width="400px" height="500px" alt="">
+                    <img class="mt-3" id="previewImage" src="{{$users->image}}" width="400px" height="500px" alt="">
                 </div>
                 <div class="form-group mt-3">
                     <div class="col-sm-12">
                         <button class="btn btn-success" type="submit">Cập nhật</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatePass">
+                            Cập nhật mật khẩu
+                        </button>
+
                     </div>
                 </div>
             </form>
+            <!-- Modal -->
+            <div class="modal fade" id="updatePass" tabindex="-1" aria-labelledby="updatePassLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="updatePassLabel">Cập nhật mật khẩu</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{route('users.updatePass', $users->id)}}" id="uppass" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="mb-3">
+                                    <label for="passUpdate" class="form-label">Mật khẩu</label>
+                                    <div class="input-group">
+                                        <input type="password" name="password" class="form-control" id="passUpdate">
+                                        <span class="input-group-text" id="togglePassword">
+                                            <i class="fa fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" id="savePass" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -125,24 +153,24 @@
         previewImage.classList.remove('d-none');
     }
 
-    const button = document.getElementById('editBtn');
-    button.addEventListener('click', function() {
-        const inputs = document.querySelectorAll('#formedit .update, #formedit #submit');
+    // const button = document.getElementById('editBtn');
+    // button.addEventListener('click', function() {
+    //     const inputs = document.querySelectorAll('#formedit .update, #formedit #submit');
 
-        inputs.forEach(input => {
-            if (input.hasAttribute('disabled')) {
-                input.removeAttribute('disabled');
-            } else {
-                input.setAttribute('disabled', '');
-            }
-        });
+    //     inputs.forEach(input => {
+    //         if (input.hasAttribute('disabled')) {
+    //             input.removeAttribute('disabled');
+    //         } else {
+    //             input.setAttribute('disabled', '');
+    //         }
+    //     });
 
-        // Đổi nội dung nút giữa "Chỉnh sửa" và "Khóa lại"
-        button.textContent = button.textContent === 'Chỉnh sửa' ? 'Khóa lại' : 'Chỉnh sửa';
-    });
+    //     // Đổi nội dung nút giữa "Chỉnh sửa" và "Khóa lại"
+    //     button.textContent = button.textContent === 'Chỉnh sửa' ? 'Khóa lại' : 'Chỉnh sửa';
+    // });
 
 
-    document.getElementById('songImage').addEventListener('change', function(event) {
+    document.getElementById('user-image').addEventListener('change', function(event) {
         const file = event.target.files[0]; // Lấy file đầu tiên từ input
         const preview = document.getElementById('previewImage'); // Thẻ <img> để hiển thị ảnh
 
@@ -159,15 +187,20 @@
             preview.src = ''; // Nếu không có file, bỏ ảnh preview
         }
     });
-</script>
-<script
-    src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js">
-</script>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
+    $(document).ready(function() {
+        $('#savePass').on('click', function() {
+            $('#uppass').submit();
         });
+        $('#togglePassword').on('click', function() {
+            const passwordField = $('#passUpdate');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+
+            // Đổi biểu tượng mắt
+            $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+
+        });
+    });
 </script>
+
 @endsection

@@ -72,8 +72,8 @@
                     <label class="col-md-12">Giới tính</label>
                     <select class="form-select" name="gender" id="" value="{{old('gender')}}">
                         <option value="">Chọn giới tính</option>
-                        <option value="nam">Nam</option>
-                        <option value="nu">Nữ</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
 
                     </select>
                 </div>
