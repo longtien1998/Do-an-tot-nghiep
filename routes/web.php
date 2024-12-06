@@ -23,8 +23,12 @@ use App\Http\Controllers\Admin\Music\UrlsongController;
 use App\Http\Controllers\Admin\Authorization\ModuleController;
 use App\Http\Controllers\Admin\Authorization\PermissionController;
 use App\Http\Controllers\Admin\Authorization\RoleController;
+use App\Http\Controllers\Admin\StatisticalSongController;
+use App\Http\Controllers\Admin\StatisticalPayController;
+use App\Http\Controllers\Admin\ExportController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Exports\PaymentExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 //test
 Route::get('/test', function () {
@@ -50,9 +54,40 @@ Route::group([
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
-    Route::get('/getData/{date}', [HomeController::class, 'getData'])->name('getData');
     Route::get('/getUser/{date}', [HomeController::class, 'getUser'])->name('getUser');
     Route::get('/getPay/{date}', [HomeController::class, 'getPay'])->name('getPay');
+
+
+
+    // thống kê bài hát
+    route::group([
+        'prefix' => 'statisticalmusic',
+        // 'middleware' => ['role:role_4'],
+        'controller' => StatisticalSongController::class,
+        'as' => 'statisticalmusic.',
+    ], function () {
+        Route::get('/music', 'music')->name('index');
+        Route::get('/getData/{date}',  'getData')->name('getData');
+        Route::post('/getSongsByDate', 'getSongsByDate')->name('getSongsByDate');
+
+    });
+    //thống kê thu nhập
+    route::group([
+        'prefix' => 'statisticalpay',
+        // 'middleware' => ['role:role_4'],
+        'controller' => StatisticalPayController::class,
+        'as' => 'statisticalpay.',
+    ], function () {
+        Route::get('/index', 'payment')->name('index');
+        Route::get('/getPay/{date}',  'getPay')->name('getPay');
+        Route::post('/getPayByDate', 'getPayByDate')->name('getPayByDate');
+
+    });
+
+    //Export
+    Route::get('/admin/statistical/payments/export', [ExportController::class, 'exportPayments'])->name('exportExcel');
+    Route::get('/admin/statistical/musics/export', [ExportController::class, 'exportMusics'])->name('exportExcelMusic');
+
 
     // bài hát
     Route::group([
@@ -314,6 +349,7 @@ Route::group([
         Route::match(['get', 'post'], '/list',  'list_users')->name('list');
         Route::get('/create',  'add_users')->name('create');
         Route::post('/store',  'storeAddUser')->name('store');
+        Route::put('/update-pass/{id}',  'updatePass')->name('updatePass');
         Route::get('/{id}/edit',  'edit_users')->name('edit');
         Route::put('/{id}/update',  'update_users')->name('update');
         Route::post('/search',  'searchUser')->name('search');

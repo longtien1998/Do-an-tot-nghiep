@@ -90,61 +90,6 @@
             </div>
         </div>
     </div>
-    <div style="width: 100%; margin: auto;" class="border p-3 mt-3">
-        <div class="row">
-            <div class="col-6 col-sm-2">
-                <label for="">Chọn Ngày</label>
-                <select name="selectDate" id="selectDate" class="form-select mt-2" ">
-                    <option value=" 10">10 ngày trước</option>
-                    <option value="20">20 ngày trước</option>
-                    <option value="30">30 ngày trước</option>
-                    <option value="60">2 tháng trước</option>
-                    <option value="90">3 tháng trước</option>
-                    <option value="180">6 tháng trước</option>
-                    <option value="365">1 năm trước</option>
-                </select>
-
-            </div>
-        </div>
-        <canvas id="mixedChart" style="max-height: 500px;"></canvas>
-    </div>
-
-    <div style="width: 100%; margin: auto;" class="border p-3 mt-3">
-        <div class="row">
-            <div class="col-6 col-sm-2">
-                <label for="">Chọn Ngày</label>
-                <select name="selectDate" id="selectDateUser" class="form-select mt-2" ">
-                    <option value=" 10">10 ngày trước</option>
-                    <option value="20">20 ngày trước</option>
-                    <option value="30">30 ngày trước</option>
-                    <option value="60">2 tháng trước</option>
-                    <option value="90">3 tháng trước</option>
-                    <option value="180">6 tháng trước</option>
-                    <option value="365">1 năm trước</option>
-                </select>
-
-            </div>
-        </div>
-        <canvas id="userChart" style="max-height: 500px;"></canvas>
-    </div>
-    <div style="width: 100%; margin: auto;" class="border p-3 mt-3">
-        <div class="row">
-            <div class="col-6 col-sm-2">
-                <label for="">Chọn Ngày</label>
-                <select name="selectDate" id="selectDatePay" class="form-select mt-2" ">
-                    <option value=" 10">10 ngày trước</option>
-                    <option value="20">20 ngày trước</option>
-                    <option value="30">30 ngày trước</option>
-                    <option value="60">2 tháng trước</option>
-                    <option value="90">3 tháng trước</option>
-                    <option value="180">6 tháng trước</option>
-                    <option value="365">1 năm trước</option>
-                </select>
-
-            </div>
-        </div>
-        <canvas id="payChart" style="max-height: 500px;"></canvas>
-    </div>
     <!-- More Dashboard Content -->
     <div class="row mt-5">
         <div class="col-md-12">
@@ -157,6 +102,7 @@
     </div>
 </div>
 @endsection
+
 @section('js')
 <!-- <script src="path/to/chartjs/dist/chart.umd.js"></script> -->
 <script>
@@ -419,3 +365,4 @@
     }
 </script>
 @endsection
+

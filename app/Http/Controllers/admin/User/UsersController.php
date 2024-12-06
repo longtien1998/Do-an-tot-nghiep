@@ -16,7 +16,8 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
-    public function list_users(Request $request){
+    public function list_users(Request $request)
+    {
         $perPage = 10;
         $filterGenDer = false;
         $filterRole = false;
@@ -25,19 +26,22 @@ class UsersController extends Controller
             $filterGenDer = $request->input('filterGenDer');
             $filterRole = $request->input('filterRole');
             $filterCreate = $request->input('filterCreate');
+            $perPage = $request->input('indexPage');
         }
         $users = User::selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate);
         $roles = Role::all();
         return view('admin.users.list-users', compact('users', 'roles'));
     }
 
-    public function add_users(){
+    public function add_users()
+    {
 
         return view('admin.users.add-users');
     }
 
 
-    public function storeAddUser(UsersRequest $request){
+    public function storeAddUser(UsersRequest $request)
+    {
         $users = new User();
         $users->name = $request->name;
         $users->email = $request->email;
@@ -56,23 +60,26 @@ class UsersController extends Controller
         if ($users->save()) {
 
             return redirect()->route('users.list')->with('success', 'Thêm tài khoản thành công');
-
         } else {
             return redirect()->back()->with('error', 'Thêm tài khoản thất bại');
-
         }
     }
-    public function edit_users($id){
+    public function edit_users($id)
+    {
         $users = User::find($id);
 
         return view('admin.users.update-users', compact('users'));
     }
-    public function update_users(UsersRequest $request, $id){
+    public function update_users(UsersRequest $request, $id)
+    {
         $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
         $users->phone = $request->phone;
-        $users->password = bcrypt($request->password);
+        if ($request->expriry_day) {
+            $users->expriry_day = $request->expriry_day;
+        }
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $userName = $request->name;
@@ -87,12 +94,33 @@ class UsersController extends Controller
         if ($users->save()) {
 
             return redirect()->route('users.list')->with('success', 'Cập nhật tài khoản thành công');
-
         } else {
             return redirect()->back()->with('error', 'Cập nhật tài khoản thất bại');
         }
     }
-
+    public function updatePass(Request $request, $id)
+    {
+        $validate = Validator::make($request->all(), [
+            'password' => 'required|min:8',
+        ], [
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'password.min' => 'Mật khẩu cần ít nhất 8 ký tự',
+        ]);
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate->errors())->withInput();
+        }
+        $users = User::find($id);
+        if ($users) {
+            $users->password = bcrypt($request->password);
+            if ($users->save()) {
+                return redirect()->route('users.list')->with('success', 'Cập nhật mật khẩu thành công');
+            } else {
+                return redirect()->back()->with('error', 'Cập nhật mật khẩu thất bại');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Không tìm thấy tài khoản');
+        }
+    }
 
     public function list_trash_users()
 
@@ -222,10 +250,9 @@ class UsersController extends Controller
             $roles = User::all();
             if ($users->isEmpty()) {
                 return redirect()->route('users.list')->with('error', 'Không tìm thấy tài khoản nào phù hợp với từ khóa');
-
             } else {
                 toastr()->success('Tìm tài khoản thành công');
-                return view('admin.users.list-users', compact('users','roles'))->with('success','Tìm tài khoản thành công');
+                return view('admin.users.list-users', compact('users', 'roles'))->with('success', 'Tìm tài khoản thành công');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Không tìm thấy tài khoản nào phù hợp với từ khóa.');
@@ -262,4 +289,3 @@ class UsersController extends Controller
         return view('admin.users.show-users', compact('users',));
     }
 }
-
