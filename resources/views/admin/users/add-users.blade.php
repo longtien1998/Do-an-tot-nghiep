@@ -47,7 +47,7 @@
                 <div class="form-group mt-3">
                     <label class="col-md-12">Mật khẩu <span class="text-danger">(*)</span></label>
                     <div class="col-md-12">
-                        <input type="text" name="password" class="form-control form-control-line" value="{{old('password')}}">
+                        <input type="password" name="password" class="form-control form-control-line" value="{{old('password')}}">
                     </div>
                 </div>
                 <div class="form-group mt-3">

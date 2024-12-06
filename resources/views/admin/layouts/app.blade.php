@@ -7,6 +7,7 @@
     <link rel="icon" href="{{asset('favicon.ico')}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin SoundWave - Sidebar Dark</title>
+
     <script type="application/x-javascript">
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -33,13 +34,14 @@
     <link rel="stylesheet" href="{{asset('vendor/flasher/flasher.min.css')}}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
+
     <script type="text/javascript" src="{{ asset('vendor/flasher/flasher.min.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('admin/js/function.js') }}"></script>
     <!-- Thêm Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
 
 </head>

@@ -216,20 +216,25 @@ function updateIcons(columnIndex, isAscending) {
 // validate ngày
 function validateDay(id, val) {
     const dateInput = $(id);
-    // Lấy ngày hôm nay
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = today.getMonth(); // Tháng bắt đầu từ 0-11
     let dd = today.getDate(); // Ngày trong tháng
 
-    // Nếu là ngày min, tăng 1 ngày (ngày mai)
-    if (val == 'min') dd++;
+    let adjustedDateString;
 
-    // Tạo đối tượng Date mới với ngày, tháng, và năm đã chỉnh sửa
-    const adjustedDate = new Date(yyyy, mm, dd);
-
-    // Đảm bảo rằng nếu ngày vượt quá số ngày trong tháng thì chuyển sang tháng tiếp theo
-    const adjustedDateString = adjustedDate.toISOString().split('T')[0];
+    if (val === 'min') {
+        // Ngày tối thiểu là ngày mai
+        dd++;
+        const adjustedDate = new Date(yyyy, mm, dd);
+        adjustedDateString = adjustedDate.toISOString().split('T')[0];
+    } else if (val === 'max') {
+        // Ngày tối đa là ngày hiện tại
+        const adjustedDate = new Date(yyyy, mm, dd);
+        adjustedDateString = adjustedDate.toISOString().split('T')[0];
+        // Đặt giá trị tối thiểu là ngày 01/01/1900
+        dateInput.attr('min', '1900-01-01');
+    }
 
     // Thiết lập giá trị tối đa hoặc tối thiểu cho thẻ input
     dateInput.attr(val, adjustedDateString);
@@ -237,20 +242,22 @@ function validateDay(id, val) {
     // Xử lý sự kiện thay đổi trên input để kiểm tra tính hợp lệ
     dateInput.on('change', function () {
         const selectedDate = new Date(dateInput.val());
+        const minDate = val === 'max' ? new Date('1900-01-01') : new Date(adjustedDateString);
+        const maxDate = val === 'max' ? new Date(adjustedDateString) : null;
+
         if (!dateInput.val()) {
             dateInput.removeClass('is-valid is-invalid');
-        } else if (val == 'max' && selectedDate > new Date(adjustedDateString)) {
-            // Kiểm tra đối với max: chọn ngày không hợp lệ nếu lớn hơn ngày tối đa
+        } else if (val === 'max' && (selectedDate < minDate || selectedDate > maxDate)) {
+            // max: không hợp lệ nếu chọn trước 1900 hoặc sau ngày hiện tại
             dateInput.addClass('is-invalid').removeClass('is-valid');
             dateInput.val(''); // Xóa giá trị nếu chọn không hợp lệ
-        } else if (val == 'min' && selectedDate < new Date(adjustedDateString)) {
-            // Kiểm tra đối với min: chọn ngày không hợp lệ nếu nhỏ hơn ngày tối thiểu
+        } else if (val === 'min' && selectedDate < minDate) {
+            // min: không hợp lệ nếu chọn trước ngày mai
             dateInput.addClass('is-invalid').removeClass('is-valid');
             dateInput.val(''); // Xóa giá trị nếu chọn không hợp lệ
         } else {
             dateInput.addClass('is-valid').removeClass('is-invalid');
         }
     });
-
 }
 

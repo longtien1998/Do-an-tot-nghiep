@@ -56,9 +56,9 @@ class Songs extends Model
     public static function play($id){
         $song = self::show($id);
         if(!$song) return false;
-        $rand = self::getRandomSongs10();
-        $result = collect([$song])->merge($rand)->unique('id')->values();
-        return $result;
+        // $rand = self::getRandomSongs10();
+        // // $result = collect([$song])->merge($rand)->unique('id')->values();
+        return  $song;
     }
     public static function show($id)
     {
