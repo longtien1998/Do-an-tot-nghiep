@@ -14,13 +14,27 @@ use Illuminate\Support\Facades\Validator;
 class AlbumController extends Controller
 
 {
-    public function list_album(Request $request)
+    public function index(Request $request)
     {
-        $perPage = $request->input('indexPage', 10);
-        // Lấy dữ liệu album với ca sĩ và bài hát, phân trang
-        $albums = Album::with(['singer', 'songs'])->paginate($perPage);
-        return view('admin.album.list-album', compact('albums'));
+        $perPage = $request->input('indexPage', 10); // Số lượng mỗi trang
+        $filterSinger = $request->input('filterSinger'); // Ca sĩ lọc
+        $filterCreate = $request->input('filterCreate'); // Ngày tạo lọc
+
+        // Lấy danh sách album với các bộ lọc
+        $albums = Album::selectAll($perPage, $filterSinger, $filterCreate);
+        $lists = Album::select('singer_id')->whereNull('deleted_at')->groupBy('singer_id')->get();
+        $singers = $lists->map(function ($list){
+            return (object)[
+                'id' => $list->singer_id,
+                'singer_name' => $list->singer->singer_name,
+            ];
+        });
+
+        // dd($singers);   
+        return view('admin.album.list-album', compact('albums','singers'));
     }
+
+
 
     //View list album_song
     public function list_album_song(Request $request)

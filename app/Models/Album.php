@@ -60,6 +60,52 @@ class Album extends Model
             dd($e->getMessage());
         }
     }
+
+
+
+    public static function selectAll($perPage, $filterSinger, $filterCreate)
+    {
+        $query = self::query();
+
+         // Áp dụng bộ lọc theo ca sĩ
+        if ($filterSinger) {
+            $query->where('singer_id', $filterSinger);
+        }
+
+          // Áp dụng bộ lọc theo ngày tạo
+        if ($filterCreate) {
+            $query->whereDate('creation_date', $filterCreate);
+        }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+    // public static function getAlbums($perPage, $filterSinger, $filterCreate)
+    // {
+    //     $query = Album::with('singer') // Tự động lấy quan hệ `singer`
+    //         ->whereNull('deleted_at'); // Chỉ lấy album chưa bị xóa
+
+    //    
+    //     if ($filterSinger) {
+    //         $query->where('singer_id', $filterSinger);
+    //     }
+
+    //   
+    //     if ($filterCreate) {
+    //         $query->whereDate('creation_date', $filterCreate);
+    //     }
+
+    //     return $query->orderBy('id', 'asc')->paginate($perPage);
+    // }
+
+
+
+
+
     public static function updateAlbum($id, $data)
     {
         $currentAlbum = DB::table('albums')->where('id', $id)->first();
@@ -80,4 +126,3 @@ class Album extends Model
         ]);
     }
 }
-
