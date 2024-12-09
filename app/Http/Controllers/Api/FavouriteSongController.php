@@ -68,7 +68,7 @@ class FavouriteSongController extends Controller
     }
     public function up_song_favourite($song_id, $user_id)
     {
-        $ranKing = Ranking_log::where('song_id', '=', $song_id)->orWhere('date', '=', now())->first();
+        $ranKing = Ranking_log::where('song_id', '=', $song_id)->where('date', '=', Carbon::today())->first();
         if (!$ranKing) {
             $ranKing = new Ranking_log();
             $ranKing->song_id = $song_id;
@@ -83,7 +83,7 @@ class FavouriteSongController extends Controller
 
     public function down_song_favourite($song_id, $user_id)
     {
-        $ranKing = Ranking_log::where('song_id', '=', $song_id)->orWhere('date', '=', now())->first();
+        $ranKing = Ranking_log::where('song_id', '=', $song_id)->where('date', '=', Carbon::today())->first();
         if ($ranKing) {
             $ranKing->like_count -= 1;
             $ranKing->save();

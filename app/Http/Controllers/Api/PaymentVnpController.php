@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -12,13 +14,14 @@ class PaymentVnpController extends Controller
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         // $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
-        $vnp_Returnurl = "https://soundwave.io.vn/Pay";
+        // $vnp_Returnurl = "https://soundwave.io.vn/Pay";
+        $vnp_Returnurl = "http://localhost:5173/PayNotification";
 
         $vnp_TmnCode = "X5Q306C0"; //Mã website tại VNPAY
         $vnp_HashSecret = "R04WJ0BG8LZTS97OTCCLTQ9PC6GRG6M2"; //Chuỗi bí mật
 
-        $vnp_TxnRef = time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'thanh toán hóa đơn SoundWave '+ $request->description +' - '+ $request->month +' tháng';
+        $vnp_TxnRef = 'SW' . time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = 'SoundWave ' . $request->description . ' - ' . $request->month . ' tháng';
         $vnp_OrderType = 'Soundwave';
         $vnp_Amount = $request->amount * 100;
         $vnp_Locale = 'vn';
@@ -39,6 +42,7 @@ class PaymentVnpController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
+
         );
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
@@ -68,18 +72,39 @@ class PaymentVnpController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        
 
-        $returnData = array(
-            'success' => true,
-            'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
-        );
+        $payment = Payment::create([
+            'pay_id' => $vnp_TxnRef,
+            'description' => $vnp_OrderInfo,
+            'payment_date' => Carbon::now(),
+            'payment_method' => $request->payment_method,
+            'amount' => $request->amount,
+            'users_id' => $request->user_id,
+            'payment_status' => 'Đang thanh toán',
+        ]);
+        if ($payment) {
+            $returnData = array(
+                'success' => true,
+                'code' => '00',
+                'message' => 'success',
+                'data' => $vnp_Url,
+                'user_type' =>  $request->description,
+                'month' => $request->month,
 
-        return response()->json($returnData);
+
+            );
+        } else {
+            $returnData = array(
+                'success' => false,
+                'code' => '01',
+                'message' => 'Có lỗi xảy ra khi thanh toán',
+                'data' => $vnp_Url,
+
+            );
+        }
+
+        return response()->json($returnData, 200);
         // header('Location: ' . $vnp_Url);
-        // die();
     }
 
     public function vnpayReturn(Request $request)
@@ -108,13 +133,45 @@ class PaymentVnpController extends Controller
 
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
         if ($secureHash == $vnp_SecureHash) {
+            $payment = Payment::where('pay_id', $_GET['vnp_TxnRef'])->first();
             if ($_GET['vnp_ResponseCode'] == '00') {
-                return response()->json(['success' => true, 'message' => 'Thanh toán thành công!']);
+                if ($payment) {
+                    $payment->payment_status = 'Thành công';
+                    $payment->save();
+                    $user =  User::find($payment->users_id);
+                    $user->users_type = $_GET['user_type'];
+                    $user->expiry_date = $this->setdate((int)$_GET['month']);
+
+                    $user->save();
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Thanh toán thành công!',
+                        'user' => $user
+                    ]);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Đơn hàng không tồn tại!']);
+                }
             } else {
+                $payment->payment_status = 'Thất bại';
+                $payment->save();
                 return response()->json(['success' => false, 'message' => 'Thanh toán không thành công!']);
             }
         } else {
             return response()->json(['success' => false, 'message' => 'Thanh toán không thành công. Chữ ký không hợp lệ']);
         }
+    }
+
+    public function setdate($date)
+    {
+
+        $monthsToAdd = $date;
+
+        if (!is_numeric($monthsToAdd) || $monthsToAdd < 0) {
+            return null;
+        }
+
+        $expiryDate = Carbon::now()->addMonths($monthsToAdd)->format('Y-m-d');
+
+        return $expiryDate;
     }
 }

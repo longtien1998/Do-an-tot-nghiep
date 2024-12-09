@@ -38,7 +38,7 @@
     <div class="form-group row justify-content-between align-content-center m-0 p-0">
         <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
-            <form action="{{route('list-album')}}" class="row align-middle" method="post" id="itemsPerPageForm">
+            <form action="{{route('albums.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
                 <div class="col-6 col-sm">
                     <label for="">Hiển thị</label>

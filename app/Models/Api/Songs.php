@@ -199,9 +199,8 @@ class Songs extends Model
         // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
         $randum = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
-            ->orderBy('songs.listen_count', 'desc')
             ->inRandomOrder()
-            ->limit(10) // Giới hạn 100 bản ghi
+            ->take(15) // Giới hạn 15 bản ghi
             ->get(); // Lấy tất cả các bản ghi
         $songsArray = $randum->map(function ($bh) {
             return (object) [
