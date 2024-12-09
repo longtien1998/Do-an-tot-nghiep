@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
 use App\Models\User\RolesModel;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -48,8 +50,8 @@ class AuthController extends Controller
             ]);
 
             // tạo token
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',], 201);
+
+            return response()->json(['data' => $user, 'token_type' => 'Bearer',], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đăng ký thất bại' . $e], 500);
         }
@@ -61,7 +63,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
+        // Validate request input
         $validator = Validator::make(
             $request->all(),
             [
@@ -72,44 +74,77 @@ class AuthController extends Controller
                 'email.required' => 'Email không được để trống',
                 'email.email' => 'Email không đúng định dạng',
                 'password.required' => 'Mật khẩu không được để trống'
-
             ]
         );
+
+        // If validation fails, return errors
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-        if (!$token = Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return response()->json(['error' => 'Sai email hoặc mật khẩu'], 401);
-        }
+
+        // Attempt to authenticate the user using the provided credentials
         try {
+            if (!$token = JWTAuth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response()->json(['error' => 'Sai email hoặc mật khẩu'], 401);
+            }
+
+            // Get the authenticated user
             $user = Auth::user();
-            $token = $user->createToken('auth_token')->plainTextToken;
+
+            // Return the response with token and user information
             return response()->json([
                 'message' => 'Đăng nhập thành công',
                 'access_token' => $token,
                 'token_type' => 'Bearer',
                 'user' => $user
             ], 200);
-        } catch (\Exception $e) {
+
+        } catch (JWTException $e) {
+            // Handle any exception that occurs while creating the token
             return response()->json(['message' => 'Đăng nhập thất bại'], 401);
         }
     }
     public function logout(Request $request)
     {
-        // Auth::user()->tokens->delete();
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Đăng xuất thành công!'], 200);
+         // Invalidate the token to log out
+         JWTAuth::invalidate(JWTAuth::getToken());
+         return response()->json(['message' => 'Đăng xuất thành công']);
     }
     // public function logout()
     // {
     //     Auth::user()->tokens->delete();
     //     return ['message' => 'Bạn đã thoát ứng dụng và token đã xóa'];
     // }
-    public function refresh()
+    // Làm mới Access Token bằng Refresh Token
+    public function refresh(Request $request)
     {
-        $token = Auth::user()->createToken('auth_token')->plainTextToken;
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'refresh_token' => 'required'
+            ],
+            [
+                'refresh_token.required' => 'Refresh token không được để trống'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
+        try {
+            // Xác thực Refresh Token
+            $token = JWTAuth::parseToken()->refresh($request->refresh_token);
+
+            return response()->json([
+                'message' => 'Token đã được làm mới',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ], 200);
+
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Token hết hạn hoặc không hợp lệ'], 401);
+        }
     }
 
 

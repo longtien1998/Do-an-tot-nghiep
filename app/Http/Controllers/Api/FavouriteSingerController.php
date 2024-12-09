@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Api\FavouriteSinger;
 use Illuminate\Http\Request;
+use App\Models\Singer;
 
 class FavouriteSingerController extends Controller
 {
 
 
     public function getAll($user_id){
-        $singers = FavouriteSinger::where('user_id', $user_id)->get()->pluck('singer_id');
+        $idsingers = FavouriteSinger::where('user_id', $user_id)->get()->pluck('singer_id');
+        $singers = Singer::whereIn('id',$idsingers)->get();
         return response()->json(['data' => $singers], 200);
     }
 

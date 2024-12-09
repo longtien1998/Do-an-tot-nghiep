@@ -17,6 +17,8 @@ Route::group([
     Route::post('users/login', 'login');
     // đăng ký member
     Route::post('users/register', 'register');
+    // refresh token
+    Route::get('token/refresh', 'refresh');
 
     // reset password
     Route::post('/resetpassword', 'resetPassword');
@@ -136,3 +138,11 @@ Route::get('/ca-si/{singer_id}', [App\Http\Controllers\Api\SingerController::cla
 Route::get('/ca-si/{singer_id}/bai-hat', [App\Http\Controllers\Api\SongsController::class, 'list_song_singer']);
 // Album theo ca sĩ
 Route::get('/ca-si/{singer_id}/album', [App\Http\Controllers\Api\AlbumController::class, 'album_singer']);
+
+
+// Album
+Route::get('/album', [App\Http\Controllers\Api\AlbumController::class, 'index']);
+// Thông tin album
+Route::get('/album/{album_id}', [App\Http\Controllers\Api\AlbumController::class, 'show']);
+// Bài hát trong album
+Route::get('/album/{album_id}/bai-hat', [App\Http\Controllers\Api\SongsController::class, 'list_song_album']);

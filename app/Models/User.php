@@ -11,15 +11,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;  // Thêm dòng này để sử dụng JWTSubject
+
 
 /**
  * @method bool hasPermissionTo(string|int|\Spatie\Permission\Models\Permission $permission, string|null $guardName = null)
  * @method bool hasRole(string|\Spatie\Permission\Models\Role $roles, string|null $guardName = null)
  * @method \Spatie\Permission\Models\Role assignRole(...$roles)
  */
+
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
@@ -68,7 +71,29 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    /**
+     * Get the identifier that will be stored in the JWT claim.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        // Trả về ID người dùng, thường là khóa chính (ID)
+        return $this->getKey();  // Hoặc dùng $this->id nếu muốn
+    }
 
+    /**
+     * Get the custom claims that will be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        // Bạn có thể thêm các custom claims nếu cần, ví dụ:
+        // return ['role' => $this->role];
+
+        return [];  // Trả về mảng rỗng nếu không cần claim nào thêm
+    }
     public static function up_file_users($file, $userName)
     {
         try {
@@ -92,12 +117,12 @@ class User extends Authenticatable implements MustVerifyEmail
             // Hiển thị lỗi nếu có
             dd($e->getMessage());
         }
-    }   
+    }
     //model album
     public static function selectUsers($perPage, $filterGenDer, $filterRole, $filterCreate)
     {
 
-        $query =self::with('roles')
+        $query = self::with('roles')
             ->whereNull('deleted_at');
         if ($filterGenDer) {
             $query->where('users.gender', $filterGenDer);
@@ -120,10 +145,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $users = self::with('roles')
             ->where('name', 'LIKE', '%' . $search . '%')
-            ->orWhere('email', 'LIKE', '%'. $search. '%')
-            ->orWhere('phone', 'LIKE', '%'. $search. '%')
+            ->orWhere('email', 'LIKE', '%' . $search . '%')
+            ->orWhere('phone', 'LIKE', '%' . $search . '%')
             ->orWhereHas('roles', function ($q) use ($search) {
-                $q->where('roles.name', 'LIKE', '%'. $search. '%');
+                $q->where('roles.name', 'LIKE', '%' . $search . '%');
             })
             ->select('users.*')
             ->paginate(10);
