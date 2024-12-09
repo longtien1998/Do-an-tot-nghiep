@@ -4,7 +4,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">Danh sách album</h4>
+            <h4 class="page-title">Danh sách bài hát trong album</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
@@ -24,13 +24,13 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('albums.list')}}" class="btn btn-outline-success"> Tất cả bài hát trong album</a>
+            <a href="{{route('albums.albumsongs.list')}}" class="btn btn-outline-success"> Tất cả bài hát trong album</a>
             <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#createAlbumSong">Thêm bài hát trong album</button>
             <!-- modal thêm bài hát trong album -->
             <div class="modal fade" id="createAlbumSong" tabindex="-1" aria-labelledby="createAlbumSongLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form class="row g-3 needs-validation" novalidate method="post" action="" enctype="multipart/form-data">
+                        <form class="row g-3 needs-validation" novalidate method="post" action="{{route('albums.albumsongs.add')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="createAlbumSongLabel">Thêm mới quốc gia</h1>
@@ -118,7 +118,7 @@
             <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
         </div>
         <div class="col-sm-6 my-3">
-            <form action="{{ route('albums.delete-list') }}" class="d-inline float-end" method="post" id="form-delete">
+            <form action="{{ route('albums.albumsongs.delete-list') }}" class="d-inline float-end" method="post" id="form-delete">
                 @csrf
                 <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                 <button type="submit" class="btn btn-danger"
@@ -142,15 +142,16 @@
             @foreach ($albumsong as $index => $album)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{ $album->id }}"></td>
+                <td>{{$index+1}}</td>
                 <td>{{ $album->id }}</td>
-                <td>{{ $album->album_id }}</td>
-                <td>{{ $album->song_id }}</td>
+                <td>{{ $album->album->album_name }}</td>
+                <td>{{ $album->song->song_name }}</td>
                 <td>
                     <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editAlbumSong" onclick="editAlbumSong('{{$album->id}}','{{$album->album_id}}','{{$album->song_id}}')">
                         <i class="fa-solid fa-edit"></i>
                     </a>
 
-                    <form action="{{ route('albums.delete', $album->id) }}" method="post" class="d-inline">
+                    <form action="{{ route('albums.albumsongs.delete', $album->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" data-bs-toggle="tooltip" title=""
@@ -175,20 +176,20 @@
 
 
     <!-- Modal edit-->
-    <div class="modal fade" id="editCountry" tabindex="-1" aria-labelledby="editCountryLabel" aria-hidden="true">
+    <div class="modal fade" id="editAlbumSong" tabindex="-1" aria-labelledby="editAlbumSongLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formEditCountry" enctype="multipart/form-data">
+                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formeditAlbumSong" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-3" id="createCoutryLabel">Chỉnh sửa bài hát trong album/h1>
+                        <h1 class="modal-title fs-3" id="createCoutryLabel">Chỉnh sửa bài hát trong album</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12 position-relative">
                             <label for="validationTooltip01" class="form-label">Album</label>
-                            <select name="album_id" id="album_id" class="form-control">
+                            <select name="album_id" id="edit_album_id" class="form-control">
                                 <option selected value="">Chọn Album</option>
                                 @foreach ($albums as $album)
                                 <option value="{{$album->id}}">{{ $album->album_name }}</option>
@@ -197,7 +198,7 @@
                         </div>
                         <div class="col-md-12 my-3 position-relative">
                             <label for="validationTooltip01" class="form-label">Bài hát</label>
-                            <select name="song_id" id="song_id" class="form-control">
+                            <select name="song_id" id="edit_song_id" class="form-control">
                                 <option selected value="">Chọn Bài Hát</option>
                                 @foreach ($songs as $song)
                                 <option value="{{$song->id}}">{{ $song->song_name }}</option>
@@ -243,7 +244,7 @@
         document.getElementById('itemsPerPageForm').submit();
     }
 
-    const updateRoute = "{{ route('update-country', ['id' => '__ID__']) }}";
+    const updateRoute = "{{ route('albums.albumsongs.update', ['id' => '__ID__']) }}";
 
     function editAlbumSong() {
         let id = arguments[0];
@@ -251,9 +252,9 @@
         let song_id = arguments[2];
 
         const finalAction = updateRoute.replace('__ID__', id);
-        $('#album_id').val(album_id);
-        $('#song_id').val(song_id);
-        $('#formEditCountry').attr('action', finalAction);
+        $('#edit_album_id').val(album_id);
+        $('#edit_song_id').val(song_id);
+        $('#formeditAlbumSong').attr('action', finalAction);
     }
 </script>
 @endsection
