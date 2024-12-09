@@ -49,7 +49,7 @@ class MemberController extends Controller
             'birthday' => 'required',
             'gender'=> 'required',
             'phone' => 'required',
-            'password' => 'required',
+            'password' => 'nullable|min:8',
         ], [
             'name.required' => 'Tên không được để trống',
             'name.max' => 'Tên không được quá 255 ký tự',
@@ -60,6 +60,7 @@ class MemberController extends Controller
             'gender.required' => 'Giới tính không được để trống',
             'phone.required' => 'Số điện thoại không được để trống',
             'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu ít nhất phải có 8 ký tự',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 422);
@@ -75,9 +76,12 @@ class MemberController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->password = bcrypt($request->password);
         $user->birthday = $request->birthday;
         $user->gender = $request->gender;
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

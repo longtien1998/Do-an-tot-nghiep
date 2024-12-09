@@ -474,7 +474,9 @@ Route::group([
         'controller' => AlbumController::class,
         'as' => 'albums.',
     ], function () {
-        Route::match(['get', 'post'],'/', 'list_album')->name('list'); // Trang danh sách album
+        
+
+        Route::match(['get', 'post'],'/', 'index')->name('list'); // Trang danh sách album
         Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
         Route::post('/search',  'search_album')->name('search');
         Route::post('/', 'store_album')->name('store'); // Xử lý lưu album

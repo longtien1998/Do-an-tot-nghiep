@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "ecf0a05999fef22d0cfc62aeb5c295d8",
+
     "packages": [
         {
             "name": "aws/aws-crt-php",
