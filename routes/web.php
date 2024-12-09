@@ -507,6 +507,10 @@ Route::group([
             'as' => 'albumsongs.',
         ], function () {
             Route::match(['get', 'post'],'/list',  'list_album_song')->name('list');
+            Route::post('/add', 'add_album_song')->name('add');
+            Route::put('/{id}/update',  'update_album_song')->name('update');
+            Route::delete('/{id}/delete',  'delete_album_song')->name('delete');
+            Route::post('/list/delete', 'delete_list_album_song')->name('delete-list');
 
         });
     });

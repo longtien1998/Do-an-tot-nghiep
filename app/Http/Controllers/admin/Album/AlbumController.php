@@ -31,6 +31,63 @@ class AlbumController extends Controller
         $albumsong = AlbumSongs::paginate($perPage);
         return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
     }
+    //add song album
+    public function add_album_song(Request $request)
+    {
+
+        $album = Album::find($request->album_id);
+        if ($album) {
+            $albumsong = $album->songs()->wherePivot('song_id', $request->song_id)->exists();
+            if ($albumsong) {
+                return redirect()->route('albums.albumsongs.list')->with('error', 'Bài hát đã có trong album.');
+            } else {
+                $album->songs()->attach($request->song_id);
+                return redirect()->route('albums.albumsongs.list')->with('success', 'Thêm bài hát vào album thành công.');
+            }
+        } else {
+            return redirect()->route('albums.albumsongs.list')->with('error', 'Album không tồn tại.');
+        }
+    }
+    //update song ablum
+    public function update_album_song($id, Request $request){
+        // dd($id, $request->all());
+        $albumsong = AlbumSongs::find($id);
+        if ($albumsong) {
+            $albumsong->song_id= $request->song_id;
+            $albumsong->save();
+            return redirect()->route('albums.albumsongs.list')->with('success', 'Thay đổi bài hát album thành công.');
+        } else {
+            return redirect()->route('albums.albumsongs.list')->with('error', 'Bài hát không tồn tại.');
+        }
+    }
+    //Delete song album
+    public function delete_album_song($id){
+        $albumsong = AlbumSongs::find($id);
+        if ($albumsong) {
+            $albumsong->delete();
+            return redirect()->route('albums.albumsongs.list')->with('success', 'Xóa bài hát khỏi album thành công.');
+        } else {
+            return redirect()->route('albums.albumsongs.list')->with('error', 'Bài hát không tồn tại.');
+        }
+    }
+
+    //delete list song album
+    public function delete_list_album_song(Request $request){
+        $deletelist = json_decode($request->delete_list, true);
+        if (is_array($deletelist)) {
+            try {
+                foreach ($deletelist as $list) {
+                    $album = AlbumSongs::find($list);
+                    $album->delete();
+                }
+                return redirect()->route('albums.albumsongs.list')->with('success', 'Xoá bài hát trong album thành công!');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa bài hát trong album thất bại.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Xoá album thất bại!');
+        }
+    }
 
     public function add_album()
     {
