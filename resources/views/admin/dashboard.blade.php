@@ -58,14 +58,14 @@
             <div class="dashboard-card" style="background: linear-gradient(169deg, rgba(218,181,249,1) 0%, rgba(255,153,155,1) 100%);">
                 <i class="fas fa-box"></i>
                 <span>Đơn hàng</span>
-                <p class="card-value">100</p>
+                <p class="card-value">{{$total_order}}</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Thu nhập</span>
-                <p class="card-value">58,300 VND</p>
+                <p class="card-value">{{number_format($total_amount)}} VND</p>
             </div>
         </div>
         <div class="col">
@@ -79,7 +79,7 @@
             <div class="dashboard-card" style="background: linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%);">
                 <i class='bx bxs-album'></i>
                 <span>Album</span>
-                <p class="card-value">510</p>
+                <p class="card-value">{{$total_albums}}</p>
             </div>
         </div>
         <div class="col">
@@ -89,6 +89,28 @@
                 <p class="card-value">{{$total_publishers}}</p>
             </div>
         </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #fffcab 0%, #ff9e9e 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Bản quyền</span>
+                <p class="card-value">{{$total_copyright}}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Quảng cáo</span>
+                <p class="card-value">{{$total_ads}}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #c1f0fc 0%, #f7d6e0 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Quốc gia</span>
+                <p class="card-value">{{$total_country}}</p>
+            </div>
+        </div>
+
     </div>
     <!-- More Dashboard Content -->
     <div class="row mt-5">
@@ -102,4 +124,3 @@
     </div>
 </div>
 @endsection
-

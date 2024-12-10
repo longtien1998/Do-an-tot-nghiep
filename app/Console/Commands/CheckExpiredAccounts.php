@@ -17,6 +17,7 @@ class CheckExpiredAccounts extends Command
      */
     protected $signature = 'check:expired-accounts';
 
+
     /**
      * The console command description.
      *

@@ -10,9 +10,15 @@ use App\Models\Publisher;
 use App\Models\Singer;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Album;
+use App\Models\Payments;
+use App\Models\Country;
+use App\Models\Advertisements;
+use App\Models\Copyright;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Faker\Provider\ar_EG\Payment;
 
 class HomeController extends Controller
 {
@@ -25,6 +31,12 @@ class HomeController extends Controller
         $total_comment = Comment::count();
         $total_singer = Singer::count();
         $total_publishers = Publisher::count();
+        $total_albums = Album::count();
+        $total_amount = Payments::sum('amount');
+        $total_order = Payments::count();
+        $total_country = Country::count();
+        $total_ads = Advertisements::count();
+        $total_copyright = Copyright::count();
         return view('admin.dashboard', [
             'total_user' => $total_user,
             'total_song' => $total_song,
@@ -32,6 +44,12 @@ class HomeController extends Controller
             'total_category' => $total_category,
             'total_comment' => $total_comment,
             'total_publishers' => $total_publishers,
+            'total_albums' => $total_albums,
+            'total_amount' => $total_amount,
+            'total_order' => $total_order,
+            'total_country' => $total_country,
+            'total_ads' => $total_ads,
+            'total_copyright' => $total_copyright,
             'user' => Auth::user()
         ]);
     }
