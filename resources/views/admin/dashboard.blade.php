@@ -58,14 +58,14 @@
             <div class="dashboard-card" style="background: linear-gradient(169deg, rgba(218,181,249,1) 0%, rgba(255,153,155,1) 100%);">
                 <i class="fas fa-box"></i>
                 <span>Đơn hàng</span>
-                <p class="card-value">100</p>
+                <p class="card-value">{{$total_order}}</p>
             </div>
         </div>
         <div class="col">
             <div class="dashboard-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Thu nhập</span>
-                <p class="card-value">58,300 VND</p>
+                <p class="card-value">{{number_format($total_amount)}} VND</p>
             </div>
         </div>
         <div class="col">
@@ -79,7 +79,7 @@
             <div class="dashboard-card" style="background: linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%);">
                 <i class='bx bxs-album'></i>
                 <span>Album</span>
-                <p class="card-value">510</p>
+                <p class="card-value">{{$total_albums}}</p>
             </div>
         </div>
         <div class="col">
@@ -89,6 +89,28 @@
                 <p class="card-value">{{$total_publishers}}</p>
             </div>
         </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #fffcab 0%, #ff9e9e 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Bản quyền</span>
+                <p class="card-value">{{$total_copyright}}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Quảng cáo</span>
+                <p class="card-value">{{$total_ads}}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #c1f0fc 0%, #f7d6e0 100%);">
+                <i class='bx bx-building-house'></i>
+                <span>Quốc gia</span>
+                <p class="card-value">{{$total_country}}</p>
+            </div>
+        </div>
+
     </div>
     <!-- More Dashboard Content -->
     <div class="row mt-5">
@@ -101,268 +123,5 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('js')
-<!-- <script src="path/to/chartjs/dist/chart.umd.js"></script> -->
-<script>
-    let mixedChart;
-    let userChart;
-    let payChart;
-    const token = $('meta[name="csrf-token"]').attr('content');
-    chart(10);
-    chartUser(10);
-    chartPay(10);
-    $(document).ready(function() {
-        // Gọi chung cho các select
-        const selectors = ['#selectDate', '#selectDateUser', '#selectDatePay'];
-
-        selectors.forEach(selector => {
-            $(selector).on('change', function() {
-                const date = $(this).val(); // Lấy giá trị của select
-
-                // Gọi hàm tương ứng
-                switch (this.id) {
-                    case 'selectDate':
-                        chart(date);
-                        break;
-                    case 'selectDateUser':
-                        chartUser(date);
-                        break;
-                    case 'selectDatePay':
-                        chartPay(date);
-                        break;
-                }
-            });
-        });
-    });
-
-
-    function chart(date) {
-
-        let labels = null;
-        let playsData = null;
-        let likesData = [];
-        let downloadsData = [];
-        console.log(date);
-        $.ajax({
-            url: urlAjax + 'getData/' + date,
-            method: "get",
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-                
-            },
-
-
-            success: function(data) {
-                // console.log(data);
-                labels = data.labels;
-                playsData = data.listen_count.map(Number);
-                likesData = data.download_count.map(Number);
-                downloadsData = data.like_count.map(Number);
-
-                if (mixedChart) {
-                    mixedChart.destroy();
-                }
-                // console.log(playsData);
-                const ctx = document.getElementById('mixedChart').getContext('2d');
-                mixedChart = new Chart(ctx, {
-                    type: 'bar', // Loại biểu đồ chính
-                    data: {
-                        labels: labels, // Ngày
-                        datasets: [{
-                                label: 'Lượt nghe',
-                                type: 'bar',
-                                data: playsData,
-                                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Màu cột
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Lượt thích',
-                                data: likesData,
-                                backgroundColor: 'rgba(255, 99, 132, 0.5)', // Màu cột
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Lượt tải xuống',
-                                data: downloadsData,
-                                backgroundColor: 'rgba(75, 192, 192, 0.5)', // Màu cột
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top', // Vị trí chú thích
-                            },
-                            title: {
-                                display: true,
-                                text: 'Thống kê lượt nghe, lượt thích và lượt tải',
-                                font: {
-                                    size: 20
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                stacked: false // Hiển thị các cột chồng nhau
-                            },
-                            y: {
-                                beginAtZero: true // Bắt đầu từ 0
-                            }
-                        }
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-
-
-
-    function chartUser(date) {
-
-        let labels = null;
-        let createData = [];
-        console.log(date);
-        $.ajax({
-            url: urlAjax + 'getUser/' + date,
-            method: "get",
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-
-
-            success: function(data) {
-                // console.log(data);
-                labels = data.labels;
-                createData = data.create_count.map(Number);
-
-                if (userChart) {
-                    userChart.destroy();
-                }
-                // console.log(playsData);
-                const ctx = document.getElementById('userChart').getContext('2d');
-                userChart = new Chart(ctx, {
-                    type: 'bar', // Loại biểu đồ chính
-                    data: {
-                        labels: labels, // Ngày
-                        datasets: [{
-                            label: 'Lượt tạo tài khoản',
-                            type: 'bar',
-                            data: createData,
-                            backgroundColor: 'rgba(153, 102, 255, 0.5)', // Màu cột
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1
-                        }, ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top', // Vị trí chú thích
-                            },
-                            title: {
-                                display: true,
-                                text: 'Thống kê tạo tài khoản',
-                                font: {
-                                    size: 20
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                stacked: false // Hiển thị các cột chồng nhau
-                            },
-                            y: {
-                                beginAtZero: true // Bắt đầu từ 0
-                            }
-                        }
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-
-    function chartPay(date) {
-
-        let labels = null;
-        let amount = [];
-        console.log(date);
-        $.ajax({
-            url: urlAjax + 'getPay/' + date,
-            method: "get",
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-
-
-            success: function(data) {
-                // console.log(data);
-                labels = data.labels;
-                amount = data.amount.map(Number);
-
-                if (payChart) {
-                    payChart.destroy();
-                }
-                // console.log(playsData);
-                const ctx = document.getElementById('payChart').getContext('2d');
-                payChart = new Chart(ctx, {
-                    type: 'bar', // Loại biểu đồ chính
-                    data: {
-                        labels: labels, // Ngày
-                        datasets: [{
-                            label: 'Tổng tiền thanh toán',
-                            type: 'bar',
-                            data: amount,
-                            backgroundColor: 'rgba(255, 206, 86, 0.5)', // Màu cột
-                            borderColor: 'rgba(255, 206, 86, 1)',
-                            borderWidth: 1
-                        }, ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top', // Vị trí chú thích
-                            },
-                            title: {
-                                display: true,
-                                text: 'Thống kê thanh toán',
-                                font: {
-                                    size: 20
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                stacked: false // Hiển thị các cột chồng nhau
-                            },
-                            y: {
-                                beginAtZero: true // Bắt đầu từ 0
-                            }
-                        }
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
-</script>
 @endsection
 
