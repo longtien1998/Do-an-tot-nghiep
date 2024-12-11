@@ -4,7 +4,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">Danh sách album</h4>
+            <h4 class="page-title">Danh sách bài hát trong album</h4>
         </div>
         <div class="col-7 align-self-center">
             <div class="d-flex align-items-center justify-content-end">
@@ -24,13 +24,13 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('albums.list')}}" class="btn btn-outline-success"> Tất cả bài hát trong album</a>
+            <a href="{{route('albums.albumsongs.list')}}" class="btn btn-outline-success"> Tất cả bài hát trong album</a>
             <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#createAlbumSong">Thêm bài hát trong album</button>
             <!-- modal thêm bài hát trong album -->
             <div class="modal fade" id="createAlbumSong" tabindex="-1" aria-labelledby="createAlbumSongLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form class="row g-3 needs-validation" novalidate method="post" action="" enctype="multipart/form-data">
+                        <form class="row g-3 needs-validation" novalidate method="post" action="{{route('albums.albumsongs.add')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="createAlbumSongLabel">Thêm mới quốc gia</h1>
@@ -76,7 +76,7 @@
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="form-group col-12 my-4">
             <h5>Bộ Lọc</h5>
-            <form action="{{route('list-music')}}" class="row align-middle" method="post" id="itemsPerPageForm">
+            <form action="{{route('albums.albumsongs.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
                 <div class="col-6 col-sm">
                     <label for="">Hiển thị</label>
@@ -92,25 +92,23 @@
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Album</label>
-                    <select name="filterTheloai" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value=""></option>
-                        <option value="{{request()->input('filterTheloai') ? request()->input('filterTheloai') : ''}}" selected>
-                            {{request()->input('filterTheloai') ? \App\Models\Category::find(request()->input('filterTheloai'))->categorie_name : 'Chọn Album'}}
+                    <select name="filterAlbum" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="{{request()->input('filterAlbum') ? request()->input('filterAlbum') : ''}}" selected>
+                            {{request()->input('filterAlbum') ? \App\Models\Album::find(request()->input('filterAlbum'))->album_name : 'Chọn Album'}}
                         </option>
-                        @foreach ( \App\Models\Category::all() as $categori)
-                        <option value="{{$categori->id}}">{{$categori->categorie_name}}</option>
+                        @foreach ( $albums as $album)
+                        <option value="{{$album->id}}" >{{$album->album_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Bài Hát</label>
-                    <select name="filterSinger" id="indexPage" class="form-select" onchange="submitForm()">
-                        <option value="" selected></option>
-                        <option value="{{request()->input('filterSinger') ? request()->input('filterSinger') : ''}}" selected>
-                            {{request()->input('filterSinger') ? \App\Models\Singer::find(request()->input('filterSinger'))->singer_name : 'Chọn Bài Hát'}}
+                    <select name="filterSong" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="{{request()->input('filterSong') ? request()->input('filterSong') : ''}}" selected>
+                            {{request()->input('filterSong') ? \App\Models\Music::find(request()->input('filterSong'))->song_name : 'Chọn Bài Hát'}}
                         </option>
-                        @foreach ( \App\Models\Singer::all() as $singer)
-                        <option value="{{$singer->id}}">{{$singer->singer_name}}</option>
+                        @foreach ( \App\Models\Music::all() as $song)
+                        <option value="{{$song->id}}">{{$song->song_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -120,7 +118,7 @@
             <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
         </div>
         <div class="col-sm-6 my-3">
-            <form action="{{ route('albums.delete-list') }}" class="d-inline float-end" method="post" id="form-delete">
+            <form action="{{ route('albums.albumsongs.delete-list') }}" class="d-inline float-end" method="post" id="form-delete">
                 @csrf
                 <input type="text" value="" name="delete_list" id="songs-delete" class="delete_list" hidden>
                 <button type="submit" class="btn btn-danger"
@@ -144,15 +142,16 @@
             @foreach ($albumsong as $index => $album)
             <tr>
                 <td><input type="checkbox" class="check_list" value="{{ $album->id }}"></td>
+                <td>{{$index+1}}</td>
                 <td>{{ $album->id }}</td>
-                <td>{{ $album->album_id }}</td>
-                <td>{{ $album->song_id }}</td>
+                <td>{{ $album->album->album_name }}</td>
+                <td>{{ $album->song->song_name }}</td>
                 <td>
                     <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editAlbumSong" onclick="editAlbumSong('{{$album->id}}','{{$album->album_id}}','{{$album->song_id}}')">
                         <i class="fa-solid fa-edit"></i>
                     </a>
 
-                    <form action="{{ route('albums.delete', $album->id) }}" method="post" class="d-inline">
+                    <form action="{{ route('albums.albumsongs.delete', $album->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" data-bs-toggle="tooltip" title=""
@@ -177,20 +176,20 @@
 
 
     <!-- Modal edit-->
-    <div class="modal fade" id="editCountry" tabindex="-1" aria-labelledby="editCountryLabel" aria-hidden="true">
+    <div class="modal fade" id="editAlbumSong" tabindex="-1" aria-labelledby="editAlbumSongLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formEditCountry" enctype="multipart/form-data">
+                <form class="row g-3 needs-validation" novalidate method="post" action="" id="formeditAlbumSong" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-3" id="createCoutryLabel">Chỉnh sửa bài hát trong album/h1>
+                        <h1 class="modal-title fs-3" id="createCoutryLabel">Chỉnh sửa bài hát trong album</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12 position-relative">
                             <label for="validationTooltip01" class="form-label">Album</label>
-                            <select name="album_id" id="album_id" class="form-control">
+                            <select name="album_id" id="edit_album_id" class="form-control">
                                 <option selected value="">Chọn Album</option>
                                 @foreach ($albums as $album)
                                 <option value="{{$album->id}}">{{ $album->album_name }}</option>
@@ -199,7 +198,7 @@
                         </div>
                         <div class="col-md-12 my-3 position-relative">
                             <label for="validationTooltip01" class="form-label">Bài hát</label>
-                            <select name="song_id" id="song_id" class="form-control">
+                            <select name="song_id" id="edit_song_id" class="form-control">
                                 <option selected value="">Chọn Bài Hát</option>
                                 @foreach ($songs as $song)
                                 <option value="{{$song->id}}">{{ $song->song_name }}</option>
@@ -245,7 +244,7 @@
         document.getElementById('itemsPerPageForm').submit();
     }
 
-    const updateRoute = "{{ route('update-country', ['id' => '__ID__']) }}";
+    const updateRoute = "{{ route('albums.albumsongs.update', ['id' => '__ID__']) }}";
 
     function editAlbumSong() {
         let id = arguments[0];
@@ -253,9 +252,9 @@
         let song_id = arguments[2];
 
         const finalAction = updateRoute.replace('__ID__', id);
-        $('#album_id').val(album_id);
-        $('#song_id').val(song_id);
-        $('#formEditCountry').attr('action', finalAction);
+        $('#edit_album_id').val(album_id);
+        $('#edit_song_id').val(song_id);
+        $('#formeditAlbumSong').attr('action', finalAction);
     }
 </script>
 @endsection

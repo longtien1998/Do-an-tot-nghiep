@@ -202,10 +202,10 @@
 
 @endsection
 @section('js')
-<script>
-    const previewImage = document.getElementById('previewImage');
-    if (previewImage.src !== undefined && previewImage.src !== null) {
-        previewImage.classList.remove('d-none');
+<script type="text/javascript">
+    const previewImage1 = document.getElementById('previewImage');
+    if (previewImage1.src !== undefined && previewImage1.src !== null) {
+        previewImage1.classList.remove('d-none');
     }
 
     const button = document.getElementById('editBtn');

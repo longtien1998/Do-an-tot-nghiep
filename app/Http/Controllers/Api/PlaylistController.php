@@ -110,8 +110,8 @@ class PlaylistController extends Controller
                 ->wherePivot('song_id', $song_id)
                 ->exists();
 
-            if ($exists) {
-                return response()->json(['message' => 'Bài hát đã tồn tại trong playlist'], 409);
+            if (!$exists) {
+                return response()->json(['message' => 'Bài hát không tồn tại trong playlist'], 409);
             }
 
             $playlist->playlist_song()->detach($song_id);

@@ -95,7 +95,7 @@ Route::group([
         // 'middleware' => ['role:role_3'],
     ], function () {
         route::controller(MusicController::class)->group(function () {
-            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware(['can:songs.index']);
+            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware('can:');
 
             Route::post('/search',  'search_song')->name('search-song');
             Route::get('/add',  'add_music')->name('add-music');
@@ -474,7 +474,9 @@ Route::group([
         'controller' => AlbumController::class,
         'as' => 'albums.',
     ], function () {
-        Route::get('/', 'list_album')->name('list'); // Trang danh sách album
+        
+
+        Route::match(['get', 'post'],'/', 'index')->name('list'); // Trang danh sách album
         Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
         Route::post('/search',  'search_album')->name('search');
         Route::post('/', 'store_album')->name('store'); // Xử lý lưu album
@@ -493,7 +495,7 @@ Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::get('/list',  'list_trash_album')->name('list');
+            Route::match(['get', 'post'],'/list',  'list_trash_album')->name('list');
             Route::post('/search',  'search_album_trash')->name('search');
             Route::post('/restore',  'restore_trash_album')->name('restore');
             Route::get('/restore-all',  'restore_all_album')->name('restore-all');
@@ -506,7 +508,12 @@ Route::group([
             'prefix' => 'albumsongs',
             'as' => 'albumsongs.',
         ], function () {
-            Route::get('/list',  'list_album_song')->name('list');
+            Route::match(['get', 'post'],'/list',  'list_album_song')->name('list');
+            Route::post('/add', 'add_album_song')->name('add');
+            Route::put('/{id}/update',  'update_album_song')->name('update');
+            Route::delete('/{id}/delete',  'delete_album_song')->name('delete');
+            Route::post('/list/delete', 'delete_list_album_song')->name('delete-list');
+
         });
     });
 

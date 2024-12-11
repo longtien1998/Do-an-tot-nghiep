@@ -23,8 +23,12 @@ class SongsController extends Controller
     public function play($id)
     {
         $song = Songs::play($id);
+        $rand = Songs::getRandomSongs10();
         if ($song) {
-            return response()->json($song);
+            return response()->json([
+                'song' => $song,
+                'rand' => $rand,
+            ]);
         } else {
             return response()->json(['message' => 'Không tìm thấy bài hát'], 404);
         }
@@ -148,9 +152,10 @@ class SongsController extends Controller
         $songs = Songs::list_song_singer($id);
         if ($songs->isEmpty()) {
             return response()->json([
+                'status' => false,
                 'message' => 'Không có bài hát của ca sĩ này',
 
-            ], 404);
+            ]);
         } else {
             return response()->json($songs, 200);
         }
@@ -214,7 +219,8 @@ class SongsController extends Controller
     }
 
     // Bài hát mới nhất
-    public function new_song(){
+    public function new_song()
+    {
         $songs = Songs::new_Song();
         if ($songs->isEmpty()) {
             return response()->json([
@@ -225,6 +231,4 @@ class SongsController extends Controller
             return response()->json($songs, 200);
         }
     }
-
-
 }

@@ -14,10 +14,11 @@ return new class extends Migration
         if (!Schema::hasTable('payments')) {
             Schema::create('payments', function (Blueprint $table) {
                 $table->id();
+                $table->string('pay_id',50);
                 $table->string('description')->nullable();
                 $table->timestamp('payment_date');
                 $table->string('payment_method')->nullable();
-                $table->decimal('amount', 10, 2);
+                $table->integer('amount');
                 $table->unsignedBigInteger('users_id')->nullable();
                 $table->foreign('users_id')->references('id')->on('users')->nullOnDelete();
                 $table->timestamps();

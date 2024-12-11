@@ -11,7 +11,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{route('dashboard')}}">Trang chủ</a>
+                            <a href="{{ route('dashboard') }}">Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách Ca sĩ</li>
                     </ol>
@@ -23,17 +23,19 @@
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
-            <a href="{{route('singer.index')}}" class="btn btn-outline-success"> Tất cả Ca sĩ</a>
-            <a href="{{route('singer.create')}}" class="btn btn-success">Thêm Ca sĩ</a>
+            <a href="{{ route('singer.index') }}" class="btn btn-outline-success"> Tất cả Ca sĩ</a>
+            <a href="{{ route('singer.create') }}" class="btn btn-success">Thêm Ca sĩ</a>
         </div>
         <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('singer.search')}}" method="post">
+            <form class="search-form" action="{{ route('singer.search') }}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, Quốc gia, ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
     </div>
+
+
     <div class="form-group row justify-content-between align-content-center m-0 p-0">
         <div class="form-group col-12 my-auto">
             <h5>Bộ Lọc</h5>
@@ -89,12 +91,13 @@
                     <th scope="col">STT</th>
                     <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(3)">Tên Ca sĩ <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(4)">Hình Ảnh <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(5)">Quốc Gia <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(6)">Ngày Sinh <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(7)">Giới Tính <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" >Tiểu Sử </th>
-                    <th scope="col-2" onclick="sortTable(9)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(4)">Ảnh đại diện<span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(5)">Hình nền <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(6)">Quốc Gia <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(7)">Ngày Sinh <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(8)">Giới Tính <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col">Tiểu Sử </th>
+                    <th scope="col-2" onclick="sortTable(10)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2">Hành động</th>
                 </tr>
             </thead>
@@ -107,11 +110,12 @@
                     <td>{{$singer->id}} </td>
                     <td class="text-start">{{$singer->singer_name}} </td>
                     <td><img width="50px" height="50px" src="{{$singer->singer_image}}" alt=""></td>
-                    <td >{{$singer->singer_country}}</td>
-                    <td >{{$singer->singer_birth_date}}</td>
-                    <td >{{$singer->singer_gender}}</td>
+                    <td><img width="100px" height="50px" src="{{$singer->singer_background}}" alt=""></td>
+                    <td>{{$singer->singer_country}}</td>
+                    <td>{{$singer->singer_birth_date}}</td>
+                    <td>{{$singer->singer_gender}}</td>
                     <td class="text-start">{{Str::limit($singer->singer_biography, 25, '...')}}</td>
-                    <td>{{$singer->created_at->format('d-m-Y')}}</td>
+                    <td>{{$singer->created_at}}</td>
                     <td scope="row-3">
                         <a href="{{route('singer.edit',$singer->id)}}" class="btn btn-link btn-outline-success"> <i class="fa-solid fa-edit"></i></a>
                         <form action="{{route('singer.delete',$singer->id)}}" method="post" class="d-inline">
@@ -136,9 +140,7 @@
         </div>
     </div>
 
-
 </div>
-
 @endsection
 
 
@@ -170,5 +172,4 @@
         document.getElementById('itemsPerPageForm').submit();
     }
 </script>
-
 @endsection

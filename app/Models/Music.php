@@ -43,7 +43,9 @@ class Music extends Model
     {
         return $this->belongto(Category::class);
     }
-
+    public function favouritesong(){
+        return $this->belongsToMany(User::class, 'favorite_song', 'song_id', 'user_id');
+    }
     public static function url($perPage)
     {
         try {
