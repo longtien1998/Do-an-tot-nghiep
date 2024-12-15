@@ -30,7 +30,7 @@ class AlbumController extends Controller
             ];
         });
 
-        // dd($singers);   
+        // dd($singers);
         return view('admin.album.list-album', compact('albums','singers'));
     }
 
@@ -40,9 +40,12 @@ class AlbumController extends Controller
     public function list_album_song(Request $request)
     {
         $perPage = $request->input('indexPage', 10);
+        $filterAlbum = $request->input('filterAlbum', false);
+        $filterSong = $request->input('filterSong', false);
         $albums = Album::all();
-        $songs = Music::all();
-        $albumsong = AlbumSongs::paginate($perPage);
+        $songs = Music::has('albumsong')->get();
+        $albumsong = AlbumSongs::selectAllSong($perPage, $filterAlbum, $filterSong);
+
         return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
     }
     //add song album

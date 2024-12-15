@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Api\FavoriteAlbum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,7 +37,9 @@ class Album extends Model
     {
         return $this->hasMany(FavoriteAlbum::class, 'album_id');
     }
-
+    public function albumsong(){
+        return $this->hasMany(AlbumSongs::class, 'album_id');
+    }
     public static function up_file_album($file, $userName)
     {
         try {
@@ -81,31 +84,6 @@ class Album extends Model
     }
 
 
-
-
-
-    // public static function getAlbums($perPage, $filterSinger, $filterCreate)
-    // {
-    //     $query = Album::with('singer') // Tự động lấy quan hệ `singer`
-    //         ->whereNull('deleted_at'); // Chỉ lấy album chưa bị xóa
-
-    //    
-    //     if ($filterSinger) {
-    //         $query->where('singer_id', $filterSinger);
-    //     }
-
-    //   
-    //     if ($filterCreate) {
-    //         $query->whereDate('creation_date', $filterCreate);
-    //     }
-
-    //     return $query->orderBy('id', 'asc')->paginate($perPage);
-    // }
-
-
-
-
-
     public static function updateAlbum($id, $data)
     {
         $currentAlbum = DB::table('albums')->where('id', $id)->first();
@@ -125,4 +103,6 @@ class Album extends Model
             'image' => $data['image'],
         ]);
     }
+
+
 }

@@ -33,25 +33,25 @@
                         <form class="row g-3 needs-validation" novalidate method="post" action="{{route('albums.albumsongs.add')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="createAlbumSongLabel">Thêm mới quốc gia</h1>
+                                <h1 class="modal-title fs-5" id="createAlbumSongLabel">Thêm mới bài hát vào album</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="col-md-12 position-relative">
                                     <label for="validationTooltip01" class="form-label">Album</label>
-                                    <select name="album_id" id="album_id" class="form-control">
+                                    <select name="album_id" id="album_id" class="form-select">
                                         <option selected value="">Chọn Album</option>
-                                        @foreach ($albums as $album)
-                                        <option value="{{$album->id}}">{{ $album->album_name }}</option>
+                                        @foreach ($albums as $index => $album)
+                                        <option value="{{$album->id}}">{{$index +1}}. {{ $album->album_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-12 my-3 position-relative">
                                     <label for="validationTooltip01" class="form-label">Bài hát</label>
-                                    <select name="song_id" id="song_id" class="form-control">
+                                    <select name="song_id" id="song_id" class="form-select">
                                         <option selected value="">Chọn Bài Hát</option>
-                                        @foreach ($songs as $song)
-                                        <option value="{{$song->id}}">{{ $song->song_name }}</option>
+                                        @foreach ($songs as $index => $song)
+                                        <option value="{{$song->id}}">{{$index +1}}. {{ $song->song_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -78,7 +78,7 @@
             <h5>Bộ Lọc</h5>
             <form action="{{route('albums.albumsongs.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
-                <div class="col-6 col-sm">
+                <div class="col-2">
                     <label for="">Hiển thị</label>
                     <select name="indexPage" id="indexPage" class="form-select" onchange="submitForm()">
                         <option value="10" {{request()->input('indexPage') == 10 ? 'selected' : ''}}>10</option>
@@ -92,23 +92,23 @@
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Album</label>
-                    <select name="filterAlbum" id="indexPage" class="form-select" onchange="submitForm()">
+                    <select name="filterAlbum" id="filterAlbum" class="form-select" onchange="submitForm()">
                         <option value="{{request()->input('filterAlbum') ? request()->input('filterAlbum') : ''}}" selected>
                             {{request()->input('filterAlbum') ? \App\Models\Album::find(request()->input('filterAlbum'))->album_name : 'Chọn Album'}}
                         </option>
-                        @foreach ( $albums as $album)
-                        <option value="{{$album->id}}" >{{$album->album_name}}</option>
+                        @foreach ( \App\Models\Album::has('albumsong')->get() as $index => $album)
+                        <option value="{{$album->id}}" >{{$index +1}}. {{$album->album_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-6 col-sm">
                     <label for="">Theo Bài Hát</label>
-                    <select name="filterSong" id="indexPage" class="form-select" onchange="submitForm()">
+                    <select name="filterSong" id="filterSong" class="form-select" onchange="submitForm()">
                         <option value="{{request()->input('filterSong') ? request()->input('filterSong') : ''}}" selected>
                             {{request()->input('filterSong') ? \App\Models\Music::find(request()->input('filterSong'))->song_name : 'Chọn Bài Hát'}}
                         </option>
-                        @foreach ( \App\Models\Music::all() as $song)
-                        <option value="{{$song->id}}">{{$song->song_name}}</option>
+                        @foreach ( \App\Models\Music::has('albumsong')->get() as $index => $song)
+                        <option value="{{$song->id}}">{{$index +1}}. {{$song->song_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -133,7 +133,7 @@
                 <th scope="col">STT</th>
                 <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Tên album <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Bài hát <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Bài hát <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>

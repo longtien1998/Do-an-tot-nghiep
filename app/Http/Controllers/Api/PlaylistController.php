@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Api\Playlist;
+use App\Models\Api\Songs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +18,38 @@ class PlaylistController extends Controller
         } else {
             return response()->json(['message' => 'Tài khoản không có playlist nào'], 404);
         }
+    }
+
+    public function public_playlist(){
+        $playlists = Playlist::where('share', true)->get();
+        if ($playlists->count() > 0) {
+            return response()->json($playlists);
+        } else {
+            return response()->json(['message' => 'Không có playlist công khai nào'], 404);
+        }
+    }
+
+    public function public_playlist_detail($playlist_id){
+        $playlist = Playlist::find($playlist_id);
+        if ($playlist) {
+            return response()->json($playlist);
+        } else {
+            return response()->json(['message' => 'Playlist không tồn tại'], 404);
+        }
+    }
+
+    public function public_playlist_song($playlist_id){
+        $playlist = Playlist::find($playlist_id);
+
+        if (!$playlist) {
+            return response()->json(['message' => 'Playlist không tồn tại'], 404);
+        }
+        $songs = $playlist->playlist_song;
+        if ($songs->isEmpty()) {
+            return response()->json(['message' => 'Playlist không có bài hát nào.']);
+        }
+        $data = Playlist::getsong($songs->pluck('song_id'));
+        return response()->json($data);
     }
 
     public function store(Request $request)
@@ -44,7 +77,8 @@ class PlaylistController extends Controller
         $playlist = Playlist::create([
             'playlist_name' => $request->playlist_name,
             'share' => $request->share ?? false,
-            'user_id' => $request->user_id
+            'user_id' => $request->user_id,
+            'background' => 'https://soundwave2.s3.us-east-2.amazonaws.com/playlist/album_default.png',
         ]);
         if ($playlist) {
             return response()->json($playlist, 201);
@@ -63,10 +97,12 @@ class PlaylistController extends Controller
 
         $songs = $playlist->playlist_song;
 
+
         if ($songs->isEmpty()) {
             return response()->json(['message' => 'Playlist không có bài hát nào.']);
         }
-        return response()->json($songs->pluck('id'));
+        $data = Playlist::getsong($songs->pluck('song_id'));
+        return response()->json($data);
     }
 
     public function destroy($id)
@@ -86,7 +122,6 @@ class PlaylistController extends Controller
         $playlist = Playlist::find($id);
 
         if ($playlist) {
-
             $exists = $playlist->playlist_song()
                 ->wherePivot('song_id', $request->song_id)
                 ->exists();
@@ -94,7 +129,12 @@ class PlaylistController extends Controller
             if ($exists) {
                 return response()->json(['message' => 'Bài hát đã tồn tại trong playlist'], 409);
             }
-
+            $count =  $playlist->playlist_song()->count();
+            if ($count == 0) {
+                $background = Songs::find($request->song_id)->song_image;
+                $playlist->background = $background;
+                $playlist->save();
+            }
             $playlist->playlist_song()->attach($request->song_id);
             return response()->json(['message' => 'Thêm bài hát vào playlist thành công'], 200);
         } else {
