@@ -46,6 +46,9 @@ class Music extends Model
     public function favouritesong(){
         return $this->belongsToMany(User::class, 'favorite_song', 'song_id', 'user_id');
     }
+    public function albumsong(){
+        return $this->hasMany(AlbumSongs::class, 'song_id');
+    }
     public static function url($perPage)
     {
         try {

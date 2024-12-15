@@ -27,10 +27,15 @@ class LoginController extends Controller
             'email.email' => 'Email không đúng định dạng',
             'password.required' => 'Vui lòng nhập mật khẩu',
         ]);
-        $user = User::firstWhere('email', '=', $credentials['email'])->roles->first()->role_type;
+        $user = User::firstWhere('email', '=', $credentials['email'])->roles->first();
+        if($user){
+            $role = $user->role_type;
+        } else {
+            $role = 0;
+        }
         // dd($user);
         // Kiểm tra xem người dùng có quyền admin hay không
-        if ($user !== 1 && $user !== 2 && $user !== 3) {
+        if ($role == 0) {
             // Nếu người dùng không có quyền quản trị, chuyển hướng login lại
             return redirect()->back()->with('error', 'Tài khoản của bạn không có quyền vào Admin. Vui lòng đăng nhập tài khoản quản trị.');
         }

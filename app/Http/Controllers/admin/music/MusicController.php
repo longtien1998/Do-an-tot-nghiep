@@ -82,7 +82,7 @@ class MusicController extends Controller
 
     public function store_music(MusicPostRequest $request) //MusicPostRequest
     {
-        // dd($request->all());
+
 
         try {
             if ($request->hasFile('song_image')) {
@@ -122,7 +122,7 @@ class MusicController extends Controller
                     'path_type' => 'basic',
                     'song_id' => $song_id
                 ]);
-            } else{
+            } else if($request->file_basic !== null){
                 Filepaths::create([
                     'file_path' => $request->file_basic,
                     'path_type' => 'Basic',
@@ -141,7 +141,9 @@ class MusicController extends Controller
                     'path_type' => 'plus',
                     'song_id' => $song_id
                 ]);
-            } else {
+
+
+            } else if($request->file_plus !== null) {
                 Filepaths::create([
                     'file_path' => $request->file_plus,
                     'path_type' => 'plus',
@@ -161,7 +163,7 @@ class MusicController extends Controller
                     'path_type' => 'premium',
                     'song_id' => $song_id
                 ]);
-            } else {
+            } else if($request->file_premium !== null){
                 Filepaths::create([
                     'file_path' => $request->file_premium,
                     'path_type' => 'premium',

@@ -95,7 +95,7 @@ Route::group([
         // 'middleware' => ['role:role_3'],
     ], function () {
         route::controller(MusicController::class)->group(function () {
-            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware('can:');
+            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware('can:songs.index');
 
             Route::post('/search',  'search_song')->name('search-song');
             Route::get('/add',  'add_music')->name('add-music');
@@ -144,7 +144,7 @@ Route::group([
             // File nhạc trên AWS S3
             Route::get('/songs', [S3SongController::class, 'file_songs'])->name('s3songs.index');
             Route::post('/songs', [S3SongController::class, 'destroy_file_songs'])->name('s3songs.destroy');
-            Route::post('/songs-destroy', [S3ImageController::class, 'list_destroy_songs'])->name('s3list-destroy-songs');
+            Route::post('/songs-destroy', [S3SongController::class, 'list_destroy_songs'])->name('s3list-destroy-songs');
         });
     });
 
@@ -474,7 +474,7 @@ Route::group([
         'controller' => AlbumController::class,
         'as' => 'albums.',
     ], function () {
-        
+
 
         Route::match(['get', 'post'],'/', 'index')->name('list'); // Trang danh sách album
         Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album

@@ -30,7 +30,7 @@ Route::group([
 
 // đăng nhập member
 Route::group([
-    'middleware' => ['auth:sanctum'],
+    'middleware' => ['auth:api'],
 ], function () {
     // đăng xuất
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
@@ -58,6 +58,8 @@ Route::group([
     Route::post('/create-momo-url', [PaymentMomoController::class, 'createMomoUrl']);
     Route::get('/momo-return', [PaymentMomoController::class, 'momoReturn']);
 
+    //lịch sử thanh toán
+    Route::get('/{user_id}/history', [App\Http\Controllers\Api\PaymentController::class, 'index']);
 
     // thêm ca sĩ vào yêu thích
     Route::post('/ca-si/add-to-favourite', [App\Http\Controllers\Api\SingerController::class, 'addFavourite']);
@@ -85,6 +87,12 @@ Route::group([
     Route::get('/playlist-user/{playlist_id}/remove-song/{song_id}', [App\Http\Controllers\Api\PlaylistController::class, 'removeSong']);
     // danh sách bài hát với playlist
     Route::get('/playlist/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'list_song']);
+
+    // ablbum yêu thích với user
+    Route::get('/{user_id}/album-yeu-thich', [App\Http\Controllers\Api\FavouriteAlbumController::class, 'getAll']);
+    // thêm album vào yêu thích
+    Route::post('/album-yeu-thich', [App\Http\Controllers\Api\FavouriteAlbumController::class, 'addFavourite']);
+
 });
 
 // tìm kiếm
@@ -115,6 +123,15 @@ Route::get('/top-listen', [App\Http\Controllers\Api\SongsController::class, 'top
 Route::get('/top-like', [App\Http\Controllers\Api\SongsController::class, 'top_like']);
 // top 100 lượt tải
 Route::get('/top-download', [App\Http\Controllers\Api\SongsController::class, 'top_download']);
+
+// top 1 trending / thịnh hành
+Route::get('/top-1-trending', [App\Http\Controllers\Api\SongsController::class, 'top1_trending']);
+// top 1 lượt nghe
+Route::get('/top-1-listen', [App\Http\Controllers\Api\SongsController::class, 'top1_listen']);
+// top 1 lượt yêu thích
+Route::get('/top-1-like', [App\Http\Controllers\Api\SongsController::class, 'top1_like']);
+
+
 // 10 bài hát ngẫu nhiên
 Route::get('/rand-10', [App\Http\Controllers\Api\SongsController::class, 'songs_rand_10']);
 
@@ -139,10 +156,19 @@ Route::get('/ca-si/{singer_id}/bai-hat', [App\Http\Controllers\Api\SongsControll
 // Album theo ca sĩ
 Route::get('/ca-si/{singer_id}/album', [App\Http\Controllers\Api\AlbumController::class, 'album_singer']);
 
+// playlist công khai
+Route::get('/playlist-public', [App\Http\Controllers\Api\PlaylistController::class, 'public_playlist']);
+// playlist detail công khai
+Route::get('/playlist-public/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'public_playlist_detail']);
+// playlist song công khai
+Route::get('/playlist-public/{playlist_id}/song', [App\Http\Controllers\Api\PlaylistController::class, 'public_playlist_song']);
 
 // Album
 Route::get('/album', [App\Http\Controllers\Api\AlbumController::class, 'index']);
 // Thông tin album
 Route::get('/album/{album_id}', [App\Http\Controllers\Api\AlbumController::class, 'show']);
 // Bài hát trong album
-Route::get('/album/{album_id}/bai-hat', [App\Http\Controllers\Api\SongsController::class, 'list_song_album']);
+Route::get('/album/{album_id}/bai-hat', [App\Http\Controllers\Api\AlbumController::class, 'list_song_album']);
+// Album theo ca sĩ
+Route::get('/album/{singer_id}/ca-si', [App\Http\Controllers\Api\AlbumController::class, 'album_singer']);
+

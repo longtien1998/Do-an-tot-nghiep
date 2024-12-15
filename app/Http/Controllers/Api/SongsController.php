@@ -203,6 +203,48 @@ class SongsController extends Controller
         }
     }
 
+    // Bài hát theo toptrending
+    public function top1_trending()
+    {
+        $songs = Songs::top1Trennding();
+        if ($songs->isEmpty()) {
+            return response()->json([
+                'message' => 'Không có bài hát của ca sĩ này',
+
+            ], 404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
+    // Top lượt nghe
+    public function top1_listen()
+    {
+        $songs = Songs::top1Listen();
+        if ($songs->isEmpty()) {
+            return response()->json([
+                'message' => 'Không có bài hát',
+
+            ], 404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
+    // Top lượt like
+    public function top1_like()
+    {
+        $songs = Songs::top1Like();
+        if ($songs->isEmpty()) {
+            return response()->json([
+                'message' => 'Không có bài hát',
+
+            ], 404);
+        } else {
+            return response()->json($songs, 200);
+        }
+    }
+
 
     // Top lượt tải
     public function top_download()

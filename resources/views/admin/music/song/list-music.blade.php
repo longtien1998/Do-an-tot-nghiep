@@ -114,11 +114,11 @@
                 <th scope="col" onclick="sortTable(6)">Thể loại <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(7)">Ca sỹ <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col" onclick="sortTable(8)">Ngày phát hành <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(10)">Thời lượng <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(9)">Lượt nghe <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(10)">Lượt tải <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(10)">Lượt thích <span class="sort-icon"> ⬍ </span></th>
-                <th scope="col" onclick="sortTable(11)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(9)">Thời lượng <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(10)">Lượt nghe <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(11)">Lượt tải <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(12)">Lượt thích <span class="sort-icon"> ⬍ </span></th>
+                <th scope="col" onclick="sortTable(13)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
