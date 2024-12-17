@@ -24,7 +24,6 @@ class SingerController extends Controller
             $query->where('singer_gender', $filterGenDer);
         }
 
-
         if ($filterCreateStart) {
             $query->where('created_at', '>=', $filterCreateStart);
         }

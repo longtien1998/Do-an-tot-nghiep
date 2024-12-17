@@ -15,10 +15,13 @@
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
+        <a class="nav-item" href="{{route('payment.list')}}">
+        <i class="fa-regular fa-credit-card"></i>
+            <span>Danh sách thanh toán</span>
+        </a>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-lu" aria-controls="ql-lu">
             <i class='bx bxs-layout'></i>
             <span>Layout<i class="fa fa-caret-down float-end "></i></span>
-
         </a>
         <div class="accordion-collapse collapse" id="ql-lu" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">

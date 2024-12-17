@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\Authorization\RoleController;
 use App\Http\Controllers\Admin\StatisticalSongController;
 use App\Http\Controllers\Admin\StatisticalPayController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PaymentExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -58,6 +59,17 @@ Route::group([
     Route::get('/getPay/{date}', [HomeController::class, 'getPay'])->name('getPay');
 
 
+    //Thanh toán
+    Route::group([
+        'prefix' => 'payment',
+        'controller' => PaymentController::class,
+        'as' => 'payment.',
+    ], function () {
+        Route::match(['get', 'post'], '/list', 'list')->name('list');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::post('/search',  'search')->name('search');
+
+    });
 
     // thống kê bài hát
     route::group([

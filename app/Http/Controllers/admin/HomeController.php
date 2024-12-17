@@ -11,14 +11,14 @@ use App\Models\Singer;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Album;
-use App\Models\Payments;
+use App\Models\Payment;
 use App\Models\Country;
 use App\Models\Advertisements;
 use App\Models\Copyright;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Faker\Provider\ar_EG\Payment;
+
 
 class HomeController extends Controller
 {
@@ -32,8 +32,8 @@ class HomeController extends Controller
         $total_singer = Singer::count();
         $total_publishers = Publisher::count();
         $total_albums = Album::count();
-        $total_amount = Payments::sum('amount');
-        $total_order = Payments::count();
+        $total_amount = Payment::sum('amount');
+        $total_order = Payment::count();
         $total_country = Country::count();
         $total_ads = Advertisements::count();
         $total_copyright = Copyright::count();
