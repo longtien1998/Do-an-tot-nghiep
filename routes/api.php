@@ -70,9 +70,9 @@ Route::group([
     // check ca sĩ yêu thích
     Route::get('/check-ca-si-yeu-thich/{user_id}/{singer_id}', [App\Http\Controllers\Api\FavouriteSingerController::class, 'checkFavourite']);
 
+    //Liên hệ
+    Route::post('/lien-he', [App\Http\Controllers\Api\ContactController::class,'store']);
 
-    //Show bình luận theo id bài hát
-    Route::get('/binh-luan/{id}', [App\Http\Controllers\Api\CommentController::class, 'show_comment']);
 
 
     // danh sách playlist với suser_id
@@ -86,7 +86,10 @@ Route::group([
     // xóa bài hát khỏi playlist
     Route::get('/playlist-user/{playlist_id}/remove-song/{song_id}', [App\Http\Controllers\Api\PlaylistController::class, 'removeSong']);
     // danh sách bài hát với playlist
-    Route::get('/playlist/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'list_song']);
+    Route::get('/playlist-song/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'list_song']);
+    //chi tiết playlist private
+    Route::get('/playlist-private/{playlist_id}', [App\Http\Controllers\Api\PlaylistController::class, 'public_playlist_detail']);
+
 
     // ablbum yêu thích với user
     Route::get('/{user_id}/album-yeu-thich', [App\Http\Controllers\Api\FavouriteAlbumController::class, 'getAll']);
@@ -94,6 +97,12 @@ Route::group([
     Route::post('/album-yeu-thich', [App\Http\Controllers\Api\FavouriteAlbumController::class, 'addFavourite']);
 
 });
+
+// lấy banner
+Route::get('/banner', [App\Http\Controllers\Api\BannerController::class, 'index']);
+
+//Show bình luận theo id bài hát
+Route::get('/binh-luan/{id}', [App\Http\Controllers\Api\CommentController::class, 'show_comment']);
 
 // tìm kiếm
 Route::post('/tim-kiem', [App\Http\Controllers\Api\SearchController::class, 'search']);

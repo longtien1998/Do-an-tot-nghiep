@@ -8,6 +8,7 @@ use App\Models\Api\Songs;
 use App\Http\Resources\SongsResource;
 use App\Models\Ranking_log;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class SongsController extends Controller
 {

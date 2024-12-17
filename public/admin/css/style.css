@@ -364,12 +364,11 @@ table>thead>tr>th{
 /* Dashboard Cards */
 .dashboard-card {
     background-color: #fff;
-    padding: 20px;
+    padding: 16px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
 .name-sidebar h2 {

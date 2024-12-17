@@ -26,7 +26,7 @@
         <div class="accordion-collapse collapse" id="ql-lu" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
-                    <a href="" class="nav-item">
+                    <a href="{{route('banner.index')}}" class="nav-item">
                         <i class="fa-solid fa-image"></i>
                         <span class="">Banner</span>
                     </a>

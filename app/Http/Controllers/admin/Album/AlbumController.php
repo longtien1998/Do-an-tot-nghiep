@@ -43,6 +43,7 @@ class AlbumController extends Controller
         $filterAlbum = $request->input('filterAlbum', false);
         $filterSong = $request->input('filterSong', false);
         $albums = Album::all();
+        $songsAdd = Music::select('id', 'song_name')->get();
         $songs = Music::has('albumsong')->get();
         $albumsong = AlbumSongs::selectAllSong($perPage, $filterAlbum, $filterSong);
 
