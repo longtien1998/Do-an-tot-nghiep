@@ -38,15 +38,26 @@ class CommentController extends Controller
         // dd($data);
         return response()->json($add);
     }
-    public function show_comment($id){
+    public function show_comment($id)
+    {
         try {
-            
-            $comment = Comment::where('song_id',$id)->get();
+
+            $comment = Comment::where('song_id', $id)->orderByDesc('rating_date')->get();
+            $reviews = $comment->map(function ($rating) {
+                return [
+                    'id' => $rating->id,
+                    'user_id' => $rating->user_id,
+                    'name' => $rating->user->name,
+                    'comment' => $rating->comment,
+                    'rating' => $rating->rating,
+                    'rating_date' => $rating->rating_date
+                ];
+            });
             // dd($comment);
-            if($comment->isEmpty()){
-                return response()->json(['message'=>'Không có bình luận nào'],400);
+            if ($comment->isEmpty()) {
+                return response()->json(['message' => 'Không có bình luận nào'], 400);
             }
-        return response()->json($comment);
+            return response()->json($reviews);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Lỗi'], 400);
         }

@@ -90,6 +90,7 @@
         <thead>
             <tr>
                 <th><input type="checkbox" name="" id="check_all_list" class=""></th>
+                <th scope="col-1">STT</th>
                 <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(2)">Tên <span class="sort-icon">⬍</span></th>
                 <th scope="col" onclick="sortTable(3)">Email <span class="sort-icon">⬍</span></th>
@@ -106,13 +107,14 @@
         <tbody>
             @if(count($users))
             @php $stt = 1; @endphp
-            @foreach($users as $user)
+            @foreach($users as $index => $user)
             <tr>
                 <td>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
                     <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
+                <th scope="row">{{$users->firstItem() + $index}}</th>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>

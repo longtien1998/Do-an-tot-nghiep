@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hasTable('contacts')){
-            Schema::create('contacts', function (Blueprint $table) {
+        if(!Schema::hasTable('banners')){
+            Schema::create('banners', function (Blueprint $table) {
                 $table->id();
-                $table->string('topic',255 );
-                $table->string('username',50);
-                $table->string('email',100);
-                $table->text('message');
-                $table->string('status')->default('waiting');
+                $table->string('banner_name');
+                $table->string('banner_url');
+                $table->boolean('status')->default(false);
                 $table->timestamps();
+                $table->softDeletes();
             });
         }
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contacts_tables');
+        Schema::dropIfExists('banners');
     }
 };

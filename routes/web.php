@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\StatisticalPayController;
 use App\Http\Controllers\Admin\ExportController;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PaymentExport;
+use App\Http\Controllers\Admin\Layout\BannerController;
+use App\Http\Controllers\Admin\ContactController;
 use Maatwebsite\Excel\Facades\Excel;
 
 //test
@@ -38,6 +40,7 @@ Route::get('/test', function () {
 
 // lấy thông báo
 Route::get('/notification-count', [NotificationController::class, 'count']);
+Route::get('/banner/{id}/update/status', [BannerController::class, 'change_status']);
 
 //authentication
 route::group([
@@ -47,6 +50,10 @@ route::group([
     Route::post('/login',  'authenticate')->name('login');
     Route::post('/logout',  'logout')->name('logout');
 });
+// check auto account anh copyright
+    Route::get('/check-account', [HomeController::class, 'checkCopyrightAccount'])->name('check-copyright-account');
+
+
 
 Route::group([
     'middleware' => ['login'],
@@ -515,6 +522,58 @@ Route::group([
             Route::post('/list/delete', 'delete_list_album_song')->name('delete-list');
 
         });
+    });
+
+
+    // banner
+    Route::group([
+        'prefix' => 'banner',
+        // 'middleware' => ['role:role_7'],
+        'controller' => BannerController::class,
+        'as' => 'banner.',
+    ], function () {
+        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::post('/search',  'search')->name('search');
+        Route::get('/create',  'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{id}/edit',  'edit')->name('edit');
+        Route::put('/{id}/update',  'update')->name('update');
+        Route::delete('/{id}/delete',  'delete')->name('delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list');
+
+
+
+        Route::group([
+            'prefix' => 'trash',
+            'as' => 'trash.',
+        ], function () {
+            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::post('/search',  'search_trash_banner')->name('search');
+            Route::get('/{id}/restore', 'restore_banner')->name('restore');
+            Route::post('/restore', 'restore_list_banner')->name('restore-list');
+            Route::get('/restore-all', 'restore_all_banner')->name('restore-all');
+            Route::get('/{id}/destroy', 'destroy_banner')->name('destroy');
+            Route::post('/destroy', 'destroy_list_banner')->name('destroy-list');
+        });
+        Route::get('/file-banner', 'file')->name('file');
+        Route::post('/destroy-banner', 'destroy_file')->name('destroy_file');
+        Route::post('/list-destroy-banner', 'list_destroy_file')->name('destroy-list-banner');
+    });
+
+    Route::group([
+        'prefix' => 'contact',
+        // 'middleware' => ['role:role_7'],
+        'controller' => ContactController::class,
+        'as' => 'contact.',
+    ], function () {
+        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::post('/search',  'search')->name('search');
+        Route::get('/create',  'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{id}/edit',  'edit')->name('edit');
+        Route::put('/{id}/update',  'update')->name('update');
+        Route::delete('/{id}/delete',  'delete')->name('delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list');
     });
 
 });

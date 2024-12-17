@@ -7,6 +7,7 @@ use App\Models\Api\Playlist;
 use App\Models\Api\Songs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Collection;
 
 class PlaylistController extends Controller
 {
@@ -44,8 +45,8 @@ class PlaylistController extends Controller
         if (!$playlist) {
             return response()->json(['message' => 'Playlist không tồn tại'], 404);
         }
-        $songs = $playlist->playlist_song;
-        if ($songs->isEmpty()) {
+        $songs = $playlist->playlist_song();
+        if (!$songs) {
             return response()->json(['message' => 'Playlist không có bài hát nào.']);
         }
         $data = Playlist::getsong($songs->pluck('song_id'));
@@ -95,7 +96,7 @@ class PlaylistController extends Controller
             return response()->json(['message' => 'Playlist không tồn tại'], 404);
         }
 
-        $songs = $playlist->playlist_song;
+        $songs = $playlist->playlist_song();
 
 
         if ($songs->isEmpty()) {
