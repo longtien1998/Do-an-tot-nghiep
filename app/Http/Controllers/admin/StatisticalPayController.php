@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Payments;
+use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -12,7 +12,7 @@ class StatisticalPayController extends Controller
 {
     public function payment()
     {
-        $dataPay = Payments::paginate(20);
+        $dataPay = Payment::paginate(20);
         return view('admin.statistical.payment', compact('dataPay'));
     }
     public function getPay($date)
