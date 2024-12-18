@@ -40,6 +40,18 @@
             <form action="{{route('payment.list')}}" class="row align-middle" method="post" id="itemsPerPageForm">
                 @csrf
                 <div class="col-6 col-sm-2">
+                    <label for="">Hiển thị</label>
+                    <select name="indexPage" id="indexPage" class="form-select" onchange="submitForm()">
+                        <option value="10" {{request()->input('indexPage') == 10 ? 'selected' : ''}}>10</option>
+                        <option value="20" {{request()->input('indexPage') == 20 ? 'selected' : ''}}>20</option>
+                        <option value="50" {{request()->input('indexPage') == 50 ? 'selected' : ''}}>50</option>
+                        <option value="100" {{request()->input('indexPage') == 100 ? 'selected' : ''}}>100</option>
+                        <option value="200" {{request()->input('indexPage') == 200 ? 'selected' : ''}}>200</option>
+                        <option value="500" {{request()->input('indexPage') == 500 ? 'selected' : ''}}>500</option>
+                        <option value="1000" {{request()->input('indexPage') == 1000 ? 'selected' : ''}}>1000</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-2">
                     <label for="">Phương thức thanh toán</label>
                     <select name="filterMethod" id="filterMethod" class="form-select" onchange="submitForm()">
                         <option value="{{ request()->input('filterMethod')}}">{{ request()->input('filterMethod') ?? 'Chọn phương thức'}}</option>

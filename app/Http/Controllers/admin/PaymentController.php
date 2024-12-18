@@ -13,6 +13,7 @@ class PaymentController extends Controller
 
     public function list(Request $request)
     {
+        $perPage = $request->input('indexPage', 10);
         $filterMethod = $request->input('filterMethod', false);
         $filterStatus = $request->input('filterStatus', false);
         $filterCreateStart = $request->input('filterCreateStart', false);
@@ -33,7 +34,7 @@ class PaymentController extends Controller
             $query->where('payment_date', '<=', $filterCreateEnd);
         }
 
-        $payments = $query->paginate(20);
+        $payments = $query->paginate($perPage);
 
         return view('admin.payment.list', compact('payments'));
     }
