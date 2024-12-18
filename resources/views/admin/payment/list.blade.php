@@ -103,7 +103,7 @@
                 <td>{{$payment->payment_date}}</td>
                 <td>{{$payment->payment_method}}</td>
                 <td>{{number_format($payment->amount)}} VNĐ</td>
-                <td>{{$payment->user->name}}</td>
+                <td>{{$payment->user ? $payment->user->name : 'Người dùng không tồn tại'}}</td>
                 <td>
                     <select name="payment_status"
                         class="form-select update-status {{ $payment->payment_status == 'Đang thanh toán' ? 'bg-warning' : ($payment->payment_status == 'Thành công' ? 'bg-success' : 'bg-danger') }} text-white"
