@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </form>
-            <div class="col-md-4 shadow p-3 mb-5 rounded mt-3">
+            <div class="col-md-4 shadow p-3 rounded mt-3 overflow-y-auto" style="max-height: 550px;">
                     <h4>Danh sách quyền hạn</h4>
                     <table class="table">
                         <tr class>

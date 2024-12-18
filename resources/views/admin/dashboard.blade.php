@@ -36,7 +36,7 @@
         </div>
         <div class="col ">
             <div class="dashboard-card h-100" style="background: linear-gradient(98deg, rgba(186,249,181,1) 39%, rgba(153,225,255,1) 87%);">
-                <a href="{{route('users.list')}}" class="text-decoration-none text-black">
+                <a href="{{route('list-music')}}" class="text-decoration-none text-black">
                     <i class="fas fa-music"></i>
                     <span>Bài hát</span>
                     <p class="card-value">{{$total_song}}</p>
@@ -72,7 +72,7 @@
         </div>
         <div class="col">
             <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                <a href="{{route('users.list')}}" class="text-decoration-none text-black">
+                <a href="{{route('payment.list')}}" class="text-decoration-none text-black">
                     <i class="fas fa-dollar-sign"></i>
                     <span>Thu nhập</span>
                     <p class="card-value">{{number_format($total_amount)}} VND</p>
@@ -135,7 +135,7 @@
         </div>
         <div class="col">
             <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #c1f0fc 0%, #f7d6e0 100%);">
-                <a href="{{route('list-country')}}" class="text-decoration-none text-black">
+                <a href="{{route('contacts.index')}}" class="text-decoration-none text-black">
                 <i class="fa-solid fa-handshake-angle"></i>
                     <span>Hỗ trợ</span>
                     <p class="card-value">{{$total_contact}}</p>

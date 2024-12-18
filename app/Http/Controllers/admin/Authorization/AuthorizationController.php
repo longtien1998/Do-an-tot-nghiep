@@ -68,4 +68,14 @@ class AuthorizationController extends Controller
             ]);
         }
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->search;
+        $roles = Role::all();
+        $users = User::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+            ->paginate(20);
+        return view('admin.authorization.authorization.index', compact('roles', 'users'));
+    }
 }

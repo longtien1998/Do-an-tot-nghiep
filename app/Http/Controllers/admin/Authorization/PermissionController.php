@@ -73,7 +73,7 @@ class PermissionController extends Controller
                 'alias' => $request->alias,
                 'module_id' => $request->module
             ]);
-            return redirect()->route('permissions.index')->with('success','Quyền hạn đã được tạo!');
+            return redirect()->back()->with('success','Quyền hạn đã được tạo!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error','Đã xảy ra lỗi khi tạo quyền hạn')->withInput();
         }

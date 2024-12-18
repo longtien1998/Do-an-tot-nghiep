@@ -33,7 +33,7 @@ class HomeController extends Controller
         $total_singer = Singer::count();
         $total_publishers = Publisher::count();
         $total_albums = Album::count();
-        $total_amount = Payment::sum('amount');
+        $total_amount = Payment::where('payment_status', '=', 'Thành công')->sum('amount');
         $total_order = Payment::count();
         $total_country = Country::count();
         $total_ads = Advertisements::count();

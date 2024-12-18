@@ -62,7 +62,7 @@ route::group([
 
 
 Route::group([
-    'middleware' => ['login'],
+    'middleware' => ['login','admin'],
 ], function () {
     // dashboard
     Route::get('/', [HomeController::class, 'home'])->name('');
@@ -77,8 +77,8 @@ Route::group([
         'controller' => PaymentController::class,
         'as' => 'payment.',
     ], function () {
-        Route::match(['get', 'post'], '/list', 'list')->name('list');
-        Route::post('/update/{id}', 'update')->name('update');
+        Route::match(['get', 'post'], '/list', 'list')->name('list')->middleware('can:payment.list');
+        Route::post('/update/{id}', 'update')->name('update')->middleware('can:payment.update');
         Route::post('/search',  'search')->name('search');
 
     });
@@ -119,37 +119,37 @@ Route::group([
         // 'middleware' => ['role:role_3'],
     ], function () {
         route::controller(MusicController::class)->group(function () {
-            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware('can:songs.index');
+            Route::match(['get', 'post'], '/list',  'list_music')->name('list-music')->middleware('can:list-music');
 
             Route::post('/search',  'search_song')->name('search-song');
-            Route::get('/add',  'add_music')->name('add-music');
+            Route::get('/add',  'add_music')->name('add-music')->middleware('can:add-music');
             Route::post('/store',  'store_music')->name('store-music');
             Route::get('/{id}/show',  'show_music')->name('show-music');
-            Route::put('/{id}/update',  'update_music')->name('update-music');
-            Route::delete('/{id}/delete',  'delete_music')->name('delete-music');
-            Route::post('/list/delete',  'delete_list_music')->name('delete-list-music');
+            Route::put('/{id}/update',  'update_music')->name('update-music')->middleware('can:update-music');
+            Route::delete('/{id}/delete',  'delete_music')->name('delete-music')->middleware('can:delete-music');
+            Route::post('/list/delete',  'delete_list_music')->name('delete-list-music')->middleware('can:delete-list-music');
             // update file nhạc
-            Route::put('/{id}/update-file-music',  'up_loadFile_music')->name('up-load-file-music');
+            Route::put('/{id}/update-file-music',  'up_loadFile_music')->name('up-load-file-music')->middleware('can:up-load-file-music');
             // url
             Route::group([
                 'prefix' => 'url',
                 'as' => 'url.',
                 'controller' => UrlsongController::class,
             ], function () {
-                Route::match(['get', 'post'], '/list',  'index')->name('index');
+                Route::match(['get', 'post'], '/list',  'index')->name('index')->middleware('can:url.index');
                 Route::post('/store',  'store')->name('store');
-                Route::put('/{id}/update',  'update')->name('update');
-                Route::delete('/{id}/delete',  'destroy')->name('destroy');
+                Route::put('/{id}/update',  'update')->name('update')->middleware('can:url.update');
+                Route::delete('/{id}/delete',  'destroy')->name('destroy')->middleware('can:url.destroy');
             });
             //trash
             route::prefix('trash')->group(function () {
-                Route::match(['get', 'post'], '/',  'list_trash_music')->name('list-trash-music');
+                Route::match(['get', 'post'], '/',  'list_trash_music')->name('list-trash-music')->middleware('can:list-trash-music');
                 Route::post('/search',  'search_song_trash')->name('search-song-trash');
                 Route::post('/restore',  'restore_trash_music')->name('list-restore-songs');
                 Route::get('/restore-all',  'restore_all_music')->name('restore-all-songs');
-                Route::post('/delete',  'delete_trash_music')->name('list-delete-songs');
-                Route::get('/delete-all',  'delete_all_music')->name('delete-all-songs');
-                Route::get('/{id}/destroy',  'destroy_trash_music')->name('destroy-trash-songs');
+                Route::post('/delete',  'delete_trash_music')->name('list-delete-songs')->middleware('can:list-delete-songs');
+                Route::get('/delete-all',  'delete_all_music')->name('delete-all-songs')->middleware('can:delete-all-songs');
+                Route::get('/{id}/destroy',  'destroy_trash_music')->name('destroy-trash-songs')->middleware('can:destroy-trash-songs');
             });
 
             // check validation
@@ -162,13 +162,13 @@ Route::group([
         });
         route::prefix('s3')->group(function () {
             // hình ảnh trên AWS S3
-            Route::get('/images', [S3ImageController::class, 'image_songs'])->name('s3images.index');
-            Route::post('/images', [S3ImageController::class, 'destroy_image_songs'])->name('s3images.destroy');
-            Route::post('/images-destroy', [S3ImageController::class, 'list_destroy_image_songs'])->name('s3list-destroy-image-songs');
+            Route::get('/images', [S3ImageController::class, 'image_songs'])->name('s3images.index')->middleware('can:s3images.index');
+            Route::post('/images', [S3ImageController::class, 'destroy_image_songs'])->name('s3images.destroy')->middleware('can:s3images.destroy');
+            Route::post('/images-destroy', [S3ImageController::class, 'list_destroy_image_songs'])->name('s3list-destroy-image-songs')->middleware('can:list_destroy_image_songs');
             // File nhạc trên AWS S3
-            Route::get('/songs', [S3SongController::class, 'file_songs'])->name('s3songs.index');
-            Route::post('/songs', [S3SongController::class, 'destroy_file_songs'])->name('s3songs.destroy');
-            Route::post('/songs-destroy', [S3SongController::class, 'list_destroy_songs'])->name('s3list-destroy-songs');
+            Route::get('/songs', [S3SongController::class, 'file_songs'])->name('s3songs.index')->middleware('can:s3songs.index');
+            Route::post('/songs', [S3SongController::class, 'destroy_file_songs'])->name('s3songs.destroy')->middleware('can:s3songs.destroy');
+            Route::post('/songs-destroy', [S3SongController::class, 'list_destroy_songs'])->name('s3list-destroy-songs')->middleware('can:s3list-destroy-songs');
         });
     });
 
@@ -178,22 +178,22 @@ Route::group([
         // 'middleware' => ['role:role_4'],
         'controller' => CountriesController::class,
     ], function () {
-        Route::match(['get', 'post'], '/list', 'index')->name('list-country');
+        Route::match(['get', 'post'], '/list', 'index')->name('list-country')->middleware('can:list-country');
         Route::post('/search', 'search_country')->name('search-country');
-        Route::post('/store', 'store_country')->name('store-country');
-        Route::put('/{id}/update', 'update_country')->name('update-country');
-        Route::delete('/{id}/delete', 'delete_country')->name('delete-country');
-        Route::post('/list/delete', 'delete_list_country')->name('delete-list');
+        Route::post('/store', 'store_country')->name('store-country')->middleware('can:store-country');
+        Route::put('/{id}/update', 'update_country')->name('update-country')->middleware('can:update-country');
+        Route::delete('/{id}/delete', 'delete_country')->name('update-country')->middleware('can:update-country');
+        Route::post('/list/delete', 'delete_list_country')->name('delete-list')->middleware('can:delete-list');
 
         // trash countries
         route::prefix('trash')->group(function () {
-            Route::match(['get', 'post'], '/', 'list_trash_country')->name('list_trash_country');
+            Route::match(['get', 'post'], '/', 'list_trash_country')->name('list_trash_country')->middleware('can:list_trash_countr');
             Route::post('/search', 'search_country_trash')->name('search-country-trash');
             Route::get('/{id}/restore', 'restore_country')->name('restore_country');
             Route::post('/restore', 'restore_trash_country')->name('list-restore-countries');
             Route::get('/restore-all', 'restore_all_country')->name('restore-all-countries');
-            Route::post('/destroy', 'destroy_trash_list_country')->name('list-destroy-countries');
-            Route::get('/{id}/destroy', 'destroy_trash_country')->name('destroy-trash-country');
+            Route::post('/destroy', 'destroy_trash_list_country')->name('list-destroy-countries')->middleware('can:list-destroy-countries');
+            Route::get('/{id}/destroy', 'destroy_trash_country')->name('destroy-trash-country')->middleware('can:destroy-trash-country');
         });
     });
 
@@ -206,26 +206,26 @@ Route::group([
         'as' => 'categories.',
     ], function () {
 
-        Route::match(['get', 'post'], '/list',  'list_categories')->name('list');
-        Route::get('/add',  'add_categories')->name('add');
+        Route::match(['get', 'post'], '/list',  'list_categories')->name('list')->middleware('can:categories.list');
+        Route::get('/add',  'add_categories')->name('add')->middleware('can:categories.add');
         Route::post('/store',  'store_categories')->name('store');
         Route::get('/{id}/edit',  'edit_categories')->name('edit');
-        Route::put('/{id}/update',  'update_categories')->name('update');
-        Route::delete('/{id}/delete',  'delete_categories')->name('delete');
-        Route::post('/list/delete',  'delete_list')->name('delete-list');
+        Route::put('/{id}/update',  'update_categories')->name('update')->middleware('can:categories.update');
+        Route::delete('/{id}/delete',  'delete_categories')->name('delete')->middleware('can:categories.delete');
+        Route::post('/list/delete',  'delete_list')->name('delete-list')->middleware('can:categories.delete-list');
         Route::post('/search',  'search_categories')->name('search');
 
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'], '/',  'trash_categories')->name('list');
+            Route::match(['get', 'post'], '/',  'trash_categories')->name('list')->middleware('can:categories.trash.list');
             Route::post('/search',  'search_trash_categories')->name('search');
             Route::get('/{id}/restore', 'restore_categories')->name('restore');
             Route::post('/restore', 'restore_list_categories')->name('restore-list');
             Route::get('/restore-all', 'restore_all_categories')->name('restore-all');
-            Route::get('/{id}/destroy', 'destroy_categories')->name('destroy');
-            Route::post('/destroy', 'destroy_list_categories')->name('destroy-list');
+            Route::get('/{id}/destroy', 'destroy_categories')->name('destroy')->middleware('can:categories.trash.destroy');
+            Route::post('/destroy', 'destroy_list_categories')->name('destroy-list')->middleware('can:categories.trash.destroy-list');
         });
     });
 
@@ -236,31 +236,31 @@ Route::group([
         'controller' => PublishersController::class,
         'as' => 'publishers.',
     ], function () {
-        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::match(['get', 'post'], '/',  'index')->name('index')->middleware('can:publishers.index');
         Route::post('/search',  'search')->name('search');
-        Route::get('/create',  'create')->name('create');
+        Route::get('/create',  'create')->name('create')->middleware('can:publishers.create');
         Route::post('/store', 'store')->name('store');
         Route::get('/{id}/edit',  'edit')->name('edit');
-        Route::put('/{id}/update',  'update')->name('update');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list')->name('delete-list');
+        Route::put('/{id}/update',  'update')->name('update')->middleware('can:publishers.update');
+        Route::delete('/{id}/delete',  'delete')->name('delete')->middleware('can:publishers.delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list')->middleware('can:publishers.delete-list');
 
 
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::match(['get', 'post'], '/',  'trash')->name('index')->middleware('can:publishers.trash.index');
             Route::post('/search',  'search_trash_publishers')->name('search');
             Route::get('/{id}/restore', 'restore_publishers')->name('restore');
             Route::post('/restore', 'restore_list_publishers')->name('restore-list');
             Route::get('/restore-all', 'restore_all_publishers')->name('restore-all');
-            Route::get('/{id}/destroy', 'destroy_publishers')->name('destroy');
-            Route::post('/destroy', 'destroy_list_publishers')->name('destroy-list');
+            Route::get('/{id}/destroy', 'destroy_publishers')->name('destroy')->middleware('can:publishers.trash.index');
+            Route::post('/destroy', 'destroy_list_publishers')->name('destroy-list')->middleware('can:publishers.trash.index');
         });
-        Route::get('/file-logo', 'file')->name('file');
-        Route::post('/destroy-logo', 'destroy_file')->name('destroy_file');
-        Route::post('/list-destroy-logo', 'list_destroy_file')->name('destroy-list-logo');
+        Route::get('/file-logo', 'file')->name('file')->middleware('can:publishers.trash.index');
+        Route::post('/destroy-logo', 'destroy_file')->name('destroy_file')->middleware('can:publishers.trash.index');
+        Route::post('/list-destroy-logo', 'list_destroy_file')->name('destroy-list-logo')->middleware('can:publishers.trash.index');
     });
 
 
@@ -271,32 +271,32 @@ Route::group([
         'controller' => SingerController::class,
         'as' => 'singer.',
     ], function () {
-        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::match(['get', 'post'], '/',  'index')->name('index')->middleware('can:singer.index');
         Route::post('/search',  'search')->name('search');
-        Route::get('/create',  'create')->name('create');
+        Route::get('/create',  'create')->name('create')->middleware('can:singer.create');
         Route::post('/store', 'store')->name('store');
         Route::get('/{id}/edit',  'edit')->name('edit');
-        Route::put('/{id}/update',  'update')->name('update');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list')->name('delete-list');
+        Route::put('/{id}/update',  'update')->name('update')->middleware('can:singer.update');
+        Route::delete('/{id}/delete',  'delete')->name('delete')->middleware('can:singer.delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list')->middleware('can:singer.delete-list');
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::match(['get', 'post'], '/',  'trash')->name('index')->middleware('can:singer.trash.index');
             Route::post('/search',  'search_trash_singer')->name('search');
             Route::get('/{id}/restore', 'restore_singer')->name('restore');
             Route::post('/restore', 'restore_list_singer')->name('restore-list');
             Route::get('/restore-all', 'restore_all_singer')->name('restore-all');
-            Route::get('/{id}/destroy', 'destroy_singer')->name('destroy');
-            Route::post('/destroy', 'destroy_list_singer')->name('destroy-list');
+            Route::get('/{id}/destroy', 'destroy_singer')->name('destroy')->middleware('can:singer.trash.destroy');
+            Route::post('/destroy', 'destroy_list_singer')->name('destroy-list')->middleware('can:singer.trash.destroy-list');
         });
 
         route::prefix('s3')->group(function () {
             // hình ảnh trên AWS S3
-            Route::get('/images', [S3ImgSingersController::class, 'image_singer'])->name('s3images.index');
-            Route::post('/images', [S3ImgSingersController::class, 'destroy_image_singers'])->name('s3images.destroy');
-            Route::post('/images-destroy', [S3ImgSingersController::class, 'list_destroy_image_singers'])->name('s3list-destroy-image-singers');
+            Route::get('/images', [S3ImgSingersController::class, 'image_singer'])->name('s3images.index')->middleware('can:singer.s3images.index');
+            Route::post('/images', [S3ImgSingersController::class, 'destroy_image_singers'])->name('s3images.destroy')->middleware('can:singer.s3images.destroy');
+            Route::post('/images-destroy', [S3ImgSingersController::class, 'list_destroy_image_singers'])->name('s3list-destroy-image-singers')->middleware('can:singer.s3images.destroy');
         });
     });
 
@@ -307,31 +307,31 @@ Route::group([
         'controller' => CopyrightController::class,
         'as' => 'copyrights.',
     ], function () {
-        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::match(['get', 'post'], '/',  'index')->name('index')->middleware('can:copyrights.index');
         Route::post('/search',  'search')->name('search');
-        Route::get('/create',  'create')->name('create');
+        Route::get('/create',  'create')->name('create')->middleware('can:copyrights.create');
         Route::post('/store', 'store')->name('store');
         Route::get('/{id}/edit',  'edit')->name('edit');
-        Route::put('/{id}/update',  'update')->name('update');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list')->name('delete-list');
+        Route::put('/{id}/update',  'update')->name('update')->middleware('can:copyrights.update');
+        Route::delete('/{id}/delete',  'delete')->name('delete')->middleware('can:copyrights.delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list')->middleware('can:copyrights.delete-list');
 
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::match(['get', 'post'], '/',  'trash')->name('index')->middleware('can:copyrights.trash.index');
             Route::post('/search',  'search_trash_copyrights')->name('search');
             Route::get('/{id}/restore', 'restore_copyrights')->name('restore');
             Route::post('/restore', 'restore_list_copyrights')->name('restore-list');
             Route::get('/restore-all', 'restore_all_copyrights')->name('restore-all');
-            Route::get('/{id}/destroy', 'destroy_copyrights')->name('destroy');
-            Route::post('/destroy', 'destroy_list_copyrights')->name('destroy-list');
+            Route::get('/{id}/destroy', 'destroy_copyrights')->name('destroy')->middleware('can:copyrights.trash.destroy');
+            Route::post('/destroy', 'destroy_list_copyrights')->name('destroy-list')->middleware('can:copyrights.trash.destroy-list');
         });
 
-        Route::get('/file-copyright', 'file')->name('file');
-        Route::post('/destroy-file-copyright', 'destroy_file')->name('destroy_file');
-        Route::post('/list-destroy-file-copyright', 'list_destroy_file')->name('destroy-list-logo');
+        Route::get('/file-copyright', 'file')->name('file')->middleware('can:copyrights.file');
+        Route::post('/destroy-file-copyright', 'destroy_file')->name('destroy_file')->middleware('can:copyrights.destroy_file');
+        Route::post('/list-destroy-file-copyright', 'list_destroy_file')->name('destroy-list-logo')->middleware('can:copyrights.destroy-list-logo');
     });
 
 
@@ -342,29 +342,29 @@ Route::group([
         'controller' => AdvertisementsController::class,
         'as' => 'advertisements.',
     ], function () {
-        Route::match(['get', 'post'], '/list',  'list_advertisements')->name('list');
-        Route::get('/create',  'add_advertisements')->name('create');
+        Route::match(['get', 'post'], '/list',  'list_advertisements')->name('list')->middleware('can:advertisements.list');
+        Route::get('/create',  'add_advertisements')->name('create')->middleware('can:advertisements.create');
         Route::post('/store',  'storeAdvertisements')->name('store');
         Route::get('/{id}/edit',  'edit_advertisements')->name('edit');
-        Route::put('/{id}/update',  'update_advertisements')->name('update');
+        Route::put('/{id}/update',  'update_advertisements')->name('update')->middleware('can:advertisements.update');
         Route::post('/search',  'searchAds')->name('search');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list_ads')->name('delete-list');
+        Route::delete('/{id}/delete',  'delete')->name('delete')->middleware('can:advertisements.index');
+        Route::post('/delete-list',  'delete_list_ads')->name('delete-list')->middleware('can:advertisements.delete-list');
         Route::prefix('s3')->group(function () {
-            Route::get('/s3ads/show', [S3AdsController::class, 'file_ads'])->name('s3ads.index');
-            Route::post('/s3ads', [S3AdsController::class, 'destroy_file_ads'])->name('s3ads.destroy');
+            Route::get('/s3ads/show', [S3AdsController::class, 'file_ads'])->name('s3ads.index')->middleware('can:advertisements.s3ads.index');
+            Route::post('/s3ads', [S3AdsController::class, 'destroy_file_ads'])->name('s3ads.destroy')->middleware('can:advertisements.s3ads.destroy');
         });
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::get('/list',  'list_trash_ads')->name('list');
+            Route::get('/list',  'list_trash_ads')->name('list')->middleware('can:advertisements.trash.list');
             Route::post('/search',  'search_ads_trash')->name('search');
             Route::post('/restore',  'restore_trash_ads')->name('restore');
             Route::get('/restore-all',  'restore_all_ads')->name('restore-all');
-            Route::post('/delete',  'delete_trash_ads')->name('delete');
-            Route::get('/delete-all',  'delete_all_ads')->name('delete-all');
-            Route::get('/{id}/destroy',  'destroy_trash_ads')->name('destroy');
+            Route::post('/delete',  'delete_trash_ads')->name('delete')->middleware('can:advertisements.trash.delete');
+            Route::get('/delete-all',  'delete_all_ads')->name('delete-all')->middleware('can:advertisements.trash.delete-all');
+            Route::get('/{id}/destroy',  'destroy_trash_ads')->name('destroy')->middleware('can:advertisements.trash.destroy');
         });
     });
 
@@ -375,15 +375,15 @@ Route::group([
         'controller' => UsersController::class,
         'as' => 'users.',
     ], function () {
-        Route::match(['get', 'post'], '/list',  'list_users')->name('list');
-        Route::get('/create',  'add_users')->name('create');
+        Route::match(['get', 'post'], '/list',  'list_users')->name('list')->middleware('can:users.list');
+        Route::get('/create',  'add_users')->name('create')->middleware('can:users.create');
         Route::post('/store',  'storeAddUser')->name('store');
-        Route::put('/update-pass/{id}',  'updatePass')->name('updatePass');
+        Route::put('/update-pass/{id}',  'updatePass')->name('updatePass')->middleware('can:users.updatePass');
         Route::get('/{id}/edit',  'edit_users')->name('edit');
-        Route::put('/{id}/update',  'update_users')->name('update');
+        Route::put('/{id}/update',  'update_users')->name('update')->middleware('can:users.update');
         Route::post('/search',  'searchUser')->name('search');
-        Route::delete('/{id}/delete',  'delete_users')->name('delete');
-        Route::post('/delete-list',  'delete_list_users')->name('delete-list');
+        Route::delete('/{id}/delete',  'delete_users')->name('delete')->middleware('can:users.delete');
+        Route::post('/delete-list',  'delete_list_users')->name('delete-list')->middleware('can:users.delete-list');
         Route::get('/{id}/show',  'show_user')->name('show');
 
         //trash
@@ -391,13 +391,13 @@ Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::get('/list',  'list_trash_users')->name('list');
+            Route::get('/list',  'list_trash_users')->name('list')->middleware('can:users.trash.list');
             Route::post('/search',  'search_users_trash')->name('search');
             Route::post('/restore',  'restore_trash_users')->name('restore');
             Route::get('/restore-all',  'restore_all_users')->name('restore-all');
-            Route::post('/delete',  'delete_trash_users')->name('delete');
-            Route::get('/delete-all',  'delete_all_users')->name('delete-all');
-            Route::get('/{id}/destroy',  'destroy_trash_users')->name('destroy');
+            Route::post('/delete',  'delete_trash_users')->name('delete')->middleware('can:users.trash.delete');
+            Route::get('/delete-all',  'delete_all_users')->name('delete-all')->middleware('can:users.trash.delete-all');
+            Route::get('/{id}/destroy',  'destroy_trash_users')->name('destroy')->middleware('can:users.trash.destroy');
         });
     });
 
@@ -408,32 +408,32 @@ Route::group([
         'controller' => CommentController::class,
         'as' => 'comments.',
     ], function () {
-        Route::match(['get', 'post'], '/list',  'list_comments')->name('list');
+        Route::match(['get', 'post'], '/list',  'list_comments')->name('list')->middleware('can:comments.list');
         // Route::get('/create',  'add_users')->name('create');
         // Route::post('/store',  'storeAddUser')->name('store');
         Route::get('/{id}/edit',  'edit_comments')->name('edit');
-        Route::put('/{id}/update',  'update_comments')->name('update');
+        Route::put('/{id}/update',  'update_comments')->name('update')->middleware('can:comments.update');
         Route::post('/search',  'searchComments')->name('search');
-        Route::delete('/{id}/delete',  'delete_comments')->name('delete');
-        Route::post('/delete-list',  'delete_list_comments')->name('delete-list');
+        Route::delete('/{id}/delete',  'delete_comments')->name('delete')->middleware('can:comments.delete');
+        Route::post('/delete-list',  'delete_list_comments')->name('delete-list')->middleware('can:comments.delete-list');
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::get('/list',  'list_trash_comments')->name('list');
+            Route::get('/list',  'list_trash_comments')->name('list')->middleware('can:comments.list');
             Route::post('/search',  'search_comments_trash')->name('search');
             Route::post('/restore',  'restore_trash_comments')->name('restore');
             Route::get('/restore-all',  'restore_all_comments')->name('restore-all');
-            Route::post('/delete',  'delete_trash_comments')->name('delete');
-            Route::get('/delete-all',  'delete_all_comments')->name('delete-all');
-            Route::get('/{id}/destroy',  'destroy_trash_comments')->name('destroy');
+            Route::post('/delete',  'delete_trash_comments')->name('delete')->middleware('can:comments.delete');
+            Route::get('/delete-all',  'delete_all_comments')->name('delete-all')->middleware('can:comments.delete-all');
+            Route::get('/{id}/destroy',  'destroy_trash_comments')->name('destroy')->middleware('can:comments.destroy');
         });
     });
 
     //Modules
     Route::group([
         'prefix' => 'modules',
-        // 'middleware' => ['role:role_13'],
+        'middleware' => ['can:modules'],
         'controller' => ModuleController::class,
         'as' => 'modules.',
     ], function () {
@@ -450,7 +450,7 @@ Route::group([
     //Permissions
     Route::group([
         'prefix' => 'permissions',
-        // 'middleware' => ['role:role_13'],
+        'middleware' => ['can:permissions'],
         'controller' => PermissionController::class,
         'as' => 'permissions.',
     ], function () {
@@ -467,7 +467,7 @@ Route::group([
     //roles
     Route::group([
         'prefix' => 'roles',
-        // 'middleware' => ['role:role_13'],
+        'middleware' => ['can:roles'],
         'controller' => RoleController::class,
         'as' => 'roles.',
     ], function () {
@@ -486,7 +486,7 @@ Route::group([
     //authorization
     Route::group([
         'prefix' => 'authorization',
-        // 'middleware' => ['role:role_13'],
+        'middleware' => ['can:authorization'],
         'controller' => AuthorizationController::class,
         'as' => 'authorization.',
     ], function () {
@@ -505,43 +505,43 @@ Route::group([
     ], function () {
 
 
-        Route::match(['get', 'post'],'/', 'index')->name('list'); // Trang danh sách album
-        Route::get('/create', 'add_album')->name('add'); // Trang thêm mới album
+        Route::match(['get', 'post'],'/', 'index')->name('list')->middleware('can:albums.list');
+        Route::get('/create', 'add_album')->name('add');
         Route::post('/search',  'search_album')->name('search');
-        Route::post('/', 'store_album')->name('store'); // Xử lý lưu album
-        Route::get('/{id}/edit', 'edit_album')->name('edit'); // Trang chỉnh sửa album
-        Route::put('/{id}', 'update_album')->name('update'); // Xử lý cập nhật album
-        Route::delete('/{id}/delete', 'delete_album')->name('delete'); // Xử lý lưu album
-        Route::post('/list/delete', 'delete_list')->name('delete-list'); // Xóa danh sách album
+        Route::post('/', 'store_album')->name('store')->middleware('can:albums.store');
+        Route::get('/{id}/edit', 'edit_album')->name('edit');
+        Route::put('/{id}', 'update_album')->name('update')->middleware('can:albums.update');
+        Route::delete('/{id}/delete', 'delete_album')->name('delete')->middleware('can:albums.delete');
+        Route::post('/list/delete', 'delete_list')->name('delete-list')->middleware('can:albums.delete-list');
         // Route::get('/singer/{id}/albums','showAlbumsWithAllSongs')->name('singer.albums');
         route::prefix('s3')->group(function () {
             // hình ảnh trên AWS S3
-            Route::get('/images', [S3ImgAlbumController::class, 'image_albums'])->name('s3images.index');
-            Route::post('/images', [S3ImgAlbumController::class, 'destroy_image_albums'])->name('s3images.destroy');
-            Route::post('/images-destroy', [S3ImgAlbumController::class, 'list_destroy_image_albums'])->name('s3list-destroy-image-albums');
+            Route::get('/images', [S3ImgAlbumController::class, 'image_albums'])->name('s3images.index')->middleware('can:albums.s3images.index');
+            Route::post('/images', [S3ImgAlbumController::class, 'destroy_image_albums'])->name('s3images.destroy')->middleware('can:albums.s3images.destroy');
+            Route::post('/images-destroy', [S3ImgAlbumController::class, 'list_destroy_image_albums'])->name('s3list-destroy-image-albums')->middleware('can:albums.s3list-destroy-image-album');
         });
         Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'],'/list',  'list_trash_album')->name('list');
+            Route::match(['get', 'post'],'/list',  'list_trash_album')->name('list')->middleware('can:albums.trash.list');
             Route::post('/search',  'search_album_trash')->name('search');
             Route::post('/restore',  'restore_trash_album')->name('restore');
             Route::get('/restore-all',  'restore_all_album')->name('restore-all');
-            Route::post('/delete',  'delete_trash_album')->name('delete');
-            Route::get('/delete-all',  'delete_all_album')->name('delete-all');
-            Route::get('/{id}/destroy',  'destroy_trash_album')->name('destroy');
+            Route::post('/delete',  'delete_trash_album')->name('delete')->middleware('can:albums.trash.delete');
+            Route::get('/delete-all',  'delete_all_album')->name('delete-all')->middleware('can:albums.trash.delete-all');
+            Route::get('/{id}/destroy',  'destroy_trash_album')->name('destroy')->middleware('can:albums.trash.destroy');
         });
         // ALbum_song route
         Route::group([
             'prefix' => 'albumsongs',
             'as' => 'albumsongs.',
         ], function () {
-            Route::match(['get', 'post'],'/list',  'list_album_song')->name('list');
-            Route::post('/add', 'add_album_song')->name('add');
-            Route::put('/{id}/update',  'update_album_song')->name('update');
-            Route::delete('/{id}/delete',  'delete_album_song')->name('delete');
-            Route::post('/list/delete', 'delete_list_album_song')->name('delete-list');
+            Route::match(['get', 'post'],'/list',  'list_album_song')->name('list')->middleware('can:albums.list');
+            Route::post('/add', 'add_album_song')->name('add')->middleware('can:albums.albumsongs.add');
+            Route::put('/{id}/update',  'update_album_song')->name('update')->middleware('can:albums.albumsongs.update');
+            Route::delete('/{id}/delete',  'delete_album_song')->name('delete')->middleware('can:albums.albumsongs.delete');
+            Route::post('/list/delete', 'delete_list_album_song')->name('delete-list')->middleware('can:albums.albumsongs.delete-list');
 
         });
     });
@@ -554,14 +554,14 @@ Route::group([
         'controller' => BannerController::class,
         'as' => 'banner.',
     ], function () {
-        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::match(['get', 'post'], '/',  'index')->name('index')->middleware('can:banner.index');
         Route::post('/search',  'search')->name('search');
-        Route::get('/create',  'create')->name('create');
+        Route::get('/create',  'create')->name('create')->middleware('can:banner.create');
         Route::post('/store', 'store')->name('store');
         Route::get('/{id}/edit',  'edit')->name('edit');
-        Route::put('/{id}/update',  'update')->name('update');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list')->name('delete-list');
+        Route::put('/{id}/update',  'update')->name('update')->middleware('can:banner.update');
+        Route::delete('/{id}/delete',  'delete')->name('delete')->middleware('can:banner.delete');
+        Route::post('/delete-list',  'delete_list')->name('delete-list')->middleware('can:banner.delete-list');
 
 
 
@@ -569,29 +569,28 @@ Route::group([
             'prefix' => 'trash',
             'as' => 'trash.',
         ], function () {
-            Route::match(['get', 'post'], '/',  'trash')->name('index');
+            Route::match(['get', 'post'], '/',  'trash')->name('index')->middleware('can:banner.trash.index');
             Route::post('/search',  'search_trash_banner')->name('search');
             Route::get('/{id}/restore', 'restore_banner')->name('restore');
             Route::post('/restore', 'restore_list_banner')->name('restore-list');
             Route::get('/restore-all', 'restore_all_banner')->name('restore-all');
-            Route::get('/{id}/destroy', 'destroy_banner')->name('destroy');
-            Route::post('/destroy', 'destroy_list_banner')->name('destroy-list');
+            Route::get('/{id}/destroy', 'destroy_banner')->name('destroy')->middleware('can:banner.trash.index');
+            Route::post('/destroy', 'destroy_list_banner')->name('destroy-list')->middleware('can:banner.trash.index');
         });
-        Route::get('/file-banner', 'file')->name('file');
-        Route::post('/destroy-banner', 'destroy_file')->name('destroy_file');
-        Route::post('/list-destroy-banner', 'list_destroy_file')->name('destroy-list-banner');
+        Route::get('/file-banner', 'file')->name('file')->middleware('can:file');
+        Route::post('/destroy-banner', 'destroy_file')->name('destroy_file')->middleware('can:banner.destroy_file');
+        Route::post('/list-destroy-banner', 'list_destroy_file')->name('destroy-list-banner')->middleware('can:banner.destroy-list-banner');
     });
 
     //contact
     Route::group([
         'prefix' => 'contact',
-        // 'middleware' => ['role:role_7'],
         'controller' => ContactController::class,
         'as' => 'contacts.',
     ], function () {
-        Route::match(['get', 'post'], '/',  'index')->name('index');
+        Route::match(['get', 'post'], '/',  'index')->name('index')->middleware('can:contacts.index');
         Route::post('/search',  'search')->name('search');
-        Route::put('/{id}/update',  'update')->name('update');
+        Route::put('/{id}/update',  'update')->name('update')->middleware('can:contacts.contacts');
     });
 
 });
