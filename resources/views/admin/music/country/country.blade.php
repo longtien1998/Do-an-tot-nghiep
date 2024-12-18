@@ -25,17 +25,7 @@
 
 <div class="container-fluid">
     <div class="form-group row justify-content-between m-0 p-0">
-        @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <h5>Thông báo !</h5>
-            <ul>
-                @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
+
         <div class="col-sm-6 my-3">
             <a href="{{route('list-country')}}" class="btn btn-outline-success"> Tất cả quốc gia</a>
             <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#createCoutry">Thêm quốc gia</button>
@@ -59,7 +49,7 @@
                                 </div>
                                 <div class="col-md-12 my-3 position-relative">
                                     <label for="validationTooltip01" class="form-label">Ảnh nền</label>
-                                    <input type="file" class="form-control" name="background" id="backgroundAdd" value="{{old('background')}}"  accept="image/*" required>
+                                    <input type="file" class="form-control" name="background" id="backgroundAdd" value="{{old('background')}}" accept="image/*" required>
                                     <img id="previewImageAdd" src="" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                                     <div class="valid-tooltip">
                                         Looks good!
@@ -75,14 +65,25 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('search-country')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('search-country')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên quốc gia..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
     </div>
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h5>Thông báo !</h5>
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="form-group row justify-content-between m-0 p-0">
         <div class="col-sm-6 my-3">
             <div>Đã chọn <strong id="total-songs">0</strong> mục</div>
@@ -277,6 +278,7 @@
 
 
     const updateRoute = "{{ route('update-country', ['id' => '__ID__']) }}";
+
     function editCountry() {
         let id = arguments[0];
         let name = arguments[1];
@@ -284,7 +286,7 @@
 
         const finalAction = updateRoute.replace('__ID__', id);
         $('#name_country').val(name);
-        $('#previewImageUp').attr('src',background);
+        $('#previewImageUp').attr('src', background);
         $('#previewImageUp').removeClass('d-none');
         $('#formEditCountry').attr('action', finalAction);
     }

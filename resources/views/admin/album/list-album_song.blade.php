@@ -48,9 +48,9 @@
                                 </div>
                                 <div class="col-md-12 my-3 position-relative">
                                     <label for="validationTooltip01" class="form-label">Bài hát</label>
-                                    <select name="song_id" id="song_id" class="form-select">
+                                    <select name="song_id" id="song_id" class="form-select" aria-label="Default select example">
                                         <option selected value="">Chọn Bài Hát</option>
-                                        @foreach ($songs as $index => $song)
+                                        @foreach ($songsAdd as $index => $song)
                                         <option value="{{$song->id}}">{{$index +1}}. {{ $song->song_name }}</option>
                                         @endforeach
                                     </select>
@@ -65,8 +65,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{ route('albums.search') }}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{ route('albums.search') }}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên album..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -97,7 +97,7 @@
                             {{request()->input('filterAlbum') ? \App\Models\Album::find(request()->input('filterAlbum'))->album_name : 'Chọn Album'}}
                         </option>
                         @foreach ( \App\Models\Album::has('albumsong')->get() as $index => $album)
-                        <option value="{{$album->id}}" >{{$index +1}}. {{$album->album_name}}</option>
+                        <option value="{{$album->id}}">{{$index +1}}. {{$album->album_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -144,7 +144,7 @@
                 <td><input type="checkbox" class="check_list" value="{{ $album->id }}"></td>
                 <td>{{$index+1}}</td>
                 <td>{{ $album->id }}</td>
-                <td>{{ $album->album->album_name }}</td>
+                <td>{{ $album->album->album_name?? null }}</td>
                 <td>{{ $album->song->song_name }}</td>
                 <td>
                     <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editAlbumSong" onclick="editAlbumSong('{{$album->id}}','{{$album->album_id}}','{{$album->song_id}}')">
@@ -184,7 +184,7 @@
                     @method('put')
                     <div class="modal-header">
                         <h1 class="modal-title fs-3" id="createCoutryLabel">Chỉnh sửa bài hát trong album</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12 position-relative">
@@ -257,4 +257,38 @@
         $('#formeditAlbumSong').attr('action', finalAction);
     }
 </script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#song_id').select2({
+            placeholder: "Tìm kiếm...",
+            allowClear: false,
+            width: '100%',
+            minimumResultsForSearch: 5,
+        }).on('select2:open', function() {
+            $('.select2-container--open').css('z-index', '99999');
+        });
+
+        // add vào hợp đồng
+        $('#song_id').on('change', function() {
+            const nameSong = $(this).find('option:selected').val();
+            console.log(nameSong);
+            $.ajax({
+                url: '/api/bai-hat/' + nameSong,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function(response) {
+                    console.log(response.song_name);
+
+                    $('.name_song_text').text(response.song_name);
+                    $('.composer_text').text(response.composer);
+                }
+            })
+        });
+    });
+</script> -->
 @endsection

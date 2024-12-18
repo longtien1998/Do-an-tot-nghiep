@@ -14,7 +14,7 @@ class CommentController extends Controller
 
     public function list_comments()
     {
-        $comments = Comment::with(['user', 'song'])->paginate(10);
+        $comments = Comment::with(['user', 'song'])->orderByDesc('id')->paginate(10);
         // dd($comments->users);
         return view('admin.comments.list-comments', compact('comments'));
     }
@@ -40,7 +40,7 @@ class CommentController extends Controller
     public function list_trash_comments()
 
     {
-        $comments = Comment::onlyTrashed()->paginate(10);
+        $comments = Comment::onlyTrashed()->orderByDesc('id')->paginate(10);
         return view('admin.comments.list-trash-comments', compact('comments'));
     }
 
@@ -183,7 +183,7 @@ class CommentController extends Controller
         }
     }
 
-    
+
     public function search_comments_trash(Request $request)
     {
         $validate = Validator::make($request->all(), [

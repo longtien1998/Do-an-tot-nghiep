@@ -382,7 +382,7 @@ class MusicController extends Controller
     public function list_trash_music()
 
     {
-        $songs = Music::onlyTrashed()->paginate(10);
+        $songs = Music::onlyTrashed()->orderByDesc('id')->paginate(10);
         // dd($songs);
         return view('admin.music.trash.list-trash-music', compact('songs'));
     }

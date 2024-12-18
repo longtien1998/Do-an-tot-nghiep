@@ -20,7 +20,7 @@ class AuthorizationController extends Controller
         if ($request->isMethod('post')) {
             $perPage = $request->indexPage;
         }
-        $users = User::paginate($perPage);
+        $users = User::orderByDesc('id')->paginate($perPage);
         $roles = Role::all();
         return view('admin.authorization.authorization.index', compact('roles', 'users'));
     }

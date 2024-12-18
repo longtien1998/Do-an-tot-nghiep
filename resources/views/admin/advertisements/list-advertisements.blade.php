@@ -27,8 +27,8 @@
             <a href="{{route('advertisements.list')}}" class="btn btn-outline-success"> Tất cả quảng cáo</a>
             <a href="{{route('advertisements.create')}}" class="btn btn-success">Thêm quảng cáo</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('advertisements.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('advertisements.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên quảng cáo..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

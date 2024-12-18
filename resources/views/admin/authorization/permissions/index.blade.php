@@ -27,8 +27,8 @@
             <a href="{{route('permissions.index')}}" class="btn btn-outline-success"> Tất cả Quyền hạn</a>
             <a href="{{route('permissions.create')}}" class="btn btn-success">Thêm Quyền hạn</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('permissions.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('permissions.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, tên khác, module ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

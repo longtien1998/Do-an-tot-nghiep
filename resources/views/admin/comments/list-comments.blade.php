@@ -27,8 +27,8 @@
             <a href="{{route('comments.list')}}" class="btn btn-outline-success"> Tất cả bình luận</a>
             <!-- <a href="#" class="btn btn-success">Thêm bình luận</a> -->
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('comments.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('comments.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bình luận..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

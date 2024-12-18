@@ -22,7 +22,7 @@ class Comment extends Model
     ];
     public static function selectCmt()
     {
-        return Self::with(['user', 'song'])->paginate(10);
+        return Self::with(['user', 'song'])->orderByDesc('id')->paginate(10);
     }
     public static function search_cmt($search)
     {

@@ -31,6 +31,6 @@ class Module extends Model
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 }

@@ -125,7 +125,7 @@ class UsersController extends Controller
     public function list_trash_users()
 
     {
-        $users = User::onlyTrashed()->paginate(10);
+        $users = User::onlyTrashed()->orderByDesc('id')->paginate(10);
         return view('admin.users.list-trash-users', compact('users'));
     }
 

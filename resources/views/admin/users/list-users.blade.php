@@ -26,9 +26,10 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('users.list')}}" class="btn btn-outline-success"> Tất cả tài khoản</a>
             <a href="{{route('users.create')}}" class="btn btn-success">Thêm tài khoản</a>
+            <a href="{{route('checkaccounttype')}}" class="btn btn-warning">Check hạn tài khoản</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('users.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('users.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên tài khoản..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -90,37 +91,39 @@
         <thead>
             <tr>
                 <th><input type="checkbox" name="" id="check_all_list" class=""></th>
-                <th scope="col" onclick="sortTable(1)">ID <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(2)">Tên <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(3)">Email <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(4)">Số điện thoại <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(5)">Giới tính <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(6)">Ngày sinh <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(7)">Hình ảnh <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(8)">Ngày tạo <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(9)">Quyền <span class="sort-icon">⬍</span></th>
-                <th scope="col" onclick="sortTable(10)">Loại người dùng <span class="sort-icon">⬍</span></th>
+                <th scope="col-1">STT</th>
+                <th scope="col" onclick="sortTable(2)">ID <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(3)">Tên <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(4)">Email <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(5)">Số điện thoại <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(6)">Giới tính <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(7)">Ngày sinh <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(8)">Hình ảnh <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(9)">Ngày tạo <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(10)">Quyền <span class="sort-icon">⬍</span></th>
+                <th scope="col" onclick="sortTable(11)">Loại người dùng <span class="sort-icon">⬍</span></th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
             @if(count($users))
             @php $stt = 1; @endphp
-            @foreach($users as $user)
+            @foreach($users as $index => $user)
             <tr>
                 <td>
                     @if (Auth::check() && Auth::user()->id !== $user->id)
                     <input type="checkbox" class="check_list" value="{{$user->id}}">
                     @endif
                 </td>
+                <th scope="row">{{$users->firstItem() + $index}}</th>
                 <th scope="row">{{$user->id}}</th>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->phone}}</td>
                 <td>
-                    @if($user->gender == 'nam')
+                    @if($user->gender == 'Nam')
                     <span class="bg-info text-white p-1 rounded-2">Nam</span>
-                    @elseif($user->gender == 'nu')
+                    @elseif($user->gender == 'Nữ')
                     <span class="text-white p-1 rounded-2" style="background-color: pink;">Nữ</span>
                     @else
                     <span class="text-white p-1 rounded-2" style="background-color: gray;">Khác</span>

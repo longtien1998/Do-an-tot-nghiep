@@ -15,7 +15,9 @@ class PaymentVnpController extends Controller
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         // $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
         // $vnp_Returnurl = "https://soundwave.io.vn/Pay";
-        $vnp_Returnurl = "http://localhost:5173/PayNotification";
+        // $vnp_Returnurl = "http://localhost:5173/PayNotification";
+        $vnp_Returnurl = env('URL_PAY', 'http://127.0.0.1:8000/api/vnpay-return');
+
 
         $vnp_TmnCode = "X5Q306C0"; //Mã website tại VNPAY
         $vnp_HashSecret = "R04WJ0BG8LZTS97OTCCLTQ9PC6GRG6M2"; //Chuỗi bí mật

@@ -16,7 +16,7 @@
             <span>Dashboard</span>
         </a>
         <a class="nav-item" href="{{route('payment.list')}}">
-        <i class="fa-regular fa-credit-card"></i>
+            <i class="fa-regular fa-credit-card"></i>
             <span>Danh sách thanh toán</span>
         </a>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-lu" aria-controls="ql-lu">
@@ -26,7 +26,7 @@
         <div class="accordion-collapse collapse" id="ql-lu" data-bs-parent="#accordionFlushExample">
             <ol class="nav-collapse">
                 <li>
-                    <a href="" class="nav-item">
+                    <a href="{{route('banner.index')}}" class="nav-item">
                         <i class="fa-solid fa-image"></i>
                         <span class="">Banner</span>
                     </a>
@@ -34,7 +34,7 @@
             </ol>
         </div>
         <a class="nav-item collapsed" data-bs-toggle="collapse" data-bs-target="#ql-tk" aria-controls="ql-tk">
-        <i class="fa-solid fa-square-poll-vertical"></i>
+            <i class="fa-solid fa-square-poll-vertical"></i>
             <span>Thống kê<i class="fa fa-caret-down float-end "></i></span>
 
         </a>
@@ -170,7 +170,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="nav-item">
+                    <a href="{{ route('singer.s3images.index') }}" class="nav-item">
                         <i class="fa-solid fa-file"></i>
                         <span class="">Hình Ca sĩ</span>
                     </a>
@@ -395,6 +395,10 @@
 
             </ol>
         </div>
+        <a class="nav-item" href="{{route('contacts.index')}}">
+            <i class="fa-solid fa-list"></i>
+            <span>Danh sách hổ trợ</span>
+        </a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button class="nav-item dropdown-item" type="submit">

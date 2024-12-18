@@ -25,8 +25,8 @@
             <div class="col-sm-6 my-3">
                 <a href="{{ route('categories.add') }}" class="btn btn-success">Thêm thể loại</a>
             </div>
-            <div class="col-sm-3 my-3">
-                <form class="search-form" action="{{ route('categories.search') }}" method="post">
+            <div class="col-sm-6 my-3">
+                <form class="search-form float-end" action="{{ route('categories.search') }}" method="post">
                     @csrf
                     <input type="text" name="search" placeholder="Tên thể loại..." required />
                     <button type="submit"><i class="fas fa-search"></i></button>

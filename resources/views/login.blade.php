@@ -58,7 +58,7 @@
                         @enderror
                     </div>
                     <div class="sub-w3l">
-                        <h6><a href="#">Khôi phục mật khẩu?</a></h6>
+                        <h6><a href="https://soundwave.io.vn/PasswordReset" taget='_black'>Khôi phục mật khẩu?</a></h6>
                         <div class="right-w3l">
                             <input type="submit" value="Login">
                         </div>

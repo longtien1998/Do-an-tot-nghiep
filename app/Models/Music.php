@@ -186,8 +186,7 @@ class Music extends Model
         if ($filterCreate) {
             $query->whereDate('songs.created_at', $filterCreate); // Giả định rằng bạn có trường `created_at`
         }
-        $query->orderBy('id', 'asc');
-        $songsList = $query->paginate($perPage);
+        $songsList = $query->orderByDesc('id')->paginate($perPage);
         // dd($songsList);
         return $songsList;
     }
