@@ -13,7 +13,7 @@ class CategoriesController extends Controller
 {
     public function list_categories()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::orderByDesc('id')->paginate(10);
         return view('admin.categories.list-categories', compact('categories'));
     }
 

@@ -80,7 +80,7 @@ class Album extends Model
             $query->whereDate('creation_date', $filterCreate);
         }
 
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 
 

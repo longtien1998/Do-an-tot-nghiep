@@ -29,8 +29,8 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('copyrights.trash.index')}}" class="btn btn-outline-success"> Tất cả bản quyền đã xóa</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('copyrights.trash.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('copyrights.trash.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bài hát, tên nhà xuất bản..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

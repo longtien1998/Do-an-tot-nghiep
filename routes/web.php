@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\SingerController;
 use App\Http\Controllers\Admin\Album\AlbumController;
 use App\Http\Controllers\Admin\Album\S3ImgAlbumController;
+use App\Http\Controllers\Admin\Singer\S3ImgSingersController;
 use App\Http\Controllers\Admin\Copyright\CopyrightController;
 use App\Http\Controllers\Admin\Publisher\PublishersController;
 use App\Http\Controllers\Admin\Ads\AdvertisementsController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Admin\StatisticalSongController;
 use App\Http\Controllers\Admin\StatisticalPayController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\Auto\CheckAccountController;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PaymentExport;
 use App\Http\Controllers\Admin\Layout\BannerController;
@@ -38,9 +40,12 @@ Route::get('/test', function () {
     return view('test');
 });
 
+// tự động check account
+Route::get('/check-account-type', [CheckAccountController::class, 'index'])->name('checkaccounttype');
 
 // lấy thông báo
 Route::get('/notification-count', [NotificationController::class, 'count']);
+
 Route::get('/banner/{id}/update/status', [BannerController::class, 'change_status']);
 
 //authentication
@@ -287,7 +292,12 @@ Route::group([
             Route::post('/destroy', 'destroy_list_singer')->name('destroy-list');
         });
 
-        Route::get('/file', 'file')->name('file');
+        route::prefix('s3')->group(function () {
+            // hình ảnh trên AWS S3
+            Route::get('/images', [S3ImgSingersController::class, 'image_singer'])->name('s3images.index');
+            Route::post('/images', [S3ImgSingersController::class, 'destroy_image_singers'])->name('s3images.destroy');
+            Route::post('/images-destroy', [S3ImgSingersController::class, 'list_destroy_image_singers'])->name('s3list-destroy-image-singers');
+        });
     });
 
     // Copyright
@@ -572,20 +582,16 @@ Route::group([
         Route::post('/list-destroy-banner', 'list_destroy_file')->name('destroy-list-banner');
     });
 
+    //contact
     Route::group([
         'prefix' => 'contact',
         // 'middleware' => ['role:role_7'],
         'controller' => ContactController::class,
-        'as' => 'contact.',
+        'as' => 'contacts.',
     ], function () {
         Route::match(['get', 'post'], '/',  'index')->name('index');
         Route::post('/search',  'search')->name('search');
-        Route::get('/create',  'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/{id}/edit',  'edit')->name('edit');
         Route::put('/{id}/update',  'update')->name('update');
-        Route::delete('/{id}/delete',  'delete')->name('delete');
-        Route::post('/delete-list',  'delete_list')->name('delete-list');
     });
 
 });

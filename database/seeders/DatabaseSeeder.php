@@ -16,13 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = DB::table('users')->create([
+        DB::table('users')->create([
             [
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'phone' => '0982268784',
                 'email_verified_at' => date('Y-m-d H:i:s'),
-                'password' =>  Hash::make('Longtien@1998'),
+                'password' =>  Hash::make('123123123'),
                 'image' => 'john.png',
                 'gender' => 'Nam',
                 'birthday' => '1998-10-07',
@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
                 'deleted_at' => null,
             ]
         ]);
+
     }
 }

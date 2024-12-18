@@ -65,8 +65,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{ route('albums.search') }}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{ route('albums.search') }}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên album..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -144,7 +144,7 @@
                 <td><input type="checkbox" class="check_list" value="{{ $album->id }}"></td>
                 <td>{{$index+1}}</td>
                 <td>{{ $album->id }}</td>
-                <td>{{ $album->album->album_name }}</td>
+                <td>{{ $album->album->album_name?? null }}</td>
                 <td>{{ $album->song->song_name }}</td>
                 <td>
                     <a class="btn btn-link btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editAlbumSong" onclick="editAlbumSong('{{$album->id}}','{{$album->album_id}}','{{$album->song_id}}')">
@@ -257,7 +257,7 @@
         $('#formeditAlbumSong').attr('action', finalAction);
     }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#song_id').select2({
@@ -290,5 +290,5 @@
             })
         });
     });
-</script>
+</script> -->
 @endsection

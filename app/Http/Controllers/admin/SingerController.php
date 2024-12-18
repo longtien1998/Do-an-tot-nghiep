@@ -32,7 +32,7 @@ class SingerController extends Controller
             $query->where('created_at', '<=', $filterCreateEnd);
         }
 
-        $singers = $query->paginate($perPage);
+        $singers = $query->orderByDesc('id')->paginate($perPage);
 
         return view('admin.singer.list-singer', compact('singers'));
     }
@@ -223,7 +223,7 @@ class SingerController extends Controller
             $query->where('deleted_at', '<=', $filterCreateEnd);
         }
 
-        $trashs = $query->paginate($perPage);
+        $trashs = $query->orderByDesc('id')->paginate($perPage);
 
         return view('admin.singer.trash.index', compact('trashs'));
     }

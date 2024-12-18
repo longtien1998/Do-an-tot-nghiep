@@ -14,6 +14,7 @@ use App\Models\Album;
 use App\Models\Payment;
 use App\Models\Country;
 use App\Models\Advertisements;
+use App\Models\Contact;
 use App\Models\Copyright;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,7 @@ class HomeController extends Controller
         $total_country = Country::count();
         $total_ads = Advertisements::count();
         $total_copyright = Copyright::count();
+        $total_contact = Contact::count();
         return view('admin.dashboard', [
             'total_user' => $total_user,
             'total_song' => $total_song,
@@ -50,6 +52,7 @@ class HomeController extends Controller
             'total_country' => $total_country,
             'total_ads' => $total_ads,
             'total_copyright' => $total_copyright,
+            'total_contact' => $total_contact,
             'user' => Auth::user()
         ]);
     }

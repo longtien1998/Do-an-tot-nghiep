@@ -27,8 +27,8 @@
             <a href="{{route('modules.index')}}" class="btn btn-outline-success"> Tất cả Module</a>
             <a href="{{route('modules.create')}}" class="btn btn-success">Thêm Module</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('modules.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('modules.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, tên khác ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

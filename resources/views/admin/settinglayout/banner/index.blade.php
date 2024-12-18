@@ -362,15 +362,15 @@
 
     $(document).ready(function() {
         $('.status_change').on('change', function() {
-                if ($(this).is(':checked')) {
-                    $(this).prop('disabled', true);
-                    let bannerId = $(this).data('index');
+            if ($(this).is(':checked')) {
+                $(this).prop('disabled', true);
+                let bannerId = $(this).data('index');
 
-                    $('.status_change').not(this).prop('checked', false).prop('disabled', false);
+                $('.status_change').not(this).prop('checked', false).prop('disabled', false);
 
 
-                    updateStatus(bannerId);
-                }
+                updateStatus(bannerId);
+            }
 
         })
     });

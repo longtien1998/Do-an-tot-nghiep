@@ -111,11 +111,11 @@ class Copyright extends Model
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 
     public static function getAllTrash($perPage){
-        return self::onlyTrashed()->paginate($perPage);
+        return self::onlyTrashed()->orderByDesc('id')->paginate($perPage);
     }
 
     public static function search($search){

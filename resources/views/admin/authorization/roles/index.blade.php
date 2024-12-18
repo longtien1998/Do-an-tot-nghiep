@@ -27,8 +27,8 @@
             <a href="{{route('roles.index')}}" class="btn btn-outline-success"> Tất cả Vai trò</a>
             <a href="{{route('roles.create')}}" class="btn btn-success">Thêm Vai trò</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('roles.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('roles.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

@@ -109,7 +109,7 @@
         <div class="col">
             <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #fffcab 0%, #ff9e9e 100%);">
                 <a href="{{route('copyrights.index')}}" class="text-decoration-none text-black">
-                    <i class='bx bx-building-house'></i>
+                    <i class='fa-solid fa-copyright'></i>
                     <span>Bản quyền</span>
                     <p class="card-value">{{$total_copyright}}</p>
                 </a>
@@ -118,7 +118,7 @@
         <div class="col">
             <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);">
                 <a href="{{route('advertisements.list')}}" class="text-decoration-none text-black">
-                    <i class='bx bx-building-house'></i>
+                    <i class='fa-solid fa-rectangle-ad'></i>
                     <span>Quảng cáo</span>
                     <p class="card-value">{{$total_ads}}</p>
                 </a>
@@ -127,9 +127,18 @@
         <div class="col">
             <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #c1f0fc 0%, #f7d6e0 100%);">
                 <a href="{{route('list-country')}}" class="text-decoration-none text-black">
-                    <i class='bx bx-building-house'></i>
+                    <i class='fa-solid fa-globe'></i>
                     <span>Quốc gia</span>
                     <p class="card-value">{{$total_country}}</p>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard-card h-100" style="background: linear-gradient(135deg, #c1f0fc 0%, #f7d6e0 100%);">
+                <a href="{{route('list-country')}}" class="text-decoration-none text-black">
+                <i class="fa-solid fa-handshake-angle"></i>
+                    <span>Hỗ trợ</span>
+                    <p class="card-value">{{$total_contact}}</p>
                 </a>
             </div>
         </div>

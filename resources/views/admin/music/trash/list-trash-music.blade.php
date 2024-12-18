@@ -28,8 +28,8 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('list-trash-music')}}" class="btn btn-outline-success"> Tất cả bài hát đã xóa</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('search-song-trash')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('search-song-trash')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bài hát..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

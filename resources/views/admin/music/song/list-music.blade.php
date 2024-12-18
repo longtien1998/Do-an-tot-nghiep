@@ -29,8 +29,8 @@
             <a href="{{route('list-music')}}" class="btn btn-outline-success"> Tất cả bài hát</a>
             <a href="{{route('add-music')}}" class="btn btn-success">Thêm bài hát</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('search-song')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('search-song')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên bài hát..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

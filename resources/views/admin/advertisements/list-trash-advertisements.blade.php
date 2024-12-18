@@ -28,8 +28,8 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('advertisements.trash.list')}}" class="btn btn-outline-success"> Tất cả quảng cáo đã xóa</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('advertisements.trash.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('advertisements.trash.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên quảng cáo..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

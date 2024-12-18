@@ -32,7 +32,7 @@ class PermissionController extends Controller
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        $permissions = $query ->paginate($perPage);
+        $permissions = $query->orderByDesc('id')->paginate($perPage);
 
         return view('admin.authorization.permissions.index', compact('permissions'));
     }

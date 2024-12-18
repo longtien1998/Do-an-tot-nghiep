@@ -26,8 +26,8 @@
             <a href="{{ route('singer.index') }}" class="btn btn-outline-success"> Tất cả Ca sĩ</a>
             <a href="{{ route('singer.create') }}" class="btn btn-success">Thêm Ca sĩ</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{ route('singer.search') }}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{ route('singer.search') }}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, Quốc gia, ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

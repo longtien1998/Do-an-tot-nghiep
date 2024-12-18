@@ -29,7 +29,7 @@ class Banner extends Model
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '_' . $PulisherSlug . '.' . strtolower($extension);
 
-            
+
             $path = 'Banner/';
 
             Storage::disk('s3')->putFileAs($path, $file, $fileName);
@@ -77,7 +77,7 @@ class Banner extends Model
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 
     public static function getAlltrash($perPage, $filterCreateStart, $filterCreateEnd)

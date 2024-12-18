@@ -13,6 +13,7 @@ use App\Models\PasswordReset;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
+use App\Mail\SendRegisterMail;
 use App\Models\User\RolesModel;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -49,7 +50,8 @@ class AuthController extends Controller
                 'users_type' => 'Basic',
             ]);
 
-            // tạo token
+           // Gửi email thông báo
+           Mail::to($user->email)->send(new SendRegisterMail($user->name, $request->email , $user->email_verified_at));
 
             return response()->json(['data' => $user, 'token_type' => 'Bearer',], 201);
         } catch (\Exception $e) {

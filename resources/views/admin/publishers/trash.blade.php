@@ -29,8 +29,8 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('publishers.trash.index')}}" class="btn btn-outline-success"> Tất cả Nhà xuất bản đã xóa</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('publishers.trash.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('publishers.trash.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, tên khác, Quốc gia, Thành ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
