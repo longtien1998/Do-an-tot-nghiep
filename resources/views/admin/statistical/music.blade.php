@@ -110,9 +110,9 @@
                 },
                 success: function(data) {
                     labels = data.labels;
-                    playsData = data.listen_count.map(Number);
-                    likesData = data.like_count.map(Number);
-                    downloadsData = data.download_count.map(Number);
+                    playsData = data.listen_count.map(Number).filter(value => value > 0);
+                    likesData = data.like_count.map(Number).filter(value => value > 0);
+                    downloadsData = data.download_count.map(Number).filter(value => value > 0);
 
                     if (mixedChart) {
                         mixedChart.destroy();
@@ -235,14 +235,15 @@
                                                     }
 
                                                     // dữ liệu
-                                                    let rowHtml = `<tr>
-                                                        <td>${index + 1}</td>
-                                                        <td>${song.song_name}</td>
-                                                        <td>${song.date}</td>
-                                                        <td>${value}</td>
-                                                    </tr>`;
-
-                                                    tbody.append(rowHtml);
+                                                    if (value > 0) {
+                                                        let rowHtml = `<tr>
+                                                            <td>${index + 1}</td>
+                                                            <td>${song.song_name}</td>
+                                                            <td>${song.date}</td>
+                                                            <td>${value}</td>
+                                                        </tr>`;
+                                                        tbody.append(rowHtml);
+                                                    }
                                                 });
                                             }
 

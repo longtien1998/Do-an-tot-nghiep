@@ -92,6 +92,9 @@
             @endif
         </tbody>
     </table>
+    <div class="mb-5">
+        {!! $comments->links('pagination::bootstrap-5') !!}
+    </div>
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -99,11 +102,6 @@
         {{session('success')}}
     </div>
     @endif
-</div>
-<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
-    <ul class="pagination">
-        {{$comments->links('pagination::bootstrap-5')}}
-    </ul>
 </div>
 @endsection
 

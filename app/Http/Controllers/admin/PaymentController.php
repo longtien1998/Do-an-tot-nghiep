@@ -13,6 +13,7 @@ class PaymentController extends Controller
 
     public function list(Request $request)
     {
+        $perPage = $request->input('indexPage', 10);
         $filterMethod = $request->input('filterMethod', false);
         $filterStatus = $request->input('filterStatus', false);
         $filterCreateStart = $request->input('filterCreateStart', false);
@@ -33,7 +34,7 @@ class PaymentController extends Controller
             $query->where('payment_date', '<=', $filterCreateEnd);
         }
 
-        $payments = $query->paginate(20);
+        $payments = $query->paginate($perPage);
 
         return view('admin.payment.list', compact('payments'));
     }
@@ -41,13 +42,20 @@ class PaymentController extends Controller
     {
         $payment = Payment::findOrFail($id);
         $payment->payment_status = $request->input('payment_status');
+
         try {
             $payment->save();
-            return redirect()->route('payment.list')->with('success', 'Cập nhật trạng thái thành công');
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái thành công',
+                'status' => $payment->payment_status,
+            ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Cập nhật trạng thái thất bại');
+            return response()->json([
+                'success' => false,
+                'message' => 'Cập nhật trạng thái thất bại',
+            ]);
         }
-
     }
     public function search(Request $request)
     {

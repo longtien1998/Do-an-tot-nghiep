@@ -70,9 +70,11 @@ class StatisticalSongController extends Controller
                     $song->value = $song->download_count;
                     break;
                 default:
-                    $song->value = 0; 
+                    $song->value = 0;
             }
             return $song;
+        })->filter(function ($song) {
+            return $song->value > 0;  // loại bỏ bản ghi có giá trị = 0
         });
 
         return response()->json([
