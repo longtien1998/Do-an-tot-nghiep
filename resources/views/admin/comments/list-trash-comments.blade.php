@@ -104,13 +104,11 @@
             @endif
         </tbody>
     </table>
+    <div class="mb-5">
+        {!! $comments->links('pagination::bootstrap-5') !!}
+    </div>
+</div>
 
-</div>
-<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
-    <ul class="pagination">
-        {{$comments->links('pagination::bootstrap-5')}}
-    </ul>
-</div>
 @endsection
 @section('js')
 

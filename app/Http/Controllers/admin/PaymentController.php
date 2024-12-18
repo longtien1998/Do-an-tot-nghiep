@@ -42,13 +42,20 @@ class PaymentController extends Controller
     {
         $payment = Payment::findOrFail($id);
         $payment->payment_status = $request->input('payment_status');
+
         try {
             $payment->save();
-            return redirect()->route('payment.list')->with('success', 'Cập nhật trạng thái thành công');
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái thành công',
+                'status' => $payment->payment_status,
+            ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Cập nhật trạng thái thất bại');
+            return response()->json([
+                'success' => false,
+                'message' => 'Cập nhật trạng thái thất bại',
+            ]);
         }
-
     }
     public function search(Request $request)
     {

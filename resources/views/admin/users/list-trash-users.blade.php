@@ -111,12 +111,9 @@
             @endif
         </tbody>
     </table>
-
-</div>
-<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
-    <ul class="pagination">
-        {{$users->links('pagination::bootstrap-5')}}
-    </ul>
+    <div class="mb-5">
+        {!! $users->links('pagination::bootstrap-5') !!}
+    </div>
 </div>
 @endsection
 @section('js')

@@ -131,9 +131,14 @@ class UsersController extends Controller
 
     public function delete_users($id)
     {
+        $users = User::find($id);
         try {
-            User::find($id)->delete();
-            return redirect()->route('users.list')->with('success', 'Xoá tài khoản thành công!');
+            if($users->email == "admin@gmail.com"){
+                return redirect()->back()->with('error', 'Không thể xóa tài khoản này');
+            } else {
+                $users->delete();
+                return redirect()->back()->with('success', 'Xóa tài khoản thành công');
+            }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Xóa tài khoản thất bại.');
         }
@@ -160,14 +165,19 @@ class UsersController extends Controller
 
     public function delete_list_users(Request $request)
     {
-        // dd($request->delete_list);
         $deletelist = json_decode($request->delete_list, true);
         if (is_array($deletelist)) {
             try {
+
                 foreach ($deletelist as $list) {
                     $users = User::find($list);
-                    $users->deleted_at = now();
-                    $users->save();
+                    if($users){
+                        if($users->email == "admin@gmail.com"){
+                            return redirect()->back()->with('error', 'Không thể xóa tài khoản có email admin@gmail.com');
+                        }
+                        $users->delete();
+                    }
+
                 }
                 return redirect()->route('users.list')->with('success', 'Xoá tài khoản thành công!');
             } catch (\Exception $e) {

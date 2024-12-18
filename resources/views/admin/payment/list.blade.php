@@ -97,7 +97,7 @@
             @if (count($payments))
             @foreach($payments as $index=>$payment)
             <tr>
-                <td>{{$payments->firstItem()+$index  }}</td>
+                <td>{{$payments->firstItem()+$index }}</td>
                 <td>{{$payment->pay_id}}</td>
                 <td>{{$payment->description}}</td>
                 <td>{{$payment->payment_date}}</td>
@@ -105,17 +105,14 @@
                 <td>{{number_format($payment->amount)}} VNĐ</td>
                 <td>{{$payment->user->name}}</td>
                 <td>
-                    <form action="{{ route('payment.update', $payment->id) }}" method="POST">
-                        @csrf
-                        <select name="payment_status" class="form-select {{ $payment->payment_status == 'Đang thanh toán' ? 'bg-warning' : ($payment->payment_status == 'Thành công' ? 'bg-success' : 'bg-danger') }} text-white" onchange="this.form.submit()">
-                            <option value="Đang thanh toán" {{ $payment->payment_status == 'Đang thanh toán' ? 'selected' : '' }}>Đang thanh toán</option>
-                            <option value="Thành công" {{ $payment->payment_status == 'Thành công' ? 'selected' : '' }}>Thành công</option>
-                            <option value="Thất bại" {{ $payment->payment_status == 'Thất bại' ? 'selected' : '' }}>Thất bại</option>
-                        </select>
-                    </form>
+                    <select name="payment_status"
+                        class="form-select update-status {{ $payment->payment_status == 'Đang thanh toán' ? 'bg-warning' : ($payment->payment_status == 'Thành công' ? 'bg-success' : 'bg-danger') }} text-white"
+                        data-id="{{ $payment->id }}">
+                        <option value="Đang thanh toán" {{ $payment->payment_status == 'Đang thanh toán' ? 'selected' : '' }}>Đang thanh toán</option>
+                        <option value="Thành công" {{ $payment->payment_status == 'Thành công' ? 'selected' : '' }}>Thành công</option>
+                        <option value="Thất bại" {{ $payment->payment_status == 'Thất bại' ? 'selected' : '' }}>Thất bại</option>
+                    </select>
                 </td>
-
-
             </tr>
 
             @endforeach
@@ -126,20 +123,62 @@
             @endif
         </tbody>
     </table>
+    <div class="mb-5">
+        {!! $payments->links('pagination::bootstrap-5') !!}
+    </div>
+</div>
 
-</div>
-<div class="pagination-area" style="display: flex; justify-content: center; align-items: center;">
-    <ul class="pagination">
-        {{$payments->links('pagination::bootstrap-5')}}
-    </ul>
-</div>
 
 @endsection
 @section('js')
 <script>
-
     function submitForm() {
         document.getElementById('itemsPerPageForm').submit();
     }
+
+    $(document).ready(function() {
+        $('.update-status').on('change', function() {
+            const status = $(this).val();
+            const paymentId = $(this).data('id');
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const $dropdown = $(this);
+
+            $.ajax({
+                url: "{{ route('payment.update', '') }}/" + paymentId,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    payment_status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+
+                        $dropdown
+                            .removeClass('bg-warning bg-success bg-danger')
+                            .addClass(getColorClass(status));
+                    } else {
+                        alert('Cập nhật thất bại, vui lòng thử lại.');
+                    }
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                }
+            });
+        });
+
+        function getColorClass(status) {
+            switch (status) {
+                case 'Đang thanh toán':
+                    return 'bg-warning';
+                case 'Thành công':
+                    return 'bg-success';
+                case 'Thất bại':
+                    return 'bg-danger';
+                default:
+                    return '';
+            }
+        }
+    });
 </script>
 @endsection

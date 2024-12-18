@@ -167,7 +167,9 @@
             @endif
         </tbody>
     </table>
-
+    <div class="mb-5">
+        {!! $users->links('pagination::bootstrap-5') !!}
+    </div>
     @if(session('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -175,9 +177,6 @@
         {{session('success')}}
     </div>
     @endif
-</div>
-<div class=" mb-5">
-    {!! $users->links('pagination::bootstrap-5') !!}
 </div>
 
 @endsection
