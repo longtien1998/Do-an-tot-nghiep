@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-12 my-3 position-relative">
                     <label for="validationTooltip01" class="form-label">Ảnh nền</label>
-                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*" required>
+                    <input type="file" class="form-control" name="background" id="backgroundAdd" accept="image/*">
                     <img id="previewImageAdd" src="{{$category->background}}" alt="Image Preview" style="max-width: 300px; margin-top: 10px;" class="d-none">
                     <div class="valid-tooltip">
                         Looks good!

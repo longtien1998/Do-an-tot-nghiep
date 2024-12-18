@@ -99,7 +99,7 @@ class PlaylistController extends Controller
         $songs = $playlist->playlist_song();
 
 
-        if ($songs->isEmpty()) {
+        if (!$songs) {
             return response()->json(['message' => 'Playlist không có bài hát nào.']);
         }
         $data = Playlist::getsong($songs->pluck('song_id'));

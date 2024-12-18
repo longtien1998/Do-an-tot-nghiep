@@ -24,7 +24,7 @@ class CategoryRequest extends FormRequest
         return [
             'categorie_name' => 'required|string|max:255|unique:categories,categorie_name,'. $this->route(param: 'id'),
             'description' => 'required|max:255',
-            'background' => 'required'
+            'background' => 'nullable'
         ];
     }
     public function messages(): array{

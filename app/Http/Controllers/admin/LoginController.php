@@ -27,9 +27,14 @@ class LoginController extends Controller
             'email.email' => 'Email không đúng định dạng',
             'password.required' => 'Vui lòng nhập mật khẩu',
         ]);
-        $user = User::firstWhere('email', '=', $credentials['email'])->roles->first();
-        if($user){
-            $role = $user->role_type;
+        $user = User::firstWhere('email', '=', $credentials['email']);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Tài khoản của bạn không tồn tại.');
+        }
+        $acc = $user->roles->first();
+        // dd($acc->role_type);
+        if($acc){
+            $role = $acc->role_type;
         } else {
             $role = 0;
         }

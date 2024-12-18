@@ -4,12 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PaymentVnpController;
 use App\Http\Controllers\Api\PaymentMomoController;
+use App\Models\User;
 
 Route::get('/test', [App\Http\Controllers\Api\TestController::class, 'test']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
 
 Route::group([
     'controller' => App\Http\Controllers\Api\AuthController::class,
@@ -39,7 +38,10 @@ Route::group([
     Route::put('/{id}/newpass-member', [App\Http\Controllers\Api\MemberController::class, 'newpass']);
     Route::put('/{id}/update-member', [App\Http\Controllers\Api\MemberController::class, 'update']);
 
-
+    Route::get('/user-reset/{id}', function ($id) {
+        $user = User::find($id);
+        return response()->json($user);
+    });
 
     //Bài hát yêu thích
     Route::get('/{id}/bai-hat-yeu-thich', [App\Http\Controllers\Api\FavouriteSongController::class, 'list_song_favourite']);

@@ -83,14 +83,16 @@
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         @foreach ($modules as $module)
-                        <div class="tab-pane row row-cols-4 p-4 fade @if ($loop->first) show active @endif" id="{{ $module->module_id }}" role="tabpanel" aria-labelledby="{{ $module->module_id  }}-tab" tabindex="0">
-                            @foreach ($permissions->where('module_id', $module->module_id ) as $permission)
-                            <div class="checkbox-wrapper-34 row align-items-center">
-                                <input class="tgl tgl-ios" id="permission-{{$permission->id}}" type="checkbox" name="permissions[]" value="{{ $permission->name }}">
-                                <label class="tgl-btn col-2" for="permission-{{$permission->id}}"></label>
-                                <span class="col-10 ps-2">{{$permission->alias }}</span>
+                        <div class="tab-pane fade @if ($loop->first) show active @endif" id="{{ $module->id }}" role="tabpanel" aria-labelledby="{{ $module->id  }}-tab" tabindex="0">
+                             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5  p-4">
+                                @foreach ($permissions->where('module_id', $module->id ) as $permission)
+                                <div class="checkbox-wrapper-34 row align-items-center">
+                                    <input class="tgl tgl-ios" id="permission-{{$permission->id}}" type="checkbox" name="permissions[]" value="{{ $permission->name }}">
+                                    <label class="tgl-btn col-2" for="permission-{{$permission->id}}"></label>
+                                    <span class="col-10 ps-2">{{$permission->alias }}</span>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                         @endforeach
                     </div>

@@ -147,7 +147,7 @@
                     <form action="{{route('delete-music',$song->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa thể loại?')">
+                        <button type="submit" data-bs-toggle="tooltip" title="" class="btn btn-link btn-outline-danger" data-original-title="Remove" onclick="return confirm('Xác nhận xóa bài hát?')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
