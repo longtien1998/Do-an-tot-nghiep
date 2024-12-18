@@ -82,7 +82,7 @@ class AdvertisementsController extends Controller
             'ads_description' => $request->ads_description,
         ];
 
-      
+
         if ($request->hasFile('file_path')) {
             $data['file_path'] = Advertisements::up_file_ads($request->file('file_path'), $request->ads_name);
         }
@@ -150,7 +150,7 @@ class AdvertisementsController extends Controller
     public function list_trash_ads()
 
     {
-        $advertisements = Advertisements::onlyTrashed()->paginate(10);
+        $advertisements = Advertisements::onlyTrashed()->orderByDesc('id')->paginate(10);
         return view('admin.advertisements.list-trash-advertisements', compact('advertisements'));
     }
 

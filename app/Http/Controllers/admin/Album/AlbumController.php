@@ -47,7 +47,7 @@ class AlbumController extends Controller
         $songs = Music::has('albumsong')->get();
         $albumsong = AlbumSongs::selectAllSong($perPage, $filterAlbum, $filterSong);
 
-        return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong'));
+        return view('admin.album.list-album_song', compact('albums', 'songs', 'albumsong', 'songsAdd'));
     }
     //add song album
     public function add_album_song(Request $request)
@@ -212,7 +212,13 @@ class AlbumController extends Controller
 
         // Lấy dữ liệu album
         $albums = Album::where('album_name', 'LIKE', '%' . $query . '%')->whereNull('deleted_at')->paginate(10);
-
+        $lists = Album::select('singer_id')->whereNull('deleted_at')->groupBy('singer_id')->get();
+        $singers = $lists->map(function ($list){
+            return (object)[
+                'id' => $list->singer_id,
+                'singer_name' => $list->singer->singer_name,
+            ];
+        });
         // Kiểm tra kết quả
         if ($albums->isEmpty()) {
             return redirect()->back()->with('error', 'Không tìm thấy kết quả cho tìm kiếm');
@@ -220,7 +226,7 @@ class AlbumController extends Controller
 
         // Nếu có kết quả
         Toastr()->success('Tìm album thành công');
-        return view('admin.album.list-album', compact('albums'));
+        return view('admin.album.list-album', compact('albums', 'singers'));
     }
 
     //trash
@@ -228,7 +234,7 @@ class AlbumController extends Controller
     public function list_trash_album()
 
     {
-        $albums = Album::onlyTrashed()->paginate(10);
+        $albums = Album::onlyTrashed()->orderByDesc('id')->paginate(10);
         return view('admin.album.trash-album', compact('albums'));
     }
 

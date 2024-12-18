@@ -11,7 +11,7 @@ class CountriesController extends Controller
 {
     public function index()
     {
-        $countries = Country::paginate(10);
+        $countries = Country::orderByDesc('id')->paginate(10);
         // dd($countries);
         return view('admin.music.country.country', compact('countries'));
     }
@@ -132,7 +132,7 @@ class CountriesController extends Controller
     public function list_trash_country()
 
     {
-        $Countries = Country::onlyTrashed()->paginate(10);
+        $Countries = Country::onlyTrashed()->orderByDesc('id')->paginate(10);
         // dd($songs);
         return view('admin.music.country.trash-country', compact('Countries'));
     }

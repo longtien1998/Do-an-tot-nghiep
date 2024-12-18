@@ -112,8 +112,8 @@ class Songs extends Model
     public static function bxh_tuan()
     {
         $weeklyRanking = DB::table('ranking_logs')
-            ->select('song_id', DB::raw('SUM(listen_count) as count'), DB::raw('SUM(listen_count * 0.6 + download_count * 0.1 + like_count * 0.3) as weekly_score'))
-            ->whereBetween('date', [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()])
+            ->whereBetween('date', [Carbon::today()->subDays(7), Carbon::today()])
+            ->select('song_id', DB::raw('SUM(listen_count * 0.6 + download_count * 0.1 + like_count * 0.3) as weekly_score'))
             ->groupBy('song_id')
             ->orderByDesc('weekly_score')
             ->take(100) // Top 100 bài hát hàng tuần
@@ -123,31 +123,31 @@ class Songs extends Model
 
         $ids = $weeklyRanking->pluck('song_id');
         // dd($ids);
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
-            ->whereIn('id', $ids) // Chỉ lấy các bài hát có song_id trong danh sách xếp hạng hàng tuần
+            ->whereIn('id', $ids)
             ->whereNull('songs.deleted_at')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             $listen = Ranking_log::where('song_id', $bh->id)
                 ->select('song_id', DB::raw('SUM(listen_count) as count'))
                 ->groupBy('song_id')
-                ->whereBetween('date', [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()])
+                ->whereBetween('date', [Carbon::today()->subDays(7), Carbon::today()])
 
                 ->first();
-            $listen_count = $listen ? intval($listen->count) : 0;
+            $listen_count = $listen ? intval($listen->count) : 1;
             // dd($listen_count);
 
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -164,24 +164,24 @@ class Songs extends Model
         });
 
         // dd($songsArray);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
@@ -190,28 +190,28 @@ class Songs extends Model
         $sortedSongs = $ids->map(function ($id) use ($songsWithPaths) {
             return $songsWithPaths->firstWhere('id', $id);
         });
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $sortedSongs;
     }
 
     // ngẫu nhiên 10 bài hát
     public static function getRandomSongs10()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $randum = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->inRandomOrder()
-            ->take(15) // Giới hạn 15 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->take(15)
+            ->get();
         $songsArray = $randum->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -226,29 +226,29 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         });
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
@@ -256,22 +256,22 @@ class Songs extends Model
     //bài hát theo quốc gia
     public static function list_song_Country($id)
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $song_Country = self::with(['singer', 'country', 'category', 'copyright'])
             ->where('country_id', '=', $id)
             ->orderBy('songs.id','desc')
             ->whereNull('songs.deleted_at')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
         $songsArray = $song_Country->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -286,51 +286,51 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         });
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     //bài hát theo thể loại
     public static function list_song_category($id)
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $song_category = self::with(['singer', 'country', 'category', 'copyright'])
             ->where('category_id', '=', $id)
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.id','desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
         $songsArray = $song_category->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -345,29 +345,29 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         });
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
@@ -375,22 +375,22 @@ class Songs extends Model
     //bài hát theo ca sĩ
     public static function list_song_singer($id)
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $song_singer = self::with(['singer', 'country', 'category', 'copyright'])
             ->where('singer_id', '=', $id)
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.id','desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
         $songsArray = $song_singer->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -405,52 +405,53 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         });
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     // top thịnh hành
     public static function topTrennding()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $song_singer = self::with(['singer', 'country', 'category', 'copyright'])
 
             ->whereNull('songs.deleted_at')
+            ->whereDate('created_at', '>=', Carbon::now()->subDays(180))
             ->orderBy('songs.id','desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
         $songsArray = $song_singer->map(function ($bh) {
             $totalScore = $bh->listen_count * 0.6 + $bh->download_count * 0.1 + $bh->like_count * 0.3;
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -466,51 +467,51 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         })->sortByDesc('total_score')->values();
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     // top lượt nghe tổng
     public static function topListen()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.listen_count', 'desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -528,31 +529,31 @@ class Songs extends Model
         });
 
         // dd($sortedSongs);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
         });
         // dd($songsWithPaths);
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
@@ -560,22 +561,22 @@ class Songs extends Model
     //top lượt like tổng
     public static function topLike()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.like_count', 'desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -593,54 +594,53 @@ class Songs extends Model
         });
 
         // dd($sortedSongs);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
         });
         // dd($songsWithPaths);
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     // top 1 thịnh hành
     public static function top1Trennding()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
-        $song_singer = self::with(['singer', 'country', 'category', 'copyright'])
 
+        $song_singer = self::with(['singer', 'country', 'category', 'copyright'])
+            ->whereDate('created_at', '>=', Carbon::now()->subDays(180))
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.id','desc')
-            // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->get();
         $songsArray = $song_singer->map(function ($bh) {
             $totalScore = $bh->listen_count * 0.6 + $bh->download_count * 0.1 + $bh->like_count * 0.3;
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -658,51 +658,51 @@ class Songs extends Model
         })->sortByDesc('total_score')->values();
 
         $topSong = $songsArray->first();
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($topSong)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     // top 1 lượt nghe tổng
     public static function top1Listen()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.listen_count', 'desc')
-            ->limit(1) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(1)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -720,53 +720,53 @@ class Songs extends Model
         });
 
         // dd($sortedSongs);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
         });
         // dd($songsWithPaths);
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
     //top 1 lượt like tổng
     public static function top1Like()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.like_count', 'desc')
-            ->limit(1) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(1)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -784,52 +784,52 @@ class Songs extends Model
         });
 
         // dd($sortedSongs);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
         });
         // dd($songsWithPaths);
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
     // top lượt tải tổng
     public static function topDownload()
     {
-        // Bước 1: Lấy dữ liệu các bài hát với giới hạn 100 bản ghi
+
         $bxh100 = self::with(['singer', 'country', 'category', 'copyright'])
             ->whereNull('songs.deleted_at')
             ->orderBy('songs.download_count', 'desc')
-            ->limit(100) // Giới hạn 100 bản ghi
-            ->get(); // Lấy tất cả các bản ghi
+            ->limit(100)
+            ->get();
 
         $songsArray = $bxh100->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -847,31 +847,31 @@ class Songs extends Model
         });
 
         // dd($sortedSongs);
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
+
             $song->file_paths = (object)$paths;
 
             return $song;
         });
         // dd($songsWithPaths);
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 
@@ -880,20 +880,20 @@ class Songs extends Model
     {
         // Bước 1: Lấy dữ liệu các bài hát mới nhất
         $randum = self::with(['singer', 'country', 'category', 'copyright'])
-            ->whereNull('songs.deleted_at') // Chỉ lấy bài hát chưa bị xoá
-            ->orderBy('songs.created_at', 'desc') // Sắp xếp theo thời gian tạo, bài hát mới nhất ở trên
-            ->limit(20) // Giới hạn chỉ lấy 15 bài hát mới nhất
-            ->get(); // Lấy tất cả các bài hát thỏa mãn điều kiện
+            ->whereNull('songs.deleted_at')
+            ->orderBy('songs.created_at', 'desc')
+            ->limit(20)
+            ->get();
 
         $songsArray = $randum->map(function ($bh) {
             return (object) [
                 'id' => $bh->id,
                 'song_name' => $bh->song_name,
-                'singer_name' => $bh->singer->singer_name ?? null, // Tên ca sỹ
+                'singer_name' => $bh->singer->singer_name ?? null,
                 'singer_id' => $bh->singer_id,
-                'country_name' => $bh->country->name_country ?? null, // Tên quốc gia
+                'country_name' => $bh->country->name_country ?? null,
                 'country_id' => $bh->country_id,
-                'category_name' => $bh->category->categorie_name ?? null, // Tên thể loại
+                'category_name' => $bh->category->categorie_name ?? null,
                 'category_id' => $bh->category_id,
                 'provider' => $bh->provider,
                 'composer' => $bh->composer,
@@ -909,29 +909,29 @@ class Songs extends Model
                 'time' => $bh->time,
             ];
         });
-        // Bước 2: Lấy danh sách song_id
+
         $songIds = collect($songsArray)->pluck('id');
 
-        // Bước 3: Lấy các file_paths liên quan đến bài hát
+
         $filePaths = DB::table('file_paths')
             ->whereIn('song_id', $songIds)
             ->select('song_id', 'path_type', 'file_path')
             ->get()
-            ->groupBy('song_id'); // Gom nhóm theo song_id
+            ->groupBy('song_id');
 
-        // Bước 4: Gắn file_paths vào từng bài hát
+
         $songsWithPaths = collect($songsArray)->map(function ($song) use ($filePaths) {
             $paths = $filePaths->get($song->id, collect())->reduce(function ($carry, $item) {
                 $carry[$item->path_type] = $item->file_path;
                 return $carry;
             }, []);
 
-            // Đảm bảo file_paths là một object
-            $song->file_paths = (object)$paths; // Gắn file_paths vào bài hát
+
+            $song->file_paths = (object)$paths;
             return $song;
         });
 
-        // Trả về danh sách bài hát đã gắn file_paths
+
         return $songsWithPaths;
     }
 

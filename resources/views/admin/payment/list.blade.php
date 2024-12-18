@@ -26,8 +26,8 @@
         <div class="col-sm-6 my-3">
             <a href="{{route('payment.list')}}" class="btn btn-outline-success"> Tất cả thanh toán </a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('payment.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('payment.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tìm kiếm..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>

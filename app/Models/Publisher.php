@@ -94,7 +94,7 @@ class Publisher extends Model
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 
     public static function getAlltrash($perPage, $filterCreateStart, $filterCreateEnd)
@@ -107,7 +107,7 @@ class Publisher extends Model
         if ($filterCreateEnd) {
             $query->where('deleted_at', '<=', $filterCreateEnd);
         }
-        return $query->paginate($perPage);
+        return $query->orderByDesc('id')->paginate($perPage);
     }
 
     public static function search_trash_publishers($searchQuery)

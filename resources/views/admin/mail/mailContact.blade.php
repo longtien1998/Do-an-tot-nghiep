@@ -50,6 +50,10 @@
             color: #FF5722;
         }
 
+        .footer strong {
+            color: #FF5722;
+        }
+
         .cta-button {
             background: linear-gradient(90deg, #FF5722, #FF007A);
             color: white;
@@ -89,6 +93,8 @@
         </div>
         <div class="footer">
             <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+            <p><strong>Soundwave</strong> luôn đồng hành cùng bạn.</p>
+            <p>&copy; 2024 SoundWave. All rights reserved.</p>
         </div>
     </div>
 </body>

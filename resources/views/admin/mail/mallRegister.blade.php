@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông Báo Hết Hạn Tài Khoản</title>
+    <title>Thông Báo Tài Khoản</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -52,6 +52,8 @@
         .footer strong {
             color: #FF5722;
         }
+
+
         .cta-button {
             background: linear-gradient(90deg, #FF5722, #FF007A);
             color: white;
@@ -60,7 +62,7 @@
             border-radius: 30px;
             font-size: 18px;
             margin-top: 20px;
-            display: inline-block;
+            display: block;
             transition: box-shadow 0.3s;
         }
 
@@ -79,13 +81,17 @@
 <body>
     <div class="email-wrapper">
         <div class="email-header">
-            <h2>Thông Báo Hết Hạn Tài Khoản</h2>
+            <h2>Cảm ơn bạn đã đăng ký tài khoản trên trang web Soundwave của chúng tôi!</h2>
         </div>
         <div class="email-content">
-            <p>Xin chào, <strong>{{$name}}</strong></p>
-            <p>Tài khoản của bạn đã hết hạn vào ngày: <strong>{{ $date }}</strong></p>
-            <p>Loại tài khoản <strong>{{$users_type}}</strong> của bạn đã bị hạ cấp xuống tài khoản <strong>Basic</strong>.</p>
-            <p>Để nâng cấp tài khoản và tiếp tục trải nghiệm các dịch vụ, vui lòng truy cập vào <a style="color: white;" href="https://soundwave.io.vn/" class="cta-button">SoundWave</a></p>
+            <p>Xin chào, <strong>{{$name}}</strong> : {{$email}}</p>
+            <p>Chào mừng bạn đến với cộng đồng của chúng tôi.
+                Tài khoản của bạn đã được tạo thành công vào lúc <strong>{{$date}}</strong> và bạn có thể bắt đầu khám phá các tính năng tuyệt vời trên trang web.
+            </p>
+            <p>Nếu bạn có bất kỳ thắc mắc hoặc cần hỗ trợ, đừng ngần ngại liên hệ với chúng tôi qua <strong>soundwavemusic1410@gmail.com</strong>.</p>
+            <p>Chúc bạn có những trải nghiệm thật tuyệt vời!</p>
+            <p>Để nâng cấp tài khoản và tiếp tục trải nghiệm các dịch vụ, vui lòng truy cập vào:</p>
+            <a style="color: white;" href="https://soundwave.io.vn/" class="cta-button">SoundWave</a>
         </div>
         <div class="footer">
             <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>

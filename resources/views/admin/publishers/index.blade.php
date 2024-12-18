@@ -26,8 +26,8 @@
             <a href="{{route('publishers.index')}}" class="btn btn-outline-success"> Tất cả nhà xuất bản</a>
             <a href="{{route('publishers.create')}}" class="btn btn-success">Thêm nhà xuất bản</a>
         </div>
-        <div class="col-sm-3 my-3">
-            <form class="search-form" action="{{route('publishers.search')}}" method="post">
+        <div class="col-sm-6 my-3">
+            <form class="search-form float-end" action="{{route('publishers.search')}}" method="post">
                 @csrf
                 <input type="text" name="search" placeholder="Tên, tên khác, Quốc gia, Thành ..." required />
                 <button type="submit"><i class="fas fa-search"></i></button>
@@ -85,12 +85,12 @@
                     <th scope="col" onclick="sortTable(5)">Quốc gia <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(6)">Thành phố <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col" onclick="sortTable(7)">Địa chỉ <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(8)">Trang web <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(9)">Email <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(10)">SĐT <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(11)">Logo <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col" onclick="sortTable(12)">Mô tả <span class="sort-icon"> ⬍ </span></th>
-                    <th scope="col-2" onclick="sortTable(13)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
+                    <!-- <th scope="col" onclick="sortTable(8)">Trang web <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(9)">Email <span class="sort-icon"> ⬍ </span></th> -->
+                    <th scope="col" onclick="sortTable(8)">SĐT <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(9)">Logo <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col" onclick="sortTable(10)">Mô tả <span class="sort-icon"> ⬍ </span></th>
+                    <th scope="col-2" onclick="sortTable(11)">Ngày tạo <span class="sort-icon"> ⬍ </span></th>
                     <th scope="col-2">Hành động</th>
                 </tr>
             </thead>
@@ -107,8 +107,8 @@
                     <td class="text-start">{{$publisher->country}}</td>
                     <td class="text-start">{{$publisher->city}}</td>
                     <td class="text-start">{{$publisher->address}}</td>
-                    <td class="text-start">{{$publisher->website}}</td>
-                    <td class="text-start">{{$publisher->email}}</td>
+                    <!-- <td class="text-start">{{$publisher->website}}</td>
+                    <td class="text-start">{{$publisher->email}}</td> -->
                     <td class="text-start">{{$publisher->phone}}</td>
 
                     <td><img width="50px" height="50px" src="{{$publisher->logo}}" alt=""></td>

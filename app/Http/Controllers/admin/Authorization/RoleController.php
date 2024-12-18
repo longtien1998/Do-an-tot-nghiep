@@ -35,7 +35,7 @@ class RoleController extends Controller
         if ($filterCreateEnd) {
             $query->where('created_at', '<=', $filterCreateEnd);
         }
-        $roles = $query->paginate($perPage);
+        $roles = $query->orderByDesc('id')->paginate($perPage);
         return view('admin.authorization.roles.index', compact('roles'));
     }
 

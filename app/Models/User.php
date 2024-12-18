@@ -136,7 +136,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             $query->whereDate('users.created_at', $filterCreate);
         }
 
-        $query->orderBy('id', 'asc');
+        $query->orderByDesc('id');
         $userList = $query->paginate($perPage);
 
         return $userList;

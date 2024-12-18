@@ -63,9 +63,9 @@ class Singer extends Authenticatable
     public static function up_image($file, $singername)
     {
         try {
-            $singernameSlug = Str::slug($singername, '_'); // Tạo slug cho tên ca sĩ
-            $extension = $file->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
-            $fileName = time() . '_' . $singernameSlug . '.' . strtolower($extension); // Đặt tên file
+            $singernameSlug = Str::slug($singername, '_'); 
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '_' . $singernameSlug . '.' . strtolower($extension); 
 
             // Đường dẫn lưu trữ trên S3
             $path = 'singers/' . $singernameSlug;
@@ -75,7 +75,7 @@ class Singer extends Authenticatable
             Storage::disk('s3')->setVisibility($path . $fileName, 'public');
 
             // Lấy URL công khai của file đã upload
-            $url_singer_image = Storage::disk('s3')->url($path . '/' . $fileName); // Chú ý: cần thêm $fileName vào đây
+            $url_singer_image = Storage::disk('s3')->url($path . '/' . $fileName); 
 
             return $url_singer_image;
         } catch (\Exception $e) {
@@ -105,7 +105,7 @@ class Singer extends Authenticatable
             $query->whereDate('singers.created_at', $filterCreate);
         }
 
-        $query->orderBy('id', 'asc');
+        $query->orderByDesc('id');
         $singerList = $query->paginate($perPage);
         return $singerList;
     }
