@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 
